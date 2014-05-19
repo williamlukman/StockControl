@@ -17,7 +17,7 @@ class StockMutation
 	
 	
 	public bool IsDeleted{get; set;}
-    public bool DeletedAt { get; set; }
+    public bool DeletedAt { get; set; }  //DateTime 
 	
 	public DateTime CreatedAt{get; set;}
 	public DateTime ModifiedAt{get; set;}

@@ -9,7 +9,7 @@ class PurchaseOrder
 	public DateTime ConfirmedAt{get; set;} 
 	
 	public bool IsConfirmed{get; set;} 
-	public bool IsDeleted{get; set;} 
+	public bool IsDeleted{get; set;}   // seharusnya DateTime
 	
 	public bool IsDeleted{get; set;}
     public bool DeletedAt { get; set; }

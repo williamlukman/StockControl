@@ -9,10 +9,10 @@ class PurchaseOrderDetail
 	public int Quantity {get; set;} 
 	
 	public bool IsConfirmed {get; set;} 
-	public bool IsDeleted {get; set;} 
+ 
 	
 	public bool IsDeleted {get; set;}
-    public bool DeletedAt { get; set; }
+    public bool DeletedAt { get; set; }  // seharusnya DateTime 
 	
 	public DateTime CreatedAt {get; set;}
 	public DateTime ModifiedAt {get; set;}
