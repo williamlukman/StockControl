@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console", "ConsoleApplication1\Console.csproj", "{EA40D4F0-03C0-4488-9C52-7C49939D2C9D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApplication1\ConsoleApp.csproj", "{EA40D4F0-03C0-4488-9C52-7C49939D2C9D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{C8D7F4E0-055E-41F5-BC81-BB1AEC0F4A65}"
 EndProject
@@ -17,10 +17,12 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EA40D4F0-03C0-4488-9C52-7C49939D2C9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EA40D4F0-03C0-4488-9C52-7C49939D2C9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA40D4F0-03C0-4488-9C52-7C49939D2C9D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{EA40D4F0-03C0-4488-9C52-7C49939D2C9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA40D4F0-03C0-4488-9C52-7C49939D2C9D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C8D7F4E0-055E-41F5-BC81-BB1AEC0F4A65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C8D7F4E0-055E-41F5-BC81-BB1AEC0F4A65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8D7F4E0-055E-41F5-BC81-BB1AEC0F4A65}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{C8D7F4E0-055E-41F5-BC81-BB1AEC0F4A65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8D7F4E0-055E-41F5-BC81-BB1AEC0F4A65}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2136D0CD-66C1-48C2-AD4D-F87130D4DD96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

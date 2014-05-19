@@ -13,12 +13,12 @@ namespace Core.DomainModel
         public string Description { get; set; }
 
         public bool IsDeleted { get; set; }
-        public DateTime DeletedAt { get; set; }
+        public Nullable<DateTime> DeletedAt { get; set; }
 
         public DateTime CreatedAt { get; set; }
-        public DateTime ModifiedAt { get; set; }
+        public Nullable<DateTime> ModifiedAt { get; set; }
 
-        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
+        //public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
         public HashSet<string> Errors { get; set; }
     }
 }

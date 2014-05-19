@@ -21,12 +21,12 @@ namespace Core.DomainModel
         public int Quantity { get; set; }
 
         public bool IsDeleted { get; set; }
-        public DateTime DeletedAt { get; set; }
+        public Nullable<DateTime> DeletedAt { get; set; }
 
         public DateTime CreatedAt { get; set; }
-        public DateTime ModifiedAt { get; set; }
+        public Nullable<DateTime> ModifiedAt { get; set; }
 
-        public virtual Item Item { get; set;}
+        //public virtual Item Item { get; set;}
         public HashSet<string> Errors { get; set; }
 
     }

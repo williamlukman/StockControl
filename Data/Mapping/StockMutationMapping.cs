@@ -14,9 +14,7 @@ namespace Data.Mapping
         public StockMutationMapping()
         {
             HasKey(x => x.Id);
-            HasRequired(x => x.Item)
-                .WithMany (y => y.StockMutations)
-                .Map(x => x.MapKey("Id"));
+            //HasRequired(x => x.Item);
             Ignore(x => x.Errors);
         }
     }

@@ -13,12 +13,7 @@ namespace Data.Mapping
         public PurchaseOrderMapping()
         {
             HasKey(x => x.Id);
-            HasMany(x => x.PurchaseOrderDetails)
-                .WithRequired(y => y.PurchaseOrder)
-                .Map(x => x.MapKey("Id"));
-            HasRequired(x => x.Customer)
-                .WithMany(y => y.PurchaseOrders)
-                .Map(m => m.MapKey("Id"));
+            //HasMany(x => x.PurchaseOrderDetails);
             Ignore(x => x.Errors);
         }
     }

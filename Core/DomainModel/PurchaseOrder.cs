@@ -13,15 +13,15 @@ namespace Core.DomainModel
         public DateTime PurchaseDate { get; set; }
 
         public bool IsConfirmed { get; set; }
-        public DateTime ConfirmedAt { get; set; }
+        public Nullable<DateTime> ConfirmedAt { get; set; }
         public bool IsDeleted { get; set; }
-        public DateTime DeletedAt { get; set; }
+        public Nullable<DateTime> DeletedAt { get; set; }
 
         public DateTime CreatedAt { get; set; }
-        public DateTime ModifiedAt { get; set; }
+        public Nullable<DateTime> ModifiedAt { get; set; }
 
-        public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
-        public virtual Contact Customer {get; set;}
+        //public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
+        //public virtual Contact Contact {get; set;}
         public HashSet<string> Errors { get; set; }
 
     }

@@ -12,10 +12,10 @@ namespace Data.Context
     public class StockControlEntities : DbContext
     {
         public StockControlEntities()
-            : base ("name=StockControlEntities")
         {
+            Database.SetInitializer<StockControlEntities>(new DropCreateDatabaseIfModelChanges<StockControlEntities>());
         }
-
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

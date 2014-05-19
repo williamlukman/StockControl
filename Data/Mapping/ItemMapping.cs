@@ -14,12 +14,8 @@ namespace Data.Mapping
         public ItemMapping()
         {
             HasKey(x => x.Id);
-            HasMany(x => x.StockMutations)
-                .WithRequired(y => y.Item)
-                .Map(x => x.MapKey("Id"));
-            HasMany(x => x.PurchaseOrderDetails)
-                .WithRequired(y => y.Item)
-                .Map(x => x.MapKey("Id"));
+            //HasMany(x => x.StockMutations);
+            //HasMany(x => x.PurchaseOrderDetails);
             Ignore(x => x.Errors);
         }
     }

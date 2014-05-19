@@ -13,9 +13,7 @@ namespace Data.Mapping
         public ContactMapping()
         {
             HasKey(x => x.Id);
-            HasMany(x => x.PurchaseOrders)
-                .WithRequired(y => y.Customer)
-                .Map(x => x.MapKey("Id"));
+            //HasMany(x => x.PurchaseOrders);
             Ignore(x => x.Errors);
         }
     }
