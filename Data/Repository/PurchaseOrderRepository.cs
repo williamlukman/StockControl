@@ -19,7 +19,7 @@ namespace Data.Repository
 
         public IList<PurchaseOrder> GetAll()
         {
-            List<PurchaseOrder> pos = (from po in stocks.purchaseOrders
+            List<PurchaseOrder> pos = (from po in stocks.PurchaseOrders
                                        where !po.IsDeleted
                                        select po).ToList();
             return pos;
@@ -27,7 +27,7 @@ namespace Data.Repository
 
         public PurchaseOrder GetObjectById(int Id)
         {
-            PurchaseOrder po = (from p in stocks.purchaseOrders
+            PurchaseOrder po = (from p in stocks.PurchaseOrders
                                 where p.Id == Id && !p.IsDeleted
                                 select p).FirstOrDefault();
             return po;

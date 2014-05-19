@@ -19,7 +19,7 @@ namespace Data.Repository
 
         public IList<StockMutation> GetAll()
         {
-            List<StockMutation> sms = (from s in stocks.stockMutations
+            List<StockMutation> sms = (from s in stocks.StockMutations
                                        where !s.IsDeleted
                                        select s).ToList();
             return sms;
@@ -27,7 +27,7 @@ namespace Data.Repository
 
         IList<StockMutation> GetObjectsByItemId(int itemId)
         {
-            List<StockMutation> sms = (from s in stocks.stockMutations
+            List<StockMutation> sms = (from s in stocks.StockMutations
                                        where !s.IsDeleted && s.ItemId == itemId
                                        select s).ToList();
             return sms;
@@ -35,7 +35,7 @@ namespace Data.Repository
 
         StockMutation GetObjectById(int Id)
         {
-            StockMutation sm = (from s in stocks.stockMutations
+            StockMutation sm = (from s in stocks.StockMutations
                                 where !s.IsDeleted && s.Id == Id
                                 select s).FirstOrDefault();
             return sm;

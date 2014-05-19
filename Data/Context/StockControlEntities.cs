@@ -19,10 +19,10 @@ namespace Data.Context
             throw new UnintentionalCodeFirstException();
         }
 
-        public DbSet<Contact> contacts { get; set; }
-        public DbSet<Item> items{get; set;}
-        public DbSet<PurchaseOrder> purchaseOrders{get; set;}
-        public DbSet<PurchaseOrderDetail> purchaseOrderDetails{get; set;}
-        public DbSet<StockMutation> stockMutations{get; set;}
+        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Item> Items{get; set;}
+        public DbSet<PurchaseOrder> PurchaseOrders{get; set;}
+        public DbSet<PurchaseOrderDetail> PurchaseOrderDetails{get; set;}
+        public DbSet<StockMutation> StockMutations{get; set;}
     }
 }

@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Core.Interface.Repository
 {
-    interface IStockMutationRepository : IRepository<StockMutation>
+    public interface IStockMutationRepository : IRepository<StockMutation>
     {
-        IList<StockMutation> GetAll();
-        IList<StockMutation> GetObjectsByItemId(int itemId);
-        StockMutation GetObjectById(int Id);
-        StockMutation CreateObject(StockMutation stockMutation);
-        StockMutation UpdateObject(StockMutation stockMutation);
-        StockMutation SoftDeleteObject(StockMutation stockMutation);
-        bool DeleteObject(int Id);
+        public IList<StockMutation> GetAll();
+        public IList<StockMutation> GetObjectsByItemId(int itemId);
+        public StockMutation GetObjectById(int Id);
+        public StockMutation CreateObject(StockMutation stockMutation);
+        public StockMutation UpdateObject(StockMutation stockMutation);
+        public StockMutation SoftDeleteObject(StockMutation stockMutation);
+        public bool DeleteObject(int Id);
 
     }
 }

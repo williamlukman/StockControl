@@ -19,7 +19,7 @@ namespace Data.Repository
 
         public IList<PurchaseOrderDetail> GetObjectsByPurchaseOrderId(int purchaseOrderId)
         {
-            List<PurchaseOrderDetail> pods = (from pod in stocks.purchaseOrderDetails
+            List<PurchaseOrderDetail> pods = (from pod in stocks.PurchaseOrderDetails
                                          where pod.PurchaseOrderId == purchaseOrderId && !pod.IsDeleted
                                          select pod).ToList();
             return pods;
@@ -27,7 +27,7 @@ namespace Data.Repository
 
         public PurchaseOrderDetail GetObjectById(int Id)
         {
-            PurchaseOrderDetail pod = (from p in stocks.purchaseOrderDetails
+            PurchaseOrderDetail pod = (from p in stocks.PurchaseOrderDetails
                                        where p.Id == Id && !p.IsDeleted
                                        select p).FirstOrDefault();
             return pod;

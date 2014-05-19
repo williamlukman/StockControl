@@ -21,7 +21,7 @@ namespace Data.Repository
 
         public IList<Item> GetAll()
         {
-            List<Item> items = (from i in stocks.items
+            List<Item> items = (from i in stocks.Items
                                 select i).ToList();
 
             return items;
@@ -29,7 +29,7 @@ namespace Data.Repository
 
         public Item GetObjectById(int Id)
         {
-            Item item = (from i in stocks.items
+            Item item = (from i in stocks.Items
                          where i.Id == Id
                          select i).FirstOrDefault();
             return item;
@@ -37,7 +37,7 @@ namespace Data.Repository
 
         public Item GetObjectBySku(string Sku)
         {
-            Item item = (from i in stocks.items
+            Item item = (from i in stocks.Items
                          where i.Sku == Sku
                          select i).FirstOrDefault();
             return item;

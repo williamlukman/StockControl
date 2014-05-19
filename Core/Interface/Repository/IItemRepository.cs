@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Core.Interface.Repository
 {
-    interface IItemRepository : IRepository<Item>
+    public interface IItemRepository : IRepository<Item>
     {
-        IList<Item> GetAll();
-        Item GetObjectById(int Id);
-        Item GetObjectBySku(string Sku);
-        Item CreateObject (Item item);
-        Item UpdateObject(Item item);
-        Item SoftDeleteObject(Item item);
-        bool DeleteObject(int Id);
+        public IList<Item> GetAll();
+        public Item GetObjectById(int Id);
+        public Item GetObjectBySku(string Sku);
+        public Item CreateObject (Item item);
+        public Item UpdateObject(Item item);
+        public Item SoftDeleteObject(Item item);
+        public bool DeleteObject(int Id);
 
     }
 }

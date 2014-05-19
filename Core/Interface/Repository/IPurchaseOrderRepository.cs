@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Core.Interface.Repository
 {
-    interface IPurchaseOrderRepository : IRepository<PurchaseOrder>
+    public interface IPurchaseOrderRepository : IRepository<PurchaseOrder>
     {
-        IList<PurchaseOrder> GetAll();
-        PurchaseOrder GetObjectById(int Id);
-        PurchaseOrder CreateObject(PurchaseOrder purchaseOrder);
-        PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder);
-        PurchaseOrder SoftDeleteObject(PurchaseOrder purchaseOrder);
-        bool DeleteObject(int Id);
-        PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder);
-        PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder);
+        public IList<PurchaseOrder> GetAll();
+        public PurchaseOrder GetObjectById(int Id);
+        public PurchaseOrder CreateObject(PurchaseOrder purchaseOrder);
+        public PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder);
+        public PurchaseOrder SoftDeleteObject(PurchaseOrder purchaseOrder);
+        public bool DeleteObject(int Id);
+        public PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder);
+        public PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder);
     }
 }
