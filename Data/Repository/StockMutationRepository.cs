@@ -1,15 +1,29 @@
 using Core.DomainModel;
+using Core.Interface.Repository;
+using Data.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Interface.Repository
+namespace Data.Repository
 {
-    interface IStockMutationRepository
+    public class StockMutationRepository : EfRepository<StockMutation>, IStockMutationRepository
     {
-        IList<StockMutation> GetAll();
+        private StockControlEntities stocks;
+        public StockMutationRepository()
+        {
+            stocks = new StockControlEntities();
+        }
+
+        public IList<StockMutation> GetAll()
+        {
+            List<StockMutation> sms = (from s in stocks.stockMutations
+                                       where !s.IsDeleted
+                                       select s).ToList();
+            return sms;
+        }
         IList<StockMutation> GetObjectsByItemId(int itemId);
         StockMutation GetObjectById(int Id);
         StockMutation CreateObject(StockMutation stockMutation);

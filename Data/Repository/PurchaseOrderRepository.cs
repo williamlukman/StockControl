@@ -25,7 +25,7 @@ namespace Data.Repository
             return pos;
         }
 
-        PurchaseOrder GetObjectById(int Id)
+        public PurchaseOrder GetObjectById(int Id)
         {
             PurchaseOrder po = (from p in stocks.purchaseOrders
                                 where p.Id == Id && !p.IsDeleted
@@ -33,7 +33,7 @@ namespace Data.Repository
             return po;
         }
 
-        PurchaseOrder CreateObject(PurchaseOrder purchaseOrder)
+        public PurchaseOrder CreateObject(PurchaseOrder purchaseOrder)
         {
             PurchaseOrder po = new PurchaseOrder();
             po.CustomerId = purchaseOrder.CustomerId;
@@ -44,11 +44,47 @@ namespace Data.Repository
             return Create(po);
         }
 
-        PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder);
-        PurchaseOrder SoftDeleteObject(PurchaseOrder purchaseOrder);
-        bool DeleteObject(int Id);
-        bool ConfirmObject(PurchaseOrder purchaseOrder);
-        bool UnconfirmObject(PurchaseOrder purchaseOrder);
+        public PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder)
+        {
+            PurchaseOrder po = new PurchaseOrder();
+            po.CustomerId = purchaseOrder.CustomerId;
+            po.PurchaseDate = purchaseOrder.PurchaseDate;
+            po.IsDeleted = purchaseOrder.IsDeleted;
+            po.IsConfirmed = purchaseOrder.IsConfirmed;
+            po.IsConfirmed = purchaseOrder.IsConfirmed;
+            po.ModifiedAt = DateTime.Now;
+            Update(po);
+            return po;
+        }
 
+        public PurchaseOrder SoftDeleteObject(PurchaseOrder purchaseOrder)
+        {
+            purchaseOrder.IsDeleted = true;
+            purchaseOrder.DeletedAt = DateTime.Now;
+            Update(purchaseOrder);
+            return purchaseOrder;
+        }
+
+        public bool DeleteObject(int Id)
+        {
+            PurchaseOrder po = Find(x => x.Id == Id);
+            return (Delete(po) == 1) ? true : false;
+        }
+
+        public PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder)
+        {
+            purchaseOrder.IsConfirmed = true;
+            purchaseOrder.ModifiedAt = DateTime.Now;
+            Update(purchaseOrder);
+            return purchaseOrder;
+        }
+
+        public PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder)
+        {
+            purchaseOrder.IsConfirmed = false;
+            purchaseOrder.ModifiedAt = DateTime.Now;
+            Update(purchaseOrder);
+            return purchaseOrder;
+        }
     }
 }
