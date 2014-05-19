@@ -1,3 +1,5 @@
+// harus ada namespace nya. Kalau tidak, gagal compile 
+
 class Constant
 {
 	public class StockMutationItemCase
