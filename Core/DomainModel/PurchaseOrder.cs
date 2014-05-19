@@ -11,11 +11,9 @@ namespace Core.DomainModel
         public int Id { get; set; }
         public int CustomerId { get; set; }
         public DateTime PurchaseDate { get; set; }
-        public DateTime ConfirmedAt { get; set; }
 
         public bool IsConfirmed { get; set; }
-        public bool IsDeleted { get; set; }
-
+        public DateTime ConfirmedAt { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime DeletedAt { get; set; }
 

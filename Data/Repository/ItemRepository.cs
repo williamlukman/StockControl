@@ -10,7 +10,7 @@ using Data.Repository;
 
 namespace Data.Repository
 {
-    class ItemRepository : EfRepository<Item>, IItemRepository
+    public class ItemRepository : EfRepository<Item>, IItemRepository
     {
 
         private StockControlEntities stocks;
@@ -19,7 +19,7 @@ namespace Data.Repository
             stocks = new StockControlEntities();
         }
 
-        IList<Item> GetAll()
+        public IList<Item> GetAll()
         {
             List<Item> items = (from i in stocks.items
                                 select i).ToList();
@@ -27,7 +27,7 @@ namespace Data.Repository
             return items;
         }
 
-        Item GetObjectById(int Id)
+        public Item GetObjectById(int Id)
         {
             Item item = (from i in stocks.items
                          where i.Id == Id
@@ -35,7 +35,7 @@ namespace Data.Repository
             return item;
         }
 
-        Item GetObjectBySku(string Sku)
+        public Item GetObjectBySku(string Sku)
         {
             Item item = (from i in stocks.items
                          where i.Sku == Sku
@@ -43,7 +43,7 @@ namespace Data.Repository
             return item;
         }
 
-        Item CreateObject(Item item)
+        public Item CreateObject(Item item)
         {
             Item newitem = new Item();
             newitem.Sku = item.Sku;
@@ -54,9 +54,31 @@ namespace Data.Repository
 
             return Create(newitem);
         }
-        Item UpdateObject(Item item);
-        Item SoftDeleteObject(Item item);
-        bool DeleteObject(int Id);
 
+        public Item UpdateObject(Item item)
+        {
+            Item updateitem = new Item();
+            updateitem.Sku = item.Sku;
+            updateitem.Name = item.Name;
+            updateitem.Description = item.Description;
+            updateitem.IsDeleted = item.IsDeleted;
+            updateitem.ModifiedAt = DateTime.Now;
+            Update(updateitem);
+            return updateitem;
+        }
+
+        public Item SoftDeleteObject(Item item)
+        {
+            item.IsDeleted = true;
+            item.DeletedAt = DateTime.Now;
+            Update(item);
+            return item;
+        }
+
+        public bool DeleteObject(int Id)
+        {
+            Item item = Find(x => x.Id == Id && !x.IsDeleted);
+            return (Delete(item) == 1) ? true : false;
+        }
     }
 }

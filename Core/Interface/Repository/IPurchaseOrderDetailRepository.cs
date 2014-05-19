@@ -15,8 +15,8 @@ namespace Core.Interface.Repository
         PurchaseOrderDetail UpdateObject(PurchaseOrderDetail purchaseOrderDetail);
         PurchaseOrderDetail SoftDeleteObject(PurchaseOrderDetail purchaseOrderDetail);
         bool DeleteObject(int Id);
-        bool ConfirmObject (PurchaseOrderDetail purchaseOrderDetail);
-        bool UnconfirmObject(PurchaseOrderDetail purchaseOrderDetail);
+        PurchaseOrderDetail ConfirmObject (PurchaseOrderDetail purchaseOrderDetail);
+        PurchaseOrderDetail UnconfirmObject(PurchaseOrderDetail purchaseOrderDetail);
 
     }
 }
