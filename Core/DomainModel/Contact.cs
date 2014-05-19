@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.DomainModel
 {
-    class Contact
+    public class Contact
     {
 
         public int Id { get; set; }

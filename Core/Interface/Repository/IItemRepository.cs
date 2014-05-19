@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Interface.Repository
 {
-    interface IItemRepository
+    interface IItemRepository : IRepository<Item>
     {
         IList<Item> GetAll();
         Item GetObjectById(int Id);

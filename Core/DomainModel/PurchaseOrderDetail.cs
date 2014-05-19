@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.DomainModel
 {
-    class PurchaseOrderDetail
+    public class PurchaseOrderDetail
     {
         public int Id { get; set; }
         public int PurchaseOrderId { get; set; }

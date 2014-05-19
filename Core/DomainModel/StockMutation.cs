@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.DomainModel
 {
-    class StockMutation
+    public class StockMutation
     {
         public int Id { get; set; }
         public int ItemId { get; set; }

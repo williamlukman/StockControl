@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Interface.Repository
 {
-    interface IStockMutationRepository
+    interface IStockMutationRepository : IRepository<StockMutation>
     {
         IList<StockMutation> GetAll();
         IList<StockMutation> GetObjectsByItemId(int itemId);

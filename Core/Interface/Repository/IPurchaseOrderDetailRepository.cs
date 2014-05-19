@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Interface.Repository
 {
-    interface IPurchaseOrderDetailRepository
+    interface IPurchaseOrderDetailRepository : IRepository<PurchaseOrderDetail>
     {
         IList<PurchaseOrderDetail> GetObjectsByPurchaseOrderId(int purchaseOrderId);
         PurchaseOrderDetail GetObjectById(int Id);
