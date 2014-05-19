@@ -10,6 +10,7 @@ namespace ConsoleApplication1
     {
             static void Main(string[] args)
             {
+                /*
                 using (var db = new BloggingContext())
                 {
                     // Create and save a new Blog 
@@ -34,6 +35,7 @@ namespace ConsoleApplication1
                     Console.WriteLine("Press any key to exit...");
                     Console.ReadKey();
             }
+                 */
         }
     }
 }

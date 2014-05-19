@@ -1,1 +1,10 @@
 C:\Users\it\Documents\GitHub\ConsoleApplication1\ConsoleApplication1\obj\Debug\Console.csprojResolveAssemblyReference.cache
+C:\Users\it\Documents\GitHub\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+C:\Users\it\Documents\GitHub\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+C:\Users\it\Documents\GitHub\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+C:\Users\it\Documents\GitHub\ConsoleApplication1\ConsoleApplication1\bin\Debug\EntityFramework.dll
+C:\Users\it\Documents\GitHub\ConsoleApplication1\ConsoleApplication1\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\it\Documents\GitHub\ConsoleApplication1\ConsoleApplication1\bin\Debug\EntityFramework.xml
+C:\Users\it\Documents\GitHub\ConsoleApplication1\ConsoleApplication1\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\it\Documents\GitHub\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+C:\Users\it\Documents\GitHub\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb

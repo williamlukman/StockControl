@@ -24,12 +24,68 @@ namespace Data.Repository
                                        select s).ToList();
             return sms;
         }
-        IList<StockMutation> GetObjectsByItemId(int itemId);
-        StockMutation GetObjectById(int Id);
-        StockMutation CreateObject(StockMutation stockMutation);
-        StockMutation UpdateObject(StockMutation stockMutation);
-        StockMutation SoftDeleteObject(StockMutation stockMutation);
-        bool DeleteObject(int Id);
+
+        IList<StockMutation> GetObjectsByItemId(int itemId)
+        {
+            List<StockMutation> sms = (from s in stocks.stockMutations
+                                       where !s.IsDeleted && s.ItemId == itemId
+                                       select s).ToList();
+            return sms;
+        }
+
+        StockMutation GetObjectById(int Id)
+        {
+            StockMutation sm = (from s in stocks.stockMutations
+                                where !s.IsDeleted && s.Id == Id
+                                select s).FirstOrDefault();
+            return sm;
+        }
+
+        StockMutation CreateObject(StockMutation stockMutation)
+        {
+            StockMutation sm = new StockMutation();
+            sm.ItemId = stockMutation.ItemId;
+            sm.ItemCase = stockMutation.ItemCase;
+            sm.Status = stockMutation.Status;
+            sm.SourceDocumentType = stockMutation.SourceDocumentType;
+            sm.SourceDocumentDetailType = stockMutation.SourceDocumentDetailType;
+            sm.SourceDocumentId = stockMutation.SourceDocumentId;
+            sm.SourceDocumentDetailId = stockMutation.SourceDocumentDetailId;
+            sm.Quantity = stockMutation.Quantity;
+            sm.IsDeleted = false;
+            sm.CreatedAt = DateTime.Now;
+            return Create(sm);
+        }
+
+        StockMutation UpdateObject(StockMutation stockMutation)
+        {
+            StockMutation sm = new StockMutation();
+            sm.ItemId = stockMutation.ItemId;
+            sm.ItemCase = stockMutation.ItemCase;
+            sm.Status = stockMutation.Status;
+            sm.SourceDocumentType = stockMutation.SourceDocumentType;
+            sm.SourceDocumentDetailType = stockMutation.SourceDocumentDetailType;
+            sm.SourceDocumentId = stockMutation.SourceDocumentId;
+            sm.SourceDocumentDetailId = stockMutation.SourceDocumentDetailId;
+            sm.Quantity = stockMutation.Quantity;
+            sm.ModifiedAt = DateTime.Now;
+            Update(sm);
+            return sm;
+        }
+
+        StockMutation SoftDeleteObject(StockMutation stockMutation)
+        {
+            stockMutation.IsDeleted = true;
+            stockMutation.DeletedAt = DateTime.Now;
+            Update(stockMutation);
+            return stockMutation;
+        }
+
+        bool DeleteObject(int Id)
+        {
+            StockMutation sm = Find(x => x.Id == Id);
+            return (Delete(sm) == 1) ? true : false;
+        }
 
     }
 }

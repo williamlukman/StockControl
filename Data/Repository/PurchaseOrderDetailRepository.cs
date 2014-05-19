@@ -70,7 +70,7 @@ namespace Data.Repository
 
         public bool DeleteObject(int Id)
         {
-            PurchaseOrderDetail pod = Find(x => x.Id == Id && !x.IsDeleted);
+            PurchaseOrderDetail pod = Find(x => x.Id == Id);
             return (Delete(pod) == 1) ? true : false;
         }
 

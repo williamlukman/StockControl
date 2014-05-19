@@ -77,7 +77,7 @@ namespace Data.Repository
 
         public bool DeleteObject(int Id)
         {
-            Item item = Find(x => x.Id == Id && !x.IsDeleted);
+            Item item = Find(x => x.Id == Id);
             return (Delete(item) == 1) ? true : false;
         }
     }

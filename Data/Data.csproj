@@ -47,8 +47,8 @@
     <Compile Include="Repository\EfRepository.cs" />
     <Compile Include="Repository\ItemRepository.cs" />
     <Compile Include="Repository\PurchaseOrderDetailRepository.cs" />
-    <Compile Include="Repository\IPurchaseOrderRepository.cs" />
-    <Compile Include="Repository\IStockMutationRepository.cs" />
+    <Compile Include="Repository\PurchaseOrderRepository.cs" />
+    <Compile Include="Repository\StockMutationRepository.cs" />
     <Compile Include="Context\StockControlEntities.cs" />
   </ItemGroup>
   <ItemGroup>
