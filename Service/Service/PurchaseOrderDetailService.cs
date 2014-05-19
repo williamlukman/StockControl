@@ -12,44 +12,50 @@ namespace Service.Service
 {
     public class PurchaseOrderDetailService : IPurchaseOrderDetailService
     {
-        public IList<PurchaseOrderDetail> GetObjectsByPurchaseOrderId(int purchaseOrderId, IPurchaseOrderDetailRepository _pd)
+        private IPurchaseOrderDetailRepository _pd;
+        public PurchaseOrderDetailService(IPurchaseOrderDetailRepository _purchaseOrderDetailRepository)
         {
-            return _p.GetObjectsByPurchaseOrderId(purchaseOrderId);
+            _pd = _purchaseOrderDetailRepository;
         }
 
-        public PurchaseOrderDetail GetObjectById(int Id, IPurchaseOrderDetailRepository _pd)
+        public IList<PurchaseOrderDetail> GetObjectsByPurchaseOrderId(int purchaseOrderId)
         {
-            return _p.GetObjectById(Id);
+            return _pd.GetObjectsByPurchaseOrderId(purchaseOrderId);
         }
 
-        public PurchaseOrderDetail CreateObject(PurchaseOrderDetail purchaseOrderDetail, IPurchaseOrderDetailRepository _pd)
+        public PurchaseOrderDetail GetObjectById(int Id)
         {
-            return _p.CreateObject(purchaseOrderDetail);
+            return _pd.GetObjectById(Id);
         }
 
-        public PurchaseOrderDetail UpdateObject(PurchaseOrderDetail purchaseOrderDetail, IPurchaseOrderDetailRepository _pd)
+        public PurchaseOrderDetail CreateObject(PurchaseOrderDetail purchaseOrderDetail)
         {
-            return _p.UpdateObject(purchaseOrderDetail);
+            return _pd.CreateObject(purchaseOrderDetail);
         }
 
-        public PurchaseOrderDetail SoftDeleteObject(PurchaseOrderDetail purchaseOrderDetail, IPurchaseOrderDetailRepository _pd)
+        public PurchaseOrderDetail UpdateObject(PurchaseOrderDetail purchaseOrderDetail)
         {
-            return _p.SoftDeleteObject(purchaseOrderDetail);
+            return _pd.UpdateObject(purchaseOrderDetail);
         }
 
-        public bool DeleteObject(int Id, IPurchaseOrderDetailRepository _pd)
+        public PurchaseOrderDetail SoftDeleteObject(PurchaseOrderDetail purchaseOrderDetail)
         {
-            return _p.DeleteObject(Id);
+            return _pd.SoftDeleteObject(purchaseOrderDetail);
         }
 
-        public PurchaseOrderDetail ConfirmObject(PurchaseOrderDetail purchaseOrderDetail, IPurchaseOrderDetailRepository _pd)
+        public bool DeleteObject(int Id)
         {
-            return _p.ConfirmObject(purchaseOrderDetail);
+            return _pd.DeleteObject(Id);
         }
 
-        public PurchaseOrderDetail UnconfirmObject(PurchaseOrderDetail purchaseOrderDetail, IPurchaseOrderDetailRepository _pd)
+        public PurchaseOrderDetail ConfirmObject(PurchaseOrderDetail purchaseOrderDetail)
         {
-            return _p.UnconfirmObject(purchaseOrderDetail);
+            return _pd.ConfirmObject(purchaseOrderDetail);
+        }
+
+        public PurchaseOrderDetail UnconfirmObject(PurchaseOrderDetail purchaseOrderDetail)
+        {
+            return _pd.UnconfirmObject(purchaseOrderDetail);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Data.Repository
             return sms;
         }
 
-        IList<StockMutation> GetObjectsByItemId(int itemId)
+        public IList<StockMutation> GetObjectsByItemId(int itemId)
         {
             List<StockMutation> sms = (from s in stocks.StockMutations
                                        where !s.IsDeleted && s.ItemId == itemId
@@ -33,7 +33,7 @@ namespace Data.Repository
             return sms;
         }
 
-        StockMutation GetObjectById(int Id)
+        public StockMutation GetObjectById(int Id)
         {
             StockMutation sm = (from s in stocks.StockMutations
                                 where !s.IsDeleted && s.Id == Id
@@ -41,7 +41,7 @@ namespace Data.Repository
             return sm;
         }
 
-        StockMutation CreateObject(StockMutation stockMutation)
+        public StockMutation CreateObject(StockMutation stockMutation)
         {
             StockMutation sm = new StockMutation();
             sm.ItemId = stockMutation.ItemId;
@@ -57,7 +57,7 @@ namespace Data.Repository
             return Create(sm);
         }
 
-        StockMutation UpdateObject(StockMutation stockMutation)
+        public StockMutation UpdateObject(StockMutation stockMutation)
         {
             StockMutation sm = new StockMutation();
             sm.ItemId = stockMutation.ItemId;
@@ -73,7 +73,7 @@ namespace Data.Repository
             return sm;
         }
 
-        StockMutation SoftDeleteObject(StockMutation stockMutation)
+        public StockMutation SoftDeleteObject(StockMutation stockMutation)
         {
             stockMutation.IsDeleted = true;
             stockMutation.DeletedAt = DateTime.Now;
@@ -81,7 +81,7 @@ namespace Data.Repository
             return stockMutation;
         }
 
-        bool DeleteObject(int Id)
+        public bool DeleteObject(int Id)
         {
             StockMutation sm = Find(x => x.Id == Id);
             return (Delete(sm) == 1) ? true : false;

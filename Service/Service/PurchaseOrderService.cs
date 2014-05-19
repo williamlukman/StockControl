@@ -11,42 +11,48 @@ namespace Service.Service
 {
     public class PurchaseOrderService : IPurchaseOrderService
     {
-        public IList<PurchaseOrder> GetAll(IPurchaseOrderRepository _p)
+        private IPurchaseOrderRepository _p;
+        public PurchaseOrderService(IPurchaseOrderRepository _purchaseOrderRepository)
+        {
+            _p = _purchaseOrderRepository;
+        }
+
+        public IList<PurchaseOrder> GetAll()
         {
             return _p.GetAll();
         }
 
-        public PurchaseOrder GetObjectById(int Id, IPurchaseOrderRepository _p)
+        public PurchaseOrder GetObjectById(int Id)
         {
             return _p.GetObjectById(Id);
         }
 
-        public PurchaseOrder CreateObject(PurchaseOrder purchaseOrder, IPurchaseOrderRepository _p)
+        public PurchaseOrder CreateObject(PurchaseOrder purchaseOrder)
         {
             return _p.CreateObject(purchaseOrder);
         }
 
-        public PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder, IPurchaseOrderRepository _p)
+        public PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder)
         {
             return _p.UpdateObject(purchaseOrder);
         }
 
-        public PurchaseOrder SoftDeleteObject(PurchaseOrder purchaseOrder, IPurchaseOrderRepository _p)
+        public PurchaseOrder SoftDeleteObject(PurchaseOrder purchaseOrder)
         {
             return _p.SoftDeleteObject(purchaseOrder);
         }
 
-        public bool DeleteObject(int Id, IPurchaseOrderRepository _p)
+        public bool DeleteObject(int Id)
         {
             return _p.DeleteObject(Id);
         }
 
-        public PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderRepository _p)
+        public PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder)
         {
             return _p.ConfirmObject(purchaseOrder);
         }
 
-        public PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderRepository _p)
+        public PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder)
         {
             return _p.UnconfirmObject(purchaseOrder);
         }

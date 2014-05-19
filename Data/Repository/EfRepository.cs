@@ -13,8 +13,8 @@ namespace Data.Repository
     {
         protected StockControlEntities Context;
 
-        //public EfRepository(DbContext context) : this(context, false) { }
-        //public EfRepository(DbContext context, bool sharedContext)
+        //EfRepository(DbContext context) : this(context, false) { }
+        //EfRepository(DbContext context, bool sharedContext)
         //{
         //    Context = context;
         //    ShareContext = sharedContext;

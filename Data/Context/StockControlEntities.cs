@@ -4,6 +4,8 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Collections.Generic;
 using Core.DomainModel;
+using System.Data.Entity.ModelConfiguration.Conventions;
+using Data.Mapping;
 
 namespace Data.Context
 {
@@ -16,7 +18,16 @@ namespace Data.Context
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            throw new UnintentionalCodeFirstException();
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
+            // Mappings
+            modelBuilder.Configurations.Add(new ContactMapping());
+            modelBuilder.Configurations.Add(new ItemMapping());
+            modelBuilder.Configurations.Add(new PurchaseOrderMapping());
+            modelBuilder.Configurations.Add(new PurchaseOrderDetailMapping());
+            modelBuilder.Configurations.Add(new StockMutationMapping());
+
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Contact> Contacts { get; set; }

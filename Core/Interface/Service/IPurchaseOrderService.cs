@@ -10,13 +10,13 @@ namespace Core.Interface.Service
 {
     public interface IPurchaseOrderService
     {
-        public IList<PurchaseOrder> GetAll(IPurchaseOrderRepository _p);
-        public PurchaseOrder GetObjectById(int Id, IPurchaseOrderRepository _p);
-        public PurchaseOrder CreateObject(PurchaseOrder purchaseOrder, IPurchaseOrderRepository _p);
-        public PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder, IPurchaseOrderRepository _p);
-        public PurchaseOrder SoftDeleteObject(PurchaseOrder purchaseOrder, IPurchaseOrderRepository _p);
-        public bool DeleteObject(int Id, IPurchaseOrderRepository _p);
-        public PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderRepository _p);
-        public PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderRepository _p);
+        IList<PurchaseOrder> GetAll();
+        PurchaseOrder GetObjectById(int Id);
+        PurchaseOrder CreateObject(PurchaseOrder purchaseOrder);
+        PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder);
+        PurchaseOrder SoftDeleteObject(PurchaseOrder purchaseOrder);
+        bool DeleteObject(int Id);
+        PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder);
+        PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder);
     }
 }

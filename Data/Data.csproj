@@ -43,6 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mapping\ContactMapping.cs" />
+    <Compile Include="Mapping\StockMutationMapping.cs" />
+    <Compile Include="Mapping\PurchaseOrderDetailMapping.cs" />
+    <Compile Include="Mapping\PurchaseOrderMapping.cs" />
+    <Compile Include="Mapping\ItemMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\EfRepository.cs" />
     <Compile Include="Repository\ItemRepository.cs" />

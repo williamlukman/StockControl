@@ -12,37 +12,43 @@ namespace Service.Service
 {
     public class ItemService : IItemService
     {
-        public IList<Item> GetAll(IItemRepository _i)
+        private IItemRepository _i;
+        public ItemService(IItemRepository _itemRepository)
+        {
+            _i = _itemRepository;
+        }
+
+        public IList<Item> GetAll()
         {
             return _i.GetAll();
         }
 
-        public Item GetObjectById(int Id, IItemRepository _i)
+        public Item GetObjectById(int Id)
         {
             return _i.GetObjectById(Id);
         }
 
-        public Item GetObjectBySku(string Sku, IItemRepository _i)
+        public Item GetObjectBySku(string Sku)
         {
             return _i.GetObjectBySku(Sku);
         }
 
-        public Item CreateObject(Item item, IItemRepository _i)
+        public Item CreateObject(Item item)
         {
             return _i.CreateObject(item);
         }
 
-        public Item UpdateObject(Item item, IItemRepository _i)
+        public Item UpdateObject(Item item)
         {
             return _i.UpdateObject(item);
         }
 
-        public Item SoftDeleteObject(Item item, IItemRepository _i)
+        public Item SoftDeleteObject(Item item)
         {
             return _i.SoftDeleteObject(item);
         }
 
-        public bool DeleteObject(int Id, IItemRepository _i)
+        public bool DeleteObject(int Id)
         {
             return _i.DeleteObject(Id);
         }

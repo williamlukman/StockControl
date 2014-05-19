@@ -74,7 +74,7 @@ namespace Data.Repository
             return (Delete(pod) == 1) ? true : false;
         }
 
-        PurchaseOrderDetail ConfirmObject(PurchaseOrderDetail purchaseOrderDetail)
+        public PurchaseOrderDetail ConfirmObject(PurchaseOrderDetail purchaseOrderDetail)
         {
             purchaseOrderDetail.IsConfirmed = true;
             purchaseOrderDetail.ModifiedAt = DateTime.Now;
@@ -82,7 +82,7 @@ namespace Data.Repository
             return purchaseOrderDetail;
         }
 
-        PurchaseOrderDetail UnconfirmObject(PurchaseOrderDetail purchaseOrderDetail)
+        public PurchaseOrderDetail UnconfirmObject(PurchaseOrderDetail purchaseOrderDetail)
         {
             purchaseOrderDetail.IsConfirmed = false;
             purchaseOrderDetail.ModifiedAt = DateTime.Now;

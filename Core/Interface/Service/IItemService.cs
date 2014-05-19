@@ -10,13 +10,13 @@ namespace Core.Interface.Service
 {
     public interface IItemService
     {
-        public IList<Item> GetAll(IItemRepository _i);
-        public Item GetObjectById(int Id, IItemRepository _i);
-        public Item GetObjectBySku(string Sku, IItemRepository _i);
-        public Item CreateObject(Item item, IItemRepository _i);
-        public Item UpdateObject(Item item, IItemRepository _i);
+        IList<Item> GetAll();
+        Item GetObjectById(int Id);
+        Item GetObjectBySku(string Sku);
+        Item CreateObject(Item item);
+        Item UpdateObject(Item item);
 
-        public Item SoftDeleteObject(Item item, IItemRepository _i);
-        public bool DeleteObject(int Id, IItemRepository _i);	
+        Item SoftDeleteObject(Item item);
+        bool DeleteObject(int Id);	
     }
 }

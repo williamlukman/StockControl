@@ -10,13 +10,13 @@ namespace Core.Interface.Service
 {
     public interface IStockMutationService
     {
-        public IList<StockMutation> GetAll(IStockMutationRepository _sm);
-        public IList<StockMutation> GetObjectsByItemId(int itemId, IStockMutationRepository _sm);
-        public StockMutation GetObjectById(int Id, IStockMutationRepository _sm);
-        public StockMutation CreateObject(StockMutation stockMutation, IStockMutationRepository _sm);
-        public StockMutation UpdateObject(StockMutation stockMutation, IStockMutationRepository _sm);
-        public StockMutation SoftDeleteObject(StockMutation stockMutation, IStockMutationRepository _sm);
-        public bool DeleteObject(int Id, IStockMutationRepository _sm);
-        public StockMutation CreateStockMutationForPurchaseOrder(PurchaseOrderDetail pod, Item item, IStockMutationRepository _sm);
+         IList<StockMutation> GetAll();
+         IList<StockMutation> GetObjectsByItemId(int itemId);
+         StockMutation GetObjectById(int Id);
+         StockMutation CreateObject(StockMutation stockMutation);
+         StockMutation UpdateObject(StockMutation stockMutation);
+         StockMutation SoftDeleteObject(StockMutation stockMutation);
+         bool DeleteObject(int Id);
+         StockMutation CreateStockMutationForPurchaseOrder(PurchaseOrderDetail pod, Item item);
     }
 }

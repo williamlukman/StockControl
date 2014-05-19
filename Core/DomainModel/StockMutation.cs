@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.DomainModel
 {
-    public class StockMutation
+    public partial class StockMutation
     {
         public int Id { get; set; }
         public int ItemId { get; set; }
@@ -26,6 +26,7 @@ namespace Core.DomainModel
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
 
+        public virtual Item Item { get; set;}
         public HashSet<string> Errors { get; set; }
 
     }

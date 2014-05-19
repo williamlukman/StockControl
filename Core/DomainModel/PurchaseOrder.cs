@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.DomainModel
 {
-    public class PurchaseOrder
+    public partial class PurchaseOrder
     {
         public int Id { get; set; }
         public int CustomerId { get; set; }
@@ -20,6 +20,8 @@ namespace Core.DomainModel
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
 
+        public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
+        public virtual Contact Customer {get; set;}
         public HashSet<string> Errors { get; set; }
 
     }

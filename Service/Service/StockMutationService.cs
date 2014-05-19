@@ -12,42 +12,48 @@ namespace Service.Service
 {
     public class StockMutationService : IStockMutationService
     {
-        public IList<StockMutation> GetAll(IStockMutationRepository _sm)
+        private IStockMutationRepository _sm;
+        public StockMutationService(IStockMutationRepository _stockMutationRepository)
+        {
+            _sm = _stockMutationRepository;
+        }
+
+        public IList<StockMutation> GetAll()
         {
             return _sm.GetAll();
         }
 
-        public IList<StockMutation> GetObjectsByItemId(int itemId, IStockMutationRepository _sm)
+        public IList<StockMutation> GetObjectsByItemId(int itemId)
         {
             return _sm.GetObjectsByItemId(itemId);
         }
 
-        public StockMutation GetObjectById(int Id, IStockMutationRepository _sm)
+        public StockMutation GetObjectById(int Id)
         {
             return _sm.GetObjectById(Id);
         }
 
-        public StockMutation CreateObject(StockMutation stockMutation, IStockMutationRepository _sm)
+        public StockMutation CreateObject(StockMutation stockMutation)
         {
             return _sm.CreateObject(stockMutation);
         }
 
-        public StockMutation UpdateObject(StockMutation stockMutation, IStockMutationRepository _sm)
+        public StockMutation UpdateObject(StockMutation stockMutation)
         {
             return _sm.UpdateObject(stockMutation);
         }
 
-        public StockMutation SoftDeleteObject(StockMutation stockMutation, IStockMutationRepository _sm)
+        public StockMutation SoftDeleteObject(StockMutation stockMutation)
         {
             return _sm.SoftDeleteObject(stockMutation);
         }
 
-        public bool DeleteObject(int Id, IStockMutationRepository _sm)
+        public bool DeleteObject(int Id)
         {
             return _sm.DeleteObject(Id);
         }
 
-        public StockMutation CreateStockMutationForPurchaseOrder(PurchaseOrderDetail pod, Item item, IStockMutationRepository _sm)
+        public StockMutation CreateStockMutationForPurchaseOrder(PurchaseOrderDetail pod, Item item)
         {
             StockMutation sm = new StockMutation();
             sm.ItemId = pod.ItemId;
