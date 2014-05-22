@@ -33,8 +33,24 @@ namespace Service.Service
             return _i.GetObjectBySku(Sku);
         }
 
+        public Item GetObjectByName(string Name)
+        {
+            return _i.Find(i => i.Name == Name && !i.IsDeleted);
+        }
+
         public Item CreateObject(Item item)
         {
+            return _i.CreateObject(item);
+        }
+
+        public Item CreateObject(string name, string description, string Sku)
+        {
+            Item item = new Item
+            {
+                Name = name,
+                Description = description,
+                Sku = Sku
+            };
             return _i.CreateObject(item);
         }
 

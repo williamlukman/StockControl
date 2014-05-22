@@ -42,10 +42,8 @@ namespace ConsoleApp.DataAccess
             Console.WriteLine("All purchaseOrders in the database:");
             foreach (var item in purchaseOrders)
             {
-                Console.WriteLine(item.Id);
+                Console.WriteLine("PO ID: " + item.Id + ", PO Purchase Date: " + item.PurchaseDate);
             }
-
-
         }
     }
 }

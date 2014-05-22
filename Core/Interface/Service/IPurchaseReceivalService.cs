@@ -13,6 +13,7 @@ namespace Core.Interface.Service
         IList<PurchaseReceival> GetAll();
         PurchaseReceival GetObjectById(int Id);
         PurchaseReceival CreateObject(PurchaseReceival purchaseReceival);
+        PurchaseReceival CreateObject(int contactId, DateTime ReceivalDate);
         PurchaseReceival UpdateObject(PurchaseReceival purchaseReceival);
         PurchaseReceival SoftDeleteObject(PurchaseReceival purchaseReceival);
         bool DeleteObject(int Id);

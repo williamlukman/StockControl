@@ -1,6 +1,8 @@
 ﻿using Core.DomainModel;
+using Core.Interface.Repository;
 using Core.Interface.Service;
 using Data.Context;
+using Data.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,44 +13,28 @@ namespace ConsoleApp.DataAccess
 {
     class PurchaseReceivalDetailDb
     {
-        public static PurchaseReceivalDetail CreatePRD(StockControlEntities db, IPurchaseReceivalDetailService _prds, int PurchaseReceivalId, int ItemId, int quantity, int purchaseOrderDetailId)
+        public static void Delete(StockControlEntities db, IPurchaseReceivalDetailService _prdc)
         {
-
-            // Fill DB
-            PurchaseReceivalDetail prd = new PurchaseReceivalDetail
-            {
-                PurchaseReceivalId = PurchaseReceivalId,
-                ItemId = ItemId,
-                Quantity = quantity,
-                PurchaseOrderDetailId = purchaseOrderDetailId
-            };
-            prd = _prds.CreateObject(prd);
-            prd.Id = prd.Id;
-            return prd;
-        }
-
-        public static void Delete(StockControlEntities db, IPurchaseReceivalService _c)
-        {
-            var purchaseReceivals = _c.GetAll();
+            IPurchaseReceivalDetailRepository _prdrepo = new PurchaseReceivalDetailRepository();
+            var purchaseReceivals = _prdrepo.FindAll();
             Console.WriteLine("Delete all " + purchaseReceivals.Count() + " previous purchaseReceivals");
 
             foreach (var item in purchaseReceivals)
             {
-                _c.DeleteObject(item.Id);
+                _prdc.DeleteObject(item.Id);
             }
         }
 
-        public static void Display(StockControlEntities db, IPurchaseReceivalService _c)
+        public static void Display(StockControlEntities db, IPurchaseReceivalDetailService _prd, int purchaseReceivalId)
         {
-            var purchaseReceivals = _c.GetAll();
+            var purchaseReceivals = _prd.GetObjectsByPurchaseReceivalId(purchaseReceivalId);
 
             Console.WriteLine("All purchaseReceivals in the database:");
             foreach (var item in purchaseReceivals)
             {
-                Console.WriteLine(item.Id);
+                Console.WriteLine("PRD ID: " + item.Id + ", Item: " + item.ItemId + ", Quantity: " + item.Quantity);
             }
-
-
+            Console.WriteLine();
         }
     }
 }

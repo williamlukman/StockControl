@@ -58,6 +58,7 @@ namespace ConsoleApp.DataAccess
             {
                 Console.WriteLine(item.Name);
             }
+            Console.WriteLine();
         }
     }
 }

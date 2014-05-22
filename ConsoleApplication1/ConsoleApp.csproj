@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\ContactDb.cs" />
+    <Compile Include="DataAccess\StockMutationDb.cs" />
     <Compile Include="DataAccess\PurchaseReceivalDetailDb.cs" />
     <Compile Include="DataAccess\PurchaseReceivalDb.cs" />
     <Compile Include="DataAccess\PurchaseOrderDetailDb.cs" />

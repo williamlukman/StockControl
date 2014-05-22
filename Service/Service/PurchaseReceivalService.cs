@@ -32,6 +32,16 @@ namespace Service.Service
             return _p.CreateObject(purchaseReceival);
         }
 
+        public PurchaseReceival CreateObject(int contactId, DateTime receivalDate)
+        {
+            PurchaseReceival pr = new PurchaseReceival
+            {
+                CustomerId = contactId,
+                ReceivalDate = receivalDate
+            };
+            return _p.CreateObject(pr);
+        }
+
         public PurchaseReceival UpdateObject(PurchaseReceival purchaseReceival)
         {
             return _p.UpdateObject(purchaseReceival);

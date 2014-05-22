@@ -28,6 +28,21 @@ namespace Service.Service
             return _c.GetObjectById(Id);
         }
 
+        public Contact GetObjectByName(string name)
+        {
+            return _c.Find(c => c.Name == name && !c.IsDeleted);
+        }
+
+        public Contact CreateObject(string name, string description)
+        {
+            Contact c = new Contact
+            {
+                Name = name,
+                Description = description
+            };
+            return this.CreateObject(c); 
+        }
+
         public Contact CreateObject(Contact contact)
         {
             return _c.CreateObject(contact);

@@ -33,6 +33,19 @@ namespace Service.Service
             return _pd.CreateObject(purchaseReceivalDetail);
         }
 
+        public PurchaseReceivalDetail CreateObject(int purchaseReceivalId, int itemId, int quantity, int purchaseOrderDetailId)
+        {
+            PurchaseReceivalDetail prd = new PurchaseReceivalDetail
+            {
+                PurchaseReceivalId = purchaseReceivalId,
+                ItemId = itemId,
+                Quantity = quantity,
+                PurchaseOrderDetailId = purchaseOrderDetailId
+            };
+            return _pd.CreateObject(prd);
+        }
+
+
         public PurchaseReceivalDetail UpdateObject(PurchaseReceivalDetail purchaseReceivalDetail)
         {
             return _pd.UpdateObject(purchaseReceivalDetail);

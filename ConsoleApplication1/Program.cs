@@ -14,107 +14,126 @@ using Core.Interface.Service;
 
 namespace ConsoleApp
 {
-    class Program
+    public class Program
     {
+        private IContactService _c;
+        private IItemService _i;
+        private IPurchaseOrderService _po;
+        private IPurchaseOrderDetailService _pod;
+        private IPurchaseReceivalService _pr;
+        private IPurchaseReceivalDetailService _prd;
+        private ISalesOrderService _so;
+        private ISalesOrderDetailService _sod;
+        private IDeliveryOrderService _do;
+        private IDeliveryOrderDetailService _dod;
+        private IStockMutationService _sm;
+        Program()
+        {
+            _c = new ContactService(new ContactRepository());
+            _i = new ItemService(new ItemRepository());
+            _po = new PurchaseOrderService(new PurchaseOrderRepository());
+            _pod = new PurchaseOrderDetailService(new PurchaseOrderDetailRepository());
+            _pr = new PurchaseReceivalService(new PurchaseReceivalRepository());
+            _prd = new PurchaseReceivalDetailService(new PurchaseReceivalDetailRepository());
+            _so = new SalesOrderService(new SalesOrderRepository());
+            _sod = new SalesOrderDetailService(new SalesOrderDetailRepository());
+            _do = new DeliveryOrderService(new DeliveryOrderRepository());
+            _dod = new DeliveryOrderDetailService(new DeliveryOrderDetailRepository());
+            _sm = new StockMutationService(new StockMutationRepository());
+        }
 
-            public static void Main(string[] args)
+        public static void Main(string[] args)
+        {
+            //Database.SetInitializer<StockControlEntities>(new StockControlInit());
+            var db = new StockControlEntities();
+
+            using (db)
             {
-                //Database.SetInitializer<StockControlEntities>(new StockControlInit());
-                var db = new StockControlEntities();
+                Program p = new Program();
+                p.flushdb(db);
+                p.scratch2purchasereceivals(db);
+                //p.scratch2deliveryorder(db);
 
-                using (db)
-                {
-                    // Initialize Contact
-                    IContactService cs = new ContactService(new ContactRepository());
-                    ContactDb.Delete(db, cs);
-                    Contact person1 = ContactDb.CreatePerson1(db, cs);
-                    Contact person2 = ContactDb.CreatePerson2(db, cs);
-                    
-                    Console.WriteLine("2 Contacts were created");
-                    System.Threading.Thread.Sleep(2000);
-                    
-                    // Initialize Item
-                    IItemService i = new ItemService(new ItemRepository());
-                    ItemDb.Delete(db, i);
-                    Item item1 = ItemDb.CreateItem1(db, i);
-                    Item item2 = ItemDb.CreateItem2(db, i);
-                    ItemDb.Display(db, i);
-
-                    Console.WriteLine("2 Items were created");
-                    System.Threading.Thread.Sleep(2000);
-                   
-                    // Initialize Purchase Order & Details
-                    IPurchaseOrderService pos = new PurchaseOrderService(new PurchaseOrderRepository());
-                    PurchaseOrder po1 = PurchaseOrderDb.CreatePO(db, pos, cs, person1.Id);
-                    PurchaseOrder po2 = PurchaseOrderDb.CreatePO(db, pos, cs, person2.Id);
-
-                    Console.WriteLine("2 POs were created");
-                    System.Threading.Thread.Sleep(2000);
-                    
-                    IPurchaseOrderDetailService pods = new PurchaseOrderDetailService(new PurchaseOrderDetailRepository());
-                    PurchaseOrderDetail pod1a = PurchaseOrderDetailDb.CreatePOD(db, pods, po1.Id, item1.Id, 80);
-                    PurchaseOrderDetail pod1b = PurchaseOrderDetailDb.CreatePOD(db, pods, po1.Id, item2.Id, 100);
-                    PurchaseOrderDetail pod2a = PurchaseOrderDetailDb.CreatePOD(db, pods, po2.Id, item1.Id, 20);
-                    PurchaseOrderDetail pod2b = PurchaseOrderDetailDb.CreatePOD(db, pods, po2.Id, item2.Id, 12);
-
-                    Console.WriteLine("4 PODs were created");
-                    System.Threading.Thread.Sleep(2000);
-
-                    // Confirm Purchase Order PO1
-                    po1 = pos.ConfirmObject(po1);
-                    pod1a = pods.ConfirmObject(pod1a);
-                    pod1b = pods.ConfirmObject(pod1b);
-                    IStockMutationService sms = new StockMutationService(new StockMutationRepository());
-                    sms.CreateStockMutationForPurchaseOrder(pod1a, item1);
-                    sms.CreateStockMutationForPurchaseOrder(pod1b, item2);
-
-                    po2 = pos.ConfirmObject(po2);
-                    pod2a = pods.ConfirmObject(pod2a);
-                    pod2b = pods.ConfirmObject(pod2b);
-                    sms.CreateStockMutationForPurchaseOrder(pod2a, item1);
-                    sms.CreateStockMutationForPurchaseOrder(pod2b, item2);
-
-                    Console.WriteLine("PO1 Confirmation = " + po1.IsConfirmed);
-                    Console.WriteLine("POD1a Confirmation = " + pod1a.IsConfirmed);
-                    Console.WriteLine("POD1b Confirmation = " + pod1b.IsConfirmed);
-                    Console.WriteLine("PO2 Confirmation = " + po2.IsConfirmed);
-                    Console.WriteLine("POD2a Confirmation = " + pod2a.IsConfirmed);
-                    Console.WriteLine("POD2b Confirmation = " + pod2b.IsConfirmed);
-
-                    // Initialize Purchase Receival & Details
-                    IPurchaseReceivalService prs = new PurchaseReceivalService(new PurchaseReceivalRepository());
-                    PurchaseReceival pr1 = PurchaseReceivalDb.CreatePR(db, prs, cs, person1.Id);
-                    PurchaseReceival pr2 = PurchaseReceivalDb.CreatePR(db, prs, cs, person2.Id);
-
-                    Console.WriteLine("2 PRs were created");
-                    System.Threading.Thread.Sleep(2000);
-
-                    IPurchaseReceivalDetailService prds = new PurchaseReceivalDetailService(new PurchaseReceivalDetailRepository());
-                    PurchaseReceivalDetail prd1a = PurchaseReceivalDetailDb.CreatePRD(db, prds, pr1.Id, item1.Id, 80, pod1a.Id);
-                    PurchaseReceivalDetail prd1b = PurchaseReceivalDetailDb.CreatePRD(db, prds, pr1.Id, item2.Id, 100, pod1b.Id);
-                    PurchaseReceivalDetail prd2a = PurchaseReceivalDetailDb.CreatePRD(db, prds, pr2.Id, item1.Id, 20, pod2a.Id);
-                    PurchaseReceivalDetail prd2b = PurchaseReceivalDetailDb.CreatePRD(db, prds, pr2.Id, item2.Id, 12, pod2b.Id);
-
-                    Console.WriteLine("4 PRDs were created");
-                    System.Threading.Thread.Sleep(2000);
-
-                    // Confirm Purchase Receival PO1
-                    pr1 = prs.ConfirmObject(pr1);
-                    prd1a = prds.ConfirmObject(prd1a);
-                    prd1b = prds.ConfirmObject(prd1b);
-                    sms.CreateStockMutationForPurchaseReceival(prd1a, item1);
-                    sms.CreateStockMutationForPurchaseReceival(prd1b, item2);
-
-                    Console.WriteLine("PR1 Confirmation = " + pr1.IsConfirmed);
-                    Console.WriteLine("PRD1a Confirmation = " + prd1a.IsConfirmed);
-                    Console.WriteLine("PRD1b Confirmation = " + prd1b.IsConfirmed);
-                    Console.WriteLine("PR2 Confirmation = " + pr2.IsConfirmed);
-                    Console.WriteLine("PRD2a Confirmation = " + prd2a.IsConfirmed);
-                    Console.WriteLine("PRD2b Confirmation = " + prd2b.IsConfirmed);
-
-                    Console.WriteLine("Press any key to exit...");
-                    Console.ReadKey();
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
             }
+        }
+
+        public void scratch2purchasereceivals(StockControlEntities db)
+        {
+            // Initialize Contact
+            Contact person1 = _c.CreateObject("Andy Robinson", "CEO of Gotong Royong");
+            Contact person2 = _c.CreateObject("Baby Marshanda", "CEO of Boutique Kencana");
+            Contact person3 = _c.CreateObject("Candy Barbara", "Freelancer Designer");
+            ContactDb.Display(db, _c);
+
+            // Initialize Item
+            Item item1 = _i.CreateObject("Buku Tulis Kiky", "20x30cm garis-garis lurus Kiky", "BTKIKY001");
+            Item item2 = _i.CreateObject("Buku Gambar Kiky", "20x30cm buku gambar polos Kiky", "BGKIKY002");
+            Item item3 = _i.CreateObject("Buku Kotak-Kotak Kiky", "20x30cm buku kotak-kotak Kiky", "BKKIKY003");
+            ItemDb.Display(db, _i);
+
+            // Initialize Purchase Order & Details
+            PurchaseOrder po1 = _po.CreateObject(_c.GetObjectByName("Andy Robinson").Id, DateTime.Today);
+            PurchaseOrderDetail pod1 = _pod.CreateObject(po1.Id, _i.GetObjectBySku("BTKIKY001").Id, 800);
+            PurchaseOrderDetail pod2 = _pod.CreateObject(po1.Id, _i.GetObjectByName("Buku Gambar Kiky").Id, 15);
+            PurchaseOrderDetail pod3 = _pod.CreateObject(po1.Id, item3.Id, 500);
+            PurchaseOrderDb.Display(db, _po);
+            PurchaseOrderDetailDb.Display(db, _pod, po1.Id);
+            
+            // Confirm Purchase Order & Details
+            po1 = _po.ConfirmObject(po1);
+            pod1 = _pod.ConfirmObject(pod1);
+            pod2 = _pod.ConfirmObject(pod2);
+            pod3 = _pod.ConfirmObject(pod3);
+            PurchaseOrderDb.Display(db, _po);
+            PurchaseOrderDetailDb.Display(db, _pod, po1.Id);
+
+            // Create Stock Mutations
+            StockMutation sm1 = _sm.CreateStockMutationForPurchaseOrder(pod1, _i.GetObjectBySku("BTKIKY001"));
+            StockMutation sm2 = _sm.CreateStockMutationForPurchaseOrder(pod2, _i.GetObjectByName("Buku Gambar Kiky"));
+            StockMutation sm3 = _sm.CreateStockMutationForPurchaseOrder(pod2, item3);
+            StockMutationDb.Display(db, _sm);
+
+            // Initialize Purchase Receival & Details
+            PurchaseReceival pr1 = _pr.CreateObject(_c.GetObjectByName("Andy Robinson").Id, DateTime.Today);
+            PurchaseReceivalDetail prd1 = _prd.CreateObject(pr1.Id, _i.GetObjectBySku("BTKIKY001").Id, 800, pod1.Id);
+            PurchaseReceivalDetail prd2 = _prd.CreateObject(pr1.Id, _i.GetObjectByName("Buku Gambar Kiky").Id, 15, pod2.Id);
+            PurchaseReceivalDetail prd3 = _prd.CreateObject(pr1.Id, item3.Id, 500, pod3.Id);
+            PurchaseReceivalDb.Display(db, _pr);
+            PurchaseReceivalDetailDb.Display(db, _prd, pr1.Id);
+
+            // Confirm Purchase Receival PO1
+            pr1 = _pr.ConfirmObject(pr1);
+            prd1 = _prd.ConfirmObject(prd1);
+            prd2 = _prd.ConfirmObject(prd2);
+            prd3 = _prd.ConfirmObject(prd3);
+            PurchaseReceivalDb.Display(db, _pr);
+            PurchaseReceivalDetailDb.Display(db, _prd, pr1.Id);
+
+            IList<StockMutation> sm4 = _sm.CreateStockMutationForPurchaseReceival(prd1, item1);
+            IList<StockMutation> sm5 = _sm.CreateStockMutationForPurchaseReceival(prd2, item2);
+            IList<StockMutation> sm6 = _sm.CreateStockMutationForPurchaseReceival(prd3, item3);
+            StockMutationDb.Display(db, _sm);
+            Console.WriteLine("Scratch to PRDS success");
+        }
+
+        public void scratch2deliveryorder(StockControlEntities db)
+        {
+            Console.WriteLine("Scratch to DODS success");
+
+        }
+
+        public void flushdb(StockControlEntities db)
+        {
+            ContactDb.Delete(db, _c);
+            ItemDb.Delete(db, _i);
+            PurchaseOrderDb.Delete(db, _po);
+            PurchaseOrderDetailDb.Delete(db, _pod);
+            PurchaseReceivalDb.Delete(db, _pr);
+            PurchaseReceivalDetailDb.Delete(db, _prd);
+            StockMutationDb.Delete(db, _sm);
+            Console.WriteLine("Database is clean");
         }
     }
 }

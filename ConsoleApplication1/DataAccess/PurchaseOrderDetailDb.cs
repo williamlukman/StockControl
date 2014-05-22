@@ -1,6 +1,8 @@
 ﻿using Core.DomainModel;
+using Core.Interface.Repository;
 using Core.Interface.Service;
 using Data.Context;
+using Data.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,28 +28,28 @@ namespace ConsoleApp.DataAccess
             return pod;
         }
 
-        public static void Delete(StockControlEntities db, IPurchaseOrderService _c)
+        public static void Delete(StockControlEntities db, IPurchaseOrderDetailService _pod)
         {
-            var purchaseOrders = _c.GetAll();
-            Console.WriteLine("Delete all " + purchaseOrders.Count() + " previous purchaseOrders");
+            IPurchaseReceivalDetailRepository _prdrepo = new PurchaseReceivalDetailRepository();
+            var purchaseOrderDetails = _prdrepo.FindAll();
+            Console.WriteLine("Delete all " + purchaseOrderDetails.Count() + " previous purchaseOrderDetails");
 
-            foreach (var item in purchaseOrders)
+            foreach (var item in purchaseOrderDetails)
             {
-                _c.DeleteObject(item.Id);
+                _pod.DeleteObject(item.Id);
             }
         }
 
-        public static void Display(StockControlEntities db, IPurchaseOrderService _c)
+        public static void Display(StockControlEntities db, IPurchaseOrderDetailService _pod, int purchaseOrderId)
         {
-            var purchaseOrders = _c.GetAll();
+            var purchaseOrderDetails = _pod.GetObjectsByPurchaseOrderId(purchaseOrderId);
+            Console.WriteLine("All purchaseOrderDetails in the database:");
 
-            Console.WriteLine("All purchaseOrders in the database:");
-            foreach (var item in purchaseOrders)
+            foreach (var item in purchaseOrderDetails)
             {
-                Console.WriteLine(item.Id);
+                Console.WriteLine("POD ID: " + item.Id + ", Item Id: " + item.ItemId + ", Quantity:" + item.Quantity );
             }
-
-
+            Console.WriteLine();
         }
     }
 }

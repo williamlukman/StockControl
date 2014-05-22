@@ -13,7 +13,9 @@ namespace Core.Interface.Service
         IList<Item> GetAll();
         Item GetObjectById(int Id);
         Item GetObjectBySku(string Sku);
+        Item GetObjectByName(string Name);
         Item CreateObject(Item item);
+        Item CreateObject(string Name, string Description, string Sku);
         Item UpdateObject(Item item);
 
         Item SoftDeleteObject(Item item);

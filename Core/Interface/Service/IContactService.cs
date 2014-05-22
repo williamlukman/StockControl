@@ -12,6 +12,8 @@ namespace Core.Interface.Service
     {
         IList<Contact> GetAll();
         Contact GetObjectById(int Id);
+        Contact GetObjectByName(string name);
+        Contact CreateObject(string name, string description);
         Contact CreateObject(Contact contact);
         Contact UpdateObject(Contact contact);
 

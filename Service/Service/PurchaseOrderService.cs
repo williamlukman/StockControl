@@ -32,6 +32,16 @@ namespace Service.Service
             return _p.CreateObject(purchaseOrder);
         }
 
+        public PurchaseOrder CreateObject(int contactId, DateTime purchaseDate)
+        {
+            PurchaseOrder po = new PurchaseOrder
+            {
+                CustomerId = contactId,
+                PurchaseDate = purchaseDate
+            };
+            return _p.CreateObject(po);
+        }
+
         public PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder)
         {
             return _p.UpdateObject(purchaseOrder);
