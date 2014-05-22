@@ -18,7 +18,7 @@ namespace Data.Mapping
                 .HasForeignKey(po => po.CustomerId);
             HasOptional(po => po.PurchaseOrderDetails)
                 .WithOptionalPrincipal()
-                .Map(po => po.MapKey("Id"));
+                .Map(pod => pod.MapKey("Id"));
             Ignore(po => po.Errors);
         }
     }

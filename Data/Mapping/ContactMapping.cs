@@ -15,8 +15,8 @@ namespace Data.Mapping
             HasKey(c => c.Id);
             HasOptional(c => c.PurchaseOrders);
             HasOptional(c => c.PurchaseReceivals);
-            //HasOptional(c => c.SalesOrders);
-            //HasOptional(c => c.DeliveryOrders);
+            HasOptional(c => c.SalesOrders);
+            HasOptional(c => c.DeliveryOrders);
             Ignore(c => c.Errors);
         }
     }

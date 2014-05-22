@@ -57,5 +57,11 @@ namespace Service.Service
         {
             return _pd.UnconfirmObject(purchaseOrderDetail);
         }
+
+        public PurchaseOrderDetail FulfilObject(PurchaseOrderDetail purchaseOrderDetail)
+        {
+            return _pd.FulfilObject(purchaseOrderDetail);
+        }
+
     }
 }

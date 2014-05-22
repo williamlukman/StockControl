@@ -87,5 +87,40 @@ namespace Service.Service
             result.Add(_sm.CreateObject(sm));
             return result;
         }
+
+        public StockMutation CreateStockMutationForSalesOrder(SalesOrderDetail sod, Item item)
+        {
+            StockMutation sm = new StockMutation();
+            sm.ItemId = sod.ItemId;
+            sm.Quantity = sod.Quantity;
+            sm.SourceDocumentType = Constant.SourceDocumentType.SalesOrder;
+            sm.SourceDocumentId = sod.SalesOrderId;
+            sm.SourceDocumentDetailType = Constant.SourceDocumentDetailType.SalesOrderDetail;
+            sm.SourceDocumentDetailId = sod.Id;
+            sm.ItemCase = Constant.StockMutationItemCase.PendingDelivery;
+            sm.Status = Constant.StockMutationStatus.Addition;
+            return _sm.CreateObject(sm);
+        }
+
+        public IList<StockMutation> CreateStockMutationForDeliveryOrder(DeliveryOrderDetail prd, Item item)
+        {
+            IList<StockMutation> result = new List<StockMutation>();
+
+            StockMutation sm = new StockMutation();
+            sm.ItemId = prd.ItemId;
+            sm.Quantity = prd.Quantity;
+            sm.SourceDocumentType = Constant.SourceDocumentType.DeliveryOrder;
+            sm.SourceDocumentId = prd.DeliveryOrderId;
+            sm.SourceDocumentDetailType = Constant.SourceDocumentDetailType.DeliveryOrderDetail;
+            sm.SourceDocumentDetailId = prd.Id;
+            sm.ItemCase = Constant.StockMutationItemCase.PendingDelivery;
+            sm.Status = Constant.StockMutationStatus.Deduction;
+            result.Add(_sm.CreateObject(sm));
+
+            sm.ItemCase = Constant.StockMutationItemCase.Ready;
+            sm.Status = Constant.StockMutationStatus.Deduction;
+            result.Add(_sm.CreateObject(sm));
+            return result;
+        }
     }
 }

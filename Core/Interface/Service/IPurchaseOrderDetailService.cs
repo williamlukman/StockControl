@@ -18,5 +18,6 @@ namespace Core.Interface.Service
         bool DeleteObject(int Id);
         PurchaseOrderDetail ConfirmObject(PurchaseOrderDetail purchaseOrderDetail);
         PurchaseOrderDetail UnconfirmObject(PurchaseOrderDetail purchaseOrderDetail);
+        PurchaseOrderDetail FulfilObject(PurchaseOrderDetail purchaseOrderDetail);
     }
 }

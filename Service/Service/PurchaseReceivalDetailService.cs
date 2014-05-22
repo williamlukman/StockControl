@@ -62,6 +62,5 @@ namespace Service.Service
         {
             return _pd.FulfilObject(purchaseReceivalDetail);
         }
-
     }
 }

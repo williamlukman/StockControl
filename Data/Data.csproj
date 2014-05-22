@@ -44,6 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mapping\ContactMapping.cs" />
+    <Compile Include="Mapping\DeliveryOrderDetailMapping.cs" />
+    <Compile Include="Mapping\DeliveryOrderMapping.cs" />
+    <Compile Include="Mapping\SalesOrderMapping.cs" />
+    <Compile Include="Mapping\SalesOrderDetailMapping.cs" />
     <Compile Include="Mapping\PurchaseReceivalMapping.cs" />
     <Compile Include="Mapping\PurchaseReceivalDetailMapping.cs" />
     <Compile Include="Mapping\StockMutationMapping.cs" />
@@ -52,6 +56,10 @@
     <Compile Include="Mapping\ItemMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ContactRepository.cs" />
+    <Compile Include="Repository\DeliveryOrderRepository.cs" />
+    <Compile Include="Repository\DeliveryOrderDetailRepository.cs" />
+    <Compile Include="Repository\SalesOrderDetailRepository.cs" />
+    <Compile Include="Repository\SalesOrderRepository.cs" />
     <Compile Include="Repository\PurchaseReceivalRepository.cs" />
     <Compile Include="Repository\PurchaseReceivalDetailRepository.cs" />
     <Compile Include="Repository\EfRepository.cs" />

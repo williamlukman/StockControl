@@ -22,8 +22,8 @@ namespace Core.DomainModel
         public virtual ICollection<StockMutation> StockMutations { get; set; }
         public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
         public virtual ICollection<PurchaseReceivalDetail> PurchaseReceivalDetails { get; set; }
-        //public virtual ICollection<SalesOrderDetail> SalesOrderDetails { get; set; }
-        //public virtual ICollection<DeliveryOrderDetail> DeliveryOrderDetails { get; set; }
+        public virtual ICollection<SalesOrderDetail> SalesOrderDetails { get; set; }
+        public virtual ICollection<DeliveryOrderDetail> DeliveryOrderDetails { get; set; }
 
         public HashSet<string> Errors { get; set; }
     }

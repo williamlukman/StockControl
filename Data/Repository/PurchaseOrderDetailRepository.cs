@@ -30,6 +30,7 @@ namespace Data.Repository
         public PurchaseOrderDetail CreateObject(PurchaseOrderDetail purchaseOrderDetail)
         {
             purchaseOrderDetail.IsConfirmed = false;
+            purchaseOrderDetail.IsFulfilled = false;
             purchaseOrderDetail.IsDeleted = false;
             purchaseOrderDetail.CreatedAt = DateTime.Now;
             return Create(purchaseOrderDetail);
@@ -70,5 +71,13 @@ namespace Data.Repository
             Update(purchaseOrderDetail);
             return purchaseOrderDetail;
         }
+
+        public PurchaseOrderDetail FulfilObject(PurchaseOrderDetail purchaseOrderDetail)
+        {
+            purchaseOrderDetail.IsFulfilled = true;
+            Update(purchaseOrderDetail);
+            return purchaseOrderDetail;
+        }
+
     }
 }
