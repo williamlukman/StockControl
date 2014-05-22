@@ -19,45 +19,27 @@ namespace Data.Repository
 
         public IList<PurchaseOrderDetail> GetObjectsByPurchaseOrderId(int purchaseOrderId)
         {
-            List<PurchaseOrderDetail> pods = (from pod in stocks.PurchaseOrderDetails
-                                         where pod.PurchaseOrderId == purchaseOrderId && !pod.IsDeleted
-                                         select pod).ToList();
-            return pods;
+            return FindAll(pod => pod.PurchaseOrderId == purchaseOrderId && !pod.IsDeleted).ToList();
         }
 
         public PurchaseOrderDetail GetObjectById(int Id)
         {
-            PurchaseOrderDetail pod = (from p in stocks.PurchaseOrderDetails
-                                       where p.Id == Id && !p.IsDeleted
-                                       select p).FirstOrDefault();
-            return pod;
+            return Find(pod => pod.Id == Id);
         }
 
         public PurchaseOrderDetail CreateObject(PurchaseOrderDetail purchaseOrderDetail)
         {
-            PurchaseOrderDetail pod = new PurchaseOrderDetail();
-            pod.PurchaseOrderId = purchaseOrderDetail.PurchaseOrderId;
-            pod.ItemId = purchaseOrderDetail.ItemId;
-            pod.Quantity = purchaseOrderDetail.Quantity;
-            pod.IsConfirmed = false;
-            pod.IsDeleted = false;
-            pod.CreatedAt = DateTime.Now;
-
-            return Create(pod);
+            purchaseOrderDetail.IsConfirmed = false;
+            purchaseOrderDetail.IsDeleted = false;
+            purchaseOrderDetail.CreatedAt = DateTime.Now;
+            return Create(purchaseOrderDetail);
         }
 
         public PurchaseOrderDetail UpdateObject(PurchaseOrderDetail purchaseOrderDetail)
         {
-            PurchaseOrderDetail pod = new PurchaseOrderDetail();
-            pod.PurchaseOrderId = purchaseOrderDetail.PurchaseOrderId;
-            pod.ItemId = purchaseOrderDetail.ItemId;
-            pod.Quantity = purchaseOrderDetail.Quantity;
-            pod.IsConfirmed = purchaseOrderDetail.IsConfirmed;
-            pod.IsDeleted = purchaseOrderDetail.IsDeleted;
-            pod.ModifiedAt = DateTime.Now;
-
-            Update(pod);
-            return pod;
+            purchaseOrderDetail.ModifiedAt = DateTime.Now;
+            Update(purchaseOrderDetail);
+            return purchaseOrderDetail;
         }
 
         public PurchaseOrderDetail SoftDeleteObject(PurchaseOrderDetail purchaseOrderDetail)

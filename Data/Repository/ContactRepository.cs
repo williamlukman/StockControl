@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Data.Context;
 using Data.Repository;
+using System.Data;
 
 namespace Data.Repository
 {
@@ -21,41 +22,27 @@ namespace Data.Repository
 
         public IList<Contact> GetAll()
         {
-            List<Contact> contacts = (from i in stocks.Contacts
-                                select i).ToList();
-
-            return contacts;
+            return FindAll().ToList();
         }
 
         public Contact GetObjectById(int Id)
         {
-            Contact contact = (from i in stocks.Contacts
-                         where i.Id == Id
-                         select i).FirstOrDefault();
-            return contact;
+            return Find(x => x.Id == Id);
         }
 
 
         public Contact CreateObject(Contact contact)
         {
-            Contact newcontact = new Contact();
-            newcontact.Name = contact.Name;
-            newcontact.Description = contact.Description;
-            newcontact.IsDeleted = false;
-            newcontact.CreatedAt = DateTime.Now;
-
-            return Create(newcontact);
+            contact.IsDeleted = false;
+            contact.CreatedAt = DateTime.Now;
+            return Create(contact);
         }
 
         public Contact UpdateObject(Contact contact)
         {
-            Contact updatecontact = new Contact();
-            updatecontact.Name = contact.Name;
-            updatecontact.Description = contact.Description;
-            updatecontact.IsDeleted = contact.IsDeleted;
-            updatecontact.ModifiedAt = DateTime.Now;
-            Update(updatecontact);
-            return updatecontact;
+            contact.ModifiedAt = DateTime.Now;
+            Update(contact);
+            return contact;
         }
 
         public Contact SoftDeleteObject(Contact contact)

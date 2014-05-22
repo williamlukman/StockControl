@@ -18,10 +18,8 @@ namespace ConsoleApp.DataAccess
             PurchaseOrderDetail pod = new PurchaseOrderDetail
             {
                 PurchaseOrderId = PurchaseOrderId,
+                ItemId = ItemId,
                 Quantity = quantity,
-                IsConfirmed = false,
-                IsDeleted = false,
-                CreatedAt = DateTime.Today
             };
             pod = _pods.CreateObject(pod);
             pod.Id = pod.Id;

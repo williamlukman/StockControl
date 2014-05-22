@@ -1,4 +1,3 @@
-// harus ada namespace nya. Kalau tidak, gagal compile 
 namespace Core.Constant
 {
     public class Constant
@@ -16,5 +15,21 @@ namespace Core.Constant
             public static int Deduction = 2;
         }
 
+        public class SourceDocumentType
+        {
+            public static string PurchaseOrder = "PurchaseOrder";
+            public static string PurchaseReceival = "PurchaseReceival";
+            public static string SalesOrder = "SalesOrder";
+            public static string DeliveryOrder = "DeliveryOrder";
+        }
+
+        public class SourceDocumentDetailType
+        {
+            public static string PurchaseOrderDetail = "PurchaseOrderDetail";
+            public static string PurchaseReceivalDetail = "PurchaseReceivalDetail";
+            public static string SalesOrderDetail = "SalesOrderDetail";
+            public static string DeliveryOrderDetail = "DeliveryOrderDetail";
+
+        }
     }
 }

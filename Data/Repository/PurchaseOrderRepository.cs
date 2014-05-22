@@ -19,42 +19,27 @@ namespace Data.Repository
 
         public IList<PurchaseOrder> GetAll()
         {
-            List<PurchaseOrder> pos = (from po in stocks.PurchaseOrders
-                                       where !po.IsDeleted
-                                       select po).ToList();
-            return pos;
+            return FindAll(po => !po.IsDeleted).ToList();
         }
 
         public PurchaseOrder GetObjectById(int Id)
         {
-            PurchaseOrder po = (from p in stocks.PurchaseOrders
-                                where p.Id == Id && !p.IsDeleted
-                                select p).FirstOrDefault();
-            return po;
+            return Find(po => po.Id == Id && !po.IsDeleted);
         }
 
         public PurchaseOrder CreateObject(PurchaseOrder purchaseOrder)
         {
-            PurchaseOrder po = new PurchaseOrder();
-            po.CustomerId = purchaseOrder.CustomerId;
-            po.PurchaseDate = purchaseOrder.PurchaseDate;
-            po.IsDeleted = false;
-            po.IsConfirmed = false;
-            po.CreatedAt = DateTime.Now;
-            return Create(po);
+            purchaseOrder.IsDeleted = false;
+            purchaseOrder.IsConfirmed = false;
+            purchaseOrder.CreatedAt = DateTime.Now;
+            return Create(purchaseOrder);
         }
 
         public PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder)
         {
-            PurchaseOrder po = new PurchaseOrder();
-            po.CustomerId = purchaseOrder.CustomerId;
-            po.PurchaseDate = purchaseOrder.PurchaseDate;
-            po.IsDeleted = purchaseOrder.IsDeleted;
-            po.IsConfirmed = purchaseOrder.IsConfirmed;
-            po.ConfirmedAt = purchaseOrder.ConfirmedAt;
-            po.ModifiedAt = DateTime.Now;
-            Update(po);
-            return po;
+            purchaseOrder.ModifiedAt = DateTime.Now;
+            Update(purchaseOrder);
+            return purchaseOrder;
         }
 
         public PurchaseOrder SoftDeleteObject(PurchaseOrder purchaseOrder)

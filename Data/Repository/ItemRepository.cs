@@ -21,50 +21,31 @@ namespace Data.Repository
 
         public IList<Item> GetAll()
         {
-            List<Item> items = (from i in stocks.Items
-                                select i).ToList();
-
-            return items;
+            return FindAll().ToList();
         }
 
         public Item GetObjectById(int Id)
         {
-            Item item = (from i in stocks.Items
-                         where i.Id == Id
-                         select i).FirstOrDefault();
-            return item;
+            return Find(i => i.Id == Id);
         }
 
         public Item GetObjectBySku(string Sku)
         {
-            Item item = (from i in stocks.Items
-                         where i.Sku == Sku
-                         select i).FirstOrDefault();
-            return item;
+            return Find(i => i.Sku == Sku);
         }
 
         public Item CreateObject(Item item)
         {
-            Item newitem = new Item();
-            newitem.Sku = item.Sku;
-            newitem.Name = item.Name;
-            newitem.Description = item.Description;
-            newitem.IsDeleted = false;
-            newitem.CreatedAt = DateTime.Now;
-
-            return Create(newitem);
+            item.IsDeleted = false;
+            item.CreatedAt = DateTime.Now;
+            return Create(item);
         }
 
         public Item UpdateObject(Item item)
         {
-            Item updateitem = new Item();
-            updateitem.Sku = item.Sku;
-            updateitem.Name = item.Name;
-            updateitem.Description = item.Description;
-            updateitem.IsDeleted = item.IsDeleted;
-            updateitem.ModifiedAt = DateTime.Now;
-            Update(updateitem);
-            return updateitem;
+            item.ModifiedAt = DateTime.Now;
+            Update(item);
+            return item;
         }
 
         public Item SoftDeleteObject(Item item)

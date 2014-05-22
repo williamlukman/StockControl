@@ -12,9 +12,12 @@ namespace Data.Mapping
     {
         public ContactMapping()
         {
-            HasKey(x => x.Id);
-            //HasMany(x => x.PurchaseOrders);
-            Ignore(x => x.Errors);
+            HasKey(c => c.Id);
+            HasOptional(c => c.PurchaseOrders);
+            HasOptional(c => c.PurchaseReceivals);
+            //HasOptional(c => c.SalesOrders);
+            //HasOptional(c => c.DeliveryOrders);
+            Ignore(c => c.Errors);
         }
     }
 }

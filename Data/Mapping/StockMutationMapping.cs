@@ -13,9 +13,11 @@ namespace Data.Mapping
 
         public StockMutationMapping()
         {
-            HasKey(x => x.Id);
-            //HasRequired(x => x.Item);
-            Ignore(x => x.Errors);
+            HasKey(sm => sm.Id);
+            HasRequired(sm => sm.Item)
+                .WithMany(i => i.StockMutations)
+                .HasForeignKey(sm => sm.ItemId);
+            Ignore(sm => sm.Errors);
         }
     }
 }

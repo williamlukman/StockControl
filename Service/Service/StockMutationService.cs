@@ -58,16 +58,34 @@ namespace Service.Service
             StockMutation sm = new StockMutation();
             sm.ItemId = pod.ItemId;
             sm.Quantity = pod.Quantity;
-            sm.SourceDocumentType = "PurchaseOrder";
+            sm.SourceDocumentType = Constant.SourceDocumentType.PurchaseOrder;
             sm.SourceDocumentId = pod.PurchaseOrderId;
-            sm.SourceDocumentDetailType = "PurchaseOrderDetail";
+            sm.SourceDocumentDetailType = Constant.SourceDocumentDetailType.PurchaseOrderDetail;
             sm.SourceDocumentDetailId = pod.Id;
             sm.ItemCase = Constant.StockMutationItemCase.PendingReceival;
             sm.Status = Constant.StockMutationStatus.Addition;
-            sm.CreatedAt = DateTime.Now;
-            sm.IsDeleted = false;
             return _sm.CreateObject(sm);
+        }
+
+        public IList<StockMutation> CreateStockMutationForPurchaseReceival(PurchaseReceivalDetail prd, Item item)
+        {
+            IList<StockMutation> result = new List<StockMutation>();
             
+            StockMutation sm = new StockMutation();
+            sm.ItemId = prd.ItemId;
+            sm.Quantity = prd.Quantity;
+            sm.SourceDocumentType = Constant.SourceDocumentType.PurchaseReceival;
+            sm.SourceDocumentId = prd.PurchaseReceivalId;
+            sm.SourceDocumentDetailType = Constant.SourceDocumentDetailType.PurchaseReceivalDetail;
+            sm.SourceDocumentDetailId = prd.Id;
+            sm.ItemCase = Constant.StockMutationItemCase.PendingReceival;
+            sm.Status = Constant.StockMutationStatus.Deduction;
+            result.Add(_sm.CreateObject(sm));
+
+            sm.ItemCase = Constant.StockMutationItemCase.Ready;
+            sm.Status = Constant.StockMutationStatus.Addition;
+            result.Add(_sm.CreateObject(sm));
+            return result;
         }
     }
 }

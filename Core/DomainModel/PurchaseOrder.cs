@@ -20,8 +20,8 @@ namespace Core.DomainModel
         public DateTime CreatedAt { get; set; }
         public Nullable<DateTime> ModifiedAt { get; set; }
 
-        //public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
-        //public virtual Contact Contact {get; set;}
+        public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
+        public virtual Contact Contact {get; set;}
         public HashSet<string> Errors { get; set; }
 
     }

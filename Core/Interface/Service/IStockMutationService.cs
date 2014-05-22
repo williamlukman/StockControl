@@ -18,5 +18,6 @@ namespace Core.Interface.Service
          StockMutation SoftDeleteObject(StockMutation stockMutation);
          bool DeleteObject(int Id);
          StockMutation CreateStockMutationForPurchaseOrder(PurchaseOrderDetail pod, Item item);
+         IList<StockMutation> CreateStockMutationForPurchaseReceival(PurchaseReceivalDetail prd, Item item);
     }
 }

@@ -19,8 +19,6 @@ namespace ConsoleApp.DataAccess
                 Name = "Buku Tulis",
                 Sku = "33212",
                 Description = "New Item",
-                IsDeleted = false,
-                CreatedAt = DateTime.Now
             };
             Item1 = _i.CreateObject(Item1);
             Item1.Id = Item1.Id;
@@ -34,8 +32,6 @@ namespace ConsoleApp.DataAccess
                 Name = "Copy Buku Tulis",
                 Sku = "33212",
                 Description = "I am new item to the system too",
-                IsDeleted = false,
-                CreatedAt = DateTime.Now
             };
             Item2 = _i.CreateObject(Item2);
             Item2.Id = Item2.Id;

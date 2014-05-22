@@ -26,7 +26,7 @@ namespace Core.DomainModel
         public DateTime CreatedAt { get; set; }
         public Nullable<DateTime> ModifiedAt { get; set; }
 
-        //public virtual Item Item { get; set;}
+        public virtual Item Item { get; set;}
         public HashSet<string> Errors { get; set; }
 
     }

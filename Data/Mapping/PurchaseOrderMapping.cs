@@ -12,9 +12,14 @@ namespace Data.Mapping
     {
         public PurchaseOrderMapping()
         {
-            HasKey(x => x.Id);
-            //HasMany(x => x.PurchaseOrderDetails);
-            Ignore(x => x.Errors);
+            HasKey(po => po.Id);
+            HasRequired(po => po.Contact)
+                .WithMany(c => c.PurchaseOrders)
+                .HasForeignKey(po => po.CustomerId);
+            HasOptional(po => po.PurchaseOrderDetails)
+                .WithOptionalPrincipal()
+                .Map(po => po.MapKey("Id"));
+            Ignore(po => po.Errors);
         }
     }
 }

@@ -18,8 +18,6 @@ namespace ConsoleApp.DataAccess
             {
                 Name = "Andrew Baby Chan",
                 Description = "New person",
-                IsDeleted = false,
-                CreatedAt = DateTime.Now
             };
             Person1 = _cs.CreateObject(Person1);
             Person1.Id = Person1.Id;

@@ -18,7 +18,10 @@ namespace Core.DomainModel
         public DateTime CreatedAt { get; set; }
         public Nullable<DateTime> ModifiedAt { get; set; }
 
-        //public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
+        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
+        public virtual ICollection<PurchaseReceival> PurchaseReceivals { get; set; }
+        //public virtual ICollection<SalesOrder> SalesOrders { get; set; }
+        //public virtual ICollection<DeliveryOrder> DeliveryOrders { get; set; }
         public HashSet<string> Errors { get; set; }
     }
 }

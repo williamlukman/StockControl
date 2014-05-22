@@ -12,10 +12,17 @@ namespace Data.Mapping
     {
         public PurchaseOrderDetailMapping()
         {
-            HasKey(x => x.Id);
-            //HasRequired(x => x.Item);
-            //HasRequired(x => x.PurchaseOrder);
-            Ignore(x => x.Errors);
+            HasKey(pod => pod.Id);
+            HasRequired(pod => pod.Item)
+                .WithMany(i => i.PurchaseOrderDetails)
+                .HasForeignKey(pod => pod.ItemId);
+            HasRequired(pod => pod.PurchaseOrder)
+                .WithMany(po => po.PurchaseOrderDetails)
+                .HasForeignKey(pod => pod.PurchaseOrderId);
+            HasOptional(pod => pod.PurchaseReceivalDetail)
+                .WithOptionalPrincipal(prd => prd.PurchaseOrderDetail)
+                .Map(prd => prd.MapKey("PurchaseReceivalDetailId"));
+            Ignore(pod => pod.Errors);
         }
     }
 }

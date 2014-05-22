@@ -18,9 +18,6 @@ namespace ConsoleApp.DataAccess
             {
                 CustomerId = custid,
                 PurchaseDate = DateTime.Today,
-                IsConfirmed = false,
-                IsDeleted = false,
-                CreatedAt = DateTime.Today
             };
             po = _pos.CreateObject(po);
             po.Id = po.Id;

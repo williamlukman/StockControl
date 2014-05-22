@@ -19,58 +19,31 @@ namespace Data.Repository
 
         public IList<StockMutation> GetAll()
         {
-            List<StockMutation> sms = (from s in stocks.StockMutations
-                                       where !s.IsDeleted
-                                       select s).ToList();
-            return sms;
+            return FindAll(sm => !sm.IsDeleted).ToList();
         }
 
         public IList<StockMutation> GetObjectsByItemId(int itemId)
         {
-            List<StockMutation> sms = (from s in stocks.StockMutations
-                                       where !s.IsDeleted && s.ItemId == itemId
-                                       select s).ToList();
-            return sms;
+            return FindAll(sm => sm.ItemId == itemId && !sm.IsDeleted).ToList();
         }
 
         public StockMutation GetObjectById(int Id)
         {
-            StockMutation sm = (from s in stocks.StockMutations
-                                where !s.IsDeleted && s.Id == Id
-                                select s).FirstOrDefault();
-            return sm;
+            return Find(sm => sm.Id == Id && !sm.IsDeleted);
         }
 
         public StockMutation CreateObject(StockMutation stockMutation)
         {
-            StockMutation sm = new StockMutation();
-            sm.ItemId = stockMutation.ItemId;
-            sm.ItemCase = stockMutation.ItemCase;
-            sm.Status = stockMutation.Status;
-            sm.SourceDocumentType = stockMutation.SourceDocumentType;
-            sm.SourceDocumentDetailType = stockMutation.SourceDocumentDetailType;
-            sm.SourceDocumentId = stockMutation.SourceDocumentId;
-            sm.SourceDocumentDetailId = stockMutation.SourceDocumentDetailId;
-            sm.Quantity = stockMutation.Quantity;
-            sm.IsDeleted = false;
-            sm.CreatedAt = DateTime.Now;
-            return Create(sm);
+            stockMutation.IsDeleted = false;
+            stockMutation.CreatedAt = DateTime.Now;
+            return Create(stockMutation);
         }
 
         public StockMutation UpdateObject(StockMutation stockMutation)
         {
-            StockMutation sm = new StockMutation();
-            sm.ItemId = stockMutation.ItemId;
-            sm.ItemCase = stockMutation.ItemCase;
-            sm.Status = stockMutation.Status;
-            sm.SourceDocumentType = stockMutation.SourceDocumentType;
-            sm.SourceDocumentDetailType = stockMutation.SourceDocumentDetailType;
-            sm.SourceDocumentId = stockMutation.SourceDocumentId;
-            sm.SourceDocumentDetailId = stockMutation.SourceDocumentDetailId;
-            sm.Quantity = stockMutation.Quantity;
-            sm.ModifiedAt = DateTime.Now;
-            Update(sm);
-            return sm;
+            stockMutation.ModifiedAt = DateTime.Now;
+            Update(stockMutation);
+            return stockMutation;
         }
 
         public StockMutation SoftDeleteObject(StockMutation stockMutation)

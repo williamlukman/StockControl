@@ -13,10 +13,13 @@ namespace Data.Mapping
 
         public ItemMapping()
         {
-            HasKey(x => x.Id);
-            //HasMany(x => x.StockMutations);
-            //HasMany(x => x.PurchaseOrderDetails);
-            Ignore(x => x.Errors);
+            HasKey(i => i.Id);
+            HasOptional(i => i.StockMutations);
+            HasOptional(i => i.PurchaseOrderDetails);
+            HasOptional(i => i.PurchaseReceivalDetails);
+            //HasOptional(i => i.SalesOrderDetails);
+            //HasOptional(i => i.DeliveryOrderDetails);
+            Ignore(i => i.Errors);
         }
     }
 }
