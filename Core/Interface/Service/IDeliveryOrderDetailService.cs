@@ -13,6 +13,7 @@ namespace Core.Interface.Service
         IList<DeliveryOrderDetail> GetObjectsByDeliveryOrderId(int deliveryOrderId);
         DeliveryOrderDetail GetObjectById(int Id);
         DeliveryOrderDetail CreateObject(DeliveryOrderDetail deliveryOrderDetail);
+        DeliveryOrderDetail CreateObject(int deliveryOrderId, int itemId, int quantity, int salesOrderDetailId);
         DeliveryOrderDetail UpdateObject(DeliveryOrderDetail deliveryOrderDetail);
         DeliveryOrderDetail SoftDeleteObject(DeliveryOrderDetail deliveryOrderDetail);
         bool DeleteObject(int Id);

@@ -12,6 +12,7 @@ namespace Core.DomainModel
         public int DeliveryOrderId { get; set; }
         public int ItemId { get; set; }
         public int Quantity { get; set; }
+        public int SalesOrderDetailId { get; set; }
 
         public bool IsConfirmed { get; set; }
         public Nullable<DateTime> ConfirmedAt { get; set; }

@@ -33,6 +33,17 @@ namespace Service.Service
             return _dod.CreateObject(deliveryOrderDetail);
         }
 
+        public DeliveryOrderDetail CreateObject(int deliveryOrderId, int itemId, int quantity, int salesOrderDetailId)
+        {
+            DeliveryOrderDetail dod = new DeliveryOrderDetail
+            {
+                DeliveryOrderId = deliveryOrderId,
+                ItemId = itemId,
+                Quantity = quantity
+            };
+            return _dod.CreateObject(dod);
+        }
+
         public DeliveryOrderDetail UpdateObject(DeliveryOrderDetail deliveryOrderDetail)
         {
             return _dod.UpdateObject(deliveryOrderDetail);

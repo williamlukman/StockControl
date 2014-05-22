@@ -13,15 +13,14 @@ namespace ConsoleApp.DataAccess
 {
     class PurchaseReceivalDetailDb
     {
-        public static void Delete(StockControlEntities db, IPurchaseReceivalDetailService _prdc)
+        public static void Delete(StockControlEntities db, IPurchaseReceivalDetailService _prd, int purchaseReceivalId)
         {
-            IPurchaseReceivalDetailRepository _prdrepo = new PurchaseReceivalDetailRepository();
-            var purchaseReceivals = _prdrepo.FindAll();
+            var purchaseReceivals = _prd.GetObjectsByPurchaseReceivalId(purchaseReceivalId);
             Console.WriteLine("Delete all " + purchaseReceivals.Count() + " previous purchaseReceivals");
 
             foreach (var item in purchaseReceivals)
             {
-                _prdc.DeleteObject(item.Id);
+                _prd.DeleteObject(item.Id);
             }
         }
 

@@ -11,33 +11,6 @@ namespace ConsoleApp.DataAccess
 {
     class ItemDb
     {
-        public static Item CreateItem1(StockControlEntities db, IItemService _i)
-        {
-            // Fill DB
-            Item Item1 = new Item
-            {
-                Name = "Buku Tulis",
-                Sku = "33212",
-                Description = "New Item",
-            };
-            Item1 = _i.CreateObject(Item1);
-            Item1.Id = Item1.Id;
-            return Item1;
-        }
-        
-        public static Item CreateItem2(StockControlEntities db, IItemService _i)
-        {
-            Item Item2 = new Item
-            {
-                Name = "Copy Buku Tulis",
-                Sku = "33212",
-                Description = "I am new item to the system too",
-            };
-            Item2 = _i.CreateObject(Item2);
-            Item2.Id = Item2.Id;
-            return Item2;
-        }
-
         public static void Delete(StockControlEntities db, IItemService _i)
         {
             var items = _i.GetAll();

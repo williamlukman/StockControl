@@ -11,33 +11,25 @@ namespace ConsoleApp.DataAccess
 {
     class PurchaseOrderDb
     {
-        public static PurchaseOrder CreatePO(StockControlEntities db, IPurchaseOrderService _pos, IContactService _cs, int custid)
+        public static void Delete(StockControlEntities db, IPurchaseOrderService _po, IPurchaseOrderDetailService _pod)
         {
-            // Fill DB
-            PurchaseOrder po = new PurchaseOrder
-            {
-                CustomerId = custid,
-                PurchaseDate = DateTime.Today,
-            };
-            po = _pos.CreateObject(po);
-            po.Id = po.Id;
-            return po;
-        }
-
-        public static void Delete(StockControlEntities db, IPurchaseOrderService _c)
-        {
-            var purchaseOrders = _c.GetAll();
-            Console.WriteLine("Delete all " + purchaseOrders.Count() + " previous purchaseOrders");
+            var purchaseOrders = _po.GetAll();
+            Console.WriteLine("Delete all " + purchaseOrders.Count() + " previous purchaseOrders and its purchaseOrderDetails");
 
             foreach (var item in purchaseOrders)
             {
-                _c.DeleteObject(item.Id);
+                _po.DeleteObject(item.Id);
+                var purchaseOrderDetails = _pod.GetObjectsByPurchaseOrderId(item.Id);
+                foreach (var detailitem in purchaseOrderDetails)
+                {
+                    _pod.DeleteObject(detailitem.Id);
+                }
             }
         }
 
-        public static void Display(StockControlEntities db, IPurchaseOrderService _c)
+        public static void Display(StockControlEntities db, IPurchaseOrderService _po)
         {
-            var purchaseOrders = _c.GetAll();
+            var purchaseOrders = _po.GetAll();
 
             Console.WriteLine("All purchaseOrders in the database:");
             foreach (var item in purchaseOrders)

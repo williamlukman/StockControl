@@ -33,6 +33,17 @@ namespace Service.Service
             return _sd.CreateObject(salesOrderDetail);
         }
 
+        public SalesOrderDetail CreateObject(int salesOrderId, int itemId, int quantity)
+        {
+            SalesOrderDetail sod = new SalesOrderDetail
+            {
+                SalesOrderId = salesOrderId,
+                ItemId = itemId,
+                Quantity = quantity
+            };
+            return _sd.CreateObject(sod);
+        }
+
         public SalesOrderDetail UpdateObject(SalesOrderDetail salesOrderDetail)
         {
             return _sd.UpdateObject(salesOrderDetail);

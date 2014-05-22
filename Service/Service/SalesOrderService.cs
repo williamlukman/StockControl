@@ -32,6 +32,16 @@ namespace Service.Service
             return _s.CreateObject(salesOrder);
         }
 
+        public SalesOrder CreateObject(int contactId, DateTime salesDate)
+        {
+            SalesOrder so = new SalesOrder
+            {
+                CustomerId = contactId,
+                SalesDate = salesDate
+            };
+            return _s.CreateObject(so);
+        }
+
         public SalesOrder UpdateObject(SalesOrder salesOrder)
         {
             return _s.UpdateObject(salesOrder);

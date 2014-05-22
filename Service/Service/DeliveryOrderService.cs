@@ -32,6 +32,16 @@ namespace Service.Service
             return _do.CreateObject(deliveryOrder);
         }
 
+        public DeliveryOrder CreateObject(int contactId, DateTime deliveryDate)
+        {
+            DeliveryOrder deliveryOrder = new DeliveryOrder
+            {
+                CustomerId = contactId,
+                DeliveryDate = deliveryDate
+            };
+            return _do.CreateObject(deliveryOrder);
+        }
+
         public DeliveryOrder UpdateObject(DeliveryOrder deliveryOrder)
         {
             return _do.UpdateObject(deliveryOrder);

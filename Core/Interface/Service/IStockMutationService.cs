@@ -19,5 +19,7 @@ namespace Core.Interface.Service
          bool DeleteObject(int Id);
          StockMutation CreateStockMutationForPurchaseOrder(PurchaseOrderDetail pod, Item item);
          IList<StockMutation> CreateStockMutationForPurchaseReceival(PurchaseReceivalDetail prd, Item item);
+         StockMutation CreateStockMutationForSalesOrder(SalesOrderDetail sod, Item item);
+         IList<StockMutation> CreateStockMutationForDeliveryOrder(DeliveryOrderDetail dod, Item item);
     }
 }
