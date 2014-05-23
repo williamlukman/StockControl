@@ -27,6 +27,11 @@ namespace Service.Service
             return _p.GetObjectById(Id);
         }
 
+        public IList<PurchaseOrder> GetObjectsByContactId(int contactId)
+        {
+            return _p.GetObjectsByContactId(contactId);
+        }
+
         public PurchaseOrder CreateObject(PurchaseOrder purchaseOrder)
         {
             return _p.CreateObject(purchaseOrder);

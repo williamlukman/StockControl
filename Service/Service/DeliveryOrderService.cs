@@ -27,6 +27,11 @@ namespace Service.Service
             return _do.GetObjectById(Id);
         }
 
+        public IList<DeliveryOrder> GetObjectsByContactId(int contactId)
+        {
+            return _do.GetObjectsByContactId(contactId);
+        }
+
         public DeliveryOrder CreateObject(DeliveryOrder deliveryOrder)
         {
             return _do.CreateObject(deliveryOrder);

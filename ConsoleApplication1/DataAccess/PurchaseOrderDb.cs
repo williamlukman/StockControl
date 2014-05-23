@@ -14,7 +14,6 @@ namespace ConsoleApp.DataAccess
         public static void Delete(StockControlEntities db, IPurchaseOrderService _po, IPurchaseOrderDetailService _pod)
         {
             var purchaseOrders = _po.GetAll();
-            Console.WriteLine("Delete all " + purchaseOrders.Count() + " previous purchaseOrders and its purchaseOrderDetails");
 
             foreach (var item in purchaseOrders)
             {

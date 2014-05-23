@@ -16,7 +16,6 @@ namespace ConsoleApp.DataAccess
         public static void Delete(StockControlEntities db, IPurchaseReceivalDetailService _prd, int purchaseReceivalId)
         {
             var purchaseReceivals = _prd.GetObjectsByPurchaseReceivalId(purchaseReceivalId);
-            Console.WriteLine("Delete all " + purchaseReceivals.Count() + " previous purchaseReceivals");
 
             foreach (var item in purchaseReceivals)
             {

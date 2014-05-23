@@ -9,3 +9,5 @@ C:\Users\it\Documents\GitHub\ConsoleApplication1\Service\bin\Debug\Data.pdb
 C:\Users\it\Documents\GitHub\ConsoleApplication1\Service\bin\Debug\EntityFramework.xml
 C:\Users\it\Documents\GitHub\ConsoleApplication1\Service\obj\Debug\Service.dll
 C:\Users\it\Documents\GitHub\ConsoleApplication1\Service\obj\Debug\Service.pdb
+C:\Users\it\Documents\GitHub\ConsoleApplication1\Service\bin\Debug\Validation.dll
+C:\Users\it\Documents\GitHub\ConsoleApplication1\Service\bin\Debug\Validation.pdb

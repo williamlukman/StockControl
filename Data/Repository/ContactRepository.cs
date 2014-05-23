@@ -35,6 +35,7 @@ namespace Data.Repository
         {
             contact.IsDeleted = false;
             contact.CreatedAt = DateTime.Now;
+            contact.Errors = new HashSet<string>();
             return Create(contact);
         }
 
@@ -55,7 +56,7 @@ namespace Data.Repository
 
         public bool DeleteObject(int Id)
         {
-            Contact contact = Find(x => x.Id == Id);
+            Contact contact = Find(x => x.Id == Id);           
             return (Delete(contact) == 1) ? true : false;
         }
         

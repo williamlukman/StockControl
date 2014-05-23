@@ -27,6 +27,11 @@ namespace Service.Service
             return _p.GetObjectById(Id);
         }
 
+        public IList<PurchaseReceival> GetObjectsByContactId(int contactId)
+        {
+            return _p.GetObjectsByContactId(contactId);
+        }
+        
         public PurchaseReceival CreateObject(PurchaseReceival purchaseReceival)
         {
             return _p.CreateObject(purchaseReceival);

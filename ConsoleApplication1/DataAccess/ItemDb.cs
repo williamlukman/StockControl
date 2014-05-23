@@ -14,7 +14,6 @@ namespace ConsoleApp.DataAccess
         public static void Delete(StockControlEntities db, IItemService _i)
         {
             var items = _i.GetAll();
-            Console.WriteLine("Delete all " + items.Count() + " previous items");
 
             foreach (var item in items)
             {

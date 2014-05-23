@@ -65,6 +65,8 @@
     <Compile Include="Interface\Service\IPurchaseReceivalDetailService.cs" />
     <Compile Include="Interface\Service\IPurchaseReceivalService.cs" />
     <Compile Include="Interface\Service\IContactService.cs" />
+    <Compile Include="Interface\Validation\IItemValidator.cs" />
+    <Compile Include="Interface\Validation\IContactValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interface\Repository\IItemRepository.cs" />
     <Compile Include="Interface\Repository\IPurchaseOrderDetailRepository.cs" />

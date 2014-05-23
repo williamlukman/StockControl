@@ -16,7 +16,6 @@ namespace ConsoleApp.DataAccess
         public static void Delete(StockControlEntities db, IDeliveryOrderDetailService _dod, int deliveryOrderId)
         {
             var deliveryOrders = _dod.GetObjectsByDeliveryOrderId(deliveryOrderId);
-            Console.WriteLine("Delete all " + deliveryOrders.Count() + " previous deliveryOrders");
 
             foreach (var item in deliveryOrders)
             {

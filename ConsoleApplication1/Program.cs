@@ -12,6 +12,8 @@ using Data.Repository;
 using Core.Interface.Repository;
 using Core.Interface.Service;
 using System.Threading;
+using ConsoleApp.Validation;
+using Validation.Validation;
 
 namespace ConsoleApp
 {
@@ -28,9 +30,9 @@ namespace ConsoleApp
         private IDeliveryOrderService _do;
         private IDeliveryOrderDetailService _dod;
         private IStockMutationService _sm;
-        Program()
+        public Program()
         {
-            _c = new ContactService(new ContactRepository());
+            _c = new ContactService(new ContactRepository(), new ContactValidator());
             _i = new ItemService(new ItemRepository());
             _po = new PurchaseOrderService(new PurchaseOrderRepository());
             _pod = new PurchaseOrderDetailService(new PurchaseOrderDetailRepository());
@@ -51,23 +53,59 @@ namespace ConsoleApp
             using (db)
             {
                 Program p = new Program();
-                //cleandb
-                p.flushdb(db);
-                p.wait(2);
-                //createcustomers
-                p.initializeContact(db);
-                p.wait(2);
-                //createproducts
-                p.initializeItem(db);
-                p.wait(2);
-                //po -> pr procedure
-                p.scratch2purchasereceivals(db);
-                p.wait(2);
-                //so -> do procedure
-                p.scratch2deliveryorder(db);
-                Console.WriteLine("Press any key to exit...");
+                // Warning: each function will delete all data in the DB. Use with caution!!!
+                // p.CreateDummyData(p, db)
+                p.ValidateContactModel(p, db);
+                p.ValidateItemModel(p, db);
+
+                Console.WriteLine("Press any key to stop...");
                 Console.ReadKey();
             }
+        }
+
+        public void CreateDummyData(Program p, StockControlEntities db)
+        {
+            //cleandb
+            p.flushdb(db);
+            p.wait(2);
+            //createcustomers
+            p.initializeContact(db);
+            p.wait(2);
+            //createproducts
+            p.initializeItem(db);
+            p.wait(2);
+            //po -> pr procedure
+            p.scratch2purchasereceivals(db);
+            p.wait(2);
+            //so -> do procedure
+            p.scratch2deliveryorder(db);
+        }
+
+        public void ValidateContactModel(Program p, StockControlEntities db)
+        {
+            p.flushdb(db);
+            ContactValidation cv = new ContactValidation(new ContactValidator(), this._c, this._i, this._sm,
+                                           this._po, this._pr, this._so, this._do,
+                                           this._pod, this._prd, this._sod, this._dod);
+            cv.ContactValidation1();
+            cv.ContactValidation2();
+            cv.ContactValidation3();
+            cv.ContactValidation4();
+            cv.ContactValidation5();
+            cv.ContactValidation6();
+        }
+
+        public void ValidateItemModel(Program p, StockControlEntities db)
+        {
+            p.flushdb(db);
+            ItemValidation iv = new ItemValidation(new ItemValidator(), this._c, this._i, this._sm,
+                                           this._po, this._pr, this._so, this._do,
+                                           this._pod, this._prd, this._sod, this._dod);
+            iv.ItemValidation1();
+            iv.ItemValidation2();
+            iv.ItemValidation3();
+            iv.ItemValidation4();
+            iv.ItemValidation5();
         }
 
         public void wait(int second)
@@ -78,6 +116,7 @@ namespace ConsoleApp
         public void initializeContact(StockControlEntities db)
         {
             // Initialize Contact
+
             Contact person1 = _c.CreateObject("Andy Robinson", "CEO of Gotong Royong");
             Contact person2 = _c.CreateObject("Baby Marshanda", "CEO of Boutique Kencana");
             Contact person3 = _c.CreateObject("Candy Barbara", "Freelancer Designer");
@@ -87,9 +126,9 @@ namespace ConsoleApp
         public void initializeItem(StockControlEntities db)
         {
             // Initialize Item
-            Item item1 = _i.CreateObject("Buku Tulis Kiky", "20x30cm garis-garis lurus Kiky", "BTKIKY001");
-            Item item2 = _i.CreateObject("Buku Gambar Kiky", "20x30cm buku gambar polos Kiky", "BGKIKY002");
-            Item item3 = _i.CreateObject("Buku Kotak-Kotak Kiky", "20x30cm buku kotak-kotak Kiky", "BKKIKY003");
+            Item item1 = _i.CreateObject("Buku Tulis Kiky", "20x30cm garis-garis lurus Kiky", "BTKIKY001", 300);
+            Item item2 = _i.CreateObject("Buku Gambar Kiky", "20x30cm buku gambar polos Kiky", "BGKIKY002", 200);
+            Item item3 = _i.CreateObject("Buku Kotak-Kotak Kiky", "20x30cm buku kotak-kotak Kiky", "BKKIKY003", 0);
             ItemDb.Display(db, _i);
         }
 

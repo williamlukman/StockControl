@@ -11,6 +11,7 @@ namespace Core.Interface.Repository
     {
         IList<SalesOrder> GetAll();
         SalesOrder GetObjectById(int Id);
+        IList<SalesOrder> GetObjectsByContactId(int contactId);
         SalesOrder CreateObject(SalesOrder salesOrder);
         SalesOrder UpdateObject(SalesOrder salesOrder);
         SalesOrder SoftDeleteObject(SalesOrder salesOrder);

@@ -27,6 +27,11 @@ namespace Service.Service
             return _s.GetObjectById(Id);
         }
 
+        public IList<SalesOrder> GetObjectsByContactId(int contactId)
+        {
+            return _s.GetObjectsByContactId(contactId);
+        }
+        
         public SalesOrder CreateObject(SalesOrder salesOrder)
         {
             return _s.CreateObject(salesOrder);

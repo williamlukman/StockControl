@@ -12,6 +12,7 @@ namespace Core.Interface.Service
     {
         IList<PurchaseOrder> GetAll();
         PurchaseOrder GetObjectById(int Id);
+        IList<PurchaseOrder> GetObjectsByContactId(int contactId);
         PurchaseOrder CreateObject(PurchaseOrder purchaseOrder);
         PurchaseOrder CreateObject(int contactId, DateTime purchaseDate);
         PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder);

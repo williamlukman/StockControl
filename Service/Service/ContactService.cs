@@ -6,16 +6,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Interface.Service;
+using Core.Interface.Validation;
 using Data.Repository;
+using Validation.Validation;
 
 namespace Service.Service
 {
     public class ContactService : IContactService
     {
         private IContactRepository _c;
-        public ContactService(IContactRepository _contactRepository)
+        private IContactValidator _cvalidator;
+        public ContactService(IContactRepository _contactRepository, IContactValidator _contactValidator)
         {
             _c = _contactRepository;
+            _cvalidator = _contactValidator;
         }
 
         public IList<Contact> GetAll()
@@ -30,17 +34,17 @@ namespace Service.Service
 
         public Contact GetObjectByName(string name)
         {
-            return _c.Find(c => c.Name == name && !c.IsDeleted);
+            return _c.FindAll(c => c.Name == name && !c.IsDeleted).FirstOrDefault();
         }
 
-        public Contact CreateObject(string name, string description)
+        public Contact CreateObject(string name, string address)
         {
             Contact c = new Contact
             {
                 Name = name,
-                Description = description
+                Address = address
             };
-            return this.CreateObject(c); 
+            return this.CreateObject(c);
         }
 
         public Contact CreateObject(Contact contact)

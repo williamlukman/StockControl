@@ -43,13 +43,14 @@ namespace Service.Service
             return _i.CreateObject(item);
         }
 
-        public Item CreateObject(string name, string description, string Sku)
+        public Item CreateObject(string name, string description, string Sku, int Ready)
         {
             Item item = new Item
             {
                 Name = name,
                 Description = description,
-                Sku = Sku
+                Sku = Sku,
+                Ready = Ready
             };
             return _i.CreateObject(item);
         }
@@ -67,6 +68,12 @@ namespace Service.Service
         public bool DeleteObject(int Id)
         {
             return _i.DeleteObject(Id);
+        }
+
+        public bool IsSkuDuplicated(String sku)
+        {
+            IQueryable<Item> item = _i.FindAll(i => i.Sku == sku && !i.IsDeleted);
+            return (item.Count() > 1 ? true : false);
         }
     }
 }

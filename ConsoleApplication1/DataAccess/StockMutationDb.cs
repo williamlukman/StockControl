@@ -14,7 +14,6 @@ namespace ConsoleApp.DataAccess
         public static void Delete(StockControlEntities db, IStockMutationService _sm)
         {
             var items = _sm.GetAll();
-            Console.WriteLine("Delete all " + items.Count() + " previous items");
 
             foreach (var item in items)
             {

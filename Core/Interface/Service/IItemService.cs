@@ -15,10 +15,11 @@ namespace Core.Interface.Service
         Item GetObjectBySku(string Sku);
         Item GetObjectByName(string Name);
         Item CreateObject(Item item);
-        Item CreateObject(string Name, string Description, string Sku);
+        Item CreateObject(string Name, string Description, string Sku, int Ready);
         Item UpdateObject(Item item);
 
         Item SoftDeleteObject(Item item);
-        bool DeleteObject(int Id);	
+        bool DeleteObject(int Id);
+        bool IsSkuDuplicated(String sku);
     }
 }

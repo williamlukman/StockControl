@@ -61,6 +61,10 @@
       <Project>{2136d0cd-66c1-48c2-ad4d-f87130d4dd96}</Project>
       <Name>Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Validation\Validation.csproj">
+      <Project>{5fab30f1-583a-4f8d-a2b8-e1e914e8826f}</Project>
+      <Name>Validation</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

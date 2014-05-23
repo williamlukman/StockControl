@@ -13,6 +13,10 @@ namespace Core.DomainModel
         public string Name { get; set; }
         public string Description { get; set; }
 
+        public int Ready { get; set; }
+        public int PendingDelivery { get; set; }
+        public int PendingReceival { get; set; }
+
         public bool IsDeleted { get; set; }
         public Nullable<DateTime> DeletedAt { get; set; }
 

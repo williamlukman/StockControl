@@ -1,0 +1,7 @@
+C:\Users\it\Documents\GitHub\ConsoleApplication1\Validation\obj\Debug\Validation.csprojResolveAssemblyReference.cache
+C:\Users\it\Documents\GitHub\ConsoleApplication1\Validation\bin\Debug\Validation.dll
+C:\Users\it\Documents\GitHub\ConsoleApplication1\Validation\bin\Debug\Validation.pdb
+C:\Users\it\Documents\GitHub\ConsoleApplication1\Validation\bin\Debug\Core.dll
+C:\Users\it\Documents\GitHub\ConsoleApplication1\Validation\bin\Debug\Core.pdb
+C:\Users\it\Documents\GitHub\ConsoleApplication1\Validation\obj\Debug\Validation.dll
+C:\Users\it\Documents\GitHub\ConsoleApplication1\Validation\obj\Debug\Validation.pdb

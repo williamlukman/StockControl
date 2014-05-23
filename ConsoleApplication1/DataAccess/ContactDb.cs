@@ -15,7 +15,6 @@ namespace ConsoleApp.DataAccess
         public static void Delete(StockControlEntities db, IContactService _c)
         {
             var contacts = _c.GetAll();
-            Console.WriteLine("Delete all " + contacts.Count() + " previous contacts");
 
             foreach (var item in contacts)
             {

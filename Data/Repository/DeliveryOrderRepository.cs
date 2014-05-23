@@ -27,11 +27,17 @@ namespace Data.Repository
             return Find(d => d.Id == Id && !d.IsDeleted);
         }
 
+        public IList<DeliveryOrder> GetObjectsByContactId(int contactId)
+        {
+            return FindAll(d => d.CustomerId == contactId && !d.IsDeleted).ToList();
+        }
+
         public DeliveryOrder CreateObject(DeliveryOrder deliveryOrder)
         {
             deliveryOrder.IsDeleted = false;
             deliveryOrder.IsConfirmed = false;
             deliveryOrder.CreatedAt = DateTime.Now;
+            deliveryOrder.Errors = new HashSet<string>();
             return Create(deliveryOrder);
         }
 

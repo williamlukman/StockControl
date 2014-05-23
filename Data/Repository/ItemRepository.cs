@@ -36,8 +36,11 @@ namespace Data.Repository
 
         public Item CreateObject(Item item)
         {
+            item.PendingDelivery = 0;
+            item.PendingReceival = 0;
             item.IsDeleted = false;
             item.CreatedAt = DateTime.Now;
+            item.Errors = new HashSet<string>();
             return Create(item);
         }
 
