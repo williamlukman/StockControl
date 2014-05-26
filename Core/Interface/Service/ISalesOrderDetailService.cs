@@ -19,6 +19,6 @@ namespace Core.Interface.Service
         bool DeleteObject(int Id);
         SalesOrderDetail ConfirmObject(SalesOrderDetail salesOrderDetail, IStockMutationService _stockMutationService, IItemService _itemService);
         SalesOrderDetail UnconfirmObject(SalesOrderDetail salesOrderDetail, IStockMutationService _stockMutationService, IItemService _itemService);
-        SalesOrderDetail FulfilObject(SalesOrderDetail salesOrderDetail, bool isFulfilled);
+        SalesOrderDetail FulfilObject(SalesOrderDetail salesOrderDetail);
     }
 }

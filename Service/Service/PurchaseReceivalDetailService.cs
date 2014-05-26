@@ -81,11 +81,5 @@ namespace Service.Service
             IList<StockMutation> sm = _stockMutationService.SoftDeleteStockMutationForPurchaseReceival(purchaseReceivalDetail, item);
             return _pd.UnconfirmObject(purchaseReceivalDetail);
         }
-
-
-        public PurchaseReceivalDetail FulfilObject(PurchaseReceivalDetail purchaseReceivalDetail, bool isFulfilled)
-        {
-            return _pd.FulfilObject(purchaseReceivalDetail, isFulfilled);
-        }
     }
 }

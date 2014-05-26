@@ -82,21 +82,54 @@ namespace Validation.Validation
             return po;
         }
 
-        public PurchaseOrder VDeleteObject(PurchaseOrder po)
+        public PurchaseOrder VDeleteObject(PurchaseOrder po, IPurchaseOrderDetailService _pods)
         {
             VIsConfirmed(po);
+            if (isValid(po))
+            {
+                IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(po.Id);
+                IPurchaseOrderDetailValidator detailvalidator = new PurchaseOrderDetailValidator();
+                foreach (var detail in details)
+                {
+                    detailvalidator.VDeleteObject(detail);
+                    po.Errors.UnionWith(detail.Errors);
+                }
+            }
+
             return po;
         }
+
         public PurchaseOrder VConfirmObject(PurchaseOrder po, IPurchaseOrderDetailService _pods)
         {
             VIsConfirmed(po);
             VHasPurchaseOrderDetails(po, _pods);
+            if (isValid(po))
+            {
+                IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(po.Id);
+                IPurchaseOrderDetailValidator detailvalidator = new PurchaseOrderDetailValidator();
+                foreach (var detail in details)
+                {
+                    detailvalidator.VConfirmObject(detail);
+                    po.Errors.UnionWith(detail.Errors);
+                }
+            }
             return po;
         }
 
-        public PurchaseOrder VUnconfirmObject(PurchaseOrder po, IPurchaseOrderDetailService _pods, IItemService _is)
+        public PurchaseOrder VUnconfirmObject(PurchaseOrder po, IPurchaseOrderDetailService _pods, IPurchaseReceivalDetailService _prds, IItemService _is)
         {
             VHasItemPendingReceival(po, _pods, _is);
+            if (isValid(po))
+            {
+                IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(po.Id);
+                IPurchaseOrderDetailValidator detailvalidator = new PurchaseOrderDetailValidator();
+                foreach (var detail in details)
+                {
+                    detailvalidator.VUnconfirmObject(detail, _pods, _prds, _is);
+                    po.Errors.UnionWith(detail.Errors);
+                }
+            }
+
             return po;
         }
 
@@ -112,9 +145,9 @@ namespace Validation.Validation
             return isValid(po);
         }
 
-        public bool ValidDeleteObject(PurchaseOrder po)
+        public bool ValidDeleteObject(PurchaseOrder po, IPurchaseOrderDetailService _pods)
         {
-            VDeleteObject(po);
+            VDeleteObject(po, _pods);
             return isValid(po);
         }
 
@@ -124,9 +157,9 @@ namespace Validation.Validation
             return isValid(po);
         }
 
-        public bool ValidUnconfirmObject(PurchaseOrder po, IPurchaseOrderDetailService _pods, IItemService _is)
+        public bool ValidUnconfirmObject(PurchaseOrder po, IPurchaseOrderDetailService _pods, IPurchaseReceivalDetailService _prds, IItemService _is)
         {
-            VUnconfirmObject(po, _pods, _is);
+            VUnconfirmObject(po, _pods, _prds, _is);
             return isValid(po);
         }
 

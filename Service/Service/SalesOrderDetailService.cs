@@ -63,6 +63,8 @@ namespace Service.Service
         {
             salesOrderDetail = _sd.ConfirmObject(salesOrderDetail);
             Item item = _itemService.GetObjectById(salesOrderDetail.ItemId);
+            item.PendingDelivery += salesOrderDetail.Quantity;
+            _itemService.UpdateObject(item);
             StockMutation sm = _stockMutationService.CreateStockMutationForSalesOrder(salesOrderDetail, item);
             return salesOrderDetail;
         }
@@ -71,13 +73,15 @@ namespace Service.Service
         {
             salesOrderDetail = _sd.UnconfirmObject(salesOrderDetail);
             Item item = _itemService.GetObjectById(salesOrderDetail.ItemId);
+            item.PendingDelivery -= salesOrderDetail.Quantity;
+            _itemService.UpdateObject(item);
             IList<StockMutation> sm = _stockMutationService.SoftDeleteStockMutationForSalesOrder(salesOrderDetail, item);
             return _sd.UnconfirmObject(salesOrderDetail);
         }
 
-        public SalesOrderDetail FulfilObject(SalesOrderDetail salesOrderDetail, bool isFulfilled)
+        public SalesOrderDetail FulfilObject(SalesOrderDetail salesOrderDetail)
         {
-            return _sd.FulfilObject(salesOrderDetail, isFulfilled);
+            return _sd.FulfilObject(salesOrderDetail);
         }
     }
 }

@@ -17,14 +17,14 @@ namespace Core.Interface.Validation
         PurchaseOrder VHasItemPendingReceival(PurchaseOrder po, IPurchaseOrderDetailService _pods, IItemService _is);
         PurchaseOrder VCreateObject(PurchaseOrder po, IContactService _cs);
         PurchaseOrder VUpdateObject(PurchaseOrder po, IContactService _cs);
-        PurchaseOrder VDeleteObject(PurchaseOrder po);
+        PurchaseOrder VDeleteObject(PurchaseOrder po, IPurchaseOrderDetailService _pods);
         PurchaseOrder VConfirmObject(PurchaseOrder po, IPurchaseOrderDetailService _pods);
-        PurchaseOrder VUnconfirmObject(PurchaseOrder po, IPurchaseOrderDetailService _pods, IItemService _is);
+        PurchaseOrder VUnconfirmObject(PurchaseOrder po, IPurchaseOrderDetailService _pods, IPurchaseReceivalDetailService _prds, IItemService _is);
         bool ValidCreateObject(PurchaseOrder po, IContactService _cs);
         bool ValidUpdateObject(PurchaseOrder po, IContactService _cs);
-        bool ValidDeleteObject(PurchaseOrder po);
+        bool ValidDeleteObject(PurchaseOrder po, IPurchaseOrderDetailService _pods);
         bool ValidConfirmObject(PurchaseOrder po, IPurchaseOrderDetailService _pods);
-        bool ValidUnconfirmObject(PurchaseOrder po, IPurchaseOrderDetailService _pods, IItemService _is);
+        bool ValidUnconfirmObject(PurchaseOrder po, IPurchaseOrderDetailService _pods, IPurchaseReceivalDetailService _prds, IItemService _is);
         bool isValid(PurchaseOrder po);
         string PrintError(PurchaseOrder po);
     }

@@ -159,7 +159,7 @@ namespace ConsoleApp
             PurchaseReceivalDetailDb.Display(db, _prd, pr1.Id);
 
             // Confirm Purchase Receival PO1
-            pr1 = _pr.ConfirmObject(pr1, _prd, _sm, _i);
+            pr1 = _pr.ConfirmObject(pr1, _prd, _pod, _sm, _i);
             PurchaseReceivalDb.Display(db, _pr);
             PurchaseReceivalDetailDb.Display(db, _prd, pr1.Id);
             StockMutationDb.Display(db, _sm);
@@ -191,7 +191,7 @@ namespace ConsoleApp
             DeliveryOrderDetailDb.Display(db, _dod, do1.Id);
 
             // Confirm Purchase Receival PO1 & Details & Create Stock Mutations
-            do1 = _do.ConfirmObject(do1, _dod, _sm, _i);
+            do1 = _do.ConfirmObject(do1, _dod, _sod, _sm, _i);
             DeliveryOrderDb.Display(db, _do);
             DeliveryOrderDetailDb.Display(db, _dod, do1.Id);
             StockMutationDb.Display(db, _sm);

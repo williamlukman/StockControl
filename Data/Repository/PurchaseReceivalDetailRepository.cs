@@ -34,7 +34,6 @@ namespace Data.Repository
 
         public PurchaseReceivalDetail CreateObject(PurchaseReceivalDetail purchaseReceivalDetail)
         {
-            purchaseReceivalDetail.IsFulfilled = false;
             purchaseReceivalDetail.IsConfirmed = false;
             purchaseReceivalDetail.IsDeleted = false;
             purchaseReceivalDetail.CreatedAt = DateTime.Now;
@@ -74,13 +73,6 @@ namespace Data.Repository
         public PurchaseReceivalDetail UnconfirmObject(PurchaseReceivalDetail purchaseReceivalDetail)
         {
             purchaseReceivalDetail.IsConfirmed = false;
-            Update(purchaseReceivalDetail);
-            return purchaseReceivalDetail;
-        }
-
-        public PurchaseReceivalDetail FulfilObject(PurchaseReceivalDetail purchaseReceivalDetail, bool isFulfilled)
-        {
-            purchaseReceivalDetail.IsFulfilled = isFulfilled;
             Update(purchaseReceivalDetail);
             return purchaseReceivalDetail;
         }

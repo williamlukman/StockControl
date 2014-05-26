@@ -34,7 +34,6 @@ namespace Data.Repository
 
         public DeliveryOrderDetail CreateObject(DeliveryOrderDetail deliveryOrderDetail)
         {
-            deliveryOrderDetail.IsFulfilled = false;
             deliveryOrderDetail.IsConfirmed = false;
             deliveryOrderDetail.IsDeleted = false;
             deliveryOrderDetail.CreatedAt = DateTime.Now;
@@ -74,13 +73,6 @@ namespace Data.Repository
         public DeliveryOrderDetail UnconfirmObject(DeliveryOrderDetail deliveryOrderDetail)
         {
             deliveryOrderDetail.IsConfirmed = false;
-            Update(deliveryOrderDetail);
-            return deliveryOrderDetail;
-        }
-
-        public DeliveryOrderDetail FulfilObject(DeliveryOrderDetail deliveryOrderDetail, bool isFulfilled)
-        {
-            deliveryOrderDetail.IsFulfilled = isFulfilled;
             Update(deliveryOrderDetail);
             return deliveryOrderDetail;
         }

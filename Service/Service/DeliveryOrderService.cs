@@ -63,13 +63,14 @@ namespace Service.Service
         }
 
         public DeliveryOrder ConfirmObject(DeliveryOrder deliveryOrder, IDeliveryOrderDetailService _dods,
-                                    IStockMutationService _stockMutationService, IItemService _itemService)
+                                    ISalesOrderDetailService _sods, IStockMutationService _stockMutationService, IItemService _itemService)
         {
             IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(deliveryOrder.Id);
             foreach (var detail in details)
             {
                 _dods.ConfirmObject(detail, _stockMutationService, _itemService);
-                _dods.FulfilObject(detail, true);
+                SalesOrderDetail sod = _sods.GetObjectById(detail.SalesOrderDetailId);
+                _sods.FulfilObject(sod);
             }
 
             return _do.ConfirmObject(deliveryOrder);
@@ -82,7 +83,6 @@ namespace Service.Service
             foreach (var detail in details)
             {
                 _dods.UnconfirmObject(detail, _stockMutationService, _itemService);
-                _dods.FulfilObject(detail, true);
             }
 
             return _do.UnconfirmObject(deliveryOrder);

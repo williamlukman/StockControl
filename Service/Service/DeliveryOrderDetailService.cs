@@ -79,10 +79,5 @@ namespace Service.Service
             IList<StockMutation> sm = _stockMutationService.SoftDeleteStockMutationForDeliveryOrder(deliveryOrderDetail, item);
             return _dod.UnconfirmObject(deliveryOrderDetail);
         }
-
-        public DeliveryOrderDetail FulfilObject(DeliveryOrderDetail deliveryOrderDetail, bool isFulfilled)
-        {
-            return _dod.FulfilObject(deliveryOrderDetail, isFulfilled);
-        }
     }
 }

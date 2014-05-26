@@ -65,6 +65,8 @@
     <Compile Include="Interface\Service\IPurchaseReceivalDetailService.cs" />
     <Compile Include="Interface\Service\IPurchaseReceivalService.cs" />
     <Compile Include="Interface\Service\IContactService.cs" />
+    <Compile Include="Interface\Validation\ISalesOrderDetailValidator.cs" />
+    <Compile Include="Interface\Validation\ISalesOrderValidator.cs" />
     <Compile Include="Interface\Validation\IPurchaseOrderDetailValidator.cs" />
     <Compile Include="Interface\Validation\IPurchaseOrderValidator.cs" />
     <Compile Include="Interface\Validation\IStockMutationValidator.cs" />

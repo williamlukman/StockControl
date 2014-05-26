@@ -63,13 +63,14 @@ namespace Service.Service
         }
 
         public PurchaseReceival ConfirmObject(PurchaseReceival purchaseReceival, IPurchaseReceivalDetailService _prds,
-                                                IStockMutationService _stockMutationService, IItemService _itemService)
+                                                IPurchaseOrderDetailService _pods, IStockMutationService _stockMutationService, IItemService _itemService)
         {
             IList<PurchaseReceivalDetail> details = _prds.GetObjectsByPurchaseReceivalId(purchaseReceival.Id);
             foreach (var detail in details)
             {
                 _prds.ConfirmObject(detail, _stockMutationService, _itemService);
-                _prds.FulfilObject(detail, true);
+                PurchaseOrderDetail pod = _pods.GetObjectById(detail.PurchaseOrderDetailId);
+                _pods.FulfilObject(pod);
             }
             return _p.ConfirmObject(purchaseReceival);
         }
@@ -81,7 +82,6 @@ namespace Service.Service
             foreach (var detail in details)
             {
                 _prds.UnconfirmObject(detail, _stockMutationService, _itemService);
-                _prds.FulfilObject(detail, true);
             }
             return _p.UnconfirmObject(purchaseReceival);
         }

@@ -18,6 +18,5 @@ namespace Core.Interface.Repository
         bool DeleteObject(int Id);
         DeliveryOrderDetail ConfirmObject(DeliveryOrderDetail deliveryOrderDetail);
         DeliveryOrderDetail UnconfirmObject(DeliveryOrderDetail deliveryOrderDetail);
-        DeliveryOrderDetail FulfilObject(DeliveryOrderDetail deliveryOrderDetail, bool isFulfilled);
     }
 }

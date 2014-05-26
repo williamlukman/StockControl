@@ -86,6 +86,7 @@ namespace Validation.Validation
 
         public PurchaseOrderDetail VCreateObject(PurchaseOrderDetail pod, IPurchaseOrderDetailService _pods, IPurchaseOrderService _pos, IItemService _is)
         {
+
             VHasPurchaseOrder(pod, _pos);
             VHasItem(pod, _is);
             VQuantity(pod);

@@ -69,7 +69,6 @@ namespace Service.Service
             foreach (var detail in details)
             {
                 _pods.ConfirmObject(detail, _stockMutationService, _itemService);
-                _pods.FulfilObject(detail, true);
             }
             return _p.ConfirmObject(purchaseOrder);
         }
@@ -81,7 +80,6 @@ namespace Service.Service
             foreach (var detail in details)
             {
                 _pods.UnconfirmObject(detail, _stockMutationService, _itemService);
-                _pods.FulfilObject(detail, false);
             }
             return _p.UnconfirmObject(purchaseOrder);
         }
