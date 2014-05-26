@@ -68,6 +68,9 @@ namespace Service.Service
         {
             deliveryOrderDetail = _dod.ConfirmObject(deliveryOrderDetail);
             Item item = _itemService.GetObjectById(deliveryOrderDetail.ItemId);
+            item.PendingDelivery -= deliveryOrderDetail.Quantity;
+            item.Ready -= deliveryOrderDetail.Quantity;
+            _itemService.UpdateObject(item);
             IList<StockMutation> sm = _stockMutationService.CreateStockMutationForDeliveryOrder(deliveryOrderDetail, item);
             return deliveryOrderDetail;
         }
@@ -76,6 +79,9 @@ namespace Service.Service
         {
             deliveryOrderDetail = _dod.UnconfirmObject(deliveryOrderDetail);
             Item item = _itemService.GetObjectById(deliveryOrderDetail.ItemId);
+            item.PendingDelivery += deliveryOrderDetail.Quantity;
+            item.Ready += deliveryOrderDetail.Quantity;
+            _itemService.UpdateObject(item);
             IList<StockMutation> sm = _stockMutationService.SoftDeleteStockMutationForDeliveryOrder(deliveryOrderDetail, item);
             return _dod.UnconfirmObject(deliveryOrderDetail);
         }

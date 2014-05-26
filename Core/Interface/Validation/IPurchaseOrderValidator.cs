@@ -14,7 +14,6 @@ namespace Core.Interface.Validation
         PurchaseOrder VPurchaseDate(PurchaseOrder po);
         PurchaseOrder VIsConfirmed(PurchaseOrder po);
         PurchaseOrder VHasPurchaseOrderDetails(PurchaseOrder po, IPurchaseOrderDetailService _pods);
-        PurchaseOrder VHasItemPendingReceival(PurchaseOrder po, IPurchaseOrderDetailService _pods, IItemService _is);
         PurchaseOrder VCreateObject(PurchaseOrder po, IContactService _cs);
         PurchaseOrder VUpdateObject(PurchaseOrder po, IContactService _cs);
         PurchaseOrder VDeleteObject(PurchaseOrder po, IPurchaseOrderDetailService _pods);

@@ -53,20 +53,6 @@ namespace Validation.Validation
             return so;
         }
 
-        public SalesOrder VHasItemPendingDelivery(SalesOrder so, ISalesOrderDetailService _sods, IItemService _is)
-        {
-            IList<SalesOrderDetail> details = _sods.GetObjectsBySalesOrderId(so.Id);
-            foreach (var detail in details)
-            {
-                Item item = _is.GetObjectById(detail.ItemId);
-                if (item.PendingDelivery < 0)
-                {
-                    so.Errors.Add ("Error. Item " + item.Name + " has pending delivery less than 0");
-                }
-            }
-            return so;
-        }
-
         public SalesOrder VCreateObject(SalesOrder so, IContactService _cs)
         {
             VCustomer(so, _cs);
@@ -84,18 +70,7 @@ namespace Validation.Validation
 
         public SalesOrder VDeleteObject(SalesOrder so, ISalesOrderDetailService _sods)
         {
-            VIsConfirmed(so);
-            if (isValid(so))
-            {
-                IList<SalesOrderDetail> details = _sods.GetObjectsBySalesOrderId(so.Id);
-                ISalesOrderDetailValidator detailvalidator = new SalesOrderDetailValidator();
-                foreach (var detail in details)
-                {
-                    detailvalidator.VDeleteObject(detail);
-                    so.Errors.UnionWith(detail.Errors);
-                }
-            }
-
+            VConfirmObject(so, _sods);
             return so;
         }
 
@@ -118,7 +93,6 @@ namespace Validation.Validation
 
         public SalesOrder VUnconfirmObject(SalesOrder so, ISalesOrderDetailService _sods, IDeliveryOrderDetailService _dods, IItemService _is)
         {
-            VHasItemPendingDelivery(so, _sods, _is);
             if (isValid(so))
             {
                 IList<SalesOrderDetail> details = _sods.GetObjectsBySalesOrderId(so.Id);

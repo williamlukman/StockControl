@@ -41,6 +41,10 @@
   <ItemGroup>
     <Compile Include="Validation\ContactValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\DeliveryOrderValidator.cs" />
+    <Compile Include="Validation\DeliveryOrderDetailValidator.cs" />
+    <Compile Include="Validation\PurchaseReceivalDetailValidator.cs" />
+    <Compile Include="Validation\PurchaseReceivalValidator.cs" />
     <Compile Include="Validation\SalesOrderDetailValidator.cs" />
     <Compile Include="Validation\SalesOrderValidator.cs" />
     <Compile Include="Validation\PurchaseOrderDetailValidator.cs" />

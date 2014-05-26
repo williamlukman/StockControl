@@ -53,20 +53,6 @@ namespace Validation.Validation
             return po;
         }
 
-        public PurchaseOrder VHasItemPendingReceival(PurchaseOrder po, IPurchaseOrderDetailService _pods, IItemService _is)
-        {
-            IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(po.Id);
-            foreach (var detail in details)
-            {
-                Item item = _is.GetObjectById(detail.ItemId);
-                if (item.PendingReceival < 0)
-                {
-                    po.Errors.Add ("Error. Item " + item.Name + " has pending receival less than 0");
-                }
-            }
-            return po;
-        }
-
         public PurchaseOrder VCreateObject(PurchaseOrder po, IContactService _cs)
         {
             VCustomer(po, _cs);
@@ -84,18 +70,7 @@ namespace Validation.Validation
 
         public PurchaseOrder VDeleteObject(PurchaseOrder po, IPurchaseOrderDetailService _pods)
         {
-            VIsConfirmed(po);
-            if (isValid(po))
-            {
-                IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(po.Id);
-                IPurchaseOrderDetailValidator detailvalidator = new PurchaseOrderDetailValidator();
-                foreach (var detail in details)
-                {
-                    detailvalidator.VDeleteObject(detail);
-                    po.Errors.UnionWith(detail.Errors);
-                }
-            }
-
+            VConfirmObject(po, _pods);
             return po;
         }
 
@@ -118,7 +93,6 @@ namespace Validation.Validation
 
         public PurchaseOrder VUnconfirmObject(PurchaseOrder po, IPurchaseOrderDetailService _pods, IPurchaseReceivalDetailService _prds, IItemService _is)
         {
-            VHasItemPendingReceival(po, _pods, _is);
             if (isValid(po))
             {
                 IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(po.Id);

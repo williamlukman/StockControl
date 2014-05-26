@@ -14,7 +14,6 @@ namespace Core.Interface.Validation
         SalesOrder VSalesDate(SalesOrder po);
         SalesOrder VIsConfirmed(SalesOrder po);
         SalesOrder VHasSalesOrderDetails(SalesOrder po, ISalesOrderDetailService _sods);
-        SalesOrder VHasItemPendingDelivery(SalesOrder po, ISalesOrderDetailService _sods, IItemService _is);
         SalesOrder VCreateObject(SalesOrder po, IContactService _cs);
         SalesOrder VUpdateObject(SalesOrder po, IContactService _cs);
         SalesOrder VDeleteObject(SalesOrder po, ISalesOrderDetailService _sods);

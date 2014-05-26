@@ -70,6 +70,9 @@ namespace Service.Service
         {
             purchaseReceivalDetail = _pd.ConfirmObject(purchaseReceivalDetail);
             Item item = _itemService.GetObjectById(purchaseReceivalDetail.ItemId);
+            item.PendingReceival -= purchaseReceivalDetail.Quantity;
+            item.Ready += purchaseReceivalDetail.Quantity;
+            _itemService.UpdateObject(item);
             IList<StockMutation> sm = _stockMutationService.CreateStockMutationForPurchaseReceival(purchaseReceivalDetail, item);
             return purchaseReceivalDetail;
         }
@@ -78,6 +81,9 @@ namespace Service.Service
         {
             purchaseReceivalDetail = _pd.UnconfirmObject(purchaseReceivalDetail);
             Item item = _itemService.GetObjectById(purchaseReceivalDetail.ItemId);
+            item.PendingReceival += purchaseReceivalDetail.Quantity;
+            item.Ready -= purchaseReceivalDetail.Quantity;
+            _itemService.UpdateObject(item);
             IList<StockMutation> sm = _stockMutationService.SoftDeleteStockMutationForPurchaseReceival(purchaseReceivalDetail, item);
             return _pd.UnconfirmObject(purchaseReceivalDetail);
         }
