@@ -59,20 +59,25 @@ namespace Service.Service
             return _sd.DeleteObject(Id);
         }
 
-        public SalesOrderDetail ConfirmObject(SalesOrderDetail salesOrderDetail)
+        public SalesOrderDetail ConfirmObject(SalesOrderDetail salesOrderDetail, IStockMutationService _stockMutationService, IItemService _itemService)
         {
-            return _sd.ConfirmObject(salesOrderDetail);
+            salesOrderDetail = _sd.ConfirmObject(salesOrderDetail);
+            Item item = _itemService.GetObjectById(salesOrderDetail.ItemId);
+            StockMutation sm = _stockMutationService.CreateStockMutationForSalesOrder(salesOrderDetail, item);
+            return salesOrderDetail;
         }
 
-        public SalesOrderDetail UnconfirmObject(SalesOrderDetail salesOrderDetail)
+        public SalesOrderDetail UnconfirmObject(SalesOrderDetail salesOrderDetail, IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            salesOrderDetail = _sd.UnconfirmObject(salesOrderDetail);
+            Item item = _itemService.GetObjectById(salesOrderDetail.ItemId);
+            IList<StockMutation> sm = _stockMutationService.SoftDeleteStockMutationForSalesOrder(salesOrderDetail, item);
             return _sd.UnconfirmObject(salesOrderDetail);
         }
 
-        public SalesOrderDetail FulfilObject(SalesOrderDetail salesOrderDetail)
+        public SalesOrderDetail FulfilObject(SalesOrderDetail salesOrderDetail, bool isFulfilled)
         {
-            return _sd.FulfilObject(salesOrderDetail);
+            return _sd.FulfilObject(salesOrderDetail, isFulfilled);
         }
-
     }
 }

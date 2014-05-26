@@ -18,7 +18,9 @@ namespace Core.Interface.Service
         DeliveryOrder UpdateObject(DeliveryOrder deliveryOrder);
         DeliveryOrder SoftDeleteObject(DeliveryOrder deliveryOrder);
         bool DeleteObject(int Id);
-        DeliveryOrder ConfirmObject(DeliveryOrder deliveryOrder);
-        DeliveryOrder UnconfirmObject(DeliveryOrder deliveryOrder);
+        DeliveryOrder ConfirmObject(DeliveryOrder deliveryOrder, IDeliveryOrderDetailService _dods,
+                                    IStockMutationService _stockMutationService, IItemService _itemService);
+        DeliveryOrder UnconfirmObject(DeliveryOrder deliveryOrder, IDeliveryOrderDetailService _dods,
+                                    IStockMutationService _stockMutationService, IItemService _itemService);
     }
 }

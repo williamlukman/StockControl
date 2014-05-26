@@ -32,6 +32,12 @@ namespace Data.Repository
             return Find(sm => sm.Id == Id && !sm.IsDeleted);
         }
 
+        public IList<StockMutation> GetObjectsBySourceDocumentDetail(int itemId, string SourceDocumentDetailType, int SourceDocumentDetailId)
+        {
+            return FindAll(sm => sm.ItemId == itemId && sm.SourceDocumentDetailType == SourceDocumentDetailType
+                                && sm.SourceDocumentDetailId == SourceDocumentDetailId && !sm.IsDeleted).ToList();
+        }
+
         public StockMutation CreateObject(StockMutation stockMutation)
         {
             stockMutation.IsDeleted = false;

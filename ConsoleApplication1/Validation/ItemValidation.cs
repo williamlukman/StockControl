@@ -80,9 +80,7 @@ namespace ConsoleApp.Validation
             Item item = _i.CreateObject("Masak Memasak Koki Ternama", "Master Chef Junior Learning from World Chefs", "COOK1234", 123);
             SalesOrder so = _so.CreateObject(contact.Id, DateTime.Today);
             SalesOrderDetail sod = _sod.CreateObject(so.Id, item.Id, 1);
-            so = _so.ConfirmObject(so);
-            sod = _sod.ConfirmObject(sod);
-            StockMutation sm = _sm.CreateStockMutationForSalesOrder(sod, item);
+            so = _so.ConfirmObject(so, _sod, _sm, _i);
             Console.WriteLine("5. Test Delete item with stock mutation");
             Console.WriteLine(!iv.ValidDeleteObject(item, _sm) ? "Success. Error message: " + iv.PrintError(item) : "Fail.");
         }

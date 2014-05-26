@@ -18,7 +18,9 @@ namespace Core.Interface.Service
         PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder);
         PurchaseOrder SoftDeleteObject(PurchaseOrder purchaseOrder);
         bool DeleteObject(int Id);
-        PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder);
-        PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder);
+        PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _pods,
+                                    IStockMutationService _stockMutationService, IItemService _itemService);
+        PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _pods,
+                                    IStockMutationService _stockMutationService, IItemService _itemService);
     }
 }

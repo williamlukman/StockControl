@@ -62,13 +62,27 @@ namespace Service.Service
             return _p.DeleteObject(Id);
         }
 
-        public PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder)
+        public PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _pods,
+                                    IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(purchaseOrder.Id);
+            foreach (var detail in details)
+            {
+                _pods.ConfirmObject(detail, _stockMutationService, _itemService);
+                _pods.FulfilObject(detail, true);
+            }
             return _p.ConfirmObject(purchaseOrder);
         }
 
-        public PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder)
+        public PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _pods,
+                                    IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(purchaseOrder.Id);
+            foreach (var detail in details)
+            {
+                _pods.UnconfirmObject(detail, _stockMutationService, _itemService);
+                _pods.FulfilObject(detail, false);
+            }
             return _p.UnconfirmObject(purchaseOrder);
         }
     }

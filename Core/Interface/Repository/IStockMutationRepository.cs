@@ -12,6 +12,7 @@ namespace Core.Interface.Repository
         IList<StockMutation> GetAll();
         IList<StockMutation> GetObjectsByItemId(int itemId);
         StockMutation GetObjectById(int Id);
+        IList<StockMutation> GetObjectsBySourceDocumentDetail(int itemId, string SourceDocumentDetailType, int SourceDocumentDetailId);
         StockMutation CreateObject(StockMutation stockMutation);
         StockMutation UpdateObject(StockMutation stockMutation);
         StockMutation SoftDeleteObject(StockMutation stockMutation);

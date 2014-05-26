@@ -24,7 +24,12 @@ namespace Data.Repository
 
         public DeliveryOrderDetail GetObjectById(int Id)
         {
-            return Find(prd => prd.Id == Id);
+            return Find(prd => prd.Id == Id && !prd.IsDeleted);
+        }
+
+        public DeliveryOrderDetail GetObjectBySalesOrderDetailId(int salesOrderDetailId)
+        {
+            return Find(prd => prd.SalesOrderDetailId == salesOrderDetailId && !prd.IsDeleted);
         }
 
         public DeliveryOrderDetail CreateObject(DeliveryOrderDetail deliveryOrderDetail)
@@ -73,9 +78,9 @@ namespace Data.Repository
             return deliveryOrderDetail;
         }
 
-        public DeliveryOrderDetail FulfilObject(DeliveryOrderDetail deliveryOrderDetail)
+        public DeliveryOrderDetail FulfilObject(DeliveryOrderDetail deliveryOrderDetail, bool isFulfilled)
         {
-            deliveryOrderDetail.IsFulfilled = true;
+            deliveryOrderDetail.IsFulfilled = isFulfilled;
             Update(deliveryOrderDetail);
             return deliveryOrderDetail;
         }

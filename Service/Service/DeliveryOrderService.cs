@@ -62,13 +62,29 @@ namespace Service.Service
             return _do.DeleteObject(Id);
         }
 
-        public DeliveryOrder ConfirmObject(DeliveryOrder deliveryOrder)
+        public DeliveryOrder ConfirmObject(DeliveryOrder deliveryOrder, IDeliveryOrderDetailService _dods,
+                                    IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(deliveryOrder.Id);
+            foreach (var detail in details)
+            {
+                _dods.ConfirmObject(detail, _stockMutationService, _itemService);
+                _dods.FulfilObject(detail, true);
+            }
+
             return _do.ConfirmObject(deliveryOrder);
         }
 
-        public DeliveryOrder UnconfirmObject(DeliveryOrder deliveryOrder)
+        public DeliveryOrder UnconfirmObject(DeliveryOrder deliveryOrder, IDeliveryOrderDetailService _dods,
+                                    IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(deliveryOrder.Id);
+            foreach (var detail in details)
+            {
+                _dods.UnconfirmObject(detail, _stockMutationService, _itemService);
+                _dods.FulfilObject(detail, true);
+            }
+
             return _do.UnconfirmObject(deliveryOrder);
         }
     }

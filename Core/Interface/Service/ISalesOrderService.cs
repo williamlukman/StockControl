@@ -18,7 +18,9 @@ namespace Core.Interface.Service
         SalesOrder UpdateObject(SalesOrder salesOrder);
         SalesOrder SoftDeleteObject(SalesOrder salesOrder);
         bool DeleteObject(int Id);
-        SalesOrder ConfirmObject(SalesOrder salesOrder);
-        SalesOrder UnconfirmObject(SalesOrder salesOrder);
+        SalesOrder ConfirmObject(SalesOrder salesOrder, ISalesOrderDetailService _sods,
+                                    IStockMutationService _stockMutationService, IItemService _itemService);
+        SalesOrder UnconfirmObject(SalesOrder salesOrder, ISalesOrderDetailService _sods,
+                                    IStockMutationService _stockMutationService, IItemService _itemService);
     }
 }

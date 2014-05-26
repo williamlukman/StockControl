@@ -18,8 +18,8 @@ namespace Core.Interface.Service
         PurchaseOrderDetail UpdateObject(PurchaseOrderDetail purchaseOrderDetail);
         PurchaseOrderDetail SoftDeleteObject(PurchaseOrderDetail purchaseOrderDetail);
         bool DeleteObject(int Id);
-        PurchaseOrderDetail ConfirmObject(PurchaseOrderDetail purchaseOrderDetail);
-        PurchaseOrderDetail UnconfirmObject(PurchaseOrderDetail purchaseOrderDetail);
-        PurchaseOrderDetail FulfilObject(PurchaseOrderDetail purchaseOrderDetail);
+        PurchaseOrderDetail ConfirmObject(PurchaseOrderDetail purchaseOrderDetail, IStockMutationService _stockMutationService, IItemService _itemService);
+        PurchaseOrderDetail UnconfirmObject(PurchaseOrderDetail purchaseOrderDetail, IStockMutationService _stockMutationService, IItemService _itemService);
+        PurchaseOrderDetail FulfilObject(PurchaseOrderDetail purchaseOrderDetail, bool isFulfilled);
     }
 }

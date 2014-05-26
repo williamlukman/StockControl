@@ -62,13 +62,27 @@ namespace Service.Service
             return _p.DeleteObject(Id);
         }
 
-        public PurchaseReceival ConfirmObject(PurchaseReceival purchaseReceival)
+        public PurchaseReceival ConfirmObject(PurchaseReceival purchaseReceival, IPurchaseReceivalDetailService _prds,
+                                                IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            IList<PurchaseReceivalDetail> details = _prds.GetObjectsByPurchaseReceivalId(purchaseReceival.Id);
+            foreach (var detail in details)
+            {
+                _prds.ConfirmObject(detail, _stockMutationService, _itemService);
+                _prds.FulfilObject(detail, true);
+            }
             return _p.ConfirmObject(purchaseReceival);
         }
 
-        public PurchaseReceival UnconfirmObject(PurchaseReceival purchaseReceival)
+        public PurchaseReceival UnconfirmObject(PurchaseReceival purchaseReceival, IPurchaseReceivalDetailService _prds,
+                                                IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            IList<PurchaseReceivalDetail> details = _prds.GetObjectsByPurchaseReceivalId(purchaseReceival.Id);
+            foreach (var detail in details)
+            {
+                _prds.UnconfirmObject(detail, _stockMutationService, _itemService);
+                _prds.FulfilObject(detail, true);
+            }
             return _p.UnconfirmObject(purchaseReceival);
         }
     }

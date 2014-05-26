@@ -24,7 +24,12 @@ namespace Data.Repository
 
         public PurchaseReceivalDetail GetObjectById(int Id)
         {
-            return Find(prd => prd.Id == Id);
+            return Find(prd => prd.Id == Id && !prd.IsDeleted);
+        }
+
+        public PurchaseReceivalDetail GetObjectByPurchaseOrderDetailId(int purchaseOrderDetailId)
+        {
+            return Find(prd => prd.PurchaseOrderDetailId == purchaseOrderDetailId && !prd.IsDeleted);
         }
 
         public PurchaseReceivalDetail CreateObject(PurchaseReceivalDetail purchaseReceivalDetail)
@@ -73,9 +78,9 @@ namespace Data.Repository
             return purchaseReceivalDetail;
         }
 
-        public PurchaseReceivalDetail FulfilObject(PurchaseReceivalDetail purchaseReceivalDetail)
+        public PurchaseReceivalDetail FulfilObject(PurchaseReceivalDetail purchaseReceivalDetail, bool isFulfilled)
         {
-            purchaseReceivalDetail.IsFulfilled = true;
+            purchaseReceivalDetail.IsFulfilled = isFulfilled;
             Update(purchaseReceivalDetail);
             return purchaseReceivalDetail;
         }

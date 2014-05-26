@@ -11,12 +11,13 @@ namespace Core.Interface.Repository
     {
         IList<PurchaseReceivalDetail> GetObjectsByPurchaseReceivalId(int purchaseReceivalId);
         PurchaseReceivalDetail GetObjectById(int Id);
+        PurchaseReceivalDetail GetObjectByPurchaseOrderDetailId(int purchaseOrderDetailId);
         PurchaseReceivalDetail CreateObject(PurchaseReceivalDetail purchaseReceivalDetail);
         PurchaseReceivalDetail UpdateObject(PurchaseReceivalDetail purchaseReceivalDetail);
         PurchaseReceivalDetail SoftDeleteObject(PurchaseReceivalDetail purchaseReceivalDetail);
         bool DeleteObject(int Id);
         PurchaseReceivalDetail ConfirmObject(PurchaseReceivalDetail purchaseReceivalDetail);
         PurchaseReceivalDetail UnconfirmObject(PurchaseReceivalDetail purchaseReceivalDetail);
-        PurchaseReceivalDetail FulfilObject(PurchaseReceivalDetail purchaseReceivalDetail);
+        PurchaseReceivalDetail FulfilObject(PurchaseReceivalDetail purchaseReceivalDetail, bool isFulfilled);
     }
 }

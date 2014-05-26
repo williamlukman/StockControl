@@ -12,13 +12,14 @@ namespace Core.Interface.Service
     {
         IList<PurchaseReceivalDetail> GetObjectsByPurchaseReceivalId(int purchaseReceivalId);
         PurchaseReceivalDetail GetObjectById(int Id);
+        PurchaseReceivalDetail GetObjectByPurchaseOrderDetailId(int purchaseOrderDetailId);
         PurchaseReceivalDetail CreateObject(PurchaseReceivalDetail purchaseReceivalDetail);
         PurchaseReceivalDetail CreateObject(int purchaseReceivalId, int itemId, int quantity, int purchaseOrderDetailId);
         PurchaseReceivalDetail UpdateObject(PurchaseReceivalDetail purchaseReceivalDetail);
         PurchaseReceivalDetail SoftDeleteObject(PurchaseReceivalDetail purchaseReceivalDetail);
         bool DeleteObject(int Id);
-        PurchaseReceivalDetail ConfirmObject(PurchaseReceivalDetail purchaseReceivalDetail);
-        PurchaseReceivalDetail UnconfirmObject(PurchaseReceivalDetail purchaseReceivalDetail);
-        PurchaseReceivalDetail FulfilObject(PurchaseReceivalDetail purchaseReceivalDetail);
+        PurchaseReceivalDetail ConfirmObject(PurchaseReceivalDetail purchaseReceivalDetail, IStockMutationService _stockMutationService, IItemService _itemService);
+        PurchaseReceivalDetail UnconfirmObject(PurchaseReceivalDetail purchaseReceivalDetail, IStockMutationService _stockMutationService, IItemService _itemService);
+        PurchaseReceivalDetail FulfilObject(PurchaseReceivalDetail purchaseReceivalDetail, bool isFulfilled);
     }
 }

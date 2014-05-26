@@ -70,6 +70,7 @@ namespace Validation.Validation
             VUpdateObject(i, _is);
             return isValid(i);
         }
+
         public bool ValidDeleteObject(Item i, IStockMutationService _sm)
         {
             VDeleteObject(i, _sm);

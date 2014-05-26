@@ -17,6 +17,6 @@ namespace Core.Interface.Repository
         bool DeleteObject(int Id);
         SalesOrderDetail ConfirmObject(SalesOrderDetail salesOrderDetail);
         SalesOrderDetail UnconfirmObject(SalesOrderDetail salesOrderDetail);
-        SalesOrderDetail FulfilObject(SalesOrderDetail salesOrderDetail);
+        SalesOrderDetail FulfilObject(SalesOrderDetail salesOrderDetail, bool isFulfilled);
     }
 }

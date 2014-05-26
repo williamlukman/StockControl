@@ -11,12 +11,13 @@ namespace Core.Interface.Repository
     {
         IList<DeliveryOrderDetail> GetObjectsByDeliveryOrderId(int deliveryOrderId);
         DeliveryOrderDetail GetObjectById(int Id);
+        DeliveryOrderDetail GetObjectBySalesOrderDetailId(int salesOrderDetailId);
         DeliveryOrderDetail CreateObject(DeliveryOrderDetail deliveryOrderDetail);
         DeliveryOrderDetail UpdateObject(DeliveryOrderDetail deliveryOrderDetail);
         DeliveryOrderDetail SoftDeleteObject(DeliveryOrderDetail deliveryOrderDetail);
         bool DeleteObject(int Id);
         DeliveryOrderDetail ConfirmObject(DeliveryOrderDetail deliveryOrderDetail);
         DeliveryOrderDetail UnconfirmObject(DeliveryOrderDetail deliveryOrderDetail);
-        DeliveryOrderDetail FulfilObject(DeliveryOrderDetail deliveryOrderDetail);
+        DeliveryOrderDetail FulfilObject(DeliveryOrderDetail deliveryOrderDetail, bool isFulfilled);
     }
 }

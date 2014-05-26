@@ -59,19 +59,29 @@ namespace Service.Service
             return _pd.DeleteObject(Id);
         }
 
-        public PurchaseOrderDetail ConfirmObject(PurchaseOrderDetail purchaseOrderDetail)
+        public PurchaseOrderDetail ConfirmObject(PurchaseOrderDetail purchaseOrderDetail, IStockMutationService _stockMutationService, IItemService _itemService)
         {
-            return _pd.ConfirmObject(purchaseOrderDetail);
+            purchaseOrderDetail = _pd.ConfirmObject(purchaseOrderDetail);
+            Item item = _itemService.GetObjectById(purchaseOrderDetail.ItemId);
+            item.PendingReceival += purchaseOrderDetail.Quantity;
+            _itemService.UpdateObject(item);
+            StockMutation sm = _stockMutationService.CreateStockMutationForPurchaseOrder(purchaseOrderDetail, item);
+            return purchaseOrderDetail;
         }
 
-        public PurchaseOrderDetail UnconfirmObject(PurchaseOrderDetail purchaseOrderDetail)
+        public PurchaseOrderDetail UnconfirmObject(PurchaseOrderDetail purchaseOrderDetail, IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            purchaseOrderDetail = _pd.UnconfirmObject(purchaseOrderDetail);
+            Item item = _itemService.GetObjectById(purchaseOrderDetail.ItemId);
+            item.PendingReceival -= purchaseOrderDetail.Quantity;
+            _itemService.UpdateObject(item);
+            IList<StockMutation> sm = _stockMutationService.SoftDeleteStockMutationForPurchaseOrder(purchaseOrderDetail, item);
             return _pd.UnconfirmObject(purchaseOrderDetail);
         }
 
-        public PurchaseOrderDetail FulfilObject(PurchaseOrderDetail purchaseOrderDetail)
+        public PurchaseOrderDetail FulfilObject(PurchaseOrderDetail purchaseOrderDetail, bool IsFulfilled)
         {
-            return _pd.FulfilObject(purchaseOrderDetail);
+            return _pd.FulfilObject(purchaseOrderDetail, IsFulfilled);
         }
 
     }

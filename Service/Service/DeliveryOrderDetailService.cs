@@ -28,6 +28,11 @@ namespace Service.Service
             return _dod.GetObjectById(Id);
         }
 
+        public DeliveryOrderDetail GetObjectBySalesOrderDetailId(int salesOrderDetailId)
+        {
+            return _dod.GetObjectBySalesOrderDetailId(salesOrderDetailId);
+        }
+
         public DeliveryOrderDetail CreateObject(DeliveryOrderDetail deliveryOrderDetail)
         {
             return _dod.CreateObject(deliveryOrderDetail);
@@ -59,19 +64,25 @@ namespace Service.Service
             return _dod.DeleteObject(Id);
         }
 
-        public DeliveryOrderDetail ConfirmObject(DeliveryOrderDetail deliveryOrderDetail)
+        public DeliveryOrderDetail ConfirmObject(DeliveryOrderDetail deliveryOrderDetail, IStockMutationService _stockMutationService, IItemService _itemService)
         {
-            return _dod.ConfirmObject(deliveryOrderDetail);
+            deliveryOrderDetail = _dod.ConfirmObject(deliveryOrderDetail);
+            Item item = _itemService.GetObjectById(deliveryOrderDetail.ItemId);
+            IList<StockMutation> sm = _stockMutationService.CreateStockMutationForDeliveryOrder(deliveryOrderDetail, item);
+            return deliveryOrderDetail;
         }
 
-        public DeliveryOrderDetail UnconfirmObject(DeliveryOrderDetail deliveryOrderDetail)
+        public DeliveryOrderDetail UnconfirmObject(DeliveryOrderDetail deliveryOrderDetail, IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            deliveryOrderDetail = _dod.UnconfirmObject(deliveryOrderDetail);
+            Item item = _itemService.GetObjectById(deliveryOrderDetail.ItemId);
+            IList<StockMutation> sm = _stockMutationService.SoftDeleteStockMutationForDeliveryOrder(deliveryOrderDetail, item);
             return _dod.UnconfirmObject(deliveryOrderDetail);
         }
 
-        public DeliveryOrderDetail FulfilObject(DeliveryOrderDetail deliveryOrderDetail)
+        public DeliveryOrderDetail FulfilObject(DeliveryOrderDetail deliveryOrderDetail, bool isFulfilled)
         {
-            return _dod.FulfilObject(deliveryOrderDetail);
+            return _dod.FulfilObject(deliveryOrderDetail, isFulfilled);
         }
     }
 }

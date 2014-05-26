@@ -73,9 +73,9 @@ namespace Data.Repository
             return salesOrderDetail;
         }
 
-        public SalesOrderDetail FulfilObject(SalesOrderDetail salesOrderDetail)
+        public SalesOrderDetail FulfilObject(SalesOrderDetail salesOrderDetail, bool isFulfilled)
         {
-            salesOrderDetail.IsFulfilled = true;
+            salesOrderDetail.IsFulfilled = isFulfilled;
             Update(salesOrderDetail);
             return salesOrderDetail;
         }

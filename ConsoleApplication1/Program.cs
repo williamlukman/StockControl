@@ -55,8 +55,8 @@ namespace ConsoleApp
                 Program p = new Program();
                 // Warning: each function will delete all data in the DB. Use with caution!!!
                 // p.CreateDummyData(p, db)
-                p.ValidateContactModel(p, db);
-                p.ValidateItemModel(p, db);
+                //p.ValidateContactModel(p, db);
+                //p.ValidateItemModel(p, db);
 
                 Console.WriteLine("Press any key to stop...");
                 Console.ReadKey();
@@ -84,6 +84,7 @@ namespace ConsoleApp
         public void ValidateContactModel(Program p, StockControlEntities db)
         {
             p.flushdb(db);
+            Console.WriteLine("[Contact Validation Test]");
             ContactValidation cv = new ContactValidation(new ContactValidator(), this._c, this._i, this._sm,
                                            this._po, this._pr, this._so, this._do,
                                            this._pod, this._prd, this._sod, this._dod);
@@ -98,6 +99,7 @@ namespace ConsoleApp
         public void ValidateItemModel(Program p, StockControlEntities db)
         {
             p.flushdb(db);
+            Console.WriteLine("[Item Validation Test]");
             ItemValidation iv = new ItemValidation(new ItemValidator(), this._c, this._i, this._sm,
                                            this._po, this._pr, this._so, this._do,
                                            this._pod, this._prd, this._sod, this._dod);
@@ -142,18 +144,10 @@ namespace ConsoleApp
             PurchaseOrderDb.Display(db, _po);
             PurchaseOrderDetailDb.Display(db, _pod, po1.Id);
             
-            // Confirm Purchase Order & Details
-            po1 = _po.ConfirmObject(po1);
-            pod1 = _pod.ConfirmObject(pod1);
-            pod2 = _pod.ConfirmObject(pod2);
-            pod3 = _pod.ConfirmObject(pod3);
+            // Confirm Purchase Order & Details & Create Stock Mutations
+            po1 = _po.ConfirmObject(po1, _pod, _sm, _i);
             PurchaseOrderDb.Display(db, _po);
             PurchaseOrderDetailDb.Display(db, _pod, po1.Id);
-
-            // Create Stock Mutations
-            StockMutation sm1 = _sm.CreateStockMutationForPurchaseOrder(pod1, _i.GetObjectBySku("BTKIKY001"));
-            StockMutation sm2 = _sm.CreateStockMutationForPurchaseOrder(pod2, _i.GetObjectByName("Buku Gambar Kiky"));
-            StockMutation sm3 = _sm.CreateStockMutationForPurchaseOrder(pod2, _i.GetObjectByName("Buku Kotak-Kotak Kiky"));
             StockMutationDb.Display(db, _sm);
 
             // Initialize Purchase Receival & Details
@@ -165,16 +159,9 @@ namespace ConsoleApp
             PurchaseReceivalDetailDb.Display(db, _prd, pr1.Id);
 
             // Confirm Purchase Receival PO1
-            pr1 = _pr.ConfirmObject(pr1);
-            prd1 = _prd.ConfirmObject(prd1);
-            prd2 = _prd.ConfirmObject(prd2);
-            prd3 = _prd.ConfirmObject(prd3);
+            pr1 = _pr.ConfirmObject(pr1, _prd, _sm, _i);
             PurchaseReceivalDb.Display(db, _pr);
             PurchaseReceivalDetailDb.Display(db, _prd, pr1.Id);
-
-            IList<StockMutation> sm4 = _sm.CreateStockMutationForPurchaseReceival(prd1, _i.GetObjectBySku("BTKIKY001"));
-            IList<StockMutation> sm5 = _sm.CreateStockMutationForPurchaseReceival(prd2, _i.GetObjectByName("Buku Gambar Kiky"));
-            IList<StockMutation> sm6 = _sm.CreateStockMutationForPurchaseReceival(prd3, _i.GetObjectByName("Buku Kotak-Kotak Kiky"));
             StockMutationDb.Display(db, _sm);
             Console.WriteLine("Scratch to PRDS success");
         }
@@ -190,17 +177,9 @@ namespace ConsoleApp
             SalesOrderDetailDb.Display(db, _sod, so1.Id);
 
             // Confirm Sales Order & Details
-            so1 = _so.ConfirmObject(so1);
-            sod1 = _sod.ConfirmObject(sod1);
-            sod2 = _sod.ConfirmObject(sod2);
-            sod3 = _sod.ConfirmObject(sod3);
+            so1 = _so.ConfirmObject(so1, _sod, _sm, _i);
             SalesOrderDb.Display(db, _so);
             SalesOrderDetailDb.Display(db, _sod, so1.Id);
-
-            // Create Stock Mutations
-            StockMutation sm1 = _sm.CreateStockMutationForSalesOrder(sod1, _i.GetObjectBySku("BTKIKY001"));
-            StockMutation sm2 = _sm.CreateStockMutationForSalesOrder(sod2, _i.GetObjectByName("Buku Gambar Kiky"));
-            StockMutation sm3 = _sm.CreateStockMutationForSalesOrder(sod2, _i.GetObjectByName("Buku Kotak-Kotak Kiky"));
             StockMutationDb.Display(db, _sm);
 
             // Initialize Delivery Order & Details
@@ -211,17 +190,10 @@ namespace ConsoleApp
             DeliveryOrderDb.Display(db, _do);
             DeliveryOrderDetailDb.Display(db, _dod, do1.Id);
 
-            // Confirm Purchase Receival PO1
-            do1 = _do.ConfirmObject(do1);
-            dod1 = _dod.ConfirmObject(dod1);
-            dod2 = _dod.ConfirmObject(dod2);
-            dod3 = _dod.ConfirmObject(dod3);
+            // Confirm Purchase Receival PO1 & Details & Create Stock Mutations
+            do1 = _do.ConfirmObject(do1, _dod, _sm, _i);
             DeliveryOrderDb.Display(db, _do);
             DeliveryOrderDetailDb.Display(db, _dod, do1.Id);
-
-            IList<StockMutation> sm4 = _sm.CreateStockMutationForDeliveryOrder(dod1, _i.GetObjectBySku("BTKIKY001"));
-            IList<StockMutation> sm5 = _sm.CreateStockMutationForDeliveryOrder(dod2, _i.GetObjectByName("Buku Gambar Kiky"));
-            IList<StockMutation> sm6 = _sm.CreateStockMutationForDeliveryOrder(dod3, _i.GetObjectByName("Buku Kotak-Kotak Kiky"));
             StockMutationDb.Display(db, _sm);
 
             Console.WriteLine("Scratch to DODS success");

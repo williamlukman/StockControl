@@ -28,6 +28,11 @@ namespace Service.Service
             return _pd.GetObjectById(Id);
         }
 
+        public PurchaseReceivalDetail GetObjectByPurchaseOrderDetailId(int purchaseOrderDetailId)
+        {
+            return _pd.GetObjectByPurchaseOrderDetailId(purchaseOrderDetailId);
+        }
+
         public PurchaseReceivalDetail CreateObject(PurchaseReceivalDetail purchaseReceivalDetail)
         {
             return _pd.CreateObject(purchaseReceivalDetail);
@@ -61,19 +66,26 @@ namespace Service.Service
             return _pd.DeleteObject(Id);
         }
 
-        public PurchaseReceivalDetail ConfirmObject(PurchaseReceivalDetail purchaseReceivalDetail)
+        public PurchaseReceivalDetail ConfirmObject(PurchaseReceivalDetail purchaseReceivalDetail, IStockMutationService _stockMutationService, IItemService _itemService)
         {
-            return _pd.ConfirmObject(purchaseReceivalDetail);
+            purchaseReceivalDetail = _pd.ConfirmObject(purchaseReceivalDetail);
+            Item item = _itemService.GetObjectById(purchaseReceivalDetail.ItemId);
+            IList<StockMutation> sm = _stockMutationService.CreateStockMutationForPurchaseReceival(purchaseReceivalDetail, item);
+            return purchaseReceivalDetail;
         }
 
-        public PurchaseReceivalDetail UnconfirmObject(PurchaseReceivalDetail purchaseReceivalDetail)
+        public PurchaseReceivalDetail UnconfirmObject(PurchaseReceivalDetail purchaseReceivalDetail, IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            purchaseReceivalDetail = _pd.UnconfirmObject(purchaseReceivalDetail);
+            Item item = _itemService.GetObjectById(purchaseReceivalDetail.ItemId);
+            IList<StockMutation> sm = _stockMutationService.SoftDeleteStockMutationForPurchaseReceival(purchaseReceivalDetail, item);
             return _pd.UnconfirmObject(purchaseReceivalDetail);
         }
 
-        public PurchaseReceivalDetail FulfilObject(PurchaseReceivalDetail purchaseReceivalDetail)
+
+        public PurchaseReceivalDetail FulfilObject(PurchaseReceivalDetail purchaseReceivalDetail, bool isFulfilled)
         {
-            return _pd.FulfilObject(purchaseReceivalDetail);
+            return _pd.FulfilObject(purchaseReceivalDetail, isFulfilled);
         }
     }
 }

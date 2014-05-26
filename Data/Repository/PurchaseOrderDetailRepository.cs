@@ -73,9 +73,9 @@ namespace Data.Repository
             return purchaseOrderDetail;
         }
 
-        public PurchaseOrderDetail FulfilObject(PurchaseOrderDetail purchaseOrderDetail)
+        public PurchaseOrderDetail FulfilObject(PurchaseOrderDetail purchaseOrderDetail, bool isFulfilled)
         {
-            purchaseOrderDetail.IsFulfilled = true;
+            purchaseOrderDetail.IsFulfilled = isFulfilled;
             Update(purchaseOrderDetail);
             return purchaseOrderDetail;
         }
