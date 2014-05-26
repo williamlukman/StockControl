@@ -1,6 +1,7 @@
 using Core.DomainModel;
 using Core.Interface.Repository;
 using Core.Interface.Service;
+using Core.Interface.Validation;
 using Data.Repository;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,17 @@ namespace Service.Service
     public class ItemService : IItemService
     {
         private IItemRepository _i;
-        public ItemService(IItemRepository _itemRepository)
+        private IItemValidator _validator;
+
+        public ItemService(IItemRepository _itemRepository, IItemValidator _itemValidator)
         {
             _i = _itemRepository;
+            _validator = _itemValidator;
+        }
+
+        public IItemValidator GetValidator()
+        {
+            return _validator;
         }
 
         public IList<Item> GetAll()
@@ -40,7 +49,7 @@ namespace Service.Service
 
         public Item CreateObject(Item item)
         {
-            return _i.CreateObject(item);
+            return (_validator.ValidCreateObject(item, this) ? _i.CreateObject(item) : item);
         }
 
         public Item CreateObject(string name, string description, string Sku, int Ready)
@@ -57,12 +66,12 @@ namespace Service.Service
 
         public Item UpdateObject(Item item)
         {
-            return _i.UpdateObject(item);
+            return (_validator.ValidUpdateObject(item, this) ? _i.UpdateObject(item) : item);
         }
 
-        public Item SoftDeleteObject(Item item)
+        public Item SoftDeleteObject(Item item, IStockMutationService _stockMutationService)
         {
-            return _i.SoftDeleteObject(item);
+            return (_validator.ValidDeleteObject(item, _stockMutationService) ? _i.SoftDeleteObject(item) : item);
         }
 
         public bool DeleteObject(int Id)

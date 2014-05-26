@@ -30,19 +30,20 @@ namespace ConsoleApp
         private IDeliveryOrderService _do;
         private IDeliveryOrderDetailService _dod;
         private IStockMutationService _sm;
+        
         public Program()
         {
             _c = new ContactService(new ContactRepository(), new ContactValidator());
-            _i = new ItemService(new ItemRepository());
-            _po = new PurchaseOrderService(new PurchaseOrderRepository());
-            _pod = new PurchaseOrderDetailService(new PurchaseOrderDetailRepository());
-            _pr = new PurchaseReceivalService(new PurchaseReceivalRepository());
-            _prd = new PurchaseReceivalDetailService(new PurchaseReceivalDetailRepository());
-            _so = new SalesOrderService(new SalesOrderRepository());
-            _sod = new SalesOrderDetailService(new SalesOrderDetailRepository());
-            _do = new DeliveryOrderService(new DeliveryOrderRepository());
-            _dod = new DeliveryOrderDetailService(new DeliveryOrderDetailRepository());
-            _sm = new StockMutationService(new StockMutationRepository());
+            _i = new ItemService(new ItemRepository(), new ItemValidator());
+            _po = new PurchaseOrderService(new PurchaseOrderRepository(), new PurchaseOrderValidator());
+            _pod = new PurchaseOrderDetailService(new PurchaseOrderDetailRepository(), new PurchaseOrderDetailValidator());
+            _pr = new PurchaseReceivalService(new PurchaseReceivalRepository(), new PurchaseReceivalValidator());
+            _prd = new PurchaseReceivalDetailService(new PurchaseReceivalDetailRepository(), new PurchaseReceivalDetailValidator());
+            _so = new SalesOrderService(new SalesOrderRepository(), new SalesOrderValidator());
+            _sod = new SalesOrderDetailService(new SalesOrderDetailRepository(), new SalesOrderDetailValidator());
+            _do = new DeliveryOrderService(new DeliveryOrderRepository(), new DeliveryOrderValidator());
+            _dod = new DeliveryOrderDetailService(new DeliveryOrderDetailRepository(), new DeliveryOrderDetailValidator());
+            _sm = new StockMutationService(new StockMutationRepository(), new StockMutationValidator());
         }
 
         public static void Main(string[] args)
@@ -63,6 +64,7 @@ namespace ConsoleApp
             }
         }
 
+        /*
         public void CreateDummyData(Program p, StockControlEntities db)
         {
             //cleandb
@@ -211,5 +213,6 @@ namespace ConsoleApp
             StockMutationDb.Delete(db, _sm);
             Console.WriteLine("Database is clean");
         }
+         * */
     }
 }

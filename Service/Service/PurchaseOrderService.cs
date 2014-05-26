@@ -1,6 +1,7 @@
 using Core.DomainModel;
 using Core.Interface.Repository;
 using Core.Interface.Service;
+using Core.Interface.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,17 @@ namespace Service.Service
     public class PurchaseOrderService : IPurchaseOrderService
     {
         private IPurchaseOrderRepository _p;
-        public PurchaseOrderService(IPurchaseOrderRepository _purchaseOrderRepository)
+        private IPurchaseOrderValidator _validator;
+
+        public PurchaseOrderService(IPurchaseOrderRepository _purchaseOrderRepository, IPurchaseOrderValidator _purchaseOrderValidator)
         {
             _p = _purchaseOrderRepository;
+            _validator = _purchaseOrderValidator;
+        }
+
+        public IPurchaseOrderValidator GetValidator()
+        {
+            return _validator;
         }
 
         public IList<PurchaseOrder> GetAll()
@@ -73,13 +82,13 @@ namespace Service.Service
             return _p.ConfirmObject(purchaseOrder);
         }
 
-        public PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _pods,
-                                    IStockMutationService _stockMutationService, IItemService _itemService)
+        public PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _purchaseOrderDetailService,
+                                    IPurchaseReceivalDetailService _purchaseReceivalDetailService, IStockMutationService _stockMutationService, IItemService _itemService)
         {
-            IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(purchaseOrder.Id);
+            IList<PurchaseOrderDetail> details = _purchaseOrderDetailService.GetObjectsByPurchaseOrderId(purchaseOrder.Id);
             foreach (var detail in details)
             {
-                _pods.UnconfirmObject(detail, _stockMutationService, _itemService);
+                _purchaseOrderDetailService.UnconfirmObject(detail, _purchaseReceivalDetailService, _stockMutationService, _itemService);
             }
             return _p.UnconfirmObject(purchaseOrder);
         }

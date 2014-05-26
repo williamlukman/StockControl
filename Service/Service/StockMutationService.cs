@@ -7,15 +7,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Interface.Validation;
 
 namespace Service.Service
 {
     public class StockMutationService : IStockMutationService
     {
         private IStockMutationRepository _sm;
-        public StockMutationService(IStockMutationRepository _stockMutationRepository)
+        private IStockMutationValidator _validator;
+
+        public StockMutationService(IStockMutationRepository _stockMutationRepository, IStockMutationValidator _stockMutationValidator)
         {
             _sm = _stockMutationRepository;
+            _validator = _stockMutationValidator;
+        }
+
+        public IStockMutationValidator GetValidator()
+        {
+            return _validator;
         }
 
         public IList<StockMutation> GetAll()
@@ -40,7 +49,7 @@ namespace Service.Service
 
         public StockMutation CreateObject(StockMutation stockMutation)
         {
-            return _sm.CreateObject(stockMutation);
+            return (_validator.ValidCreateObject(stockMutation) ? _sm.CreateObject(stockMutation) : stockMutation);
         }
 
         public StockMutation UpdateObject(StockMutation stockMutation)
@@ -50,7 +59,7 @@ namespace Service.Service
 
         public StockMutation SoftDeleteObject(StockMutation stockMutation)
         {
-            return _sm.SoftDeleteObject(stockMutation);
+            return (_validator.ValidDeleteObject(stockMutation) ? _sm.SoftDeleteObject(stockMutation) : stockMutation);
         }
 
         public bool DeleteObject(int Id)

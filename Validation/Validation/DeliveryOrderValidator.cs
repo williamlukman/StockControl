@@ -43,9 +43,9 @@ namespace Validation.Validation
             return d;
         }
 
-        public DeliveryOrder VHasDeliveryOrderDetails(DeliveryOrder d, IDeliveryOrderDetailService _dds)
+        public DeliveryOrder VHasDeliveryOrderDetails(DeliveryOrder d, IDeliveryOrderDetailService _dods)
         {
-            IList<DeliveryOrderDetail> details = _dds.GetObjectsByDeliveryOrderId(d.Id);
+            IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(d.Id);
             if (!details.Any())
             {
                 d.Errors.Add("Error. Delivery Order does not have delivery order details");
@@ -53,9 +53,9 @@ namespace Validation.Validation
             return d;
         }
 
-        public DeliveryOrder VHasItemQuantity(DeliveryOrder d, IDeliveryOrderDetailService _dds, IItemService _is)
+        public DeliveryOrder VHasItemQuantity(DeliveryOrder d, IDeliveryOrderDetailService _dods, IItemService _is)
         {
-            IList<DeliveryOrderDetail> details = _dds.GetObjectsByDeliveryOrderId(d.Id);
+            IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(d.Id);
             foreach (var detail in details)
             {
                 Item item = _is.GetObjectById(detail.ItemId);
@@ -82,19 +82,19 @@ namespace Validation.Validation
             return d;
         }
 
-        public DeliveryOrder VDeleteObject(DeliveryOrder d, IDeliveryOrderDetailService _dds)
+        public DeliveryOrder VDeleteObject(DeliveryOrder d, IDeliveryOrderDetailService _dods)
         {
-            VConfirmObject(d, _dds);
+            VConfirmObject(d, _dods);
             return d;
         }
 
-        public DeliveryOrder VConfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dds)
+        public DeliveryOrder VConfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods)
         {
             VIsConfirmed(d);
-            VHasDeliveryOrderDetails(d, _dds);
+            VHasDeliveryOrderDetails(d, _dods);
             if (isValid(d))
             {
-                IList<DeliveryOrderDetail> details = _dds.GetObjectsByDeliveryOrderId(d.Id);
+                IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(d.Id);
                 IDeliveryOrderDetailValidator detailvalidator = new DeliveryOrderDetailValidator();
                 foreach (var detail in details)
                 {
@@ -105,17 +105,16 @@ namespace Validation.Validation
             return d;
         }
 
-        public DeliveryOrder VUnconfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dds, IItemService _is)
+        public DeliveryOrder VUnconfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods, IItemService _is)
         {
             
-            VHasItemQuantity(d, _dds, _is);
+            VHasItemQuantity(d, _dods, _is);
             if (isValid(d))
             {
-                IList<DeliveryOrderDetail> details = _dds.GetObjectsByDeliveryOrderId(d.Id);
-                IDeliveryOrderDetailValidator detailvalidator = new DeliveryOrderDetailValidator();
+                IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(d.Id);
                 foreach (var detail in details)
                 {
-                    detailvalidator.VUnconfirmObject(detail, _dds, _is);
+                    _dods.GetValidator().VUnconfirmObject(detail, _dods, _is);
                     d.Errors.UnionWith(detail.Errors);
                 }
             }
@@ -135,21 +134,21 @@ namespace Validation.Validation
             return isValid(d);
         }
 
-        public bool ValidDeleteObject(DeliveryOrder d, IDeliveryOrderDetailService _dds)
+        public bool ValidDeleteObject(DeliveryOrder d, IDeliveryOrderDetailService _dods)
         {
-            VDeleteObject(d, _dds);
+            VDeleteObject(d, _dods);
             return isValid(d);
         }
 
-        public bool ValidConfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dds)
+        public bool ValidConfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods)
         {
-            VConfirmObject(d, _dds);
+            VConfirmObject(d, _dods);
             return isValid(d);
         }
 
-        public bool ValidUnconfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dds, IItemService _is)
+        public bool ValidUnconfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods, IItemService _is)
         {
-            VUnconfirmObject(d, _dds, _is);
+            VUnconfirmObject(d, _dods, _is);
             return isValid(d);
         }
 

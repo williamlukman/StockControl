@@ -96,10 +96,9 @@ namespace Validation.Validation
             if (isValid(po))
             {
                 IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(po.Id);
-                IPurchaseOrderDetailValidator detailvalidator = new PurchaseOrderDetailValidator();
                 foreach (var detail in details)
                 {
-                    detailvalidator.VUnconfirmObject(detail, _pods, _prds, _is);
+                    _pods.GetValidator().VUnconfirmObject(detail, _pods, _prds, _is);
                     po.Errors.UnionWith(detail.Errors);
                 }
             }

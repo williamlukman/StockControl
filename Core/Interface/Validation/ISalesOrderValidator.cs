@@ -10,21 +10,21 @@ namespace Core.Interface.Validation
 {
     public interface ISalesOrderValidator
     {
-        SalesOrder VCustomer(SalesOrder po, IContactService _cs);
-        SalesOrder VSalesDate(SalesOrder po);
-        SalesOrder VIsConfirmed(SalesOrder po);
-        SalesOrder VHasSalesOrderDetails(SalesOrder po, ISalesOrderDetailService _sods);
-        SalesOrder VCreateObject(SalesOrder po, IContactService _cs);
-        SalesOrder VUpdateObject(SalesOrder po, IContactService _cs);
-        SalesOrder VDeleteObject(SalesOrder po, ISalesOrderDetailService _sods);
-        SalesOrder VConfirmObject(SalesOrder po, ISalesOrderDetailService _sods);
-        SalesOrder VUnconfirmObject(SalesOrder po, ISalesOrderDetailService _sods, IDeliveryOrderDetailService _dods, IItemService _is);
-        bool ValidCreateObject(SalesOrder po, IContactService _cs);
-        bool ValidUpdateObject(SalesOrder po, IContactService _cs);
-        bool ValidDeleteObject(SalesOrder po, ISalesOrderDetailService _sods);
-        bool ValidConfirmObject(SalesOrder po, ISalesOrderDetailService _sods);
-        bool ValidUnconfirmObject(SalesOrder po, ISalesOrderDetailService _sods, IDeliveryOrderDetailService _dods, IItemService _is);
-        bool isValid(SalesOrder po);
-        string PrintError(SalesOrder po);
+        SalesOrder VCustomer(SalesOrder so, IContactService _cs);
+        SalesOrder VSalesDate(SalesOrder so);
+        SalesOrder VIsConfirmed(SalesOrder so);
+        SalesOrder VHasSalesOrderDetails(SalesOrder so, ISalesOrderDetailService _sods);
+        SalesOrder VCreateObject(SalesOrder so, IContactService _cs);
+        SalesOrder VUpdateObject(SalesOrder so, IContactService _cs);
+        SalesOrder VDeleteObject(SalesOrder so, ISalesOrderDetailService _sods);
+        SalesOrder VConfirmObject(SalesOrder so, ISalesOrderDetailService _sods);
+        SalesOrder VUnconfirmObject(SalesOrder so, ISalesOrderDetailService _sods, IDeliveryOrderDetailService _dods, IItemService _is);
+        bool ValidCreateObject(SalesOrder so, IContactService _cs);
+        bool ValidUpdateObject(SalesOrder so, IContactService _cs);
+        bool ValidDeleteObject(SalesOrder so, ISalesOrderDetailService _sods);
+        bool ValidConfirmObject(SalesOrder so, ISalesOrderDetailService _sods);
+        bool ValidUnconfirmObject(SalesOrder so, ISalesOrderDetailService _sods, IDeliveryOrderDetailService _dods, IItemService _is);
+        bool isValid(SalesOrder so);
+        string PrintError(SalesOrder so);
     }
 }

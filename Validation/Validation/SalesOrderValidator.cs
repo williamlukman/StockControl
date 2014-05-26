@@ -96,10 +96,10 @@ namespace Validation.Validation
             if (isValid(so))
             {
                 IList<SalesOrderDetail> details = _sods.GetObjectsBySalesOrderId(so.Id);
-                ISalesOrderDetailValidator detailvalidator = new SalesOrderDetailValidator();
+
                 foreach (var detail in details)
                 {
-                    detailvalidator.VUnconfirmObject(detail, _sods, _dods, _is);
+                    _sods.GetValidator().VUnconfirmObject(detail, _sods, _dods, _is);
                     so.Errors.UnionWith(detail.Errors);
                 }
             }

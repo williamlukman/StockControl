@@ -1,6 +1,7 @@
 using Core.DomainModel;
 using Core.Interface.Repository;
 using Core.Interface.Service;
+using Core.Interface.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,17 @@ namespace Service.Service
     public class SalesOrderService : ISalesOrderService
     {
         private ISalesOrderRepository _s;
-        public SalesOrderService(ISalesOrderRepository _salesOrderRepository)
+        private ISalesOrderValidator _validator;
+
+        public SalesOrderService(ISalesOrderRepository _salesOrderRepository, ISalesOrderValidator _salesOrderValidator)
         {
             _s = _salesOrderRepository;
+            _validator = _salesOrderValidator;
+        }
+
+        public ISalesOrderValidator GetValidator()
+        {
+            return _validator;
         }
 
         public IList<SalesOrder> GetAll()
@@ -32,29 +41,29 @@ namespace Service.Service
             return _s.GetObjectsByContactId(contactId);
         }
         
-        public SalesOrder CreateObject(SalesOrder salesOrder)
+        public SalesOrder CreateObject(SalesOrder salesOrder, IContactService _contactService)
         {
-            return _s.CreateObject(salesOrder);
+            return (_validator.ValidCreateObject(salesOrder, _contactService) ? _s.CreateObject(salesOrder) : salesOrder);
         }
 
-        public SalesOrder CreateObject(int contactId, DateTime salesDate)
+        public SalesOrder CreateObject(int contactId, DateTime salesDate, IContactService _contactService)
         {
             SalesOrder so = new SalesOrder
             {
                 CustomerId = contactId,
                 SalesDate = salesDate
             };
-            return _s.CreateObject(so);
+            return this.CreateObject(so, _contactService);
         }
 
-        public SalesOrder UpdateObject(SalesOrder salesOrder)
+        public SalesOrder UpdateObject(SalesOrder salesOrder, IContactService _contactService)
         {
-            return _s.UpdateObject(salesOrder);
+            return (_validator.ValidUpdateObject(salesOrder, _contactService) ? _s.UpdateObject(salesOrder) : salesOrder);
         }
 
-        public SalesOrder SoftDeleteObject(SalesOrder salesOrder)
+        public SalesOrder SoftDeleteObject(SalesOrder salesOrder, ISalesOrderDetailService _salesOrderDetailService)
         {
-            return _s.SoftDeleteObject(salesOrder);
+            return (_validator.ValidDeleteObject(salesOrder, _salesOrderDetailService) ? _s.SoftDeleteObject(salesOrder) : salesOrder);
         }
 
         public bool DeleteObject(int Id)
@@ -65,24 +74,31 @@ namespace Service.Service
         public SalesOrder ConfirmObject(SalesOrder salesOrder, ISalesOrderDetailService _sods,
                                         IStockMutationService _stockMutationService, IItemService _itemService)
         {
-            IList<SalesOrderDetail> details = _sods.GetObjectsBySalesOrderId(salesOrder.Id);
-            foreach (var detail in details)
+            if (_validator.ValidConfirmObject(salesOrder, _sods))
             {
-                _sods.ConfirmObject(detail, _stockMutationService, _itemService);
+                _s.ConfirmObject(salesOrder);
+                IList<SalesOrderDetail> details = _sods.GetObjectsBySalesOrderId(salesOrder.Id);
+                foreach (var detail in details)
+                {
+                    _sods.ConfirmObject(detail, _stockMutationService, _itemService);
+                }
             }
-
-            return _s.ConfirmObject(salesOrder);
+            return salesOrder;
         }
 
-        public SalesOrder UnconfirmObject(SalesOrder salesOrder, ISalesOrderDetailService _sods,
-                                    IStockMutationService _stockMutationService, IItemService _itemService)
+        public SalesOrder UnconfirmObject(SalesOrder salesOrder, ISalesOrderDetailService _salesOrderDetailService,
+                                    IDeliveryOrderDetailService _deliveryOrderDetailService, IStockMutationService _stockMutationService, IItemService _itemService)
         {
-            IList<SalesOrderDetail> details = _sods.GetObjectsBySalesOrderId(salesOrder.Id);
-            foreach (var detail in details)
+            if (_validator.ValidUnconfirmObject(salesOrder, _salesOrderDetailService, _deliveryOrderDetailService, _itemService))
             {
-                _sods.UnconfirmObject(detail, _stockMutationService, _itemService);
+                _s.UnconfirmObject(salesOrder);
+                IList<SalesOrderDetail> details = _salesOrderDetailService.GetObjectsBySalesOrderId(salesOrder.Id);
+                foreach (var detail in details)
+                {
+                    _salesOrderDetailService.UnconfirmObject(detail, _deliveryOrderDetailService, _stockMutationService, _itemService);
+                }
             }
-            return _s.UnconfirmObject(salesOrder);
+            return salesOrder;
         }
     }
 }

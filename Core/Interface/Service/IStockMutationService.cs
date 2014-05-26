@@ -1,5 +1,6 @@
 using Core.DomainModel;
 using Core.Interface.Repository;
+using Core.Interface.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Core.Interface.Service
 {
     public interface IStockMutationService
     {
+         IStockMutationValidator GetValidator();
          IList<StockMutation> GetAll();
          IList<StockMutation> GetObjectsByItemId(int itemId);
          StockMutation GetObjectById(int Id);

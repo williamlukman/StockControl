@@ -82,10 +82,9 @@ namespace Validation.Validation
             if (isValid(pr))
             {
                 IList<PurchaseReceivalDetail> details = _prds.GetObjectsByPurchaseReceivalId(pr.Id);
-                IPurchaseReceivalDetailValidator detailvalidator = new PurchaseReceivalDetailValidator();
                 foreach (var detail in details)
                 {
-                    detailvalidator.VConfirmObject(detail);
+                    _prds.GetValidator().VConfirmObject(detail);
                     pr.Errors.UnionWith(detail.Errors);
                 }
             }
@@ -97,10 +96,9 @@ namespace Validation.Validation
             if (isValid(pr))
             {
                 IList<PurchaseReceivalDetail> details = _prds.GetObjectsByPurchaseReceivalId(pr.Id);
-                IPurchaseReceivalDetailValidator detailvalidator = new PurchaseReceivalDetailValidator();
                 foreach (var detail in details)
                 {
-                    detailvalidator.VUnconfirmObject(detail, _prds, _is);
+                    _prds.GetValidator().VUnconfirmObject(detail, _prds, _is);
                     pr.Errors.UnionWith(detail.Errors);
                 }
             }

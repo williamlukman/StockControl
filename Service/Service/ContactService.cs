@@ -15,11 +15,16 @@ namespace Service.Service
     public class ContactService : IContactService
     {
         private IContactRepository _c;
-        private IContactValidator _cvalidator;
+        private IContactValidator _validator;
         public ContactService(IContactRepository _contactRepository, IContactValidator _contactValidator)
         {
             _c = _contactRepository;
-            _cvalidator = _contactValidator;
+            _validator = _contactValidator;
+        }
+
+        public IContactValidator GetValidator()
+        {
+            return _validator;
         }
 
         public IList<Contact> GetAll()
@@ -49,17 +54,17 @@ namespace Service.Service
 
         public Contact CreateObject(Contact contact)
         {
-            return _c.CreateObject(contact);
+            return (_validator.ValidCreateObject(contact) ? _c.CreateObject(contact) : contact);
         }
 
         public Contact UpdateObject(Contact contact)
         {
-            return _c.UpdateObject(contact);
+            return (_validator.ValidUpdateObject(contact) ? _c.UpdateObject(contact) : contact);
         }
 
-        public Contact SoftDeleteObject(Contact contact)
+        public Contact SoftDeleteObject(Contact contact, IPurchaseOrderService _pos, IPurchaseReceivalService _prs, ISalesOrderService _sos, IDeliveryOrderService _dos)
         {
-            return _c.SoftDeleteObject(contact);
+            return (_validator.ValidDeleteObject(contact, _pos, _prs, _sos, _dos) ? _c.SoftDeleteObject(contact) : contact);
         }
 
         public bool DeleteObject(int Id)

@@ -86,7 +86,7 @@ namespace ConsoleApp.Validation
         public void ContactValidation6()
         {
             Contact contact = _c.CreateObject("Andy Upho", "CEO of Angkat Besi");
-            SalesOrder so1 = _so.CreateObject(_c.GetObjectByName("Andy Upho").Id, DateTime.Today);
+            SalesOrder so1 = _so.CreateObject(_c.GetObjectByName("Andy Upho").Id, DateTime.Today, _c);
             Console.WriteLine("6. Test Delete contact with SO");
             Console.WriteLine(!cv.ValidDeleteObject(contact, _po, _pr, _so, _do) ? "Success. Error message: " + cv.PrintError(contact) : "Fail.");        
         }
