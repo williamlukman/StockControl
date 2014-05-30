@@ -36,7 +36,13 @@ namespace Validation.Validation
         public DeliveryOrderDetail VCustomer(DeliveryOrderDetail dod, IDeliveryOrderService _prs, ISalesOrderService _sos, ISalesOrderDetailService _sods, IContactService _cs)
         {
             DeliveryOrder pr = _prs.GetObjectById(dod.DeliveryOrderId);
-            SalesOrder so = _sos.GetObjectById(_sods.GetObjectById(dod.SalesOrderDetailId).SalesOrderId);
+            SalesOrderDetail sod = _sods.GetObjectById(dod.SalesOrderDetailId);
+            if (sod == null)
+            {
+                dod.Errors.Add("Error. Could not find associated sales order detail");
+                return dod;
+            }
+            SalesOrder so = _sos.GetObjectById(sod.SalesOrderId);
             if (so.CustomerId != pr.CustomerId)
             {
                 dod.Errors.Add("Error. Contact does not match of delivery order and sales order");
@@ -126,8 +132,11 @@ namespace Validation.Validation
         {
             VHasDeliveryOrder(dod, _prs);
             VHasItem(dod, _is);
+            if (!isValid(dod)) { return dod; }
             VCustomer(dod, _prs, _sos, _sods, _cs);
+            if (!isValid(dod)) { return dod; }
             VQuantityCreate(dod, _sods);
+            if (!isValid(dod)) { return dod; }
             VUniqueSOD(dod, _dods, _is);
             return dod;
         }
@@ -137,9 +146,13 @@ namespace Validation.Validation
         {
             VHasDeliveryOrder(dod, _prs);
             VHasItem(dod, _is);
+            if (!isValid(dod)) { return dod; }
             VCustomer(dod, _prs, _sos, _sods, _cs);
+            if (!isValid(dod)) { return dod; }
             VQuantityUpdate(dod, _sods);
+            if (!isValid(dod)) { return dod; }
             VUniqueSOD(dod, _dods, _is);
+            if (!isValid(dod)) { return dod; }
             VIsConfirmed(dod);
             return dod;
         }

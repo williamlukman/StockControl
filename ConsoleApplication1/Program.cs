@@ -60,6 +60,8 @@ namespace ConsoleApp
                 p.ValidateItemModel(p, db);
                 
                 p.ValidateReceivalModel(p, db);
+                p.ValidateDeliveryModel(p, db);
+
                 Console.WriteLine("Press any key to stop...");
                 Console.ReadKey();
             }
@@ -126,6 +128,34 @@ namespace ConsoleApp
 
         public void ValidateDeliveryModel(Program p, StockControlEntities db)
         {
+            Console.WriteLine("[Delivery Validation Test]");
+            SOValidation sov = new SOValidation(new SalesOrderValidator(), new SalesOrderDetailValidator(), this._c, this._i, this._sm,
+                                           this._po, this._pr, this._so, this._do,
+                                           this._pod, this._prd, this._sod, this._dod);
+            sov.SOValidation29();
+            int sodtest1 = sov.SOValidation30();
+            sov.SOValidation31();
+            sov.SOValidation32();
+            int sodtest2 = sov.SOValidation33();
+            int sodtest3 = sov.SOValidation34();
+            int sodtest4 = sov.SOValidation35();
+            sov.SOValidation36a();
+            sov.SOValidation36b();
+            sov.SOValidation36a();
+
+            DOValidation dov = new DOValidation(new DeliveryOrderValidator(), new DeliveryOrderDetailValidator(), this._c, this._i, this._sm,
+                               this._po, this._pr, this._so, this._do,
+                               this._pod, this._prd, this._sod, this._dod);
+            dov.DOValidation37();
+            dov.DOValidation38(sodtest1);
+            dov.DOValidation39();
+            dov.DOValidation40();
+            dov.DOValidation41(sodtest4);
+            dov.DOValidation42(sodtest1);
+            dov.DOValidation43(sodtest4);
+            dov.DOValidation44();
+
+            sov.SOValidation45();
 
         }
 

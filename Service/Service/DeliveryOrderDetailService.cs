@@ -58,7 +58,8 @@ namespace Service.Service
             {
                 DeliveryOrderId = deliveryOrderId,
                 ItemId = itemId,
-                Quantity = quantity
+                Quantity = quantity,
+                SalesOrderDetailId = salesOrderDetailId
             };
             return this.CreateObject(dod, _dos, _sods, _sos, _is, _cs);
         }
