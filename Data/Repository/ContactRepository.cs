@@ -35,7 +35,6 @@ namespace Data.Repository
         {
             contact.IsDeleted = false;
             contact.CreatedAt = DateTime.Now;
-            contact.Errors = new HashSet<string>();
             return Create(contact);
         }
 

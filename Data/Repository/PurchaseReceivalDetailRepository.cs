@@ -37,7 +37,6 @@ namespace Data.Repository
             purchaseReceivalDetail.IsConfirmed = false;
             purchaseReceivalDetail.IsDeleted = false;
             purchaseReceivalDetail.CreatedAt = DateTime.Now;
-            purchaseReceivalDetail.Errors = new HashSet<string>();
             return Create(purchaseReceivalDetail);
         }
 

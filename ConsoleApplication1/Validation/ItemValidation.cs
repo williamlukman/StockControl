@@ -1,4 +1,5 @@
-﻿using Core.DomainModel;
+﻿using ConsoleApp.DataAccess;
+using Core.DomainModel;
 using Core.Interface.Service;
 using Core.Interface.Validation;
 using Data.Context;
@@ -46,43 +47,48 @@ namespace ConsoleApp.Validation
             _dod = dod;            
         }
 
-        public void ItemValidation1()
+        public void ItemValidation7()
         {
+            Console.WriteLine("[Test 7] Create valid item Buku Tulis Kiky");
             Item item = _i.CreateObject("Buku Tulis Kiky A5", "Buku Tulis Garis-Garis Anak Sekolah", "KIKY0001", 500);
-            Console.WriteLine("1. Test valid item Buku Tulis Kiky A5");
-            Console.WriteLine(iv.ValidCreateObject(item, _i) ? "Success." : "Fail. Error message: " + iv.PrintError(item)); 
+            if (item.Errors.Any()) { Console.WriteLine(_i.GetValidator().PrintError(item)); }
         }
 
-        public void ItemValidation2()
+        public void ItemValidation8()
         {
+            Console.WriteLine("[Test 8] Create item empty space");
             Item item = _i.CreateObject("    ", "Empty space name description", "SUPER0001", 200);
-            Console.WriteLine("2. Test empty string name");
-            Console.WriteLine(!iv.ValidCreateObject(item, _i) ? "Success. Error message: " + iv.PrintError(item) : "Fail. Not caught by isValid");
+            if (item.Errors.Any()) { Console.WriteLine(_i.GetValidator().PrintError(item)); }
         }
 
-        public void ItemValidation3()
+        public void ItemValidation9()
         {
+            Console.WriteLine("[Test 9] Create valid item Mini Garuda Indonesia");
             Item item = _i.CreateObject("Mini Garuda Indonesia", "Mini Pesawat Garuda Indonesia dengan stool", "SUPER0001", 150);
-            Console.WriteLine("3. Test duplicate Sku");
-            Console.WriteLine(!iv.ValidCreateObject(item, _i) ? "Success. Error message: " + iv.PrintError(item) : "Fail. Not caught by isValid");
+            if (item.Errors.Any()) { Console.WriteLine(_i.GetValidator().PrintError(item)); }
         }
 
-        public void ItemValidation4()
+        public void ItemValidation10()
         {
+            Console.WriteLine("[Test 10] Soft Delete valid item");
             Item item = _i.CreateObject("Buku Berlayar", "Berlayar Mengarungi Samudera Hindia dalam setahun", "LAY0001", 35);
-            Console.WriteLine("4. Test Delete item with no SMs");
-            Console.WriteLine(iv.ValidDeleteObject(item, _sm) ? "Success." : "Fail.  Error message: " + iv.PrintError(item));
+            _i.SoftDeleteObject(item, _sm);
+            if (item.Errors.Any()) { Console.WriteLine(_i.GetValidator().PrintError(item)); }
         }
 
-        public void ItemValidation5()
+        public void ItemValidation11()
         {
+            Console.WriteLine("[Test 11] Delete item Masak Memasak Koki Ternama with associated Sales Order");
             Contact contact = _c.CreateObject("Chef Degan", "I'm interested in all cooking books");
             Item item = _i.CreateObject("Masak Memasak Koki Ternama", "Master Chef Junior Learning from World Chefs", "COOK1234", 123);
             SalesOrder so = _so.CreateObject(contact.Id, DateTime.Today, _c);
             SalesOrderDetail sod = _sod.CreateObject(so.Id, item.Id, 1, _so, _i);
             so = _so.ConfirmObject(so, _sod, _sm, _i);
-            Console.WriteLine("5. Test Delete item with stock mutation");
-            Console.WriteLine(!iv.ValidDeleteObject(item, _sm) ? "Success. Error message: " + iv.PrintError(item) : "Fail.");
+            _i.SoftDeleteObject(item, _sm);
+            if (contact.Errors.Any()) { Console.WriteLine(_c.GetValidator().PrintError(contact)); }
+            if (item.Errors.Any()) { Console.WriteLine(_i.GetValidator().PrintError(item)); }
+            if (so.Errors.Any()) { Console.WriteLine(_so.GetValidator().PrintError(so)); }
+            if (sod.Errors.Any()) { Console.WriteLine(_sod.GetValidator().PrintError(sod)); }
         }
     }
 }

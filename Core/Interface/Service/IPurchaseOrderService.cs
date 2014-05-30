@@ -15,14 +15,14 @@ namespace Core.Interface.Service
         IList<PurchaseOrder> GetAll();
         PurchaseOrder GetObjectById(int Id);
         IList<PurchaseOrder> GetObjectsByContactId(int contactId);
-        PurchaseOrder CreateObject(PurchaseOrder purchaseOrder);
-        PurchaseOrder CreateObject(int contactId, DateTime purchaseDate);
-        PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder);
-        PurchaseOrder SoftDeleteObject(PurchaseOrder purchaseOrder);
+        PurchaseOrder CreateObject(PurchaseOrder purchaseOrder, IContactService _contactService);
+        PurchaseOrder CreateObject(int contactId, DateTime purchaseDate, IContactService _contactService);
+        PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder, IContactService _contactService);
+        PurchaseOrder SoftDeleteObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _purchaseOrderDetailService);
         bool DeleteObject(int Id);
-        PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _pods,
+        PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _purchaseOrderDetailService,
                                     IStockMutationService _stockMutationService, IItemService _itemService);
-        PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _pods,
+        PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _purchaseOrderDetailService,
                                     IPurchaseReceivalDetailService _purchaseReceivalDetailService, IStockMutationService _stockMutationService, IItemService _itemService);
     }
 }

@@ -45,17 +45,13 @@ namespace Validation.Validation
         public PurchaseOrderDetail VUniquePOD(PurchaseOrderDetail pod, IPurchaseOrderDetailService _pods, IItemService _is)
         {
             IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(pod.PurchaseOrderId);
-            int count = 0;
             foreach (var detail in details)
             {
                 if (detail.ItemId == pod.ItemId)
                 {
-                    count++;
+                    pod.Errors.Add("Error. Purchase order detail is not unique in this purchase order");
+                    return pod;
                 }
-            }
-            if (count > 1)
-            {
-                pod.Errors.Add("Error. Purchase order detail is not unique in this purchase order");
             }
             return pod;
         }

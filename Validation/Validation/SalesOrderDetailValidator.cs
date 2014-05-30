@@ -50,6 +50,7 @@ namespace Validation.Validation
                 if (detail.ItemId == sod.ItemId)
                 {
                     sod.Errors.Add("Error. Sales order detail is not unique in this sales order");
+                    return sod;
                 }
             }
             return sod;

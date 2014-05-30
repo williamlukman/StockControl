@@ -37,7 +37,6 @@ namespace Data.Repository
             purchaseOrder.IsDeleted = false;
             purchaseOrder.IsConfirmed = false;
             purchaseOrder.CreatedAt = DateTime.Now;
-            purchaseOrder.Errors = new HashSet<string>();
             return Create(purchaseOrder);
         }
 

@@ -39,6 +39,7 @@ namespace Service.Service
 
         public SalesOrderDetail CreateObject(SalesOrderDetail salesOrderDetail, ISalesOrderService _salesOrderService, IItemService _itemService)
         {
+            salesOrderDetail.Errors = new HashSet<string>();
             return (_validator.ValidCreateObject(salesOrderDetail, this, _salesOrderService, _itemService) ? _sd.CreateObject(salesOrderDetail) : salesOrderDetail);
         }
 

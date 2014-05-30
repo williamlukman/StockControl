@@ -40,7 +40,6 @@ namespace Data.Repository
             item.PendingReceival = 0;
             item.IsDeleted = false;
             item.CreatedAt = DateTime.Now;
-            item.Errors = new HashSet<string>();
             return Create(item);
         }
 

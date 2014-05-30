@@ -46,6 +46,7 @@ namespace Service.Service
                                                      IPurchaseOrderDetailService _purchaseOrderDetailService, IPurchaseOrderService _purchaseOrderService,
                                                      IItemService _itemService, IContactService _contactService)
         {
+            purchaseReceivalDetail.Errors = new HashSet<string>();
             return (_validator.ValidCreateObject(purchaseReceivalDetail, this, _purchaseReceivalService,
                                         _purchaseOrderDetailService, _purchaseOrderService, _itemService, _contactService) ?
                                         _pd.CreateObject(purchaseReceivalDetail) : purchaseReceivalDetail);

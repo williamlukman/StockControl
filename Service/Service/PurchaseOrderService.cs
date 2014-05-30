@@ -41,29 +41,30 @@ namespace Service.Service
             return _p.GetObjectsByContactId(contactId);
         }
 
-        public PurchaseOrder CreateObject(PurchaseOrder purchaseOrder)
+        public PurchaseOrder CreateObject(PurchaseOrder purchaseOrder, IContactService _contactService)
         {
-            return _p.CreateObject(purchaseOrder);
+            purchaseOrder.Errors = new HashSet<string>();
+            return (_validator.ValidCreateObject(purchaseOrder, _contactService) ? _p.CreateObject(purchaseOrder) : purchaseOrder);
         }
 
-        public PurchaseOrder CreateObject(int contactId, DateTime purchaseDate)
+        public PurchaseOrder CreateObject(int contactId, DateTime purchaseDate, IContactService _contactService)
         {
             PurchaseOrder po = new PurchaseOrder
             {
                 CustomerId = contactId,
                 PurchaseDate = purchaseDate
             };
-            return _p.CreateObject(po);
+            return this.CreateObject(po, _contactService);
         }
 
-        public PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder)
+        public PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder, IContactService _contactService)
         {
-            return _p.UpdateObject(purchaseOrder);
+            return (_validator.ValidUpdateObject(purchaseOrder, _contactService) ? _p.UpdateObject(purchaseOrder) : purchaseOrder);
         }
 
-        public PurchaseOrder SoftDeleteObject(PurchaseOrder purchaseOrder)
+        public PurchaseOrder SoftDeleteObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _purchaseOrderDetailService)
         {
-            return _p.SoftDeleteObject(purchaseOrder);
+            return (_validator.ValidDeleteObject(purchaseOrder, _purchaseOrderDetailService) ? _p.SoftDeleteObject(purchaseOrder) : purchaseOrder);
         }
 
         public bool DeleteObject(int Id)
@@ -71,26 +72,34 @@ namespace Service.Service
             return _p.DeleteObject(Id);
         }
 
-        public PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _pods,
+        public PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _purchaseOrderDetailService,
                                     IStockMutationService _stockMutationService, IItemService _itemService)
         {
-            IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(purchaseOrder.Id);
-            foreach (var detail in details)
+            if (_validator.ValidConfirmObject(purchaseOrder, _purchaseOrderDetailService))
             {
-                _pods.ConfirmObject(detail, _stockMutationService, _itemService);
+                _p.ConfirmObject(purchaseOrder);
+                IList<PurchaseOrderDetail> details = _purchaseOrderDetailService.GetObjectsByPurchaseOrderId(purchaseOrder.Id);
+                foreach (var detail in details)
+                {
+                    _purchaseOrderDetailService.ConfirmObject(detail, _stockMutationService, _itemService);
+                }
             }
-            return _p.ConfirmObject(purchaseOrder);
+            return purchaseOrder;
         }
 
         public PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _purchaseOrderDetailService,
                                     IPurchaseReceivalDetailService _purchaseReceivalDetailService, IStockMutationService _stockMutationService, IItemService _itemService)
         {
-            IList<PurchaseOrderDetail> details = _purchaseOrderDetailService.GetObjectsByPurchaseOrderId(purchaseOrder.Id);
-            foreach (var detail in details)
+            if (_validator.ValidUnconfirmObject(purchaseOrder, _purchaseOrderDetailService, _purchaseReceivalDetailService, _itemService))
             {
-                _purchaseOrderDetailService.UnconfirmObject(detail, _purchaseReceivalDetailService, _stockMutationService, _itemService);
+                _p.UnconfirmObject(purchaseOrder);
+                IList<PurchaseOrderDetail> details = _purchaseOrderDetailService.GetObjectsByPurchaseOrderId(purchaseOrder.Id);
+                foreach (var detail in details)
+                {
+                    _purchaseOrderDetailService.UnconfirmObject(detail, _purchaseReceivalDetailService, _stockMutationService, _itemService);
+                }
             }
-            return _p.UnconfirmObject(purchaseOrder);
+            return purchaseOrder;
         }
     }
 }

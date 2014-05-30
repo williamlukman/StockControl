@@ -54,17 +54,18 @@ namespace Service.Service
 
         public Contact CreateObject(Contact contact)
         {
+            contact.Errors = new HashSet<string>();
             return (_validator.ValidCreateObject(contact) ? _c.CreateObject(contact) : contact);
         }
 
         public Contact UpdateObject(Contact contact)
         {
-            return (_validator.ValidUpdateObject(contact) ? _c.UpdateObject(contact) : contact);
+            return (contact = _validator.ValidUpdateObject(contact) ? _c.UpdateObject(contact) : contact);
         }
 
         public Contact SoftDeleteObject(Contact contact, IPurchaseOrderService _pos, IPurchaseReceivalService _prs, ISalesOrderService _sos, IDeliveryOrderService _dos)
         {
-            return (_validator.ValidDeleteObject(contact, _pos, _prs, _sos, _dos) ? _c.SoftDeleteObject(contact) : contact);
+            return (contact = _validator.ValidDeleteObject(contact, _pos, _prs, _sos, _dos) ? _c.SoftDeleteObject(contact) : contact);
         }
 
         public bool DeleteObject(int Id)

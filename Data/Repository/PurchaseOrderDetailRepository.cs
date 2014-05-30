@@ -33,7 +33,6 @@ namespace Data.Repository
             purchaseOrderDetail.IsFulfilled = false;
             purchaseOrderDetail.IsDeleted = false;
             purchaseOrderDetail.CreatedAt = DateTime.Now;
-            purchaseOrderDetail.Errors = new HashSet<string>();
             return Create(purchaseOrderDetail);
         }
 

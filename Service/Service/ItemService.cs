@@ -49,6 +49,7 @@ namespace Service.Service
 
         public Item CreateObject(Item item)
         {
+            item.Errors = new HashSet<string>();
             return (_validator.ValidCreateObject(item, this) ? _i.CreateObject(item) : item);
         }
 
@@ -61,7 +62,7 @@ namespace Service.Service
                 Sku = Sku,
                 Ready = Ready
             };
-            return _i.CreateObject(item);
+            return this.CreateObject(item);
         }
 
         public Item UpdateObject(Item item)

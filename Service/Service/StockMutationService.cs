@@ -49,6 +49,7 @@ namespace Service.Service
 
         public StockMutation CreateObject(StockMutation stockMutation)
         {
+            stockMutation.Errors = new HashSet<string>();
             return (_validator.ValidCreateObject(stockMutation) ? _sm.CreateObject(stockMutation) : stockMutation);
         }
 

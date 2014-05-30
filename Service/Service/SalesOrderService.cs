@@ -43,6 +43,7 @@ namespace Service.Service
         
         public SalesOrder CreateObject(SalesOrder salesOrder, IContactService _contactService)
         {
+            salesOrder.Errors = new HashSet<string>();
             return (_validator.ValidCreateObject(salesOrder, _contactService) ? _s.CreateObject(salesOrder) : salesOrder);
         }
 

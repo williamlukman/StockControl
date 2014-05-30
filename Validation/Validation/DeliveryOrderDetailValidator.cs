@@ -101,17 +101,13 @@ namespace Validation.Validation
         public DeliveryOrderDetail VUniqueSOD(DeliveryOrderDetail dod, IDeliveryOrderDetailService _dods, IItemService _is)
         {
             IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(dod.DeliveryOrderId);
-            int count = 0;
             foreach (var detail in details)
             {
-                if (detail.SalesOrderDetailId == dod.SalesOrderDetailId)
+                if (detail.SalesOrderDetailId == dod.SalesOrderDetailId && detail.Id != dod.Id)
                 {
-                    count++;
+                    dod.Errors.Add("Error. Sales order detail has more than one delivery order detail in this delivery order");
+                    return dod;
                 }
-            }
-            if (count > 1)
-            {
-                dod.Errors.Add("Error. Sales order detail has more than one delivery order detail in this delivery order");
             }
             return dod;
         }

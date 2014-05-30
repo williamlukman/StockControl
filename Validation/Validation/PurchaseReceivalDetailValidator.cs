@@ -36,7 +36,13 @@ namespace Validation.Validation
         public PurchaseReceivalDetail VCustomer(PurchaseReceivalDetail prd, IPurchaseReceivalService _prs, IPurchaseOrderService _pos, IPurchaseOrderDetailService _pods, IContactService _cs)
         {
             PurchaseReceival pr = _prs.GetObjectById(prd.PurchaseReceivalId);
-            PurchaseOrder po = _pos.GetObjectById(_pods.GetObjectById(prd.PurchaseOrderDetailId).PurchaseOrderId);
+            PurchaseOrderDetail pod = _pods.GetObjectById(prd.PurchaseOrderDetailId);
+            if (pod == null)
+            {
+                prd.Errors.Add("Error. Could not find the associated purchase order detail");
+                return prd;
+            }
+            PurchaseOrder po = _pos.GetObjectById(pod.PurchaseOrderId);
             if (po.CustomerId != pr.CustomerId)
             {
                 prd.Errors.Add("Error. Contact does not match of purchase receival and purchase order");
@@ -47,13 +53,20 @@ namespace Validation.Validation
         public PurchaseReceivalDetail VQuantityCreate(PurchaseReceivalDetail prd, IPurchaseOrderDetailService _pods)
         {
             PurchaseOrderDetail pod = _pods.GetObjectById(prd.PurchaseOrderDetailId);
+            if (pod == null)
+            {
+                prd.Errors.Add("Error. Could not find the associated purchase order detail");
+                return prd;
+            }
             if (prd.Quantity <= 0)
             {
                 prd.Errors.Add("Error. Quantity must be greater than zero");
+                return prd;
             }
             if (prd.Quantity > pod.Quantity)
             {
                 prd.Errors.Add("Error. Quantity must be less than purchase order's quantity of " + pod.Quantity);
+                return prd;
             }
             return prd;
         }
@@ -85,17 +98,12 @@ namespace Validation.Validation
         public PurchaseReceivalDetail VUniquePOD(PurchaseReceivalDetail prd, IPurchaseReceivalDetailService _prds, IItemService _is)
         {
             IList<PurchaseReceivalDetail> details = _prds.GetObjectsByPurchaseReceivalId(prd.PurchaseReceivalId);
-            int count = 0;
             foreach (var detail in details)
             {
-                if (detail.PurchaseOrderDetailId == prd.PurchaseOrderDetailId)
+                if (detail.PurchaseOrderDetailId == prd.PurchaseOrderDetailId && detail.Id != prd.Id)
                 {
-                    count++;
+                     prd.Errors.Add("Error. Purchase order detail has more than one purchase receival detail in this purchase receival");
                 }
-            }
-            if (count > 1)
-            {
-                prd.Errors.Add("Error. Purchase order detail has more than one purchase receival detail in this purchase receival");
             }
             return prd;
         }
@@ -128,8 +136,11 @@ namespace Validation.Validation
         {
             VHasPurchaseReceival(prd, _prs);
             VHasItem(prd, _is);
+            if (!isValid(prd)) return prd;
             VCustomer(prd, _prs, _pos, _pods, _cs);
+            if (!isValid(prd)) return prd;
             VQuantityCreate(prd, _pods);
+            if (!isValid(prd)) return prd;
             VUniquePOD(prd, _prds, _is);
             return prd;
         }
@@ -139,9 +150,13 @@ namespace Validation.Validation
         {
             VHasPurchaseReceival(prd, _prs);
             VHasItem(prd, _is);
+            if (!isValid(prd)) return prd;
             VCustomer(prd, _prs, _pos, _pods, _cs);
+            if (!isValid(prd)) return prd;
             VQuantityUpdate(prd, _pods);
+            if (!isValid(prd)) return prd;
             VUniquePOD(prd, _prds, _is);
+            if (!isValid(prd)) return prd;
             VIsConfirmed(prd);
             return prd;
         }

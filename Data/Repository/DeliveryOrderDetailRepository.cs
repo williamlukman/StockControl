@@ -37,7 +37,6 @@ namespace Data.Repository
             deliveryOrderDetail.IsConfirmed = false;
             deliveryOrderDetail.IsDeleted = false;
             deliveryOrderDetail.CreatedAt = DateTime.Now;
-            deliveryOrderDetail.Errors = new HashSet<string>();
             return Create(deliveryOrderDetail);
         }
 

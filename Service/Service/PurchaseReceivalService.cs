@@ -43,6 +43,7 @@ namespace Service.Service
         
         public PurchaseReceival CreateObject(PurchaseReceival purchaseReceival, IContactService _contactService)
         {
+            purchaseReceival.Errors = new HashSet<string>();
             return (_validator.ValidCreateObject(purchaseReceival, _contactService) ? _p.CreateObject(purchaseReceival) : purchaseReceival);
         }
 

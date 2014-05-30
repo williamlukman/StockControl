@@ -42,7 +42,6 @@ namespace Data.Repository
         {
             stockMutation.IsDeleted = false;
             stockMutation.CreatedAt = DateTime.Now;
-            stockMutation.Errors = new HashSet<string>();
             return Create(stockMutation);
         }
 
