@@ -56,10 +56,13 @@ namespace ConsoleApp
                 Program p = new Program();
                 // Warning: this function will delete all data in the DB. Use with caution!!!
                 p.flushdb(db);
+                p.wait(1);
                 p.ValidateContactModel(p, db);
+                p.wait(1);
                 p.ValidateItemModel(p, db);
-                
+                p.wait(1);
                 p.ValidateReceivalModel(p, db);
+                p.wait(1);
                 p.ValidateDeliveryModel(p, db);
 
                 Console.WriteLine("Press any key to stop...");
@@ -107,9 +110,18 @@ namespace ConsoleApp
             int podtest2 = pov.POValidation16();
             int podtest3 = pov.POValidation17();
             int podtest4 = pov.POValidation18();
+
+            p.wait(2);
+
             pov.POValidation19a();
+            ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
+            ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
             pov.POValidation19b();
+            ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
+            ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
             pov.POValidation19a();
+
+            p.wait(2);
 
             PRValidation prv = new PRValidation(new PurchaseReceivalValidator(), new PurchaseReceivalDetailValidator(), this._c, this._i, this._sm,
                                this._po, this._pr, this._so, this._do,
@@ -118,12 +130,24 @@ namespace ConsoleApp
             prv.PRValidation21(podtest1);
             prv.PRValidation22();
             prv.PRValidation23();
+
+            p.wait(2);
+
             prv.PRValidation24(podtest4);
             prv.PRValidation25(podtest1);
             prv.PRValidation26(podtest4);
-            prv.PRValidation27();
+            prv.PRValidation27a();
+            ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
+            ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
 
             pov.POValidation28();
+            
+            prv.PRValidation27b();
+            ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
+            ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
+
+            p.wait(2);
+
         }
 
         public void ValidateDeliveryModel(Program p, StockControlEntities db)
@@ -136,12 +160,24 @@ namespace ConsoleApp
             int sodtest1 = sov.SOValidation30();
             sov.SOValidation31();
             sov.SOValidation32();
+            
+            p.wait(2);
+            
             int sodtest2 = sov.SOValidation33();
             int sodtest3 = sov.SOValidation34();
             int sodtest4 = sov.SOValidation35();
             sov.SOValidation36a();
+
+            p.wait(2);
+
+            ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
+            ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
             sov.SOValidation36b();
+            ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
+            ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
             sov.SOValidation36a();
+
+            p.wait(2);
 
             DOValidation dov = new DOValidation(new DeliveryOrderValidator(), new DeliveryOrderDetailValidator(), this._c, this._i, this._sm,
                                this._po, this._pr, this._so, this._do,
@@ -150,13 +186,24 @@ namespace ConsoleApp
             dov.DOValidation38(sodtest1);
             dov.DOValidation39();
             dov.DOValidation40();
+            
+            p.wait(2);
+            
             dov.DOValidation41(sodtest4);
             dov.DOValidation42(sodtest1);
             dov.DOValidation43(sodtest4);
-            dov.DOValidation44();
+            dov.DOValidation44a();
+
+            p.wait(2);
+
+            ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
+            ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
 
             sov.SOValidation45();
-
+            dov.DOValidation44b();
+            ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
+            ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
+            p.wait(2);
         }
 
         public void wait(int second)

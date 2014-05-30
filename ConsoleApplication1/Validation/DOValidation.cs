@@ -99,10 +99,17 @@ namespace ConsoleApp.Validation
             if (dod1.Errors.Any()) { Console.WriteLine(_dod.GetValidator().PrintError(dod1)); }
         }
 
-        public void DOValidation44()
+        public void DOValidation44a()
         {
             Console.WriteLine("[Test 44] Confirm DO and DOD for Michaelangelo");
             DeliveryOrder d = _do.ConfirmObject(_do.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _dod, _sod, _sm, _i);
+            if (d.Errors.Any()) { Console.WriteLine(_do.GetValidator().PrintError(d)); }
+        }
+
+        public void DOValidation44b()
+        {
+            Console.WriteLine("[Test 44] Unconfirm DO and DOD for Michaelangelo");
+            DeliveryOrder d = _do.UnconfirmObject(_do.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _dod, _sm, _i);
             if (d.Errors.Any()) { Console.WriteLine(_do.GetValidator().PrintError(d)); }
         }
 

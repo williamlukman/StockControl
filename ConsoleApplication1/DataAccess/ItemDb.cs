@@ -32,5 +32,13 @@ namespace ConsoleApp.DataAccess
             }
             Console.WriteLine();
         }
+
+        public static void Stock(Item i)
+        {
+            Console.WriteLine(">>>> Item: " + i.Name);
+            Console.WriteLine("     Ready: " + i.Ready);
+            Console.WriteLine("     PendingReceival: " + i.PendingReceival);
+            Console.WriteLine("     PendingDelivery: " + i.PendingDelivery);
+        }
     }
 }
