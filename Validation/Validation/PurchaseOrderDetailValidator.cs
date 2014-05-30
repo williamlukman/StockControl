@@ -78,6 +78,10 @@ namespace Validation.Validation
         public PurchaseOrderDetail VConfirmedPurchaseReceival(PurchaseOrderDetail pod, IPurchaseReceivalDetailService _prds)
         {
             PurchaseReceivalDetail prd = _prds.GetObjectByPurchaseOrderDetailId(pod.Id);
+            if (prd == null)
+            {
+                return pod;
+            }
             if (prd.IsConfirmed)
             {
                 pod.Errors.Add("Error. Associated purchase receival is confirmed already");

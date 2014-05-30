@@ -102,21 +102,25 @@ namespace ConsoleApp.Validation
             return pod1.Id;
         }
 
-        public void POValidation19()
+        public void POValidation19a()
         {
-            Console.WriteLine("[Test 19] Confirm PO and POD for Michaelangelo");
+            Console.WriteLine("[Test 19a] Confirm PO and POD for Michaelangelo");
             PurchaseOrder po = _po.ConfirmObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _pod, _sm, _i);
             if (po.Errors.Any()) { Console.WriteLine(_po.GetValidator().PrintError(po)); }
         }
 
-        /*
+        public void POValidation19b()
+        {
+            Console.WriteLine("[Test 19b] Unconfirm PO and POD for Michaelangelo");
+            PurchaseOrder po = _po.UnconfirmObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _pod, _prd, _sm, _i);
+            if (po.Errors.Any()) { Console.WriteLine(_po.GetValidator().PrintError(po)); }
+        }
+
         public void POValidation28()
         {
             Console.WriteLine("[Test 28] Unconfirm PO and POD for Michaelangelo that already has confirmed PR");
-            PurchaseOrder po = _po.UnconfirmObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _pod, _sm, _i);
+            PurchaseOrder po = _po.UnconfirmObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _pod, _prd, _sm, _i);
             if (po.Errors.Any()) { Console.WriteLine(_po.GetValidator().PrintError(po)); }
         }
-        */
-
     }
 }

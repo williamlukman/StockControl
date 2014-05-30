@@ -78,6 +78,10 @@ namespace Validation.Validation
         public SalesOrderDetail VConfirmedDeliveryOrder(SalesOrderDetail sod, IDeliveryOrderDetailService _dods)
         {
             DeliveryOrderDetail dod = _dods.GetObjectBySalesOrderDetailId(sod.Id);
+            if (dod == null)
+            {
+                return sod;
+            }
             if (dod.IsConfirmed)
             {
                 sod.Errors.Add("Error. Associated delivery order is confirmed already");

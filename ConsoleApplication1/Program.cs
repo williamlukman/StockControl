@@ -58,6 +58,7 @@ namespace ConsoleApp
                 p.flushdb(db);
                 p.ValidateContactModel(p, db);
                 p.ValidateItemModel(p, db);
+                
                 p.ValidateReceivalModel(p, db);
                 Console.WriteLine("Press any key to stop...");
                 Console.ReadKey();
@@ -104,7 +105,9 @@ namespace ConsoleApp
             int podtest2 = pov.POValidation16();
             int podtest3 = pov.POValidation17();
             int podtest4 = pov.POValidation18();
-            pov.POValidation19();
+            pov.POValidation19a();
+            pov.POValidation19b();
+            pov.POValidation19a();
 
             PRValidation prv = new PRValidation(new PurchaseReceivalValidator(), new PurchaseReceivalDetailValidator(), this._c, this._i, this._sm,
                                this._po, this._pr, this._so, this._do,
@@ -118,7 +121,7 @@ namespace ConsoleApp
             prv.PRValidation26(podtest4);
             prv.PRValidation27();
 
-            //pov.POValidation28();
+            pov.POValidation28();
         }
 
         public void ValidateDeliveryModel(Program p, StockControlEntities db)
