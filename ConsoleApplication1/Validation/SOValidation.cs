@@ -49,78 +49,78 @@ namespace ConsoleApp.Validation
             _dod = dod;            
         }
 
-        public void SOValidation29()
+        public void SOValidation1()
         {
-            Console.WriteLine("[Test 29] Create valid Sales Order for Michaelangelo");
+            Console.WriteLine("     [SO 1] Create valid Sales Order for Michaelangelo");
             SalesOrder so = _so.CreateObject(_c.GetObjectByName("Michaelangelo Buanorotti").Id, DateTime.Now,_c);
-            if (so.Errors.Any()) { Console.WriteLine(_so.GetValidator().PrintError(so)); }
+            if (so.Errors.Any()) { Console.WriteLine("        >> " + _so.GetValidator().PrintError(so)); }
         }
 
-        public int SOValidation30()
+        public int SOValidation2()
         {
-            Console.WriteLine("[Test 30] Create valid Sales Order Detail for Michaelangelo");
+            Console.WriteLine("     [SO 2] Create valid Sales Order Detail for Michaelangelo");
             SalesOrderDetail sod1 = _sod.CreateObject(_so.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 100, (decimal) 50000.00, _so, _i);
-            if (sod1.Errors.Any()) { Console.WriteLine(_sod.GetValidator().PrintError(sod1)); return 0; }
+            if (sod1.Errors.Any()) { Console.WriteLine("        >> " + _sod.GetValidator().PrintError(sod1)); return 0; }
             return sod1.Id;
         }
 
-        public void SOValidation31()
+        public void SOValidation3()
         {
-            Console.WriteLine("[Test 31] Create invalid Sales Order (wrong contact id)");
+            Console.WriteLine("     [SO 3] Create invalid Sales Order (wrong contact id)");
             SalesOrder so = _so.CreateObject(0, DateTime.Now, _c);
-            if (so.Errors.Any()) { Console.WriteLine(_so.GetValidator().PrintError(so)); }
+            if (so.Errors.Any()) { Console.WriteLine("        >> " + _so.GetValidator().PrintError(so)); }
         }
 
-        public void SOValidation32()
+        public void SOValidation4()
         {
-            Console.WriteLine("[Test 32] Create valid Sales Order");
+            Console.WriteLine("     [SO 4] Create valid SO");
             SalesOrder so = _so.CreateObject(_c.GetObjectByName("Andy Robinson").Id, new DateTime(2000, 2, 28), _c);
-            if (so.Errors.Any()) { Console.WriteLine(_so.GetValidator().PrintError(so)); }
+            if (so.Errors.Any()) { Console.WriteLine("        >> " + _so.GetValidator().PrintError(so)); }
         }
 
-        public int SOValidation33()
+        public int SOValidation5()
         {
-            Console.WriteLine("[Test 33] Create invalid Sales Order Detail for Michaelangelo with wrong contact");
+            Console.WriteLine("     [SO 5] Create invalid SOD for Michaelangelo with wrong contact");
             SalesOrderDetail sod1 = _sod.CreateObject(0, _i.GetObjectByName("Mini Garuda Indonesia").Id, 100, (decimal) 120000.00, _so, _i);
-            if (sod1.Errors.Any()) { Console.WriteLine(_sod.GetValidator().PrintError(sod1)); return 0; }
+            if (sod1.Errors.Any()) { Console.WriteLine("        >> " + _sod.GetValidator().PrintError(sod1)); return 0; }
             return sod1.Id;
         }
 
-        public int SOValidation34()
+        public int SOValidation6()
         {
-            Console.WriteLine("[Test 34] Create invalid Sales Order Detail for Michaelangelo with exact same item");
+            Console.WriteLine("     [SO 6] Create invalid SOD for Michaelangelo with exact same item");
             SalesOrderDetail sod1 = _sod.CreateObject(_so.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 50, (decimal) 35000.00, _so, _i);
-            if (sod1.Errors.Any()) { Console.WriteLine(_sod.GetValidator().PrintError(sod1)); return 0; }
+            if (sod1.Errors.Any()) { Console.WriteLine("        >> " + _sod.GetValidator().PrintError(sod1)); return 0; }
             return sod1.Id;
         }
 
-        public int SOValidation35()
+        public int SOValidation7()
         {
-            Console.WriteLine("[Test 35] Create valid Sales Order Detail for Michaelangelo");
+            Console.WriteLine("     [SO 7] Create valid SOD for Michaelangelo");
             SalesOrderDetail sod1 = _sod.CreateObject(_so.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Mini Garuda Indonesia").Id, 50, (decimal) 114500.00, _so, _i);
-            if (sod1.Errors.Any()) { Console.WriteLine(_sod.GetValidator().PrintError(sod1)); return 0; }
+            if (sod1.Errors.Any()) { Console.WriteLine("        >> " + _sod.GetValidator().PrintError(sod1)); return 0; }
             return sod1.Id;
         }
 
-        public void SOValidation36a()
+        public void SOValidation8()
         {
-            Console.WriteLine("[Test 36a] Confirm SO and SOD for Michaelangelo");
+            Console.WriteLine("     [SO 8] Confirm SO for Michaelangelo");
             SalesOrder so = _so.ConfirmObject(_so.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _sod, _sm, _i);
-            if (so.Errors.Any()) { Console.WriteLine(_so.GetValidator().PrintError(so)); }
+            if (so.Errors.Any()) { Console.WriteLine("        >> " + _so.GetValidator().PrintError(so)); }
         }
 
-        public void SOValidation36b()
+        public void SOValidation9()
         {
-            Console.WriteLine("[Test 36b] Unconfirm SO and SOD for Michaelangelo");
+            Console.WriteLine("     [SO 9] Unconfirm SO for Michaelangelo");
             SalesOrder so = _so.UnconfirmObject(_so.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _sod, _dod, _sm, _i);
-            if (so.Errors.Any()) { Console.WriteLine(_so.GetValidator().PrintError(so)); }
+            if (so.Errors.Any()) { Console.WriteLine("        >> " + _so.GetValidator().PrintError(so)); }
         }
 
-        public void SOValidation45()
+        public void SOValidation10()
         {
-            Console.WriteLine("[Test 45] Unconfirm SO and SOD for Michaelangelo that already has confirmed PR");
+            Console.WriteLine("     [SO 10] Unconfirm SO for Michaelangelo with confirmed PR");
             SalesOrder so = _so.UnconfirmObject(_so.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _sod, _dod, _sm, _i);
-            if (so.Errors.Any()) { Console.WriteLine(_so.GetValidator().PrintError(so)); }
+            if (so.Errors.Any()) { Console.WriteLine("        >> " + _so.GetValidator().PrintError(so)); }
         }
     }
 }

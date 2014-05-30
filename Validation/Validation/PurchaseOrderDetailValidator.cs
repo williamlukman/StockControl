@@ -177,9 +177,10 @@ namespace Validation.Validation
 
         public string PrintError(PurchaseOrderDetail pod)
         {
-            string erroroutput = "";
-            foreach (var item in pod.Errors)
+            string erroroutput = pod.Errors.ElementAt(0);
+            foreach (var item in pod.Errors.Skip(1))
             {
+                erroroutput += Environment.NewLine;
                 erroroutput += item;
             }
             return erroroutput;

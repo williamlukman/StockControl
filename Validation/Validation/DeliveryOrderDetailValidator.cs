@@ -224,9 +224,10 @@ namespace Validation.Validation
 
         public string PrintError(DeliveryOrderDetail dod)
         {
-            string erroroutput = "";
-            foreach (var item in dod.Errors)
+            string erroroutput = dod.Errors.ElementAt(0);
+            foreach (var item in dod.Errors.Skip(1))
             {
+                erroroutput += Environment.NewLine;
                 erroroutput += item;
             }
             return erroroutput;

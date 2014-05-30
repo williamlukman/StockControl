@@ -47,48 +47,48 @@ namespace ConsoleApp.Validation
             _dod = dod;            
         }
 
-        public void ItemValidation7()
+        public void ItemValidation1()
         {
-            Console.WriteLine("[Test 7] Create valid item Buku Tulis Kiky");
+            Console.WriteLine("     [Item 1] Create valid item Buku Tulis Kiky");
             Item item = _i.CreateObject("Buku Tulis Kiky A5", "Buku Tulis Garis-Garis Anak Sekolah", "KIKY0001");
-            if (item.Errors.Any()) { Console.WriteLine(_i.GetValidator().PrintError(item)); }
+            if (item.Errors.Any()) { Console.WriteLine("        >> " + _i.GetValidator().PrintError(item)); }
         }
 
-        public void ItemValidation8()
+        public void ItemValidation2()
         {
-            Console.WriteLine("[Test 8] Create item empty space");
+            Console.WriteLine("     [Item 2] Create item empty space");
             Item item = _i.CreateObject("    ", "Empty space name description", "SUPER0001");
-            if (item.Errors.Any()) { Console.WriteLine(_i.GetValidator().PrintError(item)); }
+            if (item.Errors.Any()) { Console.WriteLine("        >> " + _i.GetValidator().PrintError(item)); }
         }
 
-        public void ItemValidation9()
+        public void ItemValidation3()
         {
-            Console.WriteLine("[Test 9] Create valid item Mini Garuda Indonesia");
+            Console.WriteLine("     [Item 3] Create valid item Mini Garuda Indonesia");
             Item item = _i.CreateObject("Mini Garuda Indonesia", "Mini Pesawat Garuda Indonesia dengan stool", "SUPER0001");
-            if (item.Errors.Any()) { Console.WriteLine(_i.GetValidator().PrintError(item)); }
+            if (item.Errors.Any()) { Console.WriteLine("        >> " + _i.GetValidator().PrintError(item)); }
         }
 
-        public void ItemValidation10()
+        public void ItemValidation4()
         {
-            Console.WriteLine("[Test 10] Soft Delete valid item");
+            Console.WriteLine("     [Item 4] Soft Delete valid item");
             Item item = _i.CreateObject("Buku Berlayar", "Berlayar Mengarungi Samudera Hindia dalam setahun", "LAY0001");
             _i.SoftDeleteObject(item, _sm);
-            if (item.Errors.Any()) { Console.WriteLine(_i.GetValidator().PrintError(item)); }
+            if (item.Errors.Any()) { Console.WriteLine("        >> " + _i.GetValidator().PrintError(item)); }
         }
 
-        public void ItemValidation11()
+        public void ItemValidation5()
         {
-            Console.WriteLine("[Test 11] Delete item Masak Memasak Koki Ternama with associated Sales Order");
+            Console.WriteLine("     [Item 5] Delete item Masak Memasak with associated SO");
             Contact contact = _c.CreateObject("Chef Degan", "I'm interested in all cooking books");
             Item item = _i.CreateObject("Masak Memasak Koki Ternama", "Master Chef Junior Learning from World Chefs", "COOK1234");
             SalesOrder so = _so.CreateObject(contact.Id, DateTime.Today, _c);
             SalesOrderDetail sod = _sod.CreateObject(so.Id, item.Id, 1, (decimal) 5000.00, _so, _i);
             so = _so.ConfirmObject(so, _sod, _sm, _i);
             _i.SoftDeleteObject(item, _sm);
-            if (contact.Errors.Any()) { Console.WriteLine(_c.GetValidator().PrintError(contact)); }
-            if (item.Errors.Any()) { Console.WriteLine(_i.GetValidator().PrintError(item)); }
-            if (so.Errors.Any()) { Console.WriteLine(_so.GetValidator().PrintError(so)); }
-            if (sod.Errors.Any()) { Console.WriteLine(_sod.GetValidator().PrintError(sod)); }
+            if (contact.Errors.Any()) { Console.WriteLine("        >> " + _c.GetValidator().PrintError(contact)); }
+            if (item.Errors.Any()) { Console.WriteLine("        >> " + _i.GetValidator().PrintError(item)); }
+            if (so.Errors.Any()) { Console.WriteLine("        >> " + _so.GetValidator().PrintError(so)); }
+            if (sod.Errors.Any()) { Console.WriteLine("        >> " + _sod.GetValidator().PrintError(sod)); }
         }
     }
 }

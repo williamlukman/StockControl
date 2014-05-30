@@ -40,6 +40,8 @@
   <ItemGroup>
     <Compile Include="Constants\Constant.cs" />
     <Compile Include="DomainModel\Contact.cs" />
+    <Compile Include="DomainModel\StockAdjustmentDetail.cs" />
+    <Compile Include="DomainModel\StockAdjustment.cs" />
     <Compile Include="DomainModel\DeliveryOrderDetail.cs" />
     <Compile Include="DomainModel\SalesOrderDetail.cs" />
     <Compile Include="DomainModel\DeliveryOrder.cs" />
@@ -50,6 +52,8 @@
     <Compile Include="DomainModel\PurchaseOrder.cs" />
     <Compile Include="DomainModel\PurchaseOrderDetail.cs" />
     <Compile Include="DomainModel\StockMutation.cs" />
+    <Compile Include="Interface\Repository\IStockAdjustmentDetailRepository.cs" />
+    <Compile Include="Interface\Repository\IStockAdjustmentRepository.cs" />
     <Compile Include="Interface\Repository\IDeliveryOrderDetailRepository.cs" />
     <Compile Include="Interface\Repository\IDeliveryOrderRepository.cs" />
     <Compile Include="Interface\Repository\ISalesOrderDetailRepository.cs" />
@@ -58,6 +62,8 @@
     <Compile Include="Interface\Repository\IPurchaseReceivalRepository.cs" />
     <Compile Include="Interface\Repository\IContactRepository.cs" />
     <Compile Include="Interface\Repository\IRepository.cs" />
+    <Compile Include="Interface\Service\IStockAdjustmentService.cs" />
+    <Compile Include="Interface\Service\IStockAdjustmentDetailService.cs" />
     <Compile Include="Interface\Service\IDeliveryOrderService.cs" />
     <Compile Include="Interface\Service\IDeliveryOrderDetailService.cs" />
     <Compile Include="Interface\Service\ISalesOrderService.cs" />
@@ -65,6 +71,8 @@
     <Compile Include="Interface\Service\IPurchaseReceivalDetailService.cs" />
     <Compile Include="Interface\Service\IPurchaseReceivalService.cs" />
     <Compile Include="Interface\Service\IContactService.cs" />
+    <Compile Include="Interface\Validation\IStockAdjustmentValidator.cs" />
+    <Compile Include="Interface\Validation\IStockAdjustmentDetailValidator.cs" />
     <Compile Include="Interface\Validation\IDeliveryOrderDetailValidator.cs" />
     <Compile Include="Interface\Validation\IDeliveryOrderValidator.cs" />
     <Compile Include="Interface\Validation\IPurchaseReceivalDetailValidator.cs" />

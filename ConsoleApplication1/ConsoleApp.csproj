@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\ContactDb.cs" />
+    <Compile Include="DataAccess\StockAdjustmentDb.cs" />
     <Compile Include="DataAccess\DeliveryOrderDetailDb.cs" />
     <Compile Include="DataAccess\DeliveryOrderDb.cs" />
     <Compile Include="DataAccess\SalesOrderDetailDb.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\ContactValidation.cs" />
+    <Compile Include="Validation\SAValidation.cs" />
     <Compile Include="Validation\SOValidation.cs" />
     <Compile Include="Validation\DOValidation.cs" />
     <Compile Include="Validation\PRValidation.cs" />

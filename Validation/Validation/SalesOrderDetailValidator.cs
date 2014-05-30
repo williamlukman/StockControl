@@ -176,9 +176,10 @@ namespace Validation.Validation
 
         public string PrintError(SalesOrderDetail sod)
         {
-            string erroroutput = "";
-            foreach (var item in sod.Errors)
+            string erroroutput = sod.Errors.ElementAt(0);
+            foreach (var item in sod.Errors.Skip(1))
             {
+                erroroutput += Environment.NewLine;
                 erroroutput += item;
             }
             return erroroutput;

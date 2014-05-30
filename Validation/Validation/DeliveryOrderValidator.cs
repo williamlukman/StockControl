@@ -160,9 +160,10 @@ namespace Validation.Validation
 
         public string PrintError(DeliveryOrder d)
         {
-            string erroroutput = "";
-            foreach (var item in d.Errors)
+            string erroroutput = d.Errors.ElementAt(0);
+            foreach (var item in d.Errors.Skip(1))
             {
+                erroroutput += Environment.NewLine;
                 erroroutput += item;
             }
             return erroroutput;

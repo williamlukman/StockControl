@@ -30,7 +30,9 @@ namespace ConsoleApp
         private IDeliveryOrderService _do;
         private IDeliveryOrderDetailService _dod;
         private IStockMutationService _sm;
-        
+        private IStockAdjustmentService _sa;
+        private IStockAdjustmentDetailService _sad;
+
         public Program()
         {
             _c = new ContactService(new ContactRepository(), new ContactValidator());
@@ -44,6 +46,8 @@ namespace ConsoleApp
             _do = new DeliveryOrderService(new DeliveryOrderRepository(), new DeliveryOrderValidator());
             _dod = new DeliveryOrderDetailService(new DeliveryOrderDetailRepository(), new DeliveryOrderDetailValidator());
             _sm = new StockMutationService(new StockMutationRepository(), new StockMutationValidator());
+            _sa = new StockAdjustmentService(new StockAdjustmentRepository(), new StockAdjustmentValidator());
+            _sad = new StockAdjustmentDetailService(new StockAdjustmentDetailRepository(), new StockAdjustmentDetailValidator());
         }
 
         public static void Main(string[] args)
@@ -56,15 +60,11 @@ namespace ConsoleApp
                 Program p = new Program();
                 // Warning: this function will delete all data in the DB. Use with caution!!!
                 p.flushdb(db);
-                p.wait(1);
                 p.ValidateContactModel(p, db);
-                p.wait(1);
                 p.ValidateItemModel(p, db);
-                p.wait(1);
+                p.ValidateStockAdjustmentModel(p, db);
                 p.ValidateReceivalModel(p, db);
-                p.wait(1);
                 p.ValidateDeliveryModel(p, db);
-
                 Console.WriteLine("Press any key to stop...");
                 Console.ReadKey();
             }
@@ -86,125 +86,109 @@ namespace ConsoleApp
 
         public void ValidateItemModel(Program p, StockControlEntities db)
         {
+            Console.WriteLine();
             Console.WriteLine("[Item Validation Test]");
             ItemValidation iv = new ItemValidation(new ItemValidator(), this._c, this._i, this._sm,
                                            this._po, this._pr, this._so, this._do,
                                            this._pod, this._prd, this._sod, this._dod);
-            iv.ItemValidation7();
-            iv.ItemValidation8();
-            iv.ItemValidation9();
-            iv.ItemValidation10();
-            iv.ItemValidation11();
+            iv.ItemValidation1();
+            iv.ItemValidation2();
+            iv.ItemValidation3();
+            iv.ItemValidation4();
+            iv.ItemValidation5();
+        }
+
+        public void ValidateStockAdjustmentModel(Program p, StockControlEntities db)
+        {
+            Console.WriteLine();
+            Console.WriteLine("[Stock Adjustment Test]");
+            SAValidation sa = new SAValidation(new StockAdjustmentValidator(), new StockAdjustmentDetailValidator(),
+                                           this._c, this._i, this._sm,
+                                           this._po, this._pr, this._so, this._do,
+                                           this._pod, this._prd, this._sod, this._dod,
+                                           this._sa, this._sad);
+            int stockAdjustmentId = sa.SAValidation1();
+            sa.SAValidation2(stockAdjustmentId);
+            sa.SAValidation3(stockAdjustmentId);
+            sa.SAValidation4(stockAdjustmentId);
         }
 
         public void ValidateReceivalModel(Program p, StockControlEntities db)
         {
-            Console.WriteLine("[Receival Validation Test]");
+            Console.WriteLine();
+            Console.WriteLine("[Puchase Order Validation Test]");
             POValidation pov = new POValidation(new PurchaseOrderValidator(), new PurchaseOrderDetailValidator(), this._c, this._i, this._sm,
                                            this._po, this._pr, this._so, this._do,
                                            this._pod, this._prd, this._sod, this._dod);
-            pov.POValidation12();
-            int podtest1 = pov.POValidation13();
-            pov.POValidation14();
-            pov.POValidation15();
-            int podtest2 = pov.POValidation16();
-            int podtest3 = pov.POValidation17();
-            int podtest4 = pov.POValidation18();
+            pov.POValidation1();
+            int podtest1 = pov.POValidation2();
+            pov.POValidation3();
+            pov.POValidation4();
+            int podtest2 = pov.POValidation5();
+            int podtest3 = pov.POValidation6();
+            int podtest4 = pov.POValidation7();
+            pov.POValidation8();
+            pov.POValidation9();
+            pov.POValidation8();
 
-            p.wait(2);
-
-            pov.POValidation19a();
-            ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
-            ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
-            pov.POValidation19b();
-            ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
-            ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
-            pov.POValidation19a();
-
-            p.wait(2);
+            Console.WriteLine();
+            Console.WriteLine("[Purchase Receival Validation Test]");
 
             PRValidation prv = new PRValidation(new PurchaseReceivalValidator(), new PurchaseReceivalDetailValidator(), this._c, this._i, this._sm,
                                this._po, this._pr, this._so, this._do,
                                this._pod, this._prd, this._sod, this._dod);
-            prv.PRValidation20();
-            prv.PRValidation21(podtest1);
-            prv.PRValidation22();
-            prv.PRValidation23();
+            prv.PRValidation1();
+            prv.PRValidation2(podtest1);
+            prv.PRValidation3();
+            prv.PRValidation4();
+            prv.PRValidation5(podtest4);
+            prv.PRValidation6(podtest1);
+            prv.PRValidation7(podtest4);
+            prv.PRValidation8();
 
-            p.wait(2);
-
-            prv.PRValidation24(podtest4);
-            prv.PRValidation25(podtest1);
-            prv.PRValidation26(podtest4);
-            prv.PRValidation27a();
-            ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
-            ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
-
-            pov.POValidation28();
+            pov.POValidation9();
             
-            prv.PRValidation27b();
-            ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
-            ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
-            prv.PRValidation27a();
-
-            p.wait(2);
-
+            prv.PRValidation9();
+            prv.PRValidation8();
         }
 
         public void ValidateDeliveryModel(Program p, StockControlEntities db)
         {
-            Console.WriteLine("[Delivery Validation Test]");
+            Console.WriteLine();
+            Console.WriteLine("[Sales Order Validation Test]");
             SOValidation sov = new SOValidation(new SalesOrderValidator(), new SalesOrderDetailValidator(), this._c, this._i, this._sm,
                                            this._po, this._pr, this._so, this._do,
                                            this._pod, this._prd, this._sod, this._dod);
-            sov.SOValidation29();
-            int sodtest1 = sov.SOValidation30();
-            sov.SOValidation31();
-            sov.SOValidation32();
+            sov.SOValidation1();
+            int sodtest1 = sov.SOValidation2();
+            sov.SOValidation3();
+            sov.SOValidation4();
             
-            p.wait(2);
-            
-            int sodtest2 = sov.SOValidation33();
-            int sodtest3 = sov.SOValidation34();
-            int sodtest4 = sov.SOValidation35();
-            sov.SOValidation36a();
+            int sodtest2 = sov.SOValidation5();
+            int sodtest3 = sov.SOValidation6();
+            int sodtest4 = sov.SOValidation7();
+            sov.SOValidation8();
 
-            p.wait(2);
+            sov.SOValidation9();
+            sov.SOValidation10();
 
-            ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
-            ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
-            sov.SOValidation36b();
-            ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
-            ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
-            sov.SOValidation36a();
-
-            p.wait(2);
+            Console.WriteLine();
+            Console.WriteLine("[Purchase Order Validation Test]");
 
             DOValidation dov = new DOValidation(new DeliveryOrderValidator(), new DeliveryOrderDetailValidator(), this._c, this._i, this._sm,
                                this._po, this._pr, this._so, this._do,
                                this._pod, this._prd, this._sod, this._dod);
-            dov.DOValidation37();
-            dov.DOValidation38(sodtest1);
-            dov.DOValidation39();
-            dov.DOValidation40();
-            
-            p.wait(2);
-            
-            dov.DOValidation41(sodtest4);
-            dov.DOValidation42(sodtest1);
-            dov.DOValidation43(sodtest4);
-            dov.DOValidation44a();
+            dov.DOValidation1();
+            dov.DOValidation2(sodtest1);
+            dov.DOValidation3();
+            dov.DOValidation4();
+            dov.DOValidation5(sodtest4);
+            dov.DOValidation6(sodtest1);
+            dov.DOValidation7(sodtest4);
+            dov.DOValidation8();
 
-            p.wait(2);
-
-            ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
-            ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
-
-            sov.SOValidation45();
-            dov.DOValidation44b();
-            ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
-            ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
-            p.wait(2);
+            sov.SOValidation10();
+            dov.DOValidation9();
         }
 
         public void wait(int second)
@@ -221,6 +205,7 @@ namespace ConsoleApp
             SalesOrderDb.Delete(db, _so, _sod);
             DeliveryOrderDb.Delete(db, _do, _dod);
             StockMutationDb.Delete(db, _sm);
+            StockAdjustmentDb.Delete(db, _sa, _sad);
             Console.WriteLine("[Clean] Database is clean");
         }
     }

@@ -122,9 +122,10 @@ namespace Validation.Validation
 
         public string PrintError(Contact c)
         {
-            string erroroutput = "";
-            foreach (var item in c.Errors)
+            string erroroutput = c.Errors.ElementAt(0);
+            foreach (var item in c.Errors.Skip(1))
             {
+                erroroutput += Environment.NewLine;
                 erroroutput += item;
             }
             return erroroutput;

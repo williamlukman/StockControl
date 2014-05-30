@@ -49,68 +49,68 @@ namespace ConsoleApp.Validation
             _dod = dod;            
         }
 
-        public void DOValidation37()
+        public void DOValidation1()
         {
-            Console.WriteLine("[Test 37] Create valid Delivery Order for Michaelangelo");
+            Console.WriteLine("     [DO 1] Create valid DO for Michaelangelo");
             DeliveryOrder d = _do.CreateObject(_c.GetObjectByName("Michaelangelo Buanorotti").Id, DateTime.Now,_c);
-            if (d.Errors.Any()) { Console.WriteLine(_do.GetValidator().PrintError(d)); }
+            if (d.Errors.Any()) { Console.WriteLine("        >> " + _do.GetValidator().PrintError(d)); }
         }
 
-        public void DOValidation38(int salesOrderDetailId)
+        public void DOValidation2(int salesOrderDetailId)
         {
-            Console.WriteLine("[Test 38] Create valid Delivery Order Detail for Michaelangelo");
+            Console.WriteLine("     [DO 2] Create valid DOD for Michaelangelo");
             int doid = _do.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id;
             DeliveryOrderDetail dod1 = _dod.CreateObject(doid, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 100, salesOrderDetailId, _do, _sod, _so, _i, _c);
-            if (dod1.Errors.Any()) { Console.WriteLine(_dod.GetValidator().PrintError(dod1)); }
+            if (dod1.Errors.Any()) { Console.WriteLine("        >> " + _dod.GetValidator().PrintError(dod1)); }
         }
 
-        public void DOValidation39()
+        public void DOValidation3()
         {
-            Console.WriteLine("[Test 39] Create invalid Delivery Order (wrong contact id)");
+            Console.WriteLine("     [DO 3] Create invalid DO (wrong contact id)");
             DeliveryOrder d = _do.CreateObject(0, DateTime.Now, _c);
-            if (d.Errors.Any()) { Console.WriteLine(_do.GetValidator().PrintError(d)); }
+            if (d.Errors.Any()) { Console.WriteLine("        >> " + _do.GetValidator().PrintError(d)); }
         }
 
-        public void DOValidation40()
+        public void DOValidation4()
         {
-            Console.WriteLine("[Test 40] Create valid Delivery Order");
+            Console.WriteLine("     [DO 4] Create valid Delivery Order");
             DeliveryOrder d = _do.CreateObject(_c.GetObjectByName("Andy Robinson").Id, new DateTime(2000, 2, 28), _c);
-            if (d.Errors.Any()) { Console.WriteLine(_do.GetValidator().PrintError(d)); }
+            if (d.Errors.Any()) { Console.WriteLine("        >> " + _do.GetValidator().PrintError(d)); }
         }
 
-        public void DOValidation41(int salesOrderDetailId)
+        public void DOValidation5(int salesOrderDetailId)
         {
-            Console.WriteLine("[Test 41] Create invalid Delivery Order Detail for Michaelangelo with wrong contact");
+            Console.WriteLine("     [DO 5] Create invalid DOD for Michaelangelo with wrong contact");
             DeliveryOrderDetail dod1 = _dod.CreateObject(0, _i.GetObjectByName("Mini Garuda Indonesia").Id, 100, salesOrderDetailId, _do, _sod, _so, _i, _c);
-            if (dod1.Errors.Any()) { Console.WriteLine(_dod.GetValidator().PrintError(dod1)); }
+            if (dod1.Errors.Any()) { Console.WriteLine("        >> " + _dod.GetValidator().PrintError(dod1)); }
         }
 
-        public void DOValidation42(int salesOrderDetailId)
+        public void DOValidation6(int salesOrderDetailId)
         {
-            Console.WriteLine("[Test 42] Create invalid Delivery Order Detail for Michaelangelo with exact same item");
+            Console.WriteLine("     [DO 6] Create invalid DOD for Michaelangelo with exact same item");
             DeliveryOrderDetail dod1 = _dod.CreateObject(_do.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 50, salesOrderDetailId, _do, _sod, _so, _i, _c);
-            if (dod1.Errors.Any()) { Console.WriteLine(_dod.GetValidator().PrintError(dod1)); }
+            if (dod1.Errors.Any()) { Console.WriteLine("        >> " + _dod.GetValidator().PrintError(dod1)); }
         }
 
-        public void DOValidation43(int salesOrderDetailId)
+        public void DOValidation7(int salesOrderDetailId)
         {
-            Console.WriteLine("[Test 43] Create valid Delivery Order Detail for Michaelangelo");
+            Console.WriteLine("     [DO 7] Create valid DOD for Michaelangelo");
             DeliveryOrderDetail dod1 = _dod.CreateObject(_do.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Mini Garuda Indonesia").Id, 50, salesOrderDetailId, _do, _sod, _so, _i, _c);
-            if (dod1.Errors.Any()) { Console.WriteLine(_dod.GetValidator().PrintError(dod1)); }
+            if (dod1.Errors.Any()) { Console.WriteLine("        >> " + _dod.GetValidator().PrintError(dod1)); }
         }
 
-        public void DOValidation44a()
+        public void DOValidation8()
         {
-            Console.WriteLine("[Test 44] Confirm DO and DOD for Michaelangelo");
+            Console.WriteLine("     [DO 8] Confirm DO and DOD for Michaelangelo");
             DeliveryOrder d = _do.ConfirmObject(_do.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _dod, _sod, _sm, _i);
-            if (d.Errors.Any()) { Console.WriteLine(_do.GetValidator().PrintError(d)); }
+            if (d.Errors.Any()) { Console.WriteLine("        >> " + _do.GetValidator().PrintError(d)); }
         }
 
-        public void DOValidation44b()
+        public void DOValidation9()
         {
-            Console.WriteLine("[Test 44] Unconfirm DO and DOD for Michaelangelo");
+            Console.WriteLine("     [DO 9] Unconfirm DO and DOD for Michaelangelo");
             DeliveryOrder d = _do.UnconfirmObject(_do.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _dod, _sm, _i);
-            if (d.Errors.Any()) { Console.WriteLine(_do.GetValidator().PrintError(d)); }
+            if (d.Errors.Any()) { Console.WriteLine("        >> " + _do.GetValidator().PrintError(d)); }
         }
 
     }

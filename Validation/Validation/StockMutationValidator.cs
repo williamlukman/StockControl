@@ -106,9 +106,10 @@ namespace Validation.Validation
 
         public string PrintError(StockMutation sm)
         {
-            string erroroutput = "";
-            foreach (var item in sm.Errors)
+            string erroroutput = sm.Errors.ElementAt(0);
+            foreach (var item in sm.Errors.Skip(1))
             {
+                erroroutput += Environment.NewLine;
                 erroroutput += item;
             }
             return erroroutput;

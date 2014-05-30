@@ -219,9 +219,10 @@ namespace Validation.Validation
 
         public string PrintError(PurchaseReceivalDetail prd)
         {
-            string erroroutput = "";
-            foreach (var item in prd.Errors)
+            string erroroutput = prd.Errors.ElementAt(0);
+            foreach (var item in prd.Errors.Skip(1))
             {
+                erroroutput += Environment.NewLine;
                 erroroutput += item;
             }
             return erroroutput;

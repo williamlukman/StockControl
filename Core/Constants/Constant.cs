@@ -21,6 +21,7 @@ namespace Core.Constant
             public static string PurchaseReceival = "PurchaseReceival";
             public static string SalesOrder = "SalesOrder";
             public static string DeliveryOrder = "DeliveryOrder";
+            public static string StockAdjustment = "StockAdjustment";
         }
 
         public class SourceDocumentDetailType
@@ -29,7 +30,7 @@ namespace Core.Constant
             public static string PurchaseReceivalDetail = "PurchaseReceivalDetail";
             public static string SalesOrderDetail = "SalesOrderDetail";
             public static string DeliveryOrderDetail = "DeliveryOrderDetail";
-
+            public static string StockAdjustmentDetail = "StockAdjustmentDetail";
         }
     }
 }

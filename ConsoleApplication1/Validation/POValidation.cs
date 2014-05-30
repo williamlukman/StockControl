@@ -49,78 +49,78 @@ namespace ConsoleApp.Validation
             _dod = dod;            
         }
 
-        public void POValidation12()
+        public void POValidation1()
         {
-            Console.WriteLine("[Test 12] Create valid Purchase Order for Michaelangelo");
+            Console.WriteLine("     [PO 1] Create valid Purchase Order for Michaelangelo");
             PurchaseOrder po = _po.CreateObject(_c.GetObjectByName("Michaelangelo Buanorotti").Id, DateTime.Now,_c);
-            if (po.Errors.Any()) { Console.WriteLine(_po.GetValidator().PrintError(po)); }
+            if (po.Errors.Any()) { Console.WriteLine("        >> " + _po.GetValidator().PrintError(po)); }
         }
 
-        public int POValidation13()
+        public int POValidation2()
         {
-            Console.WriteLine("[Test 13] Create valid Purchase Order Detail for Michaelangelo");
+            Console.WriteLine("     [PO 2] Create valid Purchase Order Detail for Michaelangelo");
             PurchaseOrderDetail pod1 = _pod.CreateObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 100, (decimal) 35000.00, _po, _i);
-            if (pod1.Errors.Any()) { Console.WriteLine(_pod.GetValidator().PrintError(pod1)); return 0; }
+            if (pod1.Errors.Any()) { Console.WriteLine("        >> " + _pod.GetValidator().PrintError(pod1)); return 0; }
             return pod1.Id;
         }
 
-        public void POValidation14()
+        public void POValidation3()
         {
-            Console.WriteLine("[Test 14] Create invalid Purchase Order (wrong contact id)");
+            Console.WriteLine("     [PO 3] Create invalid Purchase Order (wrong contact id)");
             PurchaseOrder po = _po.CreateObject(0, DateTime.Now, _c);
-            if (po.Errors.Any()) { Console.WriteLine(_po.GetValidator().PrintError(po)); }
+            if (po.Errors.Any()) { Console.WriteLine("        >> " + _po.GetValidator().PrintError(po)); }
         }
 
-        public void POValidation15()
+        public void POValidation4()
         {
-            Console.WriteLine("[Test 15] Create valid Purchase Order");
+            Console.WriteLine("     [PO 4] Create valid Purchase Order");
             PurchaseOrder po = _po.CreateObject(_c.GetObjectByName("Andy Robinson").Id, new DateTime(2000, 2, 28), _c);
-            if (po.Errors.Any()) { Console.WriteLine(_po.GetValidator().PrintError(po)); }
+            if (po.Errors.Any()) { Console.WriteLine("        >> " + _po.GetValidator().PrintError(po)); }
         }
 
-        public int POValidation16()
+        public int POValidation5()
         {
-            Console.WriteLine("[Test 16] Create invalid Purchase Order Detail for Michaelangelo with wrong contact");
+            Console.WriteLine("     [PO 5] Create invalid POD for Michaelangelo with wrong contact");
             PurchaseOrderDetail pod1 = _pod.CreateObject(0, _i.GetObjectByName("Mini Garuda Indonesia").Id, 100, (decimal) 111000.00, _po, _i);
-            if (pod1.Errors.Any()) { Console.WriteLine(_pod.GetValidator().PrintError(pod1)); return 0; }
+            if (pod1.Errors.Any()) { Console.WriteLine("        >> " + _pod.GetValidator().PrintError(pod1)); return 0; }
             return pod1.Id;
         }
 
-        public int POValidation17()
+        public int POValidation6()
         {
-            Console.WriteLine("[Test 17] Create invalid Purchase Order Detail for Michaelangelo with exact same item");
+            Console.WriteLine("     [PO 6] Create invalid POD for Michaelangelo with exact same item");
             PurchaseOrderDetail pod1 = _pod.CreateObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 50, (decimal) 32000.00, _po, _i);
-            if (pod1.Errors.Any()) { Console.WriteLine(_pod.GetValidator().PrintError(pod1)); return 0; }
+            if (pod1.Errors.Any()) { Console.WriteLine("        >> " + _pod.GetValidator().PrintError(pod1)); return 0; }
             return pod1.Id;
         }
 
-        public int POValidation18()
+        public int POValidation7()
         {
-            Console.WriteLine("[Test 18] Create valid Purchase Order Detail for Michaelangelo");
+            Console.WriteLine("     [PO 7] Create valid Purchase Order Detail for Michaelangelo");
             PurchaseOrderDetail pod1 = _pod.CreateObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Mini Garuda Indonesia").Id, 50, (decimal) 107000.00, _po, _i);
-            if (pod1.Errors.Any()) { Console.WriteLine(_pod.GetValidator().PrintError(pod1)); return 0; }
+            if (pod1.Errors.Any()) { Console.WriteLine("        >> " + _pod.GetValidator().PrintError(pod1)); return 0; }
             return pod1.Id;
         }
 
-        public void POValidation19a()
+        public void POValidation8()
         {
-            Console.WriteLine("[Test 19a] Confirm PO and POD for Michaelangelo");
+            Console.WriteLine("     [PO 8] Confirm PO and POD for Michaelangelo");
             PurchaseOrder po = _po.ConfirmObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _pod, _sm, _i);
             if (po.Errors.Any()) { Console.WriteLine(_po.GetValidator().PrintError(po)); }
         }
 
-        public void POValidation19b()
+        public void POValidation9()
         {
-            Console.WriteLine("[Test 19b] Unconfirm PO and POD for Michaelangelo");
+            Console.WriteLine("     [PO 9] Unconfirm PO and POD for Michaelangelo");
             PurchaseOrder po = _po.UnconfirmObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _pod, _prd, _sm, _i);
-            if (po.Errors.Any()) { Console.WriteLine(_po.GetValidator().PrintError(po)); }
+            if (po.Errors.Any()) { Console.WriteLine("        >> " + _po.GetValidator().PrintError(po)); }
         }
 
-        public void POValidation28()
+        public void POValidation10()
         {
-            Console.WriteLine("[Test 28] Unconfirm PO and POD for Michaelangelo that already has confirmed PR");
+            Console.WriteLine("     [PO 10] Unconfirm PO for Michaelangelo with confirmed PR");
             PurchaseOrder po = _po.UnconfirmObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _pod, _prd, _sm, _i);
-            if (po.Errors.Any()) { Console.WriteLine(_po.GetValidator().PrintError(po)); }
+            if (po.Errors.Any()) { Console.WriteLine("        >> " + _po.GetValidator().PrintError(po)); }
         }
     }
 }

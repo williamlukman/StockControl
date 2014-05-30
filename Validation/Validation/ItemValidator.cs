@@ -85,9 +85,10 @@ namespace Validation.Validation
 
         public string PrintError(Item i)
         {
-            string erroroutput = "";
-            foreach (var item in i.Errors)
+            string erroroutput = i.Errors.ElementAt(0);
+            foreach (var item in i.Errors.Skip(1))
             {
+                erroroutput += Environment.NewLine;
                 erroroutput += item;
             }
             return erroroutput;

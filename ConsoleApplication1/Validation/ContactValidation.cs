@@ -48,50 +48,50 @@ namespace ConsoleApp.Validation
 
         public void ContactValidation1()
         {
-            Console.WriteLine("[Test 1] Create valid person Michaelangelo");
+            Console.WriteLine("     [CNT 1] Create valid person Michaelangelo");
             Contact contact = _c.CreateObject("Michaelangelo Buanorotti", "Pisa Tower");
-            if (contact.Errors.Any()) { Console.WriteLine(_c.GetValidator().PrintError(contact)); }
+            if (contact.Errors.Any()) { Console.WriteLine("        >> " + _c.GetValidator().PrintError(contact)); }
         }
 
         public void ContactValidation2()
         {
-            Console.WriteLine("[Test 2] Create invalid person with empty string name");
+            Console.WriteLine("     [CNT 2] Create invalid person with empty string name");
             Contact contact = _c.CreateObject("    ", "Empty space name does not live in anywhere");
-            if (contact.Errors.Any()) { Console.WriteLine(_c.GetValidator().PrintError(contact)); }
+            if (contact.Errors.Any()) { Console.WriteLine("        >> " + _c.GetValidator().PrintError(contact)); }
         }
 
         public void ContactValidation3()
         {
-            Console.WriteLine("[Test 3] Create invalid person with empty string address");
+            Console.WriteLine("     [CNT 3] Create invalid person with empty string address");
             Contact contact = _c.CreateObject("I have no address.", " ");
-            if (contact.Errors.Any()) { Console.WriteLine(_c.GetValidator().PrintError(contact)); }
+            if (contact.Errors.Any()) { Console.WriteLine("        >> " + _c.GetValidator().PrintError(contact)); }
         }
 
         public void ContactValidation4()
         {
-            Console.WriteLine("[Test 4] Create valid person Andy Robinson");
+            Console.WriteLine("     [CNT 4] Create valid person Andy Robinson");
             Contact contact = _c.CreateObject("Andy Robinson", "CEO of Gotong Royong");
-            if (contact.Errors.Any()) { Console.WriteLine(_c.GetValidator().PrintError(contact)); }
+            if (contact.Errors.Any()) { Console.WriteLine("        >> " + _c.GetValidator().PrintError(contact)); }
         }
 
         public void ContactValidation5()
         {
-            Console.WriteLine("[Test 5] Delete Person Andy Barbie with associated purchase order");
+            Console.WriteLine("     [CNT 5] Delete Person Andy Barbie with associated purchase order");
             Contact contact = _c.CreateObject("Andy Barbie", "CEO of Putus Asa");
             PurchaseOrder po1 = _po.CreateObject(_c.GetObjectByName("Andy Barbie").Id, DateTime.Today, _c);
             contact =_c.SoftDeleteObject(contact, _po, _pr, _so, _do);
-            if (po1.Errors.Any()) { Console.WriteLine(_po.GetValidator().PrintError(po1)); }
-            if (contact.Errors.Any()) { Console.WriteLine(_c.GetValidator().PrintError(contact)); }
+            if (po1.Errors.Any()) { Console.WriteLine("        >> " + _po.GetValidator().PrintError(po1)); }
+            if (contact.Errors.Any()) { Console.WriteLine("        >> " + _c.GetValidator().PrintError(contact)); }
         }
 
         public void ContactValidation6()
         {
-            Console.WriteLine("[Test 6] Delete Person Andy Upho with associated sales order");
+            Console.WriteLine("     [CNT 6] Delete Person Andy Upho with associated sales order");
             Contact contact = _c.CreateObject("Andy Upho", "CEO of Angkat Besi");
             SalesOrder so1 = _so.CreateObject(_c.GetObjectByName("Andy Upho").Id, DateTime.Today, _c);
             contact = _c.SoftDeleteObject(contact, _po, _pr, _so, _do);
-            if (contact.Errors.Any()) { Console.WriteLine(_c.GetValidator().PrintError(contact)); }
-            if (so1.Errors.Any()) { Console.WriteLine(_so.GetValidator().PrintError(so1)); }
+            if (contact.Errors.Any()) { Console.WriteLine("        >> " + _c.GetValidator().PrintError(contact)); }
+            if (so1.Errors.Any()) { Console.WriteLine("        >> " + _so.GetValidator().PrintError(so1)); }
         }
     }
 }

@@ -144,9 +144,10 @@ namespace Validation.Validation
 
         public string PrintError(PurchaseOrder po)
         {
-            string erroroutput = "";
-            foreach (var item in po.Errors)
+            string erroroutput = po.Errors.ElementAt(0);
+            foreach (var item in po.Errors.Skip(1))
             {
+                erroroutput += Environment.NewLine;
                 erroroutput += item;
             }
             return erroroutput;

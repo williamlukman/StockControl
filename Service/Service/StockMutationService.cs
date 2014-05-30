@@ -178,5 +178,29 @@ namespace Service.Service
             return stockMutations;
         }
 
+        public StockMutation CreateStockMutationForStockAdjustment(StockAdjustmentDetail sad, Item item)
+        {
+            StockMutation sm = new StockMutation();
+            sm.ItemId = sad.ItemId;
+            sm.Quantity = sad.Quantity;
+            sm.SourceDocumentType = Constant.SourceDocumentType.StockAdjustment;
+            sm.SourceDocumentId = sad.StockAdjustmentId;
+            sm.SourceDocumentDetailType = Constant.SourceDocumentDetailType.StockAdjustmentDetail;
+            sm.SourceDocumentDetailId = sad.Id;
+            sm.ItemCase = Constant.StockMutationItemCase.Ready;
+            sm.Status = Constant.StockMutationStatus.Addition;
+            return _repository.CreateObject(sm);
+        }
+
+        public IList<StockMutation> SoftDeleteStockMutationForStockAdjustment(StockAdjustmentDetail sad, Item item)
+        {
+            IList<StockMutation> stockMutations = _repository.GetObjectsBySourceDocumentDetail(item.Id, Constant.SourceDocumentDetailType.StockAdjustmentDetail, sad.Id);
+            foreach (var sm in stockMutations)
+            {
+                _repository.SoftDeleteObject(sm);
+            }
+            return stockMutations;
+        }
+
     }
 }

@@ -22,12 +22,14 @@ namespace Core.Interface.Service
          bool DeleteObject(int Id);
          StockMutation CreateStockMutationForPurchaseOrder(PurchaseOrderDetail pod, Item item);
          IList<StockMutation> CreateStockMutationForPurchaseReceival(PurchaseReceivalDetail prd, Item item);
+         StockMutation CreateStockMutationForStockAdjustment(StockAdjustmentDetail sad, Item item);
          StockMutation CreateStockMutationForSalesOrder(SalesOrderDetail sod, Item item);
          IList<StockMutation> CreateStockMutationForDeliveryOrder(DeliveryOrderDetail dod, Item item);
          IList<StockMutation> SoftDeleteStockMutationForPurchaseOrder(PurchaseOrderDetail pod, Item item);
          IList<StockMutation> SoftDeleteStockMutationForPurchaseReceival(PurchaseReceivalDetail prd, Item item);
          IList<StockMutation> SoftDeleteStockMutationForSalesOrder(SalesOrderDetail sod, Item item);
          IList<StockMutation> SoftDeleteStockMutationForDeliveryOrder(DeliveryOrderDetail dod, Item item);
+         IList<StockMutation> SoftDeleteStockMutationForStockAdjustment(StockAdjustmentDetail sad, Item item);
 
     }
 }

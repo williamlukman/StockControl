@@ -32,6 +32,8 @@ namespace Data.Context
             modelBuilder.Configurations.Add(new DeliveryOrderMapping());
             modelBuilder.Configurations.Add(new DeliveryOrderDetailMapping());
             modelBuilder.Configurations.Add(new StockMutationMapping());
+            modelBuilder.Configurations.Add(new StockAdjustmentMapping());
+            modelBuilder.Configurations.Add(new StockAdjustmentDetailMapping());
 
             base.OnModelCreating(modelBuilder);
         }
@@ -47,6 +49,7 @@ namespace Data.Context
         public DbSet<DeliveryOrder> DeliveryOrders { get; set; }
         public DbSet<DeliveryOrderDetail> DeliveryOrderDetails { get; set; }
         public DbSet<StockMutation> StockMutations { get; set; }
-
+        public DbSet<StockAdjustment> StockAdjustments { get; set; }
+        public DbSet<StockAdjustmentDetail> StockAdjustmentDetails { get; set; }
     }
 }
