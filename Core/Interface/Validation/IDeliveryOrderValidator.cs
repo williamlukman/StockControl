@@ -17,12 +17,12 @@ namespace Core.Interface.Validation
         DeliveryOrder VCreateObject(DeliveryOrder d, IContactService _cs);
         DeliveryOrder VUpdateObject(DeliveryOrder d, IContactService _cs);
         DeliveryOrder VDeleteObject(DeliveryOrder d, IDeliveryOrderDetailService _dods);
-        DeliveryOrder VConfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods);
+        DeliveryOrder VConfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods, IItemService _is);
         DeliveryOrder VUnconfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods, IItemService _is);
         bool ValidCreateObject(DeliveryOrder d, IContactService _cs);
         bool ValidUpdateObject(DeliveryOrder d, IContactService _cs);
         bool ValidDeleteObject(DeliveryOrder d, IDeliveryOrderDetailService _dods);
-        bool ValidConfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods);
+        bool ValidConfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods, IItemService _is);
         bool ValidUnconfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods, IItemService _is);
         bool isValid(DeliveryOrder d);
         string PrintError(DeliveryOrder d);

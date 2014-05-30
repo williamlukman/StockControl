@@ -13,6 +13,7 @@ namespace Core.Interface.Validation
         SalesOrderDetail VHasSalesOrder(SalesOrderDetail sod, ISalesOrderService _pos);
         SalesOrderDetail VHasItem(SalesOrderDetail sod, IItemService _is);
         SalesOrderDetail VQuantity(SalesOrderDetail sod);
+        SalesOrderDetail VPrice(SalesOrderDetail sod);
         SalesOrderDetail VUniqueSOD(SalesOrderDetail sod, ISalesOrderDetailService _sods, IItemService _is);
         SalesOrderDetail VIsConfirmed(SalesOrderDetail sod);
         SalesOrderDetail VHasItemPendingDelivery(SalesOrderDetail sod, IItemService _is);

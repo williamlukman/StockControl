@@ -16,6 +16,6 @@ namespace Core.Interface.Repository
         Item UpdateObject(Item item);
         Item SoftDeleteObject(Item item);
         bool DeleteObject(int Id);
-
+        decimal CalculateAvgCost(Item item, int addedQuantity, decimal addedAvgCost);
     }
 }

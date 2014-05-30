@@ -75,7 +75,7 @@ namespace Service.Service
         public DeliveryOrder ConfirmObject(DeliveryOrder deliveryOrder, IDeliveryOrderDetailService _dods,
                                     ISalesOrderDetailService _sods, IStockMutationService _stockMutationService, IItemService _itemService)
         {
-            if (_validator.ValidConfirmObject(deliveryOrder, _dods))
+            if (_validator.ValidConfirmObject(deliveryOrder, _dods, _itemService))
             {
                 IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(deliveryOrder.Id);
                 foreach (var detail in details)

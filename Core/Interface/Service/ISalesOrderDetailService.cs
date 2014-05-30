@@ -15,7 +15,7 @@ namespace Core.Interface.Service
         IList<SalesOrderDetail> GetObjectsBySalesOrderId(int salesOrderId);
         SalesOrderDetail GetObjectById(int Id);
         SalesOrderDetail CreateObject(SalesOrderDetail salesOrderDetail, ISalesOrderService _salesOrderService, IItemService _itemService);
-        SalesOrderDetail CreateObject(int salesOrderId, int itemId, int quantity, ISalesOrderService _salesOrderService, IItemService _itemService);
+        SalesOrderDetail CreateObject(int salesOrderId, int itemId, int quantity, decimal Price, ISalesOrderService _salesOrderService, IItemService _itemService);
         SalesOrderDetail UpdateObject(SalesOrderDetail salesOrderDetail, ISalesOrderService _salesOrderService, IItemService _itemService);
         SalesOrderDetail SoftDeleteObject(SalesOrderDetail salesOrderDetail);
         bool DeleteObject(int Id);

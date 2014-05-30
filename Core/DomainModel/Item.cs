@@ -13,6 +13,8 @@ namespace Core.DomainModel
         public string Name { get; set; }
         public string Description { get; set; }
 
+        public decimal AvgCost { get; set; }
+
         public int Ready { get; set; }
         public int PendingDelivery { get; set; }
         public int PendingReceival { get; set; }

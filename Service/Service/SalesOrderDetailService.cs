@@ -13,12 +13,12 @@ namespace Service.Service
 {
     public class SalesOrderDetailService : ISalesOrderDetailService
     {
-        private ISalesOrderDetailRepository _sd;
+        private ISalesOrderDetailRepository _repository;
         private ISalesOrderDetailValidator _validator;
 
         public SalesOrderDetailService(ISalesOrderDetailRepository _salesOrderDetailRepository, ISalesOrderDetailValidator _salesOrderDetailValidator)
         {
-            _sd = _salesOrderDetailRepository;
+            _repository = _salesOrderDetailRepository;
             _validator = _salesOrderDetailValidator;
         }
 
@@ -29,51 +29,52 @@ namespace Service.Service
 
         public IList<SalesOrderDetail> GetObjectsBySalesOrderId(int salesOrderId)
         {
-            return _sd.GetObjectsBySalesOrderId(salesOrderId);
+            return _repository.GetObjectsBySalesOrderId(salesOrderId);
         }
 
         public SalesOrderDetail GetObjectById(int Id)
         {
-            return _sd.GetObjectById(Id);
+            return _repository.GetObjectById(Id);
         }
 
         public SalesOrderDetail CreateObject(SalesOrderDetail salesOrderDetail, ISalesOrderService _salesOrderService, IItemService _itemService)
         {
             salesOrderDetail.Errors = new HashSet<string>();
-            return (_validator.ValidCreateObject(salesOrderDetail, this, _salesOrderService, _itemService) ? _sd.CreateObject(salesOrderDetail) : salesOrderDetail);
+            return (_validator.ValidCreateObject(salesOrderDetail, this, _salesOrderService, _itemService) ? _repository.CreateObject(salesOrderDetail) : salesOrderDetail);
         }
 
-        public SalesOrderDetail CreateObject(int salesOrderId, int itemId, int quantity, ISalesOrderService _salesOrderService, IItemService _itemService)
+        public SalesOrderDetail CreateObject(int salesOrderId, int itemId, int quantity, decimal price, ISalesOrderService _salesOrderService, IItemService _itemService)
         {
             SalesOrderDetail sod = new SalesOrderDetail
             {
                 SalesOrderId = salesOrderId,
                 ItemId = itemId,
-                Quantity = quantity
+                Quantity = quantity,
+                Price = price
             };
             return this.CreateObject(sod, _salesOrderService, _itemService);
         }
 
         public SalesOrderDetail UpdateObject(SalesOrderDetail salesOrderDetail, ISalesOrderService _salesOrderService, IItemService _itemService)
         {
-            return (_validator.ValidUpdateObject(salesOrderDetail, this, _salesOrderService, _itemService) ? _sd.UpdateObject(salesOrderDetail) : salesOrderDetail);
+            return (_validator.ValidUpdateObject(salesOrderDetail, this, _salesOrderService, _itemService) ? _repository.UpdateObject(salesOrderDetail) : salesOrderDetail);
         }
 
         public SalesOrderDetail SoftDeleteObject(SalesOrderDetail salesOrderDetail)
         {
-            return (_validator.ValidDeleteObject(salesOrderDetail) ? _sd.SoftDeleteObject(salesOrderDetail) : salesOrderDetail);
+            return (_validator.ValidDeleteObject(salesOrderDetail) ? _repository.SoftDeleteObject(salesOrderDetail) : salesOrderDetail);
         }
 
         public bool DeleteObject(int Id)
         {
-            return _sd.DeleteObject(Id);
+            return _repository.DeleteObject(Id);
         }
 
         public SalesOrderDetail ConfirmObject(SalesOrderDetail salesOrderDetail, IStockMutationService _stockMutationService, IItemService _itemService)
         {
             if (_validator.ValidConfirmObject(salesOrderDetail))
             {
-                salesOrderDetail = _sd.ConfirmObject(salesOrderDetail);
+                salesOrderDetail = _repository.ConfirmObject(salesOrderDetail);
                 Item item = _itemService.GetObjectById(salesOrderDetail.ItemId);
                 item.PendingDelivery += salesOrderDetail.Quantity;
                 _itemService.UpdateObject(item);
@@ -86,7 +87,7 @@ namespace Service.Service
         {
             if (_validator.ValidUnconfirmObject(salesOrderDetail, this, _deliveryOrderDetailService, _itemService))
             {
-                salesOrderDetail = _sd.UnconfirmObject(salesOrderDetail);
+                salesOrderDetail = _repository.UnconfirmObject(salesOrderDetail);
                 Item item = _itemService.GetObjectById(salesOrderDetail.ItemId);
                 item.PendingDelivery -= salesOrderDetail.Quantity;
                 _itemService.UpdateObject(item);
@@ -97,7 +98,7 @@ namespace Service.Service
 
         public SalesOrderDetail FulfilObject(SalesOrderDetail salesOrderDetail)
         {
-            return _sd.FulfilObject(salesOrderDetail);
+            return _repository.FulfilObject(salesOrderDetail);
         }
     }
 }

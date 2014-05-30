@@ -14,11 +14,11 @@ namespace Service.Service
 {
     public class ContactService : IContactService
     {
-        private IContactRepository _c;
+        private IContactRepository _repository;
         private IContactValidator _validator;
         public ContactService(IContactRepository _contactRepository, IContactValidator _contactValidator)
         {
-            _c = _contactRepository;
+            _repository = _contactRepository;
             _validator = _contactValidator;
         }
 
@@ -29,17 +29,17 @@ namespace Service.Service
 
         public IList<Contact> GetAll()
         {
-            return _c.GetAll();
+            return _repository.GetAll();
         }
 
         public Contact GetObjectById(int Id)
         {
-            return _c.GetObjectById(Id);
+            return _repository.GetObjectById(Id);
         }
 
         public Contact GetObjectByName(string name)
         {
-            return _c.FindAll(c => c.Name == name && !c.IsDeleted).FirstOrDefault();
+            return _repository.FindAll(c => c.Name == name && !c.IsDeleted).FirstOrDefault();
         }
 
         public Contact CreateObject(string name, string address)
@@ -55,22 +55,22 @@ namespace Service.Service
         public Contact CreateObject(Contact contact)
         {
             contact.Errors = new HashSet<string>();
-            return (_validator.ValidCreateObject(contact) ? _c.CreateObject(contact) : contact);
+            return (_validator.ValidCreateObject(contact) ? _repository.CreateObject(contact) : contact);
         }
 
         public Contact UpdateObject(Contact contact)
         {
-            return (contact = _validator.ValidUpdateObject(contact) ? _c.UpdateObject(contact) : contact);
+            return (contact = _validator.ValidUpdateObject(contact) ? _repository.UpdateObject(contact) : contact);
         }
 
         public Contact SoftDeleteObject(Contact contact, IPurchaseOrderService _pos, IPurchaseReceivalService _prs, ISalesOrderService _sos, IDeliveryOrderService _dos)
         {
-            return (contact = _validator.ValidDeleteObject(contact, _pos, _prs, _sos, _dos) ? _c.SoftDeleteObject(contact) : contact);
+            return (contact = _validator.ValidDeleteObject(contact, _pos, _prs, _sos, _dos) ? _repository.SoftDeleteObject(contact) : contact);
         }
 
         public bool DeleteObject(int Id)
         {
-            return _c.DeleteObject(Id);
+            return _repository.DeleteObject(Id);
         }
     }
 }

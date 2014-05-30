@@ -42,6 +42,15 @@ namespace Validation.Validation
             return pod;
         }
 
+        public PurchaseOrderDetail VPrice(PurchaseOrderDetail pod)
+        {
+            if (pod.Price <= 0)
+            {
+                pod.Errors.Add("Error. Price must be greater than zero");
+            }
+            return pod;
+        }
+
         public PurchaseOrderDetail VUniquePOD(PurchaseOrderDetail pod, IPurchaseOrderDetailService _pods, IItemService _is)
         {
             IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(pod.PurchaseOrderId);
@@ -95,6 +104,7 @@ namespace Validation.Validation
             VHasPurchaseOrder(pod, _pos);
             VHasItem(pod, _is);
             VQuantity(pod);
+            VPrice(pod);
             VUniquePOD(pod, _pods, _is);
             return pod;
         }
@@ -104,6 +114,7 @@ namespace Validation.Validation
             VHasPurchaseOrder(pod, _pos);
             VHasItem(pod, _is);
             VQuantity(pod);
+            VPrice(pod);
             VUniquePOD(pod, _pods, _is);
             VIsConfirmed(pod);
             return pod;

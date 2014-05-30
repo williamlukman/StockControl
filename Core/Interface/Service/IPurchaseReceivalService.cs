@@ -21,8 +21,8 @@ namespace Core.Interface.Service
         PurchaseReceival SoftDeleteObject(PurchaseReceival purchaseReceival, IPurchaseReceivalDetailService _purchaseReceivalDetailService);
         bool DeleteObject(int Id);
         PurchaseReceival ConfirmObject(PurchaseReceival purchaseReceival, IPurchaseReceivalDetailService _prds,
-                                    IPurchaseOrderDetailService _pods, IStockMutationService _stockMutationService, IItemService _itemService);
+                                    IPurchaseOrderDetailService _purchaseOrderDetailService, IStockMutationService _stockMutationService, IItemService _itemService);
         PurchaseReceival UnconfirmObject(PurchaseReceival purchaseReceival, IPurchaseReceivalDetailService _prds,
-                                    IStockMutationService _stockMutationService, IItemService _itemService);
+                                    IPurchaseOrderDetailService _purchaseOrderDetailService, IStockMutationService _stockMutationService, IItemService _itemService);
     }
 }

@@ -84,11 +84,11 @@ namespace Validation.Validation
 
         public DeliveryOrder VDeleteObject(DeliveryOrder d, IDeliveryOrderDetailService _dods)
         {
-            VConfirmObject(d, _dods);
+            VIsConfirmed(d);
             return d;
         }
 
-        public DeliveryOrder VConfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods)
+        public DeliveryOrder VConfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods, IItemService _is)
         {
             VIsConfirmed(d);
             VHasDeliveryOrderDetails(d, _dods);
@@ -98,7 +98,7 @@ namespace Validation.Validation
                 IDeliveryOrderDetailValidator detailvalidator = new DeliveryOrderDetailValidator();
                 foreach (var detail in details)
                 {
-                    detailvalidator.VConfirmObject(detail);
+                    detailvalidator.VConfirmObject(detail, _is);
                     d.Errors.UnionWith(detail.Errors);
                 }
             }
@@ -140,9 +140,9 @@ namespace Validation.Validation
             return isValid(d);
         }
 
-        public bool ValidConfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods)
+        public bool ValidConfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods, IItemService _is)
         {
-            VConfirmObject(d, _dods);
+            VConfirmObject(d, _dods, _is);
             return isValid(d);
         }
 

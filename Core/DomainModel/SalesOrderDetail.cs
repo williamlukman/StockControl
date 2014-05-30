@@ -13,6 +13,8 @@ namespace Core.DomainModel
         public int ItemId { get; set; }
         public int Quantity { get; set; }
 
+        public decimal Price { get; set; }
+
         public bool IsConfirmed { get; set; }
         public Nullable<DateTime> ConfirmedAt { get; set; }
         public bool IsFulfilled { get; set; }

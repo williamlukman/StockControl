@@ -39,6 +39,7 @@ namespace ConsoleApp.DataAccess
             Console.WriteLine("     Ready: " + i.Ready);
             Console.WriteLine("     PendingReceival: " + i.PendingReceival);
             Console.WriteLine("     PendingDelivery: " + i.PendingDelivery);
+            Console.WriteLine("     AvgCost:" + i.AvgCost);
         }
     }
 }

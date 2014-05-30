@@ -59,7 +59,7 @@ namespace ConsoleApp.Validation
         public int POValidation13()
         {
             Console.WriteLine("[Test 13] Create valid Purchase Order Detail for Michaelangelo");
-            PurchaseOrderDetail pod1 = _pod.CreateObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 100, _po, _i);
+            PurchaseOrderDetail pod1 = _pod.CreateObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 100, (decimal) 35000.00, _po, _i);
             if (pod1.Errors.Any()) { Console.WriteLine(_pod.GetValidator().PrintError(pod1)); return 0; }
             return pod1.Id;
         }
@@ -81,7 +81,7 @@ namespace ConsoleApp.Validation
         public int POValidation16()
         {
             Console.WriteLine("[Test 16] Create invalid Purchase Order Detail for Michaelangelo with wrong contact");
-            PurchaseOrderDetail pod1 = _pod.CreateObject(0, _i.GetObjectByName("Mini Garuda Indonesia").Id, 100, _po, _i);
+            PurchaseOrderDetail pod1 = _pod.CreateObject(0, _i.GetObjectByName("Mini Garuda Indonesia").Id, 100, (decimal) 111000.00, _po, _i);
             if (pod1.Errors.Any()) { Console.WriteLine(_pod.GetValidator().PrintError(pod1)); return 0; }
             return pod1.Id;
         }
@@ -89,7 +89,7 @@ namespace ConsoleApp.Validation
         public int POValidation17()
         {
             Console.WriteLine("[Test 17] Create invalid Purchase Order Detail for Michaelangelo with exact same item");
-            PurchaseOrderDetail pod1 = _pod.CreateObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 50, _po, _i);
+            PurchaseOrderDetail pod1 = _pod.CreateObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 50, (decimal) 32000.00, _po, _i);
             if (pod1.Errors.Any()) { Console.WriteLine(_pod.GetValidator().PrintError(pod1)); return 0; }
             return pod1.Id;
         }
@@ -97,7 +97,7 @@ namespace ConsoleApp.Validation
         public int POValidation18()
         {
             Console.WriteLine("[Test 18] Create valid Purchase Order Detail for Michaelangelo");
-            PurchaseOrderDetail pod1 = _pod.CreateObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Mini Garuda Indonesia").Id, 50, _po, _i);
+            PurchaseOrderDetail pod1 = _pod.CreateObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Mini Garuda Indonesia").Id, 50, (decimal) 107000.00, _po, _i);
             if (pod1.Errors.Any()) { Console.WriteLine(_pod.GetValidator().PrintError(pod1)); return 0; }
             return pod1.Id;
         }

@@ -17,11 +17,11 @@ namespace Core.Interface.Service
         Item GetObjectBySku(string Sku);
         Item GetObjectByName(string Name);
         Item CreateObject(Item item);
-        Item CreateObject(string Name, string Description, string Sku, int Ready);
+        Item CreateObject(string Name, string Description, string Sku);
         Item UpdateObject(Item item);
-
         Item SoftDeleteObject(Item item, IStockMutationService _stockMutationService);
         bool DeleteObject(int Id);
         bool IsSkuDuplicated(String sku);
+        decimal CalculateAvgCost(Item item, int addedQuantity, decimal addedAvgCost);
     }
 }

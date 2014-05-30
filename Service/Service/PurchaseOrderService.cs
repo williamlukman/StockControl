@@ -12,12 +12,12 @@ namespace Service.Service
 {
     public class PurchaseOrderService : IPurchaseOrderService
     {
-        private IPurchaseOrderRepository _p;
+        private IPurchaseOrderRepository _repository;
         private IPurchaseOrderValidator _validator;
 
         public PurchaseOrderService(IPurchaseOrderRepository _purchaseOrderRepository, IPurchaseOrderValidator _purchaseOrderValidator)
         {
-            _p = _purchaseOrderRepository;
+            _repository = _purchaseOrderRepository;
             _validator = _purchaseOrderValidator;
         }
 
@@ -28,23 +28,23 @@ namespace Service.Service
 
         public IList<PurchaseOrder> GetAll()
         {
-            return _p.GetAll();
+            return _repository.GetAll();
         }
 
         public PurchaseOrder GetObjectById(int Id)
         {
-            return _p.GetObjectById(Id);
+            return _repository.GetObjectById(Id);
         }
 
         public IList<PurchaseOrder> GetObjectsByContactId(int contactId)
         {
-            return _p.GetObjectsByContactId(contactId);
+            return _repository.GetObjectsByContactId(contactId);
         }
 
         public PurchaseOrder CreateObject(PurchaseOrder purchaseOrder, IContactService _contactService)
         {
             purchaseOrder.Errors = new HashSet<string>();
-            return (_validator.ValidCreateObject(purchaseOrder, _contactService) ? _p.CreateObject(purchaseOrder) : purchaseOrder);
+            return (_validator.ValidCreateObject(purchaseOrder, _contactService) ? _repository.CreateObject(purchaseOrder) : purchaseOrder);
         }
 
         public PurchaseOrder CreateObject(int contactId, DateTime purchaseDate, IContactService _contactService)
@@ -59,17 +59,17 @@ namespace Service.Service
 
         public PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder, IContactService _contactService)
         {
-            return (_validator.ValidUpdateObject(purchaseOrder, _contactService) ? _p.UpdateObject(purchaseOrder) : purchaseOrder);
+            return (_validator.ValidUpdateObject(purchaseOrder, _contactService) ? _repository.UpdateObject(purchaseOrder) : purchaseOrder);
         }
 
         public PurchaseOrder SoftDeleteObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _purchaseOrderDetailService)
         {
-            return (_validator.ValidDeleteObject(purchaseOrder, _purchaseOrderDetailService) ? _p.SoftDeleteObject(purchaseOrder) : purchaseOrder);
+            return (_validator.ValidDeleteObject(purchaseOrder, _purchaseOrderDetailService) ? _repository.SoftDeleteObject(purchaseOrder) : purchaseOrder);
         }
 
         public bool DeleteObject(int Id)
         {
-            return _p.DeleteObject(Id);
+            return _repository.DeleteObject(Id);
         }
 
         public PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _purchaseOrderDetailService,
@@ -77,7 +77,7 @@ namespace Service.Service
         {
             if (_validator.ValidConfirmObject(purchaseOrder, _purchaseOrderDetailService))
             {
-                _p.ConfirmObject(purchaseOrder);
+                _repository.ConfirmObject(purchaseOrder);
                 IList<PurchaseOrderDetail> details = _purchaseOrderDetailService.GetObjectsByPurchaseOrderId(purchaseOrder.Id);
                 foreach (var detail in details)
                 {
@@ -92,7 +92,7 @@ namespace Service.Service
         {
             if (_validator.ValidUnconfirmObject(purchaseOrder, _purchaseOrderDetailService, _purchaseReceivalDetailService, _itemService))
             {
-                _p.UnconfirmObject(purchaseOrder);
+                _repository.UnconfirmObject(purchaseOrder);
                 IList<PurchaseOrderDetail> details = _purchaseOrderDetailService.GetObjectsByPurchaseOrderId(purchaseOrder.Id);
                 foreach (var detail in details)
                 {

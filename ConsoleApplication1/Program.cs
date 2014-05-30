@@ -145,6 +145,7 @@ namespace ConsoleApp
             prv.PRValidation27b();
             ItemDb.Stock(_i.GetObjectByName("Buku Tulis Kiky A5"));
             ItemDb.Stock(_i.GetObjectByName("Mini Garuda Indonesia"));
+            prv.PRValidation27a();
 
             p.wait(2);
 

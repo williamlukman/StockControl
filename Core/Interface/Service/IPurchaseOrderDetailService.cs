@@ -15,7 +15,7 @@ namespace Core.Interface.Service
         IList<PurchaseOrderDetail> GetObjectsByPurchaseOrderId(int purchaseOrderId);
         PurchaseOrderDetail GetObjectById(int Id);
         PurchaseOrderDetail CreateObject(PurchaseOrderDetail purchaseOrderDetail, IPurchaseOrderService _purchaseOrderService, IItemService _itemService);
-        PurchaseOrderDetail CreateObject(int purchaseOrderId, int itemId, int quantity, IPurchaseOrderService _purchaseOrderService, IItemService _itemService);
+        PurchaseOrderDetail CreateObject(int purchaseOrderId, int itemId, int quantity, decimal Price, IPurchaseOrderService _purchaseOrderService, IItemService _itemService);
         PurchaseOrderDetail UpdateObject(PurchaseOrderDetail purchaseOrderDetail, IPurchaseOrderService _purchaseOrderService, IItemService _itemService);
         PurchaseOrderDetail SoftDeleteObject(PurchaseOrderDetail purchaseOrderDetail);
         bool DeleteObject(int Id);

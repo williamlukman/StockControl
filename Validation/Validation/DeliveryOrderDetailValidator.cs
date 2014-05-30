@@ -92,8 +92,6 @@ namespace Validation.Validation
             return dod;
         }
 
-
-
         public DeliveryOrderDetail VHasSalesOrderDetail(DeliveryOrderDetail dod, ISalesOrderDetailService _sods)
         {
             SalesOrderDetail sod = _sods.GetObjectById(dod.SalesOrderDetailId);
@@ -103,7 +101,17 @@ namespace Validation.Validation
             }
             return dod;
         }
-        
+
+        public DeliveryOrderDetail VHasItemQuantity(DeliveryOrderDetail dod, IItemService _is)
+        {
+            Item item = _is.GetObjectById(dod.ItemId);
+            if (item.Ready - dod.Quantity < 0)
+            {
+                dod.Errors.Add("The quantity of item ready is less than the confirmed delivery order detail");
+            }
+            return dod;
+        }
+
         public DeliveryOrderDetail VUniqueSOD(DeliveryOrderDetail dod, IDeliveryOrderDetailService _dods, IItemService _is)
         {
             IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(dod.DeliveryOrderId);
@@ -163,9 +171,10 @@ namespace Validation.Validation
             return dod;
         }
 
-        public DeliveryOrderDetail VConfirmObject(DeliveryOrderDetail dod)
+        public DeliveryOrderDetail VConfirmObject(DeliveryOrderDetail dod, IItemService _is)
         {
             VIsConfirmed(dod);
+            VHasItemQuantity(dod, _is);
             return dod;
         }
 
@@ -195,9 +204,9 @@ namespace Validation.Validation
             return isValid(dod);
         }
 
-        public bool ValidConfirmObject(DeliveryOrderDetail dod)
+        public bool ValidConfirmObject(DeliveryOrderDetail dod, IItemService _is)
         {
-            VConfirmObject(dod);
+            VConfirmObject(dod, _is);
             return isValid(dod);
         }
 

@@ -13,12 +13,12 @@ namespace Service.Service
 {
     public class PurchaseOrderDetailService : IPurchaseOrderDetailService
     {
-        private IPurchaseOrderDetailRepository _pd;
+        private IPurchaseOrderDetailRepository _repository;
         private IPurchaseOrderDetailValidator _validator;
 
         public PurchaseOrderDetailService(IPurchaseOrderDetailRepository _purchaseOrderDetailRepository, IPurchaseOrderDetailValidator _purchaseOrderDetailValidator)
         {
-            _pd = _purchaseOrderDetailRepository;
+            _repository = _purchaseOrderDetailRepository;
             _validator = _purchaseOrderDetailValidator;
         }
 
@@ -29,27 +29,28 @@ namespace Service.Service
 
         public IList<PurchaseOrderDetail> GetObjectsByPurchaseOrderId(int purchaseOrderId)
         {
-            return _pd.GetObjectsByPurchaseOrderId(purchaseOrderId);
+            return _repository.GetObjectsByPurchaseOrderId(purchaseOrderId);
         }
 
         public PurchaseOrderDetail GetObjectById(int Id)
         {
-            return _pd.GetObjectById(Id);
+            return _repository.GetObjectById(Id);
         }
 
         public PurchaseOrderDetail CreateObject(PurchaseOrderDetail purchaseOrderDetail, IPurchaseOrderService _purchaseOrderService, IItemService _itemService)
         {
             purchaseOrderDetail.Errors = new HashSet<string>();
-            return (_validator.ValidCreateObject(purchaseOrderDetail, this, _purchaseOrderService, _itemService) ? _pd.CreateObject(purchaseOrderDetail) : purchaseOrderDetail);
+            return (_validator.ValidCreateObject(purchaseOrderDetail, this, _purchaseOrderService, _itemService) ? _repository.CreateObject(purchaseOrderDetail) : purchaseOrderDetail);
         }
 
-        public PurchaseOrderDetail CreateObject(int purchaseOrderId, int itemId, int quantity, IPurchaseOrderService _purchaseOrderService, IItemService _itemService)
+        public PurchaseOrderDetail CreateObject(int purchaseOrderId, int itemId, int quantity, decimal price, IPurchaseOrderService _purchaseOrderService, IItemService _itemService)
         {
             PurchaseOrderDetail pod = new PurchaseOrderDetail
             {
                 PurchaseOrderId = purchaseOrderId,
                 ItemId = itemId,
                 Quantity = quantity,
+                Price = price
             };
             return this.CreateObject(pod, _purchaseOrderService, _itemService);
         }
@@ -57,24 +58,24 @@ namespace Service.Service
         public PurchaseOrderDetail UpdateObject(PurchaseOrderDetail purchaseOrderDetail, IPurchaseOrderService _purchaseOrderService, IItemService _itemService)
         {
             return (_validator.ValidUpdateObject(purchaseOrderDetail, this, _purchaseOrderService, _itemService) ?
-                     _pd.UpdateObject(purchaseOrderDetail) : purchaseOrderDetail);
+                     _repository.UpdateObject(purchaseOrderDetail) : purchaseOrderDetail);
         }
 
         public PurchaseOrderDetail SoftDeleteObject(PurchaseOrderDetail purchaseOrderDetail)
         {
-            return (_validator.ValidDeleteObject(purchaseOrderDetail) ? _pd.SoftDeleteObject(purchaseOrderDetail) : purchaseOrderDetail);
+            return (_validator.ValidDeleteObject(purchaseOrderDetail) ? _repository.SoftDeleteObject(purchaseOrderDetail) : purchaseOrderDetail);
         }
 
         public bool DeleteObject(int Id)
         {
-            return _pd.DeleteObject(Id);
+            return _repository.DeleteObject(Id);
         }
 
         public PurchaseOrderDetail ConfirmObject(PurchaseOrderDetail purchaseOrderDetail, IStockMutationService _stockMutationService, IItemService _itemService)
         {
             if (_validator.ValidConfirmObject(purchaseOrderDetail))
             {
-                purchaseOrderDetail = _pd.ConfirmObject(purchaseOrderDetail);
+                purchaseOrderDetail = _repository.ConfirmObject(purchaseOrderDetail);
                 Item item = _itemService.GetObjectById(purchaseOrderDetail.ItemId);
                 item.PendingReceival += purchaseOrderDetail.Quantity;
                 _itemService.UpdateObject(item);
@@ -87,7 +88,7 @@ namespace Service.Service
         {
             if (_validator.ValidUnconfirmObject(purchaseOrderDetail, this, _purchaseReceivalDetailService, _itemService))
             {
-                purchaseOrderDetail = _pd.UnconfirmObject(purchaseOrderDetail);
+                purchaseOrderDetail = _repository.UnconfirmObject(purchaseOrderDetail);
                 Item item = _itemService.GetObjectById(purchaseOrderDetail.ItemId);
                 item.PendingReceival -= purchaseOrderDetail.Quantity;
                 _itemService.UpdateObject(item);
@@ -98,7 +99,7 @@ namespace Service.Service
 
         public PurchaseOrderDetail FulfilObject(PurchaseOrderDetail purchaseOrderDetail)
         {
-            return _pd.FulfilObject(purchaseOrderDetail);
+            return _repository.FulfilObject(purchaseOrderDetail);
         }
 
     }

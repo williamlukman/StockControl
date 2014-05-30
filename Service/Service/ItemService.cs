@@ -13,12 +13,12 @@ namespace Service.Service
 {
     public class ItemService : IItemService
     {
-        private IItemRepository _i;
+        private IItemRepository _repository;
         private IItemValidator _validator;
 
         public ItemService(IItemRepository _itemRepository, IItemValidator _itemValidator)
         {
-            _i = _itemRepository;
+            _repository = _itemRepository;
             _validator = _itemValidator;
         }
 
@@ -29,61 +29,66 @@ namespace Service.Service
 
         public IList<Item> GetAll()
         {
-            return _i.GetAll();
+            return _repository.GetAll();
         }
 
         public Item GetObjectById(int Id)
         {
-            return _i.GetObjectById(Id);
+            return _repository.GetObjectById(Id);
         }
 
         public Item GetObjectBySku(string Sku)
         {
-            return _i.GetObjectBySku(Sku);
+            return _repository.GetObjectBySku(Sku);
         }
 
         public Item GetObjectByName(string Name)
         {
-            return _i.Find(i => i.Name == Name && !i.IsDeleted);
+            return _repository.Find(i => i.Name == Name && !i.IsDeleted);
         }
 
         public Item CreateObject(Item item)
         {
             item.Errors = new HashSet<string>();
-            return (_validator.ValidCreateObject(item, this) ? _i.CreateObject(item) : item);
+            return (_validator.ValidCreateObject(item, this) ? _repository.CreateObject(item) : item);
         }
 
-        public Item CreateObject(string name, string description, string Sku, int Ready)
+        public Item CreateObject(string name, string description, string Sku)
         {
             Item item = new Item
             {
                 Name = name,
                 Description = description,
-                Sku = Sku,
-                Ready = Ready
+                Sku = Sku
             };
             return this.CreateObject(item);
         }
 
         public Item UpdateObject(Item item)
         {
-            return (_validator.ValidUpdateObject(item, this) ? _i.UpdateObject(item) : item);
+            return (_validator.ValidUpdateObject(item, this) ? _repository.UpdateObject(item) : item);
         }
 
         public Item SoftDeleteObject(Item item, IStockMutationService _stockMutationService)
         {
-            return (_validator.ValidDeleteObject(item, _stockMutationService) ? _i.SoftDeleteObject(item) : item);
+            return (_validator.ValidDeleteObject(item, _stockMutationService) ? _repository.SoftDeleteObject(item) : item);
         }
 
         public bool DeleteObject(int Id)
         {
-            return _i.DeleteObject(Id);
+            return _repository.DeleteObject(Id);
         }
 
         public bool IsSkuDuplicated(String sku)
         {
-            IQueryable<Item> item = _i.FindAll(i => i.Sku == sku && !i.IsDeleted);
+            IQueryable<Item> item = _repository.FindAll(i => i.Sku == sku && !i.IsDeleted);
             return (item.Count() > 1 ? true : false);
+        }
+
+        public decimal CalculateAvgCost(Item item, int addedQuantity, decimal addedAvgCost)
+        {
+            decimal AvgCost = _repository.CalculateAvgCost(item, addedQuantity, addedAvgCost);
+            return AvgCost;
         }
     }
 }

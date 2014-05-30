@@ -59,7 +59,7 @@ namespace ConsoleApp.Validation
         public int SOValidation30()
         {
             Console.WriteLine("[Test 30] Create valid Sales Order Detail for Michaelangelo");
-            SalesOrderDetail sod1 = _sod.CreateObject(_so.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 100, _so, _i);
+            SalesOrderDetail sod1 = _sod.CreateObject(_so.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 100, (decimal) 50000.00, _so, _i);
             if (sod1.Errors.Any()) { Console.WriteLine(_sod.GetValidator().PrintError(sod1)); return 0; }
             return sod1.Id;
         }
@@ -81,7 +81,7 @@ namespace ConsoleApp.Validation
         public int SOValidation33()
         {
             Console.WriteLine("[Test 33] Create invalid Sales Order Detail for Michaelangelo with wrong contact");
-            SalesOrderDetail sod1 = _sod.CreateObject(0, _i.GetObjectByName("Mini Garuda Indonesia").Id, 100, _so, _i);
+            SalesOrderDetail sod1 = _sod.CreateObject(0, _i.GetObjectByName("Mini Garuda Indonesia").Id, 100, (decimal) 120000.00, _so, _i);
             if (sod1.Errors.Any()) { Console.WriteLine(_sod.GetValidator().PrintError(sod1)); return 0; }
             return sod1.Id;
         }
@@ -89,7 +89,7 @@ namespace ConsoleApp.Validation
         public int SOValidation34()
         {
             Console.WriteLine("[Test 34] Create invalid Sales Order Detail for Michaelangelo with exact same item");
-            SalesOrderDetail sod1 = _sod.CreateObject(_so.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 50, _so, _i);
+            SalesOrderDetail sod1 = _sod.CreateObject(_so.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 50, (decimal) 35000.00, _so, _i);
             if (sod1.Errors.Any()) { Console.WriteLine(_sod.GetValidator().PrintError(sod1)); return 0; }
             return sod1.Id;
         }
@@ -97,7 +97,7 @@ namespace ConsoleApp.Validation
         public int SOValidation35()
         {
             Console.WriteLine("[Test 35] Create valid Sales Order Detail for Michaelangelo");
-            SalesOrderDetail sod1 = _sod.CreateObject(_so.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Mini Garuda Indonesia").Id, 50, _so, _i);
+            SalesOrderDetail sod1 = _sod.CreateObject(_so.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Mini Garuda Indonesia").Id, 50, (decimal) 114500.00, _so, _i);
             if (sod1.Errors.Any()) { Console.WriteLine(_sod.GetValidator().PrintError(sod1)); return 0; }
             return sod1.Id;
         }

@@ -42,6 +42,15 @@ namespace Validation.Validation
             return sod;
         }
 
+        public SalesOrderDetail VPrice(SalesOrderDetail sod)
+        {
+            if (sod.Price <= 0)
+            {
+                sod.Errors.Add("Error. Price must be greater than zero");
+            }
+            return sod;
+        }
+
         public SalesOrderDetail VUniqueSOD(SalesOrderDetail sod, ISalesOrderDetailService _sods, IItemService _is)
         {
             IList<SalesOrderDetail> details = _sods.GetObjectsBySalesOrderId(sod.SalesOrderId);
@@ -94,6 +103,7 @@ namespace Validation.Validation
             VHasSalesOrder(sod, _sos);
             VHasItem(sod, _is);
             VQuantity(sod);
+            VPrice(sod);
             VUniqueSOD(sod, _sods, _is);
             return sod;
         }
@@ -103,6 +113,7 @@ namespace Validation.Validation
             VHasSalesOrder(sod, _sos);
             VHasItem(sod, _is);
             VQuantity(sod);
+            VPrice(sod);
             VUniqueSOD(sod, _sods, _is);
             VIsConfirmed(sod);
             return sod;

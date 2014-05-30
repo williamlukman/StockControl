@@ -12,12 +12,12 @@ namespace Service.Service
 {
     public class SalesOrderService : ISalesOrderService
     {
-        private ISalesOrderRepository _s;
+        private ISalesOrderRepository _repository;
         private ISalesOrderValidator _validator;
 
         public SalesOrderService(ISalesOrderRepository _salesOrderRepository, ISalesOrderValidator _salesOrderValidator)
         {
-            _s = _salesOrderRepository;
+            _repository = _salesOrderRepository;
             _validator = _salesOrderValidator;
         }
 
@@ -28,23 +28,23 @@ namespace Service.Service
 
         public IList<SalesOrder> GetAll()
         {
-            return _s.GetAll();
+            return _repository.GetAll();
         }
 
         public SalesOrder GetObjectById(int Id)
         {
-            return _s.GetObjectById(Id);
+            return _repository.GetObjectById(Id);
         }
 
         public IList<SalesOrder> GetObjectsByContactId(int contactId)
         {
-            return _s.GetObjectsByContactId(contactId);
+            return _repository.GetObjectsByContactId(contactId);
         }
         
         public SalesOrder CreateObject(SalesOrder salesOrder, IContactService _contactService)
         {
             salesOrder.Errors = new HashSet<string>();
-            return (_validator.ValidCreateObject(salesOrder, _contactService) ? _s.CreateObject(salesOrder) : salesOrder);
+            return (_validator.ValidCreateObject(salesOrder, _contactService) ? _repository.CreateObject(salesOrder) : salesOrder);
         }
 
         public SalesOrder CreateObject(int contactId, DateTime salesDate, IContactService _contactService)
@@ -59,17 +59,17 @@ namespace Service.Service
 
         public SalesOrder UpdateObject(SalesOrder salesOrder, IContactService _contactService)
         {
-            return (_validator.ValidUpdateObject(salesOrder, _contactService) ? _s.UpdateObject(salesOrder) : salesOrder);
+            return (_validator.ValidUpdateObject(salesOrder, _contactService) ? _repository.UpdateObject(salesOrder) : salesOrder);
         }
 
         public SalesOrder SoftDeleteObject(SalesOrder salesOrder, ISalesOrderDetailService _salesOrderDetailService)
         {
-            return (_validator.ValidDeleteObject(salesOrder, _salesOrderDetailService) ? _s.SoftDeleteObject(salesOrder) : salesOrder);
+            return (_validator.ValidDeleteObject(salesOrder, _salesOrderDetailService) ? _repository.SoftDeleteObject(salesOrder) : salesOrder);
         }
 
         public bool DeleteObject(int Id)
         {
-            return _s.DeleteObject(Id);
+            return _repository.DeleteObject(Id);
         }
 
         public SalesOrder ConfirmObject(SalesOrder salesOrder, ISalesOrderDetailService _sods,
@@ -77,7 +77,7 @@ namespace Service.Service
         {
             if (_validator.ValidConfirmObject(salesOrder, _sods))
             {
-                _s.ConfirmObject(salesOrder);
+                _repository.ConfirmObject(salesOrder);
                 IList<SalesOrderDetail> details = _sods.GetObjectsBySalesOrderId(salesOrder.Id);
                 foreach (var detail in details)
                 {
@@ -92,7 +92,7 @@ namespace Service.Service
         {
             if (_validator.ValidUnconfirmObject(salesOrder, _salesOrderDetailService, _deliveryOrderDetailService, _itemService))
             {
-                _s.UnconfirmObject(salesOrder);
+                _repository.UnconfirmObject(salesOrder);
                 IList<SalesOrderDetail> details = _salesOrderDetailService.GetObjectsBySalesOrderId(salesOrder.Id);
                 foreach (var detail in details)
                 {

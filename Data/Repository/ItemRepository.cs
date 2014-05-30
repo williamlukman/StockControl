@@ -38,6 +38,8 @@ namespace Data.Repository
         {
             item.PendingDelivery = 0;
             item.PendingReceival = 0;
+            item.Ready = 0;
+            item.AvgCost = 0;
             item.IsDeleted = false;
             item.CreatedAt = DateTime.Now;
             return Create(item);
@@ -62,6 +64,15 @@ namespace Data.Repository
         {
             Item item = Find(x => x.Id == Id);
             return (Delete(item) == 1) ? true : false;
+        }
+
+        public decimal CalculateAvgCost(Item item, int addedQuantity, decimal addedAvgCost)
+        {
+            int originalQuantity = item.Ready;
+            decimal originalAvgCost = item.AvgCost;
+            decimal avgCost = (originalQuantity + addedQuantity == 0) ? 0 :            
+                ((originalQuantity * originalAvgCost) + (addedQuantity * addedAvgCost)) / (originalQuantity + addedQuantity);
+            return avgCost;
         }
         
     }

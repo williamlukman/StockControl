@@ -13,6 +13,7 @@ namespace Core.Interface.Validation
         PurchaseOrderDetail VHasPurchaseOrder(PurchaseOrderDetail pod, IPurchaseOrderService _pos);
         PurchaseOrderDetail VHasItem(PurchaseOrderDetail pod, IItemService _is);
         PurchaseOrderDetail VQuantity(PurchaseOrderDetail pod);
+        PurchaseOrderDetail VPrice(PurchaseOrderDetail pod);
         PurchaseOrderDetail VUniquePOD(PurchaseOrderDetail pod, IPurchaseOrderDetailService _pods, IItemService _is);
         PurchaseOrderDetail VIsConfirmed(PurchaseOrderDetail pod);
         PurchaseOrderDetail VHasItemPendingReceival(PurchaseOrderDetail pod, IItemService _is);

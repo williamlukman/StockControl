@@ -109,7 +109,7 @@ namespace ConsoleApp.Validation
         public void PRValidation27b()
         {
             Console.WriteLine("[Test 27] Unconfirm PR and PRD for Michaelangelo");
-            PurchaseReceival pr = _pr.UnconfirmObject(_pr.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _prd, _sm, _i);
+            PurchaseReceival pr = _pr.UnconfirmObject(_pr.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _prd, _pod, _sm, _i);
             if (pr.Errors.Any()) { Console.WriteLine(_pr.GetValidator().PrintError(pr)); }
         }
 
