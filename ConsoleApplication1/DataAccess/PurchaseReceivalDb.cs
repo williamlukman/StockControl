@@ -34,7 +34,7 @@ namespace ConsoleApp.DataAccess
             Console.WriteLine("All purchaseReceivals in the database:");
             foreach (var item in purchaseReceivals)
             {
-                Console.WriteLine("PR ID: " + item.Id + ", Customer: " + item.CustomerId + ", Date:" + item.ReceivalDate);
+                Console.WriteLine("PR ID: " + item.Id + ", Contact: " + item.ContactId + ", Date:" + item.ReceivalDate);
             }
             Console.WriteLine();
         }

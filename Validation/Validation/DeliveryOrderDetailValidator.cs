@@ -33,7 +33,7 @@ namespace Validation.Validation
             return dod;
         }
 
-        public DeliveryOrderDetail VCustomer(DeliveryOrderDetail dod, IDeliveryOrderService _prs, ISalesOrderService _sos, ISalesOrderDetailService _sods, IContactService _cs)
+        public DeliveryOrderDetail VContact(DeliveryOrderDetail dod, IDeliveryOrderService _prs, ISalesOrderService _sos, ISalesOrderDetailService _sods, IContactService _cs)
         {
             DeliveryOrder pr = _prs.GetObjectById(dod.DeliveryOrderId);
             SalesOrderDetail sod = _sods.GetObjectById(dod.SalesOrderDetailId);
@@ -43,9 +43,9 @@ namespace Validation.Validation
                 return dod;
             }
             SalesOrder so = _sos.GetObjectById(sod.SalesOrderId);
-            if (so.CustomerId != pr.CustomerId)
+            if (so.ContactId != pr.ContactId)
             {
-                dod.Errors.Add("Customer", "Tidak boleh merupakan kustomer yang berbeda dengan Sales Order");
+                dod.Errors.Add("Contact", "Tidak boleh merupakan kustomer yang berbeda dengan Sales Order");
             }
             return dod;
         }
@@ -133,7 +133,7 @@ namespace Validation.Validation
             VHasDeliveryOrder(dod, _prs);
             VHasItem(dod, _is);
             if (!isValid(dod)) { return dod; }
-            VCustomer(dod, _prs, _sos, _sods, _cs);
+            VContact(dod, _prs, _sos, _sods, _cs);
             if (!isValid(dod)) { return dod; }
             VQuantityCreate(dod, _sods);
             if (!isValid(dod)) { return dod; }
@@ -147,7 +147,7 @@ namespace Validation.Validation
             VHasDeliveryOrder(dod, _prs);
             VHasItem(dod, _is);
             if (!isValid(dod)) { return dod; }
-            VCustomer(dod, _prs, _sos, _sods, _cs);
+            VContact(dod, _prs, _sos, _sods, _cs);
             if (!isValid(dod)) { return dod; }
             VQuantityUpdate(dod, _sods);
             if (!isValid(dod)) { return dod; }

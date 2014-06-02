@@ -9,7 +9,7 @@ namespace Core.DomainModel
     public partial class PurchaseOrder
     {
         public int Id { get; set; }
-        public int CustomerId { get; set; }
+        public int ContactId { get; set; }
         public DateTime PurchaseDate { get; set; }
 
         public bool IsConfirmed { get; set; }

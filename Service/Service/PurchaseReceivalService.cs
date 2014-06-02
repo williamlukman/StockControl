@@ -51,7 +51,7 @@ namespace Service.Service
         {
             PurchaseReceival pr = new PurchaseReceival
             {
-                CustomerId = contactId,
+                ContactId = contactId,
                 ReceivalDate = receivalDate
             };
             return this.CreateObject(pr, _contactService);

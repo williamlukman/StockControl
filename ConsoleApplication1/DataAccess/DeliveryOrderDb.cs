@@ -35,7 +35,7 @@ namespace ConsoleApp.DataAccess
             Console.WriteLine("All deliveryOrders in the database:");
             foreach (var item in deliveryOrders)
             {
-                Console.WriteLine("DO ID: " + item.Id + ", Customer: " + item.CustomerId + ", Date:" + item.DeliveryDate);
+                Console.WriteLine("DO ID: " + item.Id + ", Contact: " + item.ContactId + ", Date:" + item.DeliveryDate);
             }
             Console.WriteLine();
         }

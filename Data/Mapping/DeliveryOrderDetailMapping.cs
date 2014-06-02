@@ -14,9 +14,6 @@ namespace Data.Mapping
         {
             HasKey(prd => prd.Id);
             
-            HasRequired(prd => prd.Item)
-                .WithMany(i => i.DeliveryOrderDetails)
-                .HasForeignKey(pod => pod.ItemId);
             HasRequired(prd => prd.DeliveryOrder)
                 .WithMany(pr => pr.DeliveryOrderDetails)
                 .HasForeignKey(prd => prd.DeliveryOrderId);

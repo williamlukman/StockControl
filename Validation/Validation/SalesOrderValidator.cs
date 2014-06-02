@@ -13,12 +13,12 @@ namespace Validation.Validation
 {
     public class SalesOrderValidator : ISalesOrderValidator
     {
-        public SalesOrder VCustomer(SalesOrder so, IContactService _cs)
+        public SalesOrder VContact(SalesOrder so, IContactService _cs)
         {
-            Contact c = _cs.GetObjectById(so.CustomerId);
+            Contact c = _cs.GetObjectById(so.ContactId);
             if (c == null)
             {
-                so.Errors.Add("Customer", "Tidak boleh tidak ada");
+                so.Errors.Add("Contact", "Tidak boleh tidak ada");
             }
             return so;
         }
@@ -55,14 +55,14 @@ namespace Validation.Validation
 
         public SalesOrder VCreateObject(SalesOrder so, IContactService _cs)
         {
-            VCustomer(so, _cs);
+            VContact(so, _cs);
             VSalesDate(so);
             return so;
         }
 
         public SalesOrder VUpdateObject(SalesOrder so, IContactService _cs)
         {
-            VCustomer(so, _cs);
+            VContact(so, _cs);
             VSalesDate(so);
             VIsConfirmed(so);
             return so;

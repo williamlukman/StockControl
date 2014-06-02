@@ -15,10 +15,7 @@ namespace Data.Mapping
         {
             HasKey(i => i.Id);
             HasOptional(i => i.StockMutations);
-            HasOptional(i => i.PurchaseOrderDetails);
-            HasOptional(i => i.PurchaseReceivalDetails);
-            //HasOptional(i => i.SalesOrderDetails);
-            //HasOptional(i => i.DeliveryOrderDetails);
+            HasOptional(i => i.StockAdjustmentDetails);
             Ignore(i => i.Errors);
         }
     }

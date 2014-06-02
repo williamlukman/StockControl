@@ -51,7 +51,7 @@ namespace Service.Service
         {
             PurchaseOrder po = new PurchaseOrder
             {
-                CustomerId = contactId,
+                ContactId = contactId,
                 PurchaseDate = purchaseDate
             };
             return this.CreateObject(po, _contactService);

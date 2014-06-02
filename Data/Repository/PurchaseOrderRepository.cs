@@ -29,7 +29,7 @@ namespace Data.Repository
 
         public IList<PurchaseOrder> GetObjectsByContactId(int contactId)
         {
-            return FindAll(po => po.CustomerId == contactId && !po.IsDeleted).ToList();
+            return FindAll(po => po.ContactId == contactId && !po.IsDeleted).ToList();
         }
 
         public PurchaseOrder CreateObject(PurchaseOrder purchaseOrder)

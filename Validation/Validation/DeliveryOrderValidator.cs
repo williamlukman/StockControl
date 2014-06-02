@@ -13,12 +13,12 @@ namespace Validation.Validation
     public class DeliveryOrderValidator : IDeliveryOrderValidator
     {
 
-        public DeliveryOrder VCustomer(DeliveryOrder d, IContactService _cs)
+        public DeliveryOrder VContact(DeliveryOrder d, IContactService _cs)
         {
-            Contact c = _cs.GetObjectById(d.CustomerId);
+            Contact c = _cs.GetObjectById(d.ContactId);
             if (c == null)
             {
-                d.Errors.Add("Customer", "Tidak boleh tidak ada");
+                d.Errors.Add("Contact", "Tidak boleh tidak ada");
             }
             return d;
         }
@@ -69,14 +69,14 @@ namespace Validation.Validation
 
         public DeliveryOrder VCreateObject(DeliveryOrder d, IContactService _cs)
         {
-            VCustomer(d, _cs);
+            VContact(d, _cs);
             VDeliveryDate(d);
             return d;
         }
 
         public DeliveryOrder VUpdateObject(DeliveryOrder d, IContactService _cs)
         {
-            VCustomer(d, _cs);
+            VContact(d, _cs);
             VDeliveryDate(d);
             VIsConfirmed(d);
             return d;

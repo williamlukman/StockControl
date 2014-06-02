@@ -17,6 +17,11 @@ namespace Data.Mapping
             HasOptional(c => c.PurchaseReceivals);
             HasOptional(c => c.SalesOrders);
             HasOptional(c => c.DeliveryOrders);
+
+            HasOptional(c => c.Payables);
+            HasOptional(c => c.Receivables);
+            HasOptional(c => c.PurchaseInvoices);
+            HasOptional(c => c.SalesInvoices);
             Ignore(c => c.Errors);
         }
     }

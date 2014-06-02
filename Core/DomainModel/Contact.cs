@@ -22,6 +22,12 @@ namespace Core.DomainModel
         public virtual ICollection<PurchaseReceival> PurchaseReceivals { get; set; }
         public virtual ICollection<SalesOrder> SalesOrders { get; set; }
         public virtual ICollection<DeliveryOrder> DeliveryOrders { get; set; }
+
+        public virtual ICollection<Payable> Payables { get; set; }
+        public virtual ICollection<Receivable> Receivables { get; set; }
+        public virtual ICollection<PurchaseInvoice> PurchaseInvoices { get; set; }
+        public virtual ICollection<SalesInvoice> SalesInvoices { get; set; }
+
         public Dictionary<String, String> Errors { get; set; }
     }
 }

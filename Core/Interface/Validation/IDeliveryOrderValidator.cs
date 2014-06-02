@@ -10,7 +10,7 @@ namespace Core.Interface.Validation
 {
     public interface IDeliveryOrderValidator
     {
-        DeliveryOrder VCustomer(DeliveryOrder d, IContactService _cs);
+        DeliveryOrder VContact(DeliveryOrder d, IContactService _cs);
         DeliveryOrder VDeliveryDate(DeliveryOrder d);
         DeliveryOrder VIsConfirmed(DeliveryOrder d);
         DeliveryOrder VHasDeliveryOrderDetails(DeliveryOrder d, IDeliveryOrderDetailService _dods);

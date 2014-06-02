@@ -15,7 +15,7 @@ namespace Data.Mapping
             HasKey(pr => pr.Id);
             HasRequired(pr => pr.Contact)
                 .WithMany(c => c.DeliveryOrders)
-                .HasForeignKey(pr => pr.CustomerId);
+                .HasForeignKey(pr => pr.ContactId);
             HasOptional(pr => pr.DeliveryOrderDetails);
             Ignore(pr => pr.Errors);
         }

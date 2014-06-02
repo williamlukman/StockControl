@@ -44,6 +44,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mapping\ContactMapping.cs" />
+    <Compile Include="Mapping\CashBankMapping.cs" />
+    <Compile Include="Mapping\ReceivableMapping.cs" />
+    <Compile Include="Mapping\ReceiptVoucherDetailMapping.cs" />
+    <Compile Include="Mapping\ReceiptVoucherMapping.cs" />
+    <Compile Include="Mapping\SalesInvoiceDetailMapping.cs" />
+    <Compile Include="Mapping\SalesInvoiceMapping.cs" />
+    <Compile Include="Mapping\PaymentVoucherDetailMapping.cs" />
+    <Compile Include="Mapping\PaymentVoucherMapping.cs" />
+    <Compile Include="Mapping\PayableMapping.cs" />
+    <Compile Include="Mapping\PurchaseInvoiceDetailMapping.cs" />
+    <Compile Include="Mapping\PurchaseInvoiceMapping.cs" />
     <Compile Include="Mapping\StockAdjustmentDetailMapping.cs" />
     <Compile Include="Mapping\StockAdjustmentMapping.cs" />
     <Compile Include="Mapping\DeliveryOrderDetailMapping.cs" />

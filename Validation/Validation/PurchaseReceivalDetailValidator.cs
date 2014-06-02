@@ -33,7 +33,7 @@ namespace Validation.Validation
             return prd;
         }
 
-        public PurchaseReceivalDetail VCustomer(PurchaseReceivalDetail prd, IPurchaseReceivalService _prs, IPurchaseOrderService _pos, IPurchaseOrderDetailService _pods, IContactService _cs)
+        public PurchaseReceivalDetail VContact(PurchaseReceivalDetail prd, IPurchaseReceivalService _prs, IPurchaseOrderService _pos, IPurchaseOrderDetailService _pods, IContactService _cs)
         {
             PurchaseReceival pr = _prs.GetObjectById(prd.PurchaseReceivalId);
             PurchaseOrderDetail pod = _pods.GetObjectById(prd.PurchaseOrderDetailId);
@@ -43,9 +43,9 @@ namespace Validation.Validation
                 return prd;
             }
             PurchaseOrder po = _pos.GetObjectById(pod.PurchaseOrderId);
-            if (po.CustomerId != pr.CustomerId)
+            if (po.ContactId != pr.ContactId)
             {
-                prd.Errors.Add("Customer", "Tidak boleh merupakan kustomer yang berbeda dengan Purchase Order");
+                prd.Errors.Add("Contact", "Tidak boleh merupakan kustomer yang berbeda dengan Purchase Order");
             }
             return prd;
         }
@@ -137,7 +137,7 @@ namespace Validation.Validation
             VHasPurchaseReceival(prd, _prs);
             VHasItem(prd, _is);
             if (!isValid(prd)) return prd;
-            VCustomer(prd, _prs, _pos, _pods, _cs);
+            VContact(prd, _prs, _pos, _pods, _cs);
             if (!isValid(prd)) return prd;
             VQuantityCreate(prd, _pods);
             if (!isValid(prd)) return prd;
@@ -151,7 +151,7 @@ namespace Validation.Validation
             VHasPurchaseReceival(prd, _prs);
             VHasItem(prd, _is);
             if (!isValid(prd)) return prd;
-            VCustomer(prd, _prs, _pos, _pods, _cs);
+            VContact(prd, _prs, _pos, _pods, _cs);
             if (!isValid(prd)) return prd;
             VQuantityUpdate(prd, _pods);
             if (!isValid(prd)) return prd;

@@ -13,12 +13,12 @@ namespace Validation.Validation
 {
     public class PurchaseOrderValidator : IPurchaseOrderValidator
     {
-        public PurchaseOrder VCustomer(PurchaseOrder po, IContactService _cs)
+        public PurchaseOrder VContact(PurchaseOrder po, IContactService _cs)
         {
-            Contact c = _cs.GetObjectById(po.CustomerId);
+            Contact c = _cs.GetObjectById(po.ContactId);
             if (c == null)
             {
-                po.Errors.Add("Customer", "Tidak boleh tidak ada");
+                po.Errors.Add("Contact", "Tidak boleh tidak ada");
             }
             return po;
         }
@@ -55,14 +55,14 @@ namespace Validation.Validation
 
         public PurchaseOrder VCreateObject(PurchaseOrder po, IContactService _cs)
         {
-            VCustomer(po, _cs);
+            VContact(po, _cs);
             VPurchaseDate(po);
             return po;
         }
 
         public PurchaseOrder VUpdateObject(PurchaseOrder po, IContactService _cs)
         {
-            VCustomer(po, _cs);
+            VContact(po, _cs);
             VPurchaseDate(po);
             VIsConfirmed(po);
             return po;

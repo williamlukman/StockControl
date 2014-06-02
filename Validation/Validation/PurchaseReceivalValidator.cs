@@ -14,12 +14,12 @@ namespace Validation.Validation
     public class PurchaseReceivalValidator : IPurchaseReceivalValidator
     {
 
-        public PurchaseReceival VCustomer(PurchaseReceival pr, IContactService _cs)
+        public PurchaseReceival VContact(PurchaseReceival pr, IContactService _cs)
         {
-            Contact c = _cs.GetObjectById(pr.CustomerId);
+            Contact c = _cs.GetObjectById(pr.ContactId);
             if (c == null)
             {
-                pr.Errors.Add("Customer", "Tidak boleh tidak ada");
+                pr.Errors.Add("Contact", "Tidak boleh tidak ada");
             }
             return pr;
         }
@@ -56,14 +56,14 @@ namespace Validation.Validation
 
         public PurchaseReceival VCreateObject(PurchaseReceival pr, IContactService _cs)
         {
-            VCustomer(pr, _cs);
+            VContact(pr, _cs);
             VReceivalDate(pr);
             return pr;
         }
 
         public PurchaseReceival VUpdateObject(PurchaseReceival pr, IContactService _cs)
         {
-            VCustomer(pr, _cs);
+            VContact(pr, _cs);
             VReceivalDate(pr);
             VIsConfirmed(pr);
             return pr;

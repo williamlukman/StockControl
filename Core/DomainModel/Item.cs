@@ -26,10 +26,6 @@ namespace Core.DomainModel
         public Nullable<DateTime> ModifiedAt { get; set; }
 
         public virtual ICollection<StockMutation> StockMutations { get; set; }
-        public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
-        public virtual ICollection<PurchaseReceivalDetail> PurchaseReceivalDetails { get; set; }
-        public virtual ICollection<SalesOrderDetail> SalesOrderDetails { get; set; }
-        public virtual ICollection<DeliveryOrderDetail> DeliveryOrderDetails { get; set; }
         public virtual ICollection<StockAdjustmentDetail> StockAdjustmentDetails { get; set; }
 
         public Dictionary<String, String> Errors { get; set; }

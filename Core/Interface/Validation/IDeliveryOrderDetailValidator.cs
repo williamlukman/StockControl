@@ -12,7 +12,7 @@ namespace Core.Interface.Validation
     {
         DeliveryOrderDetail VHasDeliveryOrder(DeliveryOrderDetail dod, IDeliveryOrderService _dos);
         DeliveryOrderDetail VHasItem(DeliveryOrderDetail dod, IItemService _is);
-        DeliveryOrderDetail VCustomer(DeliveryOrderDetail dod, IDeliveryOrderService _dos, ISalesOrderService _sos, ISalesOrderDetailService _sods, IContactService _cs);
+        DeliveryOrderDetail VContact(DeliveryOrderDetail dod, IDeliveryOrderService _dos, ISalesOrderService _sos, ISalesOrderDetailService _sods, IContactService _cs);
         DeliveryOrderDetail VQuantityCreate(DeliveryOrderDetail dod, ISalesOrderDetailService _sods);
         DeliveryOrderDetail VQuantityUpdate(DeliveryOrderDetail dod, ISalesOrderDetailService _sods);
         DeliveryOrderDetail VQuantityUnconfirm(DeliveryOrderDetail dod, IItemService _is);

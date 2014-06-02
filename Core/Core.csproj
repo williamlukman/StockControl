@@ -39,7 +39,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\Constant.cs" />
+    <Compile Include="DomainModel\CashBank.cs" />
     <Compile Include="DomainModel\Contact.cs" />
+    <Compile Include="DomainModel\ReceiptVoucherDetail.cs" />
+    <Compile Include="DomainModel\ReceiptVoucher.cs" />
+    <Compile Include="DomainModel\Receivable.cs" />
+    <Compile Include="DomainModel\SalesInvoiceDetail.cs" />
+    <Compile Include="DomainModel\SalesInvoice.cs" />
+    <Compile Include="DomainModel\PaymentVoucherDetail.cs" />
+    <Compile Include="DomainModel\PaymentVoucher.cs" />
+    <Compile Include="DomainModel\Payable.cs" />
+    <Compile Include="DomainModel\PurchaseInvoice.cs" />
+    <Compile Include="DomainModel\PurchaseInvoiceDetail.cs" />
     <Compile Include="DomainModel\StockAdjustmentDetail.cs" />
     <Compile Include="DomainModel\StockAdjustment.cs" />
     <Compile Include="DomainModel\DeliveryOrderDetail.cs" />
