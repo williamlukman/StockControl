@@ -104,17 +104,24 @@ namespace ConsoleApp.Validation
             StockAdjustmentDetail sad = _sad.CreateObject(stockAdjustmentId, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 0, 30000, _sa, _i);
             if (sad.Errors.Any()) { Console.WriteLine("        >> " + _sad.GetValidator().PrintError(sad)); }
         }
-       
+
         public void SAValidation8(int stockAdjustmentId)
         {
-            Console.WriteLine("     [SA 8] Invalid confirm SA2 with negative quantity");
-            StockAdjustment sa = _sa.ConfirmObject(_sa.GetObjectById(stockAdjustmentId), _sad, _sm, _i);
-            if (sa.Errors.Any()) { Console.WriteLine("        >> " + _sa.GetValidator().PrintError(sa)); }
+            Console.WriteLine("     [SA 8] Create duplicate item SAD");
+            StockAdjustmentDetail sad = _sad.CreateObject(stockAdjustmentId, _i.GetObjectByName("Mini Garuda Indonesia").Id, 50, 30000, _sa, _i);
+            if (sad.Errors.Any()) { Console.WriteLine("        >> " + _sad.GetValidator().PrintError(sad)); }
         }
 
         public void SAValidation9(int stockAdjustmentId)
         {
-            Console.WriteLine("     [SA 9] Valid confirm SA2 with negative quantity");
+            Console.WriteLine("     [SA 9] Invalid confirm SA2 with negative quantity");
+            StockAdjustment sa = _sa.ConfirmObject(_sa.GetObjectById(stockAdjustmentId), _sad, _sm, _i);
+            if (sa.Errors.Any()) { Console.WriteLine("        >> " + _sa.GetValidator().PrintError(sa)); }
+        }
+
+        public void SAValidation10(int stockAdjustmentId)
+        {
+            Console.WriteLine("     [SA 10] Valid confirm SA2 with negative quantity");
             StockAdjustment sa = _sa.ConfirmObject(_sa.GetObjectById(stockAdjustmentId), _sad, _sm, _i);
             if (sa.Errors.Any()) { Console.WriteLine("        >> " + _sa.GetValidator().PrintError(sa)); }
         }

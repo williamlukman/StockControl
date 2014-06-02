@@ -115,10 +115,11 @@ namespace ConsoleApp
             sa.SAValidation6(stockAdjustmentId2);
             sa.SAValidation7(stockAdjustmentId2);
             sa.SAValidation8(stockAdjustmentId2);
+            sa.SAValidation9(stockAdjustmentId2);
 
             // Reconfirm item to next reduce the item in SAValidation8
             sa.SAValidation3(stockAdjustmentId);
-            sa.SAValidation9(stockAdjustmentId2);
+            sa.SAValidation10(stockAdjustmentId2);
 
         }
 
