@@ -19,7 +19,7 @@ namespace Validation.Validation
             Contact c = _cs.GetObjectById(pr.CustomerId);
             if (c == null)
             {
-                pr.Errors.Add("Error. Customer does not exist");
+                pr.Errors.Add("Customer", "Tidak boleh tidak ada");
             }
             return pr;
         }
@@ -29,7 +29,7 @@ namespace Validation.Validation
             /* receivalDate is never null
             if (pr.ReceivalDate == null)
             {
-                pr.Errors.Add("Error. Receival Date does not exist");
+                pr.Errors.Add("ReceivalDate", "Tidak boleh tidak ada");
             }
             */
             return pr;
@@ -39,7 +39,7 @@ namespace Validation.Validation
         {
             if (pr.IsConfirmed)
             {
-                pr.Errors.Add("Error. Purchase Receival is confirmed already");
+                pr.Errors.Add("IsConfirmed", "Tidak boleh sudah dikonfirmasi");
             }
             return pr;
         }
@@ -49,7 +49,7 @@ namespace Validation.Validation
             IList<PurchaseReceivalDetail> details = _prds.GetObjectsByPurchaseReceivalId(pr.Id);
             if (!details.Any())
             {
-                pr.Errors.Add("Error. Purchase Receival does not have purchase receival details");
+                pr.Errors.Add("PurchaseReceivalDetail", "Tidak boleh tidak ada");
             }
             return pr;
         }
@@ -84,8 +84,12 @@ namespace Validation.Validation
                 IList<PurchaseReceivalDetail> details = _prds.GetObjectsByPurchaseReceivalId(pr.Id);
                 foreach (var detail in details)
                 {
-                    _prds.GetValidator().VConfirmObject(detail);
-                    pr.Errors.UnionWith(detail.Errors);
+                    _prds.GetValidator().ValidConfirmObject(detail);
+                    foreach (var error in detail.Errors)
+                    {
+                        pr.Errors.Add(error.Key, error.Value);
+                    }
+                    if (pr.Errors.Any()) { return pr; }
                 }
             }
             return pr;
@@ -98,8 +102,12 @@ namespace Validation.Validation
                 IList<PurchaseReceivalDetail> details = _prds.GetObjectsByPurchaseReceivalId(pr.Id);
                 foreach (var detail in details)
                 {
-                    _prds.GetValidator().VUnconfirmObject(detail, _prds, _is);
-                    pr.Errors.UnionWith(detail.Errors);
+                    _prds.GetValidator().ValidUnconfirmObject(detail, _prds, _is);
+                    foreach (var error in detail.Errors)
+                    {
+                        pr.Errors.Add(error.Key, error.Value);
+                    }
+                    if (pr.Errors.Any()) { return pr; }
                 }
             }
 
@@ -114,43 +122,50 @@ namespace Validation.Validation
 
         public bool ValidUpdateObject(PurchaseReceival pr, IContactService _cs)
         {
+            pr.Errors.Clear();
             VUpdateObject(pr, _cs);
             return isValid(pr);
         }
 
         public bool ValidDeleteObject(PurchaseReceival pr, IPurchaseReceivalDetailService _prds)
         {
+            pr.Errors.Clear();
             VDeleteObject(pr, _prds);
             return isValid(pr);
         }
 
         public bool ValidConfirmObject(PurchaseReceival pr, IPurchaseReceivalDetailService _prds)
         {
+            pr.Errors.Clear();
             VConfirmObject(pr, _prds);
             return isValid(pr);
         }
 
         public bool ValidUnconfirmObject(PurchaseReceival pr, IPurchaseReceivalDetailService _prds, IItemService _is)
         {
+            pr.Errors.Clear();
             VUnconfirmObject(pr, _prds, _is);
             return isValid(pr);
         }
 
-        public bool isValid(PurchaseReceival pr)
+        public bool isValid(PurchaseReceival obj)
         {
-            bool isValid = !pr.Errors.Any();
+            bool isValid = !obj.Errors.Any();
             return isValid;
         }
 
-        public string PrintError(PurchaseReceival pr)
+        public string PrintError(PurchaseReceival obj)
         {
-            string erroroutput = pr.Errors.ElementAt(0);
-            foreach (var item in pr.Errors.Skip(1))
+            string erroroutput = "";
+            KeyValuePair<string, string> first = obj.Errors.ElementAt(0);
+            erroroutput += first.Key + "," + first.Value;
+            foreach (KeyValuePair<string, string> pair in obj.Errors.Skip(1))
             {
                 erroroutput += Environment.NewLine;
-                erroroutput += item;
+                erroroutput += pair.Key + "," + pair.Value;
             }
             return erroroutput;
         }
+
     }
 }

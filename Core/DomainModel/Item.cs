@@ -32,6 +32,6 @@ namespace Core.DomainModel
         public virtual ICollection<DeliveryOrderDetail> DeliveryOrderDetails { get; set; }
         public virtual ICollection<StockAdjustmentDetail> StockAdjustmentDetails { get; set; }
 
-        public HashSet<string> Errors { get; set; }
+        public Dictionary<String, String> Errors { get; set; }
     }
 }

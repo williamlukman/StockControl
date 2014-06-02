@@ -49,7 +49,7 @@ namespace Service.Service
 
         public StockMutation CreateObject(StockMutation stockMutation)
         {
-            stockMutation.Errors = new HashSet<string>();
+            stockMutation.Errors = new Dictionary<String, String>();
             return (_validator.ValidCreateObject(stockMutation) ? _repository.CreateObject(stockMutation) : stockMutation);
         }
 
@@ -87,7 +87,7 @@ namespace Service.Service
             IList<StockMutation> stockMutations = _repository.GetObjectsBySourceDocumentDetail(item.Id, Constant.SourceDocumentDetailType.PurchaseOrderDetail, pod.Id);
             foreach (var sm in stockMutations)
             {
-                _repository.SoftDeleteObject(sm);
+                _repository.Delete(sm);
             }
             return stockMutations;
         }
@@ -108,7 +108,7 @@ namespace Service.Service
             result.Add(_repository.CreateObject(sm));
 
             sm.ItemCase = Constant.StockMutationItemCase.Ready;
-            sm.Status = Constant.StockMutationStatus.Addition;
+            sm.Status = (prd.Quantity > 0) ? Constant.StockMutationStatus.Addition : Constant.StockMutationStatus.Deduction;
             result.Add(_repository.CreateObject(sm));
             return result;
         }
@@ -118,7 +118,7 @@ namespace Service.Service
             IList<StockMutation> stockMutations = _repository.GetObjectsBySourceDocumentDetail(item.Id, Constant.SourceDocumentDetailType.PurchaseReceivalDetail, prd.Id);
             foreach (var sm in stockMutations)
             {
-                _repository.SoftDeleteObject(sm);
+                _repository.Delete(sm);
             }
             return stockMutations;
         }
@@ -142,7 +142,7 @@ namespace Service.Service
             IList<StockMutation> stockMutations = _repository.GetObjectsBySourceDocumentDetail(item.Id, Constant.SourceDocumentDetailType.SalesOrderDetail, sod.Id);
             foreach (var sm in stockMutations)
             {
-                _repository.SoftDeleteObject(sm);
+                _repository.Delete(sm);
             }
             return stockMutations;
         }
@@ -173,7 +173,7 @@ namespace Service.Service
             IList<StockMutation> stockMutations = _repository.GetObjectsBySourceDocumentDetail(item.Id, Constant.SourceDocumentDetailType.DeliveryOrderDetail, dod.Id);
             foreach (var sm in stockMutations)
             {
-                _repository.SoftDeleteObject(sm);
+                _repository.Delete(sm);
             }
             return stockMutations;
         }
@@ -197,7 +197,7 @@ namespace Service.Service
             IList<StockMutation> stockMutations = _repository.GetObjectsBySourceDocumentDetail(item.Id, Constant.SourceDocumentDetailType.StockAdjustmentDetail, sad.Id);
             foreach (var sm in stockMutations)
             {
-                _repository.SoftDeleteObject(sm);
+                _repository.Delete(sm);
             }
             return stockMutations;
         }

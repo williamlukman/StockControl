@@ -27,7 +27,7 @@ namespace Core.DomainModel
         public Nullable<DateTime> ModifiedAt { get; set; }
 
         public virtual Item Item { get; set;}
-        public HashSet<string> Errors { get; set; }
+        public Dictionary<String, String> Errors { get; set; }
 
     }
 }

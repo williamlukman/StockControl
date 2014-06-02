@@ -18,7 +18,7 @@ namespace Validation.Validation
             StockAdjustment sa = _sas.GetObjectById(sad.StockAdjustmentId);
             if (sa == null)
             {
-                sad.Errors.Add("Error. Stock adjustment does not exist");
+                sad.Errors.Add("StockAdjustment", "Belum ada");
             }
             return sad;
         }
@@ -28,7 +28,7 @@ namespace Validation.Validation
             Item item = _is.GetObjectById(sad.ItemId);
             if (item == null)
             {
-                sad.Errors.Add("Error. Item does not exist");
+                sad.Errors.Add("Item", "Belum ada");
             }
             return sad;
         }
@@ -37,16 +37,16 @@ namespace Validation.Validation
         {
             if (sad.Quantity == 0)
             {
-                sad.Errors.Add("Error. Quantity can be negative but must not be zero");
+                sad.Errors.Add("Quantity", "Tidak boleh 0");
             }
             return sad;
         }
 
         public StockAdjustmentDetail VPrice(StockAdjustmentDetail sad)
         {
-            if (sad.Quantity <= 0)
+            if (sad.Price <= 0)
             {
-                sad.Errors.Add("Error. Price must be greater than zero");
+                sad.Errors.Add("Price", "Harus lebih besar dari 0");
             }
             return sad;
         }
@@ -58,7 +58,7 @@ namespace Validation.Validation
             {
                 if (detail.ItemId == sad.ItemId && detail.Id != sad.Id)
                 {
-                     sad.Errors.Add("Error. duplicate item is not allowed in one stock adjustment");
+                     sad.Errors.Add("Item", "Tidak boleh ada duplikasi item dalam 1 Stock Adjustment");
                 }
             }
             return sad;
@@ -68,7 +68,7 @@ namespace Validation.Validation
         {
             if (sad.IsConfirmed)
             {
-                sad.Errors.Add("Error. Stock adjustment detail is already confirmed");
+                sad.Errors.Add("IsConfirmed", "Tidak boleh sudah terkonfirmasi.");
             }
             return sad;
         }
@@ -78,11 +78,11 @@ namespace Validation.Validation
             Item item = _is.GetObjectById(sad.ItemId);
             if (item.Ready + sad.Quantity < 0)
             {
-                sad.Errors.Add("Error. Quantity of item and stock adjustment detail cannot amount to a number less than zero");
+                sad.Errors.Add("Quantity", "Tidak boleh menyebabkan ready stock kurang dari 0");
             }
             if (_is.CalculateAvgCost(item, sad.Quantity, sad.Price) < 0)
             {
-                sad.Errors.Add("Error. New average cost cannot amount less than 0");
+                sad.Errors.Add("AvgCost", "Tidak boleh kurang dari 0");
             }
             return sad;
         }
@@ -92,11 +92,11 @@ namespace Validation.Validation
             Item item = _is.GetObjectById(sad.ItemId);
             if (item.Ready - sad.Quantity < 0)
             {
-                sad.Errors.Add("Error. Quantity of item and stock adjustment detail cannot amount to a number less than zero");
+                sad.Errors.Add("Quantity", "Tidak boleh menyebabkan ready stock kurang dari 0");
             }
             if (_is.CalculateAvgCost(item, sad.Quantity * (-1), sad.Price) < 0)
             {
-                sad.Errors.Add("Error. New average cost cannot amount less than 0");
+                sad.Errors.Add("AvgCost", "Tidak boleh kurang dari 0");
             }
             return sad;
         }
@@ -149,41 +149,47 @@ namespace Validation.Validation
 
         public bool ValidUpdateObject(StockAdjustmentDetail sad, IStockAdjustmentDetailService _sads, IStockAdjustmentService _sas, IItemService _is)
         {
+            sad.Errors.Clear();
             VUpdateObject(sad, _sads, _sas, _is);
             return isValid(sad);
         }
 
         public bool ValidDeleteObject(StockAdjustmentDetail sad)
         {
+            sad.Errors.Clear();
             VDeleteObject(sad);
             return isValid(sad);
         }
 
         public bool ValidConfirmObject(StockAdjustmentDetail sad, IItemService _is)
         {
+            sad.Errors.Clear();
             VConfirmObject(sad, _is);
             return isValid(sad);
         }
 
         public bool ValidUnconfirmObject(StockAdjustmentDetail sad, IItemService _is)
         {
+            sad.Errors.Clear();
             VUnconfirmObject(sad, _is);
             return isValid(sad);
         }
 
-        public bool isValid(StockAdjustmentDetail sad)
+        public bool isValid(StockAdjustmentDetail obj)
         {
-            bool isValid = !sad.Errors.Any();
+            bool isValid = !obj.Errors.Any();
             return isValid;
         }
 
-        public string PrintError(StockAdjustmentDetail sad)
+        public string PrintError(StockAdjustmentDetail obj)
         {
-            string erroroutput = sad.Errors.ElementAt(0);
-            foreach (var item in sad.Errors.Skip(1))
+            string erroroutput = "";
+            KeyValuePair<string, string> first = obj.Errors.ElementAt(0);
+            erroroutput += first.Key + "," + first.Value;
+            foreach (KeyValuePair<string, string> pair in obj.Errors.Skip(1))
             {
                 erroroutput += Environment.NewLine;
-                erroroutput += item;
+                erroroutput += pair.Key + "," + pair.Value;
             }
             return erroroutput;
         }

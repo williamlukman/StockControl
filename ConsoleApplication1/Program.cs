@@ -111,6 +111,15 @@ namespace ConsoleApp
             sa.SAValidation2(stockAdjustmentId);
             sa.SAValidation3(stockAdjustmentId);
             sa.SAValidation4(stockAdjustmentId);
+            int stockAdjustmentId2 = sa.SAValidation5();
+            sa.SAValidation6(stockAdjustmentId2);
+            sa.SAValidation7(stockAdjustmentId2);
+            sa.SAValidation8(stockAdjustmentId2);
+
+            // Reconfirm item to next reduce the item in SAValidation8
+            sa.SAValidation3(stockAdjustmentId);
+            sa.SAValidation9(stockAdjustmentId2);
+
         }
 
         public void ValidateReceivalModel(Program p, StockControlEntities db)

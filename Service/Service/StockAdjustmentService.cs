@@ -38,7 +38,7 @@ namespace Service.Service
         
         public StockAdjustment CreateObject(StockAdjustment stockAdjustment)
         {
-            stockAdjustment.Errors = new HashSet<string>();
+            stockAdjustment.Errors = new Dictionary<String, String>();
             return (_validator.ValidCreateObject(stockAdjustment) ? _repository.CreateObject(stockAdjustment) : stockAdjustment);
         }
 

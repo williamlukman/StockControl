@@ -49,7 +49,7 @@ namespace Service.Service
 
         public Item CreateObject(Item item)
         {
-            item.Errors = new HashSet<string>();
+            item.Errors = new Dictionary<String, String>();
             return (_validator.ValidCreateObject(item, this) ? _repository.CreateObject(item) : item);
         }
 

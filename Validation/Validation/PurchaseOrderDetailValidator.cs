@@ -18,7 +18,7 @@ namespace Validation.Validation
             PurchaseOrder po = _pos.GetObjectById(pod.PurchaseOrderId);
             if (po == null)
             {
-                pod.Errors.Add("Error. Purchase Order does not exist");
+                pod.Errors.Add("PurchaseOrder", "Tidak boleh tidak ada");
             }
             return pod;
         }
@@ -28,7 +28,7 @@ namespace Validation.Validation
             Item item = _is.GetObjectById(pod.ItemId);
             if (item == null)
             {
-                pod.Errors.Add("Error. Item does not exist");
+                pod.Errors.Add("Item", "Tidak boleh tidak ada");
             }
             return pod;
         }
@@ -37,7 +37,7 @@ namespace Validation.Validation
         {
             if (pod.Quantity < 0)
             {
-                pod.Errors.Add("Error. Quantity must be greater than or equal to zero");
+                pod.Errors.Add("Quantity", "Tidak boleh kurang dari 0");
             }
             return pod;
         }
@@ -46,7 +46,7 @@ namespace Validation.Validation
         {
             if (pod.Price <= 0)
             {
-                pod.Errors.Add("Error. Price must be greater than zero");
+                pod.Errors.Add("Price", "Tidak boleh kurang dari atau sama dengan 0");
             }
             return pod;
         }
@@ -56,9 +56,9 @@ namespace Validation.Validation
             IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(pod.PurchaseOrderId);
             foreach (var detail in details)
             {
-                if (detail.ItemId == pod.ItemId)
+                if (detail.ItemId == pod.ItemId && detail.Id != pod.Id)
                 {
-                    pod.Errors.Add("Error. Purchase order detail is not unique in this purchase order");
+                    pod.Errors.Add("PurchaseOrderDetail", "Tidak boleh memiliki Sku yang sama dalam 1 Purchase Order");
                     return pod;
                 }
             }
@@ -69,7 +69,7 @@ namespace Validation.Validation
         {
             if (pod.IsConfirmed)
             {
-                pod.Errors.Add("Error. Purchase order detail is already confirmed");
+                pod.Errors.Add("PurchaseOrderDetail", "Tidak boleh sudah dikonfirmasi");
             }
             return pod;
         }
@@ -79,7 +79,7 @@ namespace Validation.Validation
             Item item = _is.GetObjectById(pod.ItemId);
             if (item.PendingReceival < pod.Quantity)
             {
-                pod.Errors.Add("Error. Current item pending receival is less than the quantity of purchase order detail");
+                pod.Errors.Add("Item.PendingReceival", "Tidak boleh kurang dari quantity");
             }
             return pod;
         }
@@ -93,7 +93,7 @@ namespace Validation.Validation
             }
             if (prd.IsConfirmed)
             {
-                pod.Errors.Add("Error. Associated purchase receival is confirmed already");
+                pod.Errors.Add("PurchaseReceival", "Tidak boleh sudah dikonfirmasi");
             }
             return pod;
         }
@@ -147,43 +147,50 @@ namespace Validation.Validation
 
         public bool ValidUpdateObject(PurchaseOrderDetail pod,  IPurchaseOrderDetailService _pods, IPurchaseOrderService _pos, IItemService _is)
         {
+            pod.Errors.Clear();
             VUpdateObject(pod, _pods, _pos, _is);
             return isValid(pod);
         }
 
         public bool ValidDeleteObject(PurchaseOrderDetail pod)
         {
+            pod.Errors.Clear();
             VDeleteObject(pod);
             return isValid(pod);
         }
 
         public bool ValidConfirmObject(PurchaseOrderDetail pod)
         {
+            pod.Errors.Clear();
             VConfirmObject(pod);
             return isValid(pod);
         }
 
         public bool ValidUnconfirmObject(PurchaseOrderDetail pod, IPurchaseOrderDetailService _pods, IPurchaseReceivalDetailService _prds, IItemService _is)
         {
+            pod.Errors.Clear();
             VUnconfirmObject(pod, _pods, _prds, _is);
             return isValid(pod);
         }
 
-        public bool isValid(PurchaseOrderDetail pod)
+        public bool isValid(PurchaseOrderDetail obj)
         {
-            bool isValid = !pod.Errors.Any();
+            bool isValid = !obj.Errors.Any();
             return isValid;
         }
 
-        public string PrintError(PurchaseOrderDetail pod)
+        public string PrintError(PurchaseOrderDetail obj)
         {
-            string erroroutput = pod.Errors.ElementAt(0);
-            foreach (var item in pod.Errors.Skip(1))
+            string erroroutput = "";
+            KeyValuePair<string, string> first = obj.Errors.ElementAt(0);
+            erroroutput += first.Key + "," + first.Value;
+            foreach (KeyValuePair<string, string> pair in obj.Errors.Skip(1))
             {
                 erroroutput += Environment.NewLine;
-                erroroutput += item;
+                erroroutput += pair.Key + "," + pair.Value;
             }
             return erroroutput;
         }
+
     }
 }

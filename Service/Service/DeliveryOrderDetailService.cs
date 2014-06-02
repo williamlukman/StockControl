@@ -46,7 +46,7 @@ namespace Service.Service
             IDeliveryOrderService _dos, ISalesOrderDetailService _sods,
             ISalesOrderService _sos, IItemService _is, IContactService _cs)
         {
-            deliveryOrderDetail.Errors = new HashSet<string>();
+            deliveryOrderDetail.Errors = new Dictionary<String, String>();
             return (_validator.ValidCreateObject(deliveryOrderDetail, this, _dos, _sods, _sos, _is, _cs) ? _repository.CreateObject(deliveryOrderDetail) : deliveryOrderDetail);
         }
 

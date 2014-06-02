@@ -22,7 +22,7 @@ namespace Core.DomainModel
 
         public virtual Contact Contact { get; set; }
         public virtual ICollection<PurchaseReceivalDetail> PurchaseReceivalDetails { get; set; }
-        public HashSet<string> Errors { get; set; }
+        public Dictionary<String, String> Errors { get; set; }
 
     }
 }

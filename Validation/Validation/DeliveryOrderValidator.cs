@@ -18,7 +18,7 @@ namespace Validation.Validation
             Contact c = _cs.GetObjectById(d.CustomerId);
             if (c == null)
             {
-                d.Errors.Add("Error. Customer does not exist");
+                d.Errors.Add("Customer", "Tidak boleh tidak ada");
             }
             return d;
         }
@@ -28,7 +28,7 @@ namespace Validation.Validation
             /* deliveryDate is never null
             if (d.DeliveryDate == null)
             {
-                d.Errors.Add("Error. Delivery Date does not exist");
+                d.Errors.Add("DeliveryDate", "Tidak boleh kosong");
             }
             */
             return d;
@@ -38,7 +38,7 @@ namespace Validation.Validation
         {
             if (d.IsConfirmed)
             {
-                d.Errors.Add("Error. Delivery Order is confirmed already");
+                d.Errors.Add("IsConfirmed", "Tidak boleh sudah dikonfirmasi");
             }
             return d;
         }
@@ -48,7 +48,7 @@ namespace Validation.Validation
             IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(d.Id);
             if (!details.Any())
             {
-                d.Errors.Add("Error. Delivery Order does not have delivery order details");
+                d.Errors.Add("DeliveryOrderDetail", "Tidak boleh tidak ada");
             }
             return d;
         }
@@ -61,7 +61,7 @@ namespace Validation.Validation
                 Item item = _is.GetObjectById(detail.ItemId);
                 if (item.Ready < 0)
                 {
-                    d.Errors.Add ("Error. Item " + item.Name + " has ready stock less than zero");
+                    d.Errors.Add ("Item.Ready", "Tidak boleh kurang dari 0");
                 }
             }
             return d;
@@ -99,7 +99,11 @@ namespace Validation.Validation
                 foreach (var detail in details)
                 {
                     detailvalidator.VConfirmObject(detail, _is);
-                    d.Errors.UnionWith(detail.Errors);
+                    foreach (var error in detail.Errors)
+                    {
+                        d.Errors.Add(error.Key, error.Value);
+                    }
+                    if (d.Errors.Any()) { return d; }
                 }
             }
             return d;
@@ -114,8 +118,12 @@ namespace Validation.Validation
                 IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(d.Id);
                 foreach (var detail in details)
                 {
-                    _dods.GetValidator().VUnconfirmObject(detail, _dods, _is);
-                    d.Errors.UnionWith(detail.Errors);
+                    _dods.GetValidator().ValidUnconfirmObject(detail, _dods, _is);
+                    foreach (var error in detail.Errors)
+                    {
+                        d.Errors.Add(error.Key, error.Value);
+                    }
+                    if (d.Errors.Any()) { return d; }
                 }
             }
 
@@ -130,43 +138,50 @@ namespace Validation.Validation
 
         public bool ValidUpdateObject(DeliveryOrder d, IContactService _cs)
         {
+            d.Errors.Clear();
             VUpdateObject(d, _cs);
             return isValid(d);
         }
 
         public bool ValidDeleteObject(DeliveryOrder d, IDeliveryOrderDetailService _dods)
         {
+            d.Errors.Clear();
             VDeleteObject(d, _dods);
             return isValid(d);
         }
 
         public bool ValidConfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods, IItemService _is)
         {
+            d.Errors.Clear();
             VConfirmObject(d, _dods, _is);
             return isValid(d);
         }
 
         public bool ValidUnconfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods, IItemService _is)
         {
+            d.Errors.Clear();
             VUnconfirmObject(d, _dods, _is);
             return isValid(d);
         }
 
-        public bool isValid(DeliveryOrder d)
+        public bool isValid(DeliveryOrder obj)
         {
-            bool isValid = !d.Errors.Any();
+            bool isValid = !obj.Errors.Any();
             return isValid;
         }
 
-        public string PrintError(DeliveryOrder d)
+        public string PrintError(DeliveryOrder obj)
         {
-            string erroroutput = d.Errors.ElementAt(0);
-            foreach (var item in d.Errors.Skip(1))
+            string erroroutput = "";
+            KeyValuePair<string, string> first = obj.Errors.ElementAt(0);
+            erroroutput += first.Key + "," + first.Value;
+            foreach (KeyValuePair<string, string> pair in obj.Errors.Skip(1))
             {
                 erroroutput += Environment.NewLine;
-                erroroutput += item;
+                erroroutput += pair.Key + "," + pair.Value;
             }
             return erroroutput;
         }
+
     }
 }

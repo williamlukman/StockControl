@@ -20,7 +20,7 @@ namespace Validation.Validation
                 !sm.ItemCase.Equals (Constant.StockMutationItemCase.PendingDelivery) &&
                 !sm.ItemCase.Equals (Constant.StockMutationItemCase.PendingReceival))
             {
-                sm.Errors.Add("Error. Item Case did not meet system requirement");
+                sm.Errors.Add("ItemCase", "Harus merupakan bagian dari Constant.StockMutationItemCase");
             }
             return sm;
         }
@@ -30,7 +30,7 @@ namespace Validation.Validation
             if (!sm.Status.Equals(Constant.StockMutationStatus.Addition) &&
                 !sm.Status.Equals(Constant.StockMutationStatus.Deduction))
             {
-                sm.Errors.Add("Error. Status did not meet system requirement");
+                sm.Errors.Add("Status", "Harus merupakan bagian dari Constant.StockMutationStatus");
             }
             return sm;
         }
@@ -42,7 +42,7 @@ namespace Validation.Validation
                 !sm.SourceDocumentType.Equals(Constant.SourceDocumentType.SalesOrder) &&
                 !sm.SourceDocumentType.Equals(Constant.SourceDocumentType.DeliveryOrder))
             {
-                sm.Errors.Add("Error. Source Document Type did not meet system requirement");
+                sm.Errors.Add("SourceDocumentType", "Harus merupakan bagian dari Constant.SourceDocumentType");
             }
             return sm;
         }
@@ -54,7 +54,7 @@ namespace Validation.Validation
                 !sm.SourceDocumentDetailType.Equals(Constant.SourceDocumentDetailType.SalesOrderDetail) &&
                 !sm.SourceDocumentDetailType.Equals(Constant.SourceDocumentDetailType.DeliveryOrderDetail))
             {
-                sm.Errors.Add("Error. Source Document Detail Type did not meet system requirement");
+                sm.Errors.Add("SourceDocumentDetailType", "Harus merupakan bagian dari Constant.SourceDocumentDetailType");
             }
             return sm;
         }
@@ -65,7 +65,7 @@ namespace Validation.Validation
              * value never reach null.
             if (sm.Quantity == null)
             {
-                sm.Errors.Add("Error. Quantity is not set");
+                sm.Errors.Add("Quantity", "Tidak boleh tidak ada");
             }
             */
             return sm;
@@ -94,25 +94,29 @@ namespace Validation.Validation
 
         public bool ValidDeleteObject(StockMutation sm)
         {
+            sm.Errors.Clear();
             VDeleteObject(sm);
             return isValid(sm);
         }
 
-        public bool isValid(StockMutation sm)
+        public bool isValid(StockMutation obj)
         {
-            bool isValid = !sm.Errors.Any();
+            bool isValid = !obj.Errors.Any();
             return isValid;
         }
 
-        public string PrintError(StockMutation sm)
+        public string PrintError(StockMutation obj)
         {
-            string erroroutput = sm.Errors.ElementAt(0);
-            foreach (var item in sm.Errors.Skip(1))
+            string erroroutput = "";
+            KeyValuePair<string, string> first = obj.Errors.ElementAt(0);
+            erroroutput += first.Key + "," + first.Value;
+            foreach (KeyValuePair<string, string> pair in obj.Errors.Skip(1))
             {
                 erroroutput += Environment.NewLine;
-                erroroutput += item;
+                erroroutput += pair.Key + "," + pair.Value;
             }
             return erroroutput;
         }
+
     }
 }

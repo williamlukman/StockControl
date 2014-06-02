@@ -27,6 +27,6 @@ namespace Core.DomainModel
         
         public virtual Item Item { get; set; }
         public virtual StockAdjustment StockAdjustment { get; set; }
-        public HashSet<string> Errors { get; set; }
+        public Dictionary<String, String> Errors { get; set; }
     }
 }

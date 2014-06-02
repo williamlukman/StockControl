@@ -22,6 +22,6 @@ namespace Core.DomainModel
         public virtual ICollection<PurchaseReceival> PurchaseReceivals { get; set; }
         public virtual ICollection<SalesOrder> SalesOrders { get; set; }
         public virtual ICollection<DeliveryOrder> DeliveryOrders { get; set; }
-        public HashSet<string> Errors { get; set; }
+        public Dictionary<String, String> Errors { get; set; }
     }
 }

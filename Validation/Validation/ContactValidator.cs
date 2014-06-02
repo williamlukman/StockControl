@@ -17,7 +17,7 @@ namespace Validation.Validation
         {
             if (String.IsNullOrEmpty(c.Name) || c.Name.Trim() == "")
             {
-                c.Errors.Add("Error. Empty or Invalid Name");
+                c.Errors.Add("Name", "Tidak boleh kosong");
             }
             return c;
         }
@@ -26,7 +26,7 @@ namespace Validation.Validation
         {
             if (String.IsNullOrEmpty(c.Address) || c.Address.Trim() == "")
             {
-                c.Errors.Add("Error. Empty or Invalid Address");
+                c.Errors.Add("Address", "Tidak boleh kosong");
             }
             return c;
         }
@@ -36,7 +36,7 @@ namespace Validation.Validation
             IList<PurchaseOrder> polist = _pos.GetObjectsByContactId(c.Id);
             if (polist.Any())
             {
-                c.Errors.Add("Error. Contact has associated purchase orders");
+                c.Errors.Add("PurchaseOrders", "Tidak boleh ada yang terasosiakan dengan kontak");
             }
             return c;
         }
@@ -46,7 +46,7 @@ namespace Validation.Validation
             IList<PurchaseReceival> prlist = _prs.GetObjectsByContactId(c.Id);
             if (prlist.Any())
             {
-                c.Errors.Add("Error. Contact has associated purchase receivals");
+                c.Errors.Add("PurchaseRecievals", "Tidak boleh ada yang terasosiakan dengan kontak");
             }
             return c;
         }
@@ -56,7 +56,7 @@ namespace Validation.Validation
             IList<SalesOrder> solist = _sos.GetObjectsByContactId(c.Id);
             if (solist.Any())
             {
-                c.Errors.Add("Error. Contact has associated sales orders");
+                c.Errors.Add("SalesOrders", "Tidak boleh ada yang terasosiakan dengan kontak");
             }
             return c;
         }
@@ -66,7 +66,7 @@ namespace Validation.Validation
             IList<DeliveryOrder> dolist = _dos.GetObjectsByContactId(c.Id);
             if (dolist.Any())
             {
-                c.Errors.Add("Error. Contact has associated delivery orders");
+                c.Errors.Add("DeliveryOrder", "Tidak boleh ada yang terasosiakan dengan kontak");
             }
             return c;
         }
@@ -103,6 +103,7 @@ namespace Validation.Validation
 
         public bool ValidUpdateObject(Contact c)
         {
+            c.Errors.Clear();
             VUpdateObject(c);
             return isValid(c);
         }
@@ -110,25 +111,29 @@ namespace Validation.Validation
         public bool ValidDeleteObject(Contact c, IPurchaseOrderService _pos, IPurchaseReceivalService _prs,
                         ISalesOrderService _sos, IDeliveryOrderService _dos)
         {
+            c.Errors.Clear();
             VDeleteObject(c, _pos, _prs, _sos, _dos);
             return isValid(c);
         }
 
-        public bool isValid(Contact c)
+        public bool isValid(Contact obj)
         {
-            bool isValid = !c.Errors.Any();
+            bool isValid = !obj.Errors.Any();
             return isValid;
         }
 
-        public string PrintError(Contact c)
+        public string PrintError(Contact obj)
         {
-            string erroroutput = c.Errors.ElementAt(0);
-            foreach (var item in c.Errors.Skip(1))
+            string erroroutput = "";
+            KeyValuePair<string, string> first = obj.Errors.ElementAt(0);
+            erroroutput += first.Key + "," + first.Value;
+            foreach (KeyValuePair<string, string> pair in obj.Errors.Skip(1))
             {
                 erroroutput += Environment.NewLine;
-                erroroutput += item;
+                erroroutput += pair.Key + "," + pair.Value;
             }
             return erroroutput;
         }
+
     }
 }

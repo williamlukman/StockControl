@@ -16,11 +16,11 @@ namespace Validation.Validation
         {
             if (String.IsNullOrEmpty(i.Sku) || i.Sku.Trim() == "")
             {
-                i.Errors.Add("Error. Empty or Invalid Name");
+                i.Errors.Add("Sku", "Tidak boleh kosong");
             }
             if (_is.IsSkuDuplicated(i.Sku))
             {
-                i.Errors.Add("Error. Duplicate Sku");
+                i.Errors.Add("Sku", "Tidak boleh ada duplikasi");
             }
 
             return i;
@@ -30,7 +30,7 @@ namespace Validation.Validation
         {
             if (String.IsNullOrEmpty(i.Name) || i.Name.Trim() == "")
             {
-                i.Errors.Add("Error. Empty or Invalid Name");
+                i.Errors.Add("Name", "Tidak boleh kosong");
             }
             return i;
 
@@ -54,7 +54,7 @@ namespace Validation.Validation
             IList<StockMutation> stockMutations = _sm.GetObjectsByItemId(i.Id);
             if (stockMutations.Any())
             {
-                i.Errors.Add("Error. Item has associated stock mutations");
+                i.Errors.Add("Item", "Tidak boleh ada asosiasi dengan Stock Mutations");
             }
             return i;
         }
@@ -67,31 +67,36 @@ namespace Validation.Validation
 
         public bool ValidUpdateObject(Item i, IItemService _is)
         {
+            i.Errors.Clear();
             VUpdateObject(i, _is);
             return isValid(i);
         }
 
         public bool ValidDeleteObject(Item i, IStockMutationService _sm)
         {
+            i.Errors.Clear();
             VDeleteObject(i, _sm);
             return isValid(i);
         }
 
-        public bool isValid(Item i)
+        public bool isValid(Item obj)
         {
-            bool isValid = !i.Errors.Any();
+            bool isValid = !obj.Errors.Any();
             return isValid;
         }
 
-        public string PrintError(Item i)
+        public string PrintError(Item obj)
         {
-            string erroroutput = i.Errors.ElementAt(0);
-            foreach (var item in i.Errors.Skip(1))
+            string erroroutput = "";
+            KeyValuePair<string, string> first = obj.Errors.ElementAt(0);
+            erroroutput += first.Key + "," + first.Value;
+            foreach (KeyValuePair<string, string> pair in obj.Errors.Skip(1))
             {
                 erroroutput += Environment.NewLine;
-                erroroutput += item;
+                erroroutput += pair.Key + "," + pair.Value;
             }
             return erroroutput;
         }
+
     }
 }

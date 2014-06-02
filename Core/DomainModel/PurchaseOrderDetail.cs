@@ -29,6 +29,6 @@ namespace Core.DomainModel
         public virtual PurchaseOrder PurchaseOrder { get; set; }
         public virtual PurchaseReceivalDetail PurchaseReceivalDetail { get; set; }
 
-        public HashSet<string> Errors { get; set; }
+        public Dictionary<String, String> Errors { get; set; }
     }
 }

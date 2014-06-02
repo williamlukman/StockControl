@@ -18,7 +18,7 @@ namespace Validation.Validation
             Contact c = _cs.GetObjectById(po.CustomerId);
             if (c == null)
             {
-                po.Errors.Add("Error. Customer does not exist");
+                po.Errors.Add("Customer", "Tidak boleh tidak ada");
             }
             return po;
         }
@@ -28,7 +28,7 @@ namespace Validation.Validation
             /* purchaseDate is never null
             if (po.PurchaseDate == null)
             {
-                po.Errors.Add("Error. Purchase Date does not exist");
+                po.Errors.Add("PurchaseDate", "Tidak boleh tidak ada");
             }
             */
             return po;
@@ -38,7 +38,7 @@ namespace Validation.Validation
         {
             if (po.IsConfirmed)
             {
-                po.Errors.Add("Error. Purchase Order is confirmed already");
+                po.Errors.Add("PurchaseOrder", "Tidak boleh sudah dikonfirmasi");
             }
             return po;
         }
@@ -48,7 +48,7 @@ namespace Validation.Validation
             IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(po.Id);
             if (!details.Any())
             {
-                po.Errors.Add("Error. Purchase Order does not have purchase order details");
+                po.Errors.Add("PurchaseOrder", "Tidak boleh memilik Purchase Order Details");
             }
             return po;
         }
@@ -85,7 +85,11 @@ namespace Validation.Validation
                 foreach (var detail in details)
                 {
                     detailvalidator.VConfirmObject(detail);
-                    po.Errors.UnionWith(detail.Errors);
+                    foreach (var error in detail.Errors)
+                    {
+                        po.Errors.Add(error.Key, error.Value);
+                    }
+                    if (po.Errors.Any()) { return po; }
                 }
             }
             return po;
@@ -98,8 +102,12 @@ namespace Validation.Validation
                 IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(po.Id);
                 foreach (var detail in details)
                 {
-                    _pods.GetValidator().VUnconfirmObject(detail, _pods, _prds, _is);
-                    po.Errors.UnionWith(detail.Errors);
+                    _pods.GetValidator().ValidUnconfirmObject(detail, _pods, _prds, _is);
+                    foreach (var error in detail.Errors)
+                    {
+                        po.Errors.Add(error.Key, error.Value);
+                    }
+                    if (po.Errors.Any()) { return po; }
                 }
             }
 
@@ -114,43 +122,50 @@ namespace Validation.Validation
 
         public bool ValidUpdateObject(PurchaseOrder po, IContactService _cs)
         {
+            po.Errors.Clear();
             VUpdateObject(po, _cs);
             return isValid(po);
         }
 
         public bool ValidDeleteObject(PurchaseOrder po, IPurchaseOrderDetailService _pods)
         {
+            po.Errors.Clear();
             VDeleteObject(po, _pods);
             return isValid(po);
         }
 
         public bool ValidConfirmObject(PurchaseOrder po, IPurchaseOrderDetailService _pods)
         {
+            po.Errors.Clear();
             VConfirmObject(po, _pods);
             return isValid(po);
         }
 
         public bool ValidUnconfirmObject(PurchaseOrder po, IPurchaseOrderDetailService _pods, IPurchaseReceivalDetailService _prds, IItemService _is)
         {
+            po.Errors.Clear();
             VUnconfirmObject(po, _pods, _prds, _is);
             return isValid(po);
         }
 
-        public bool isValid(PurchaseOrder po)
+        public bool isValid(PurchaseOrder obj)
         {
-            bool isValid = !po.Errors.Any();
+            bool isValid = !obj.Errors.Any();
             return isValid;
         }
 
-        public string PrintError(PurchaseOrder po)
+        public string PrintError(PurchaseOrder obj)
         {
-            string erroroutput = po.Errors.ElementAt(0);
-            foreach (var item in po.Errors.Skip(1))
+            string erroroutput = "";
+            KeyValuePair<string, string> first = obj.Errors.ElementAt(0);
+            erroroutput += first.Key + "," + first.Value;
+            foreach (KeyValuePair<string, string> pair in obj.Errors.Skip(1))
             {
                 erroroutput += Environment.NewLine;
-                erroroutput += item;
+                erroroutput += pair.Key + "," + pair.Value;
             }
             return erroroutput;
         }
+
     }
 }

@@ -56,7 +56,7 @@ namespace ConsoleApp.Validation
 
         public int SAValidation1()
         {
-            Console.WriteLine("     [SA 1] Create valid Stock Adjustment for Michaelangelo");
+            Console.WriteLine("     [SA 1] Create valid Stock Adjustment");
             StockAdjustment sa = _sa.CreateObject( DateTime.Now);
             if (sa.Errors.Any()) { Console.WriteLine("        >> " + _sa.GetValidator().PrintError(sa)); return 0; }
             return sa.Id;
@@ -64,22 +64,58 @@ namespace ConsoleApp.Validation
 
         public void SAValidation2(int stockAdjustmentId)
         {
-            Console.WriteLine("     [SA 2] Create valid SOD for Michaelangelo");
+            Console.WriteLine("     [SA 2] Create valid SAD");
             StockAdjustmentDetail sad = _sad.CreateObject(stockAdjustmentId, _i.GetObjectByName("Mini Garuda Indonesia").Id, 1000, 100000, _sa, _i);
             if (sad.Errors.Any()) { Console.WriteLine("        >> " + _sad.GetValidator().PrintError(sad)); }
         }
 
         public void SAValidation3(int stockAdjustmentId)
         {
-            Console.WriteLine("     [SA 3] Confirm SO for Michaelangelo");
+            Console.WriteLine("     [SA 3] Confirm SA");
             StockAdjustment sa = _sa.ConfirmObject(_sa.GetObjectById(stockAdjustmentId), _sad, _sm, _i);
             if (sa.Errors.Any()) { Console.WriteLine("        >> " + _sa.GetValidator().PrintError(sa)); }
         }
 
         public void SAValidation4(int stockAdjustmentId)
         {
-            Console.WriteLine("     [SA 4] Unconfirm SO for Michaelangelo");
+            Console.WriteLine("     [SA 4] Unconfirm SA");
             StockAdjustment sa = _sa.UnconfirmObject(_sa.GetObjectById(stockAdjustmentId), _sad, _sm, _i);
+            if (sa.Errors.Any()) { Console.WriteLine("        >> " + _sa.GetValidator().PrintError(sa)); }
+        }
+
+        public int SAValidation5()
+        {
+            Console.WriteLine("     [SA 5] Create second valid Stock Adjustment");
+            StockAdjustment sa = _sa.CreateObject( DateTime.Now);
+            if (sa.Errors.Any()) { Console.WriteLine("        >> " + _sa.GetValidator().PrintError(sa)); return 0; }
+            return sa.Id;
+        }
+
+        public void SAValidation6(int stockAdjustmentId)
+        {
+            Console.WriteLine("     [SA 6] Create negative quantity SAD");
+            StockAdjustmentDetail sad = _sad.CreateObject(stockAdjustmentId, _i.GetObjectByName("Mini Garuda Indonesia").Id, -300, 100000, _sa, _i);
+            if (sad.Errors.Any()) { Console.WriteLine("        >> " + _sad.GetValidator().PrintError(sad)); }
+        }
+
+        public void SAValidation7(int stockAdjustmentId)
+        {
+            Console.WriteLine("     [SA 7] Create zero quantity SAD");
+            StockAdjustmentDetail sad = _sad.CreateObject(stockAdjustmentId, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 0, 30000, _sa, _i);
+            if (sad.Errors.Any()) { Console.WriteLine("        >> " + _sad.GetValidator().PrintError(sad)); }
+        }
+       
+        public void SAValidation8(int stockAdjustmentId)
+        {
+            Console.WriteLine("     [SA 8] Invalid confirm SA2 with negative quantity");
+            StockAdjustment sa = _sa.ConfirmObject(_sa.GetObjectById(stockAdjustmentId), _sad, _sm, _i);
+            if (sa.Errors.Any()) { Console.WriteLine("        >> " + _sa.GetValidator().PrintError(sa)); }
+        }
+
+        public void SAValidation9(int stockAdjustmentId)
+        {
+            Console.WriteLine("     [SA 9] Valid confirm SA2 with negative quantity");
+            StockAdjustment sa = _sa.ConfirmObject(_sa.GetObjectById(stockAdjustmentId), _sad, _sm, _i);
             if (sa.Errors.Any()) { Console.WriteLine("        >> " + _sa.GetValidator().PrintError(sa)); }
         }
     }

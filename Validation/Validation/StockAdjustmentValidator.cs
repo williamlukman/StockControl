@@ -19,7 +19,7 @@ namespace Validation.Validation
             /* adjustment is never null
             if (sa.AdjustmentDate == null)
             {
-                sa.Errors.Add("Error. Adjustment Date does not exist");
+                sa.Errors.Add("AdjustmentDate", "Tidak boleh tidak ada");
             }
             */
             return sa;
@@ -29,7 +29,7 @@ namespace Validation.Validation
         {
             if (sa.IsConfirmed)
             {
-                sa.Errors.Add("Error. Stock Adjustment is confirmed already");
+                sa.Errors.Add("IsConfirmed", "Tidak boleh sudah dikonfirmasi");
             }
             return sa;
         }
@@ -39,7 +39,7 @@ namespace Validation.Validation
             IList<StockAdjustmentDetail> details = _sads.GetObjectsByStockAdjustmentId(sa.Id);
             if (!details.Any())
             {
-                sa.Errors.Add("Error. Stock Adjustment does not have stock adjustment details");
+                sa.Errors.Add("StockAdjustmentDetails", "Tidak boleh tidak ada");
             }
             return sa;
         }
@@ -72,8 +72,12 @@ namespace Validation.Validation
                 IList<StockAdjustmentDetail> details = _sads.GetObjectsByStockAdjustmentId(sa.Id);
                 foreach (var detail in details)
                 {
-                    _sads.GetValidator().VConfirmObject(detail, _is);
-                    sa.Errors.UnionWith(detail.Errors);
+                    _sads.GetValidator().ValidConfirmObject(detail, _is);
+                    foreach (var error in detail.Errors)
+                    {
+                        sa.Errors.Add(error.Key, error.Value);
+                    }
+                    if (sa.Errors.Any()) { return sa; }
                 }
             }
             return sa;
@@ -86,8 +90,12 @@ namespace Validation.Validation
                 IList<StockAdjustmentDetail> details = _sads.GetObjectsByStockAdjustmentId(sa.Id);
                 foreach (var detail in details)
                 {
-                    _sads.GetValidator().VUnconfirmObject(detail, _is);
-                    sa.Errors.UnionWith(detail.Errors);
+                    _sads.GetValidator().ValidUnconfirmObject(detail, _is);
+                    foreach (var error in detail.Errors)
+                    {
+                        sa.Errors.Add(error.Key, error.Value);
+                    }
+                    if (sa.Errors.Any()) { return sa; }
                 }
             }
 
@@ -102,43 +110,50 @@ namespace Validation.Validation
 
         public bool ValidUpdateObject(StockAdjustment sa)
         {
+            sa.Errors.Clear();
             VUpdateObject(sa);
             return isValid(sa);
         }
 
         public bool ValidDeleteObject(StockAdjustment sa)
         {
+            sa.Errors.Clear();
             VDeleteObject(sa);
             return isValid(sa);
         }
 
         public bool ValidConfirmObject(StockAdjustment sa, IStockAdjustmentDetailService _sads, IItemService _is)
         {
+            sa.Errors.Clear();
             VConfirmObject(sa, _sads, _is);
             return isValid(sa);
         }
 
         public bool ValidUnconfirmObject(StockAdjustment sa, IStockAdjustmentDetailService _sads, IItemService _is)
         {
+            sa.Errors.Clear();
             VUnconfirmObject(sa, _sads, _is);
             return isValid(sa);
         }
 
-        public bool isValid(StockAdjustment sa)
+        public bool isValid(StockAdjustment obj)
         {
-            bool isValid = !sa.Errors.Any();
+            bool isValid = !obj.Errors.Any();
             return isValid;
         }
 
-        public string PrintError(StockAdjustment sa)
+        public string PrintError(StockAdjustment obj)
         {
-            string erroroutput = sa.Errors.ElementAt(0);
-            foreach (var item in sa.Errors.Skip(1))
+            string erroroutput = "";
+            KeyValuePair<string, string> first = obj.Errors.ElementAt(0);
+            erroroutput += first.Key + "," + first.Value;
+            foreach (KeyValuePair<string, string> pair in obj.Errors.Skip(1))
             {
                 erroroutput += Environment.NewLine;
-                erroroutput += item;
+                erroroutput += pair.Key + "," + pair.Value;
             }
             return erroroutput;
         }
+
     }
 }

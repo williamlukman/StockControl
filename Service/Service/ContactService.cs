@@ -54,7 +54,7 @@ namespace Service.Service
 
         public Contact CreateObject(Contact contact)
         {
-            contact.Errors = new HashSet<string>();
+            contact.Errors = new Dictionary<String, String>();
             return (_validator.ValidCreateObject(contact) ? _repository.CreateObject(contact) : contact);
         }
 

@@ -18,7 +18,7 @@ namespace Validation.Validation
             Contact c = _cs.GetObjectById(so.CustomerId);
             if (c == null)
             {
-                so.Errors.Add("Error. Customer does not exist");
+                so.Errors.Add("Customer", "Tidak boleh tidak ada");
             }
             return so;
         }
@@ -28,7 +28,7 @@ namespace Validation.Validation
             /* salesDate is never null
             if (so.SalesDate == null)
             {
-                so.Errors.Add("Error. Sales Date does not exist");
+                so.Errors.Add("Sales Date, "Tidak boleh tidak ada");
             }
             */
             return so;
@@ -38,7 +38,7 @@ namespace Validation.Validation
         {
             if (so.IsConfirmed)
             {
-                so.Errors.Add("Error. Sales Order is confirmed already");
+                so.Errors.Add("IsConfirmed", "Tidak boleh sudah dikonfirmasi");
             }
             return so;
         }
@@ -48,7 +48,7 @@ namespace Validation.Validation
             IList<SalesOrderDetail> details = _sods.GetObjectsBySalesOrderId(so.Id);
             if (!details.Any())
             {
-                so.Errors.Add("Error. Sales Order does not have sales order details");
+                so.Errors.Add("SalesOrderDetail", "Tidak boleh tidak ada");
             }
             return so;
         }
@@ -85,7 +85,11 @@ namespace Validation.Validation
                 foreach (var detail in details)
                 {
                     detailvalidator.VConfirmObject(detail);
-                    so.Errors.UnionWith(detail.Errors);
+                    foreach (var error in detail.Errors)
+                    {
+                        so.Errors.Add(error.Key, error.Value);
+                    }
+                    if (so.Errors.Any()) { return so; }
                 }
             }
             return so;
@@ -96,11 +100,14 @@ namespace Validation.Validation
             if (isValid(so))
             {
                 IList<SalesOrderDetail> details = _sods.GetObjectsBySalesOrderId(so.Id);
-
                 foreach (var detail in details)
                 {
-                    _sods.GetValidator().VUnconfirmObject(detail, _sods, _dods, _is);
-                    so.Errors.UnionWith(detail.Errors);
+                    _sods.GetValidator().ValidUnconfirmObject(detail, _sods, _dods, _is);
+                    foreach(var error in detail.Errors)
+                    {
+                        so.Errors.Add(error.Key, error.Value);
+                    }
+                    if (so.Errors.Any()) { return so; }
                 }
             }
             return so;
@@ -114,43 +121,50 @@ namespace Validation.Validation
 
         public bool ValidUpdateObject(SalesOrder so, IContactService _cs)
         {
+            so.Errors.Clear();
             VUpdateObject(so, _cs);
             return isValid(so);
         }
 
         public bool ValidDeleteObject(SalesOrder so, ISalesOrderDetailService _sods)
         {
+            so.Errors.Clear();
             VDeleteObject(so, _sods);
             return isValid(so);
         }
 
         public bool ValidConfirmObject(SalesOrder so, ISalesOrderDetailService _sods)
         {
+            so.Errors.Clear();
             VConfirmObject(so, _sods);
             return isValid(so);
         }
 
         public bool ValidUnconfirmObject(SalesOrder so, ISalesOrderDetailService _sods, IDeliveryOrderDetailService _dods, IItemService _is)
         {
+            so.Errors.Clear();
             VUnconfirmObject(so, _sods, _dods, _is);
             return isValid(so);
         }
 
-        public bool isValid(SalesOrder so)
+        public bool isValid(SalesOrder obj)
         {
-            bool isValid = !so.Errors.Any();
+            bool isValid = !obj.Errors.Any();
             return isValid;
         }
 
-        public string PrintError(SalesOrder so)
+        public string PrintError(SalesOrder obj)
         {
-            string erroroutput = so.Errors.ElementAt(0);
-            foreach (var item in so.Errors.Skip(1))
+            string erroroutput = "";
+            KeyValuePair<string, string> first = obj.Errors.ElementAt(0);
+            erroroutput += first.Key + "," + first.Value;
+            foreach (KeyValuePair<string, string> pair in obj.Errors.Skip(1))
             {
                 erroroutput += Environment.NewLine;
-                erroroutput += item;
+                erroroutput += pair.Key + "," + pair.Value;
             }
             return erroroutput;
         }
+
     }
 }

@@ -18,7 +18,7 @@ namespace Validation.Validation
             SalesOrder so = _sos.GetObjectById(sod.SalesOrderId);
             if (so == null)
             {
-                sod.Errors.Add("Error. Sales Order does not exist");
+                sod.Errors.Add("SalesOrder", "Tidak boleh tidak ada");
             }
             return sod;
         }
@@ -28,7 +28,7 @@ namespace Validation.Validation
             Item item = _is.GetObjectById(sod.ItemId);
             if (item == null)
             {
-                sod.Errors.Add("Error. Item does not exist");
+                sod.Errors.Add("Item", "Tidak boleh tidak ada");
             }
             return sod;
         }
@@ -37,7 +37,7 @@ namespace Validation.Validation
         {
             if (sod.Quantity < 0)
             {
-                sod.Errors.Add("Error. Quantity must be greater than or equal to zero");
+                sod.Errors.Add("Quantity", "Tidak boleh kurang dari 0");
             }
             return sod;
         }
@@ -46,7 +46,7 @@ namespace Validation.Validation
         {
             if (sod.Price <= 0)
             {
-                sod.Errors.Add("Error. Price must be greater than zero");
+                sod.Errors.Add("Price", "Tidak boleh kurang dari atau sama dengan 0");
             }
             return sod;
         }
@@ -56,9 +56,9 @@ namespace Validation.Validation
             IList<SalesOrderDetail> details = _sods.GetObjectsBySalesOrderId(sod.SalesOrderId);
             foreach (var detail in details)
             {
-                if (detail.ItemId == sod.ItemId)
+                if (detail.ItemId == sod.ItemId && detail.Id != sod.Id)
                 {
-                    sod.Errors.Add("Error. Sales order detail is not unique in this sales order");
+                    sod.Errors.Add("SalesOrderDetail", "Tidak boleh memiliki Sku yang sama dalam 1 Sales Order");
                     return sod;
                 }
             }
@@ -69,7 +69,7 @@ namespace Validation.Validation
         {
             if (sod.IsConfirmed)
             {
-                sod.Errors.Add("Error. Sales order detail is already confirmed");
+                sod.Errors.Add("IsConfirmed", "Tidak boleh sudah dikonfirmasi");
             }
             return sod;
         }
@@ -79,7 +79,7 @@ namespace Validation.Validation
             Item item = _is.GetObjectById(sod.ItemId);
             if (item.PendingDelivery < sod.Quantity)
             {
-                sod.Errors.Add("Error. Current item pending delivery is less than the quantity of sales order detail");
+                sod.Errors.Add("Item.PendingDelivery", "Tidak boleh kurang dari quantity dari Sales Order Detail");
             }
             return sod;
         }
@@ -93,7 +93,7 @@ namespace Validation.Validation
             }
             if (dod.IsConfirmed)
             {
-                sod.Errors.Add("Error. Associated delivery order is confirmed already");
+                sod.Errors.Add("IsConfirmed", "Tidak boleh sudah dikonfirmasi");
             }
             return sod;
         }
@@ -146,43 +146,50 @@ namespace Validation.Validation
 
         public bool ValidUpdateObject(SalesOrderDetail sod,  ISalesOrderDetailService _sods, ISalesOrderService _sos, IItemService _is)
         {
+            sod.Errors.Clear();
             VUpdateObject(sod, _sods, _sos, _is);
             return isValid(sod);
         }
 
         public bool ValidDeleteObject(SalesOrderDetail sod)
         {
+            sod.Errors.Clear();
             VDeleteObject(sod);
             return isValid(sod);
         }
 
         public bool ValidConfirmObject(SalesOrderDetail sod)
         {
+            sod.Errors.Clear();
             VConfirmObject(sod);
             return isValid(sod);
         }
 
         public bool ValidUnconfirmObject(SalesOrderDetail sod, ISalesOrderDetailService _sods, IDeliveryOrderDetailService _dods, IItemService _is)
         {
+            sod.Errors.Clear();
             VUnconfirmObject(sod, _sods, _dods, _is);
             return isValid(sod);
         }
 
-        public bool isValid(SalesOrderDetail sod)
+        public bool isValid(SalesOrderDetail obj)
         {
-            bool isValid = !sod.Errors.Any();
+            bool isValid = !obj.Errors.Any();
             return isValid;
         }
 
-        public string PrintError(SalesOrderDetail sod)
+        public string PrintError(SalesOrderDetail obj)
         {
-            string erroroutput = sod.Errors.ElementAt(0);
-            foreach (var item in sod.Errors.Skip(1))
+            string erroroutput = "";
+            KeyValuePair<string, string> first = obj.Errors.ElementAt(0);
+            erroroutput += first.Key + "," + first.Value;
+            foreach (KeyValuePair<string, string> pair in obj.Errors.Skip(1))
             {
                 erroroutput += Environment.NewLine;
-                erroroutput += item;
+                erroroutput += pair.Key + "," + pair.Value;
             }
             return erroroutput;
         }
+
     }
 }
