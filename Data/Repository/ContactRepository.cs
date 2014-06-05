@@ -30,7 +30,6 @@ namespace Data.Repository
             return Find(x => x.Id == Id);
         }
 
-
         public Contact CreateObject(Contact contact)
         {
             contact.IsDeleted = false;

@@ -16,7 +16,7 @@ namespace Data.Mapping
             HasKey(si => si.Id);
             HasRequired(si => si.Contact)
                 .WithMany(c => c.SalesInvoices)
-                .HasForeignKey(si => si.ContactId);
+                .WillCascadeOnDelete(false);
             HasOptional(si => si.SalesInvoiceDetails)
                 .WithOptionalPrincipal()
                 .Map(sid => sid.MapKey("Id"));

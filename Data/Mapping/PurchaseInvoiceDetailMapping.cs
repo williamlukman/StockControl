@@ -14,6 +14,9 @@ namespace Data.Mapping
         public PurchaseInvoiceDetailMapping()
         {
             HasKey(pi => pi.Id);
+            HasRequired(pid => pid.Contact)
+                .WithMany(c => c.PurchaseInvoiceDetails)
+                .WillCascadeOnDelete(false);
             HasRequired(pid => pid.PurchaseInvoice)
                 .WithMany(pi => pi.PurchaseInvoiceDetails)
                 .HasForeignKey(pid => pid.PurchaseInvoiceId);

@@ -14,6 +14,9 @@ namespace Data.Mapping
         public ReceiptVoucherDetailMapping()
         {
             HasKey(rvd => rvd.Id);
+            HasRequired(rvd => rvd.Contact)
+                .WithMany(c => c.ReceiptVoucherDetails)
+                .WillCascadeOnDelete(false);
             HasRequired(rvd => rvd.ReceiptVoucher)
                 .WithMany(rv => rv.ReceiptVoucherDetails)
                 .HasForeignKey(rvd => rvd.ReceiptVoucherId);

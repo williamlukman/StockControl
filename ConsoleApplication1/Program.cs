@@ -208,14 +208,14 @@ namespace ConsoleApp
 
         public void flushdb(StockControlEntities db)
         {
-            ContactDb.Delete(db, _c);
-            ItemDb.Delete(db, _i);
             PurchaseOrderDb.Delete(db, _po, _pod);
             PurchaseReceivalDb.Delete(db, _pr, _prd);
             SalesOrderDb.Delete(db, _so, _sod);
             DeliveryOrderDb.Delete(db, _do, _dod);
             StockMutationDb.Delete(db, _sm);
             StockAdjustmentDb.Delete(db, _sa, _sad);
+            ContactDb.Delete(db, _c);
+            ItemDb.Delete(db, _i);
             Console.WriteLine("[Clean] Database is clean");
         }
     }

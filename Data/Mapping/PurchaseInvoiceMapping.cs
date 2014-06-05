@@ -16,6 +16,9 @@ namespace Data.Mapping
             HasKey(pi => pi.Id);
             HasRequired(pi => pi.Contact)
                 .WithMany(c => c.PurchaseInvoices)
+                .WillCascadeOnDelete(false);
+            HasRequired(pi => pi.Contact)
+                .WithMany(c => c.PurchaseInvoices)
                 .HasForeignKey(pi => pi.ContactId);
             HasOptional(pi => pi.PurchaseInvoiceDetails)
                 .WithOptionalPrincipal()

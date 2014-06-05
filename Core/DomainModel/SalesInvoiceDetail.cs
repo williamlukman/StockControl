@@ -12,6 +12,7 @@ namespace Core.DomainModel
         public int SalesInvoiceId { get; set; }
         public int DeliveryOrderDetailId { get; set; }
         public string Code { get; set; }
+        public int ContactId { get; set; }
 
         public int Quantity { get; set; }
         public decimal Amount { get; set; }
@@ -22,6 +23,7 @@ namespace Core.DomainModel
         public Nullable<DateTime> ModifiedAt { get; set; }
         public Nullable<DateTime> DeletedAt { get; set; }
 
+        public virtual Contact Contact { get; set; }
         public virtual SalesInvoice SalesInvoice { get; set; }
         public Dictionary<String, String> Errors { get; set; }
     }

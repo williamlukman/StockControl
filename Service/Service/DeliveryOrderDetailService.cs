@@ -47,7 +47,15 @@ namespace Service.Service
             ISalesOrderService _sos, IItemService _is, IContactService _cs)
         {
             deliveryOrderDetail.Errors = new Dictionary<String, String>();
-            return (_validator.ValidCreateObject(deliveryOrderDetail, this, _dos, _sods, _sos, _is, _cs) ? _repository.CreateObject(deliveryOrderDetail) : deliveryOrderDetail);
+            if (_validator.ValidCreateObject(deliveryOrderDetail, this, _dos, _sods, _sos, _is, _cs))
+            { 
+                deliveryOrderDetail.ContactId = _dos.GetObjectById(deliveryOrderDetail.DeliveryOrderId).ContactId;
+                return _repository.CreateObject(deliveryOrderDetail);
+            }
+            else
+            {
+                return deliveryOrderDetail;
+            }
         }
 
         public DeliveryOrderDetail CreateObject(int deliveryOrderId, int itemId, int quantity, int salesOrderDetailId,
@@ -59,6 +67,7 @@ namespace Service.Service
                 DeliveryOrderId = deliveryOrderId,
                 ItemId = itemId,
                 Quantity = quantity,
+                ContactId = 0,
                 SalesOrderDetailId = salesOrderDetailId
             };
             return this.CreateObject(dod, _dos, _sods, _sos, _is, _cs);

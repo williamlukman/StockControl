@@ -14,6 +14,9 @@ namespace Data.Mapping
         public SalesInvoiceDetailMapping()
         {
             HasKey(sid => sid.Id);
+            HasRequired(sid => sid.Contact)
+                .WithMany(c => c.SalesInvoiceDetails)
+                .WillCascadeOnDelete(false);
             HasRequired(sid => sid.SalesInvoice)
                 .WithMany(si => si.SalesInvoiceDetails)
                 .HasForeignKey(sid => sid.SalesInvoiceId);

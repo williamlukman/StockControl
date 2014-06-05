@@ -40,7 +40,15 @@ namespace Service.Service
         public PurchaseOrderDetail CreateObject(PurchaseOrderDetail purchaseOrderDetail, IPurchaseOrderService _purchaseOrderService, IItemService _itemService)
         {
             purchaseOrderDetail.Errors = new Dictionary<String, String>();
-            return (_validator.ValidCreateObject(purchaseOrderDetail, this, _purchaseOrderService, _itemService) ? _repository.CreateObject(purchaseOrderDetail) : purchaseOrderDetail);
+            if (_validator.ValidCreateObject(purchaseOrderDetail, this, _purchaseOrderService, _itemService))
+            {
+                purchaseOrderDetail.ContactId = _purchaseOrderService.GetObjectById(purchaseOrderDetail.PurchaseOrderId).ContactId;
+                return _repository.CreateObject(purchaseOrderDetail);
+            }
+            else
+            {
+                return purchaseOrderDetail;
+            }
         }
 
         public PurchaseOrderDetail CreateObject(int purchaseOrderId, int itemId, int quantity, decimal price, IPurchaseOrderService _purchaseOrderService, IItemService _itemService)
@@ -49,6 +57,7 @@ namespace Service.Service
             {
                 PurchaseOrderId = purchaseOrderId,
                 ItemId = itemId,
+                ContactId = 0,
                 Quantity = quantity,
                 Price = price
             };

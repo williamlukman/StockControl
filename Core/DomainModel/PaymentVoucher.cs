@@ -24,6 +24,7 @@ namespace Core.DomainModel
         public Nullable<DateTime> ModifiedAt { get; set; }
         public Nullable<DateTime> DeletedAt { get; set; }
 
+        public virtual Contact Contact { get; set; }
         public virtual Payable Payable { get; set; }
         public virtual ICollection<PaymentVoucherDetail> PaymentVoucherDetails { get; set; }
 

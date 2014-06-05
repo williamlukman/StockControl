@@ -23,6 +23,7 @@ namespace Core.DomainModel
         public Nullable<DateTime> ModifiedAt { get; set; }
         public Nullable<DateTime> DeletedAt { get; set; }
 
+        public virtual Contact Contact { get; set; }
         public virtual Receivable Receivable { get; set; }
         public virtual ICollection<ReceiptVoucherDetail> ReceiptVoucherDetails { get; set; }
 

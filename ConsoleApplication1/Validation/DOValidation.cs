@@ -59,7 +59,8 @@ namespace ConsoleApp.Validation
         public void DOValidation2(int salesOrderDetailId)
         {
             Console.WriteLine("     [DO 2] Create valid DOD for Michaelangelo");
-            int doid = _do.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id;
+            int contactId = _c.GetObjectByName("Michaelangelo Buanorotti").Id;
+            int doid = _do.GetObjectsByContactId(contactId).FirstOrDefault().Id;
             DeliveryOrderDetail dod1 = _dod.CreateObject(doid, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 100, salesOrderDetailId, _do, _sod, _so, _i, _c);
             if (dod1.Errors.Any()) { Console.WriteLine("        >> " + _dod.GetValidator().PrintError(dod1)); }
         }
@@ -81,6 +82,7 @@ namespace ConsoleApp.Validation
         public void DOValidation5(int salesOrderDetailId)
         {
             Console.WriteLine("     [DO 5] Create invalid DOD for Michaelangelo with wrong contact");
+            int contactId = _c.GetObjectByName("Michaelangelo Buanorotti").Id;
             DeliveryOrderDetail dod1 = _dod.CreateObject(0, _i.GetObjectByName("Mini Garuda Indonesia").Id, 100, salesOrderDetailId, _do, _sod, _so, _i, _c);
             if (dod1.Errors.Any()) { Console.WriteLine("        >> " + _dod.GetValidator().PrintError(dod1)); }
         }
@@ -88,13 +90,15 @@ namespace ConsoleApp.Validation
         public void DOValidation6(int salesOrderDetailId)
         {
             Console.WriteLine("     [DO 6] Create invalid DOD for Michaelangelo with exact same item");
-            DeliveryOrderDetail dod1 = _dod.CreateObject(_do.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 50, salesOrderDetailId, _do, _sod, _so, _i, _c);
+            int contactId = _c.GetObjectByName("Michaelangelo Buanorotti").Id;
+            DeliveryOrderDetail dod1 = _dod.CreateObject(_do.GetObjectsByContactId(contactId).FirstOrDefault().Id, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 50, salesOrderDetailId, _do, _sod, _so, _i, _c);
             if (dod1.Errors.Any()) { Console.WriteLine("        >> " + _dod.GetValidator().PrintError(dod1)); }
         }
 
         public void DOValidation7(int salesOrderDetailId)
         {
             Console.WriteLine("     [DO 7] Create valid DOD for Michaelangelo");
+            int contactId = _c.GetObjectByName("Michaelangelo Buanorotti").Id;
             DeliveryOrderDetail dod1 = _dod.CreateObject(_do.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Mini Garuda Indonesia").Id, 50, salesOrderDetailId, _do, _sod, _so, _i, _c);
             if (dod1.Errors.Any()) { Console.WriteLine("        >> " + _dod.GetValidator().PrintError(dod1)); }
         }

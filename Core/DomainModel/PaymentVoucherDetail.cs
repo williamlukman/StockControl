@@ -12,6 +12,7 @@ namespace Core.DomainModel
         public int PaymentVoucherId { get; set; }
         public string Code { get; set; }
         public int CashBankId { get; set; }
+        public int ContactId { get; set; }
 
         public decimal Amount { get; set; }
         public string Description { get; set; }
@@ -27,6 +28,7 @@ namespace Core.DomainModel
         public Nullable<DateTime> ModifiedAt { get; set; }
         public Nullable<DateTime> DeletedAt { get; set; }
 
+        public virtual Contact Contact { get; set; }
         public virtual PaymentVoucher PaymentVoucher { get; set; }
 
         public Dictionary<String, String> Errors { get; set; }
