@@ -102,7 +102,9 @@ namespace ConsoleApp.Validation
         public void DOValidation8()
         {
             Console.WriteLine("     [DO 8] Confirm DO and DOD for Michaelangelo");
-            DeliveryOrder d = _do.ConfirmObject(_do.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _dod, _sod, _sm, _i);
+            DeliveryOrder d = _do.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault();
+            d.ConfirmedAt = new DateTime(2014, 5,6); 
+            d = _do.ConfirmObject(d, _dod, _sod, _sm, _i);
             if (d.Errors.Any()) { Console.WriteLine("        >> " + _do.GetValidator().PrintError(d)); }
         }
 

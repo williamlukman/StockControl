@@ -105,7 +105,9 @@ namespace ConsoleApp.Validation
         public void SOValidation8()
         {
             Console.WriteLine("     [SO 8] Confirm SO for Michaelangelo");
-            SalesOrder so = _so.ConfirmObject(_so.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _sod, _sm, _i);
+            SalesOrder so = _so.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault();
+            so.ConfirmedAt = new DateTime(2014, 5, 6);
+            so = _so.ConfirmObject(so, _sod, _sm, _i);
             if (so.Errors.Any()) { Console.WriteLine("        >> " + _so.GetValidator().PrintError(so)); }
         }
 

@@ -64,7 +64,6 @@ namespace Data.Repository
         public PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder)
         {
             purchaseOrder.IsConfirmed = true;
-            purchaseOrder.ConfirmedAt = DateTime.Now;
             Update(purchaseOrder);
             return purchaseOrder;
         }

@@ -102,7 +102,9 @@ namespace ConsoleApp.Validation
         public void PRValidation8()
         {
             Console.WriteLine("     [PR 8] Confirm PR for Michaelangelo");
-            PurchaseReceival pr = _pr.ConfirmObject(_pr.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _prd, _pod, _sm, _i);
+            PurchaseReceival pr = _pr.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault();
+            pr.ConfirmedAt = new DateTime(2014, 5, 6);
+            pr = _pr.ConfirmObject(pr, _prd, _pod, _sm, _i);
             if (pr.Errors.Any()) { Console.WriteLine("        >> " + _pr.GetValidator().PrintError(pr)); }
         }
 

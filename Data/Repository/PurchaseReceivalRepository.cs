@@ -64,7 +64,6 @@ namespace Data.Repository
         public PurchaseReceival ConfirmObject(PurchaseReceival purchaseReceival)
         {
             purchaseReceival.IsConfirmed = true;
-            purchaseReceival.ConfirmedAt = DateTime.Now;
             Update(purchaseReceival);
             return purchaseReceival;
         }

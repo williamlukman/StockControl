@@ -81,6 +81,7 @@ namespace Service.Service
                 IList<PurchaseReceivalDetail> details = _prds.GetObjectsByPurchaseReceivalId(purchaseReceival.Id);
                 foreach (var detail in details)
                 {
+                    detail.ConfirmedAt = purchaseReceival.ConfirmedAt;
                     _prds.ConfirmObject(detail, _purchaseOrderDetailService, _stockMutationService, _itemService);
                     PurchaseOrderDetail pod = _purchaseOrderDetailService.GetObjectById(detail.PurchaseOrderDetailId);
                     _purchaseOrderDetailService.FulfilObject(pod);

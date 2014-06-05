@@ -72,7 +72,9 @@ namespace ConsoleApp.Validation
         public void SAValidation3(int stockAdjustmentId)
         {
             Console.WriteLine("     [SA 3] Confirm SA");
-            StockAdjustment sa = _sa.ConfirmObject(_sa.GetObjectById(stockAdjustmentId), _sad, _sm, _i);
+            StockAdjustment sa = _sa.GetObjectById(stockAdjustmentId);
+            sa.ConfirmedAt = new DateTime(2014, 5, 6);
+            sa = _sa.ConfirmObject(sa, _sad, _sm, _i);
             if (sa.Errors.Any()) { Console.WriteLine("        >> " + _sa.GetValidator().PrintError(sa)); }
         }
 
@@ -115,14 +117,18 @@ namespace ConsoleApp.Validation
         public void SAValidation9(int stockAdjustmentId)
         {
             Console.WriteLine("     [SA 9] Invalid confirm SA2 with negative quantity");
-            StockAdjustment sa = _sa.ConfirmObject(_sa.GetObjectById(stockAdjustmentId), _sad, _sm, _i);
+            StockAdjustment sa = _sa.GetObjectById(stockAdjustmentId);
+            sa.ConfirmedAt = new DateTime(2014, 5, 6);
+            sa = _sa.ConfirmObject(sa, _sad, _sm, _i);
             if (sa.Errors.Any()) { Console.WriteLine("        >> " + _sa.GetValidator().PrintError(sa)); }
         }
 
         public void SAValidation10(int stockAdjustmentId)
         {
             Console.WriteLine("     [SA 10] Valid confirm SA2 with negative quantity");
-            StockAdjustment sa = _sa.ConfirmObject(_sa.GetObjectById(stockAdjustmentId), _sad, _sm, _i);
+            StockAdjustment sa = _sa.GetObjectById(stockAdjustmentId);
+            sa.ConfirmedAt = new DateTime(2014, 5, 6);
+            sa = _sa.ConfirmObject(sa, _sad, _sm, _i);
             if (sa.Errors.Any()) { Console.WriteLine("        >> " + _sa.GetValidator().PrintError(sa)); }
         }
     }

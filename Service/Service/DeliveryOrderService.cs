@@ -80,6 +80,7 @@ namespace Service.Service
                 IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(deliveryOrder.Id);
                 foreach (var detail in details)
                 {
+                    detail.ConfirmedAt = deliveryOrder.ConfirmedAt;
                     _dods.ConfirmObject(detail, _stockMutationService, _itemService);
                     SalesOrderDetail sod = _sods.GetObjectById(detail.SalesOrderDetailId);
                     _sods.FulfilObject(sod);

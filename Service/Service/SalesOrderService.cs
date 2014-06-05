@@ -81,6 +81,7 @@ namespace Service.Service
                 IList<SalesOrderDetail> details = _sods.GetObjectsBySalesOrderId(salesOrder.Id);
                 foreach (var detail in details)
                 {
+                    detail.ConfirmedAt = salesOrder.ConfirmedAt;
                     _sods.ConfirmObject(detail, _stockMutationService, _itemService);
                 }
             }

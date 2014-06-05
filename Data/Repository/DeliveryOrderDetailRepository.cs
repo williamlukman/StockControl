@@ -64,7 +64,6 @@ namespace Data.Repository
         public DeliveryOrderDetail ConfirmObject(DeliveryOrderDetail deliveryOrderDetail)
         {
             deliveryOrderDetail.IsConfirmed = true;
-            deliveryOrderDetail.ConfirmedAt = DateTime.Now;
             Update(deliveryOrderDetail);
             return deliveryOrderDetail;
         }

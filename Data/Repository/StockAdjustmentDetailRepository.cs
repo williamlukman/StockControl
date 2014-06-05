@@ -59,7 +59,6 @@ namespace Data.Repository
         public StockAdjustmentDetail ConfirmObject(StockAdjustmentDetail stockAdjustmentDetail)
         {
             stockAdjustmentDetail.IsConfirmed = true;
-            stockAdjustmentDetail.ConfirmedAt = DateTime.Now;
             Update(stockAdjustmentDetail);
             return stockAdjustmentDetail;
         }

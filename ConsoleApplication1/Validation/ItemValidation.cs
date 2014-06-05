@@ -83,6 +83,7 @@ namespace ConsoleApp.Validation
             Item item = _i.CreateObject("Masak Memasak Koki Ternama", "Master Chef Junior Learning from World Chefs", "COOK1234");
             SalesOrder so = _so.CreateObject(contact.Id, DateTime.Today, _c);
             SalesOrderDetail sod = _sod.CreateObject(so.Id, item.Id, 1, (decimal) 5000.00, _so, _i);
+            so.ConfirmedAt = new DateTime(2014, 5, 6);
             so = _so.ConfirmObject(so, _sod, _sm, _i);
             _i.SoftDeleteObject(item, _sm);
             if (contact.Errors.Any()) { Console.WriteLine("        >> " + _c.GetValidator().PrintError(contact)); }

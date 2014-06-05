@@ -74,6 +74,7 @@ namespace Service.Service
                 IList<StockAdjustmentDetail> details = _stockAdjustmentDetailService.GetObjectsByStockAdjustmentId(stockAdjustment.Id);
                 foreach (var detail in details)
                 {
+                    detail.ConfirmedAt = stockAdjustment.ConfirmedAt;
                     _stockAdjustmentDetailService.ConfirmObject(detail, _stockMutationService, _itemService);
                 }
             }
