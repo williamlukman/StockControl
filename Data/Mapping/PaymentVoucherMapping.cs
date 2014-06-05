@@ -17,9 +17,6 @@ namespace Data.Mapping
             HasRequired(pv => pv.Contact)
                 .WithMany(c => c.PaymentVouchers)
                 .WillCascadeOnDelete(false);
-            HasRequired(pv => pv.Payable)
-                .WithMany(p => p.PaymentVouchers)
-                .HasForeignKey(pv => pv.PayableId);
             HasOptional(pr => pr.PaymentVoucherDetails);
             Ignore(i => i.Errors);
         }

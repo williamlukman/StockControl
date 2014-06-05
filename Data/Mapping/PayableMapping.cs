@@ -17,7 +17,7 @@ namespace Data.Mapping
             HasRequired(p => p.Contact)
                 .WithMany(c => c.Payables)
                 .WillCascadeOnDelete(false);
-            HasOptional(p => p.PaymentVouchers);
+            HasOptional(p => p.PaymentVoucherDetails);
             Ignore(p => p.Errors);
         }
     }

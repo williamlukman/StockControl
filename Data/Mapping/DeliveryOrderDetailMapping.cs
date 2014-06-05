@@ -16,11 +16,11 @@ namespace Data.Mapping
             HasRequired(dod => dod.Contact)
                 .WithMany(c => c.DeliveryOrderDetails)
                 .WillCascadeOnDelete(false);
-            HasRequired(prd => prd.DeliveryOrder)
-                .WithMany(pr => pr.DeliveryOrderDetails)
-                .HasForeignKey(prd => prd.DeliveryOrderId);
-            HasOptional(prd => prd.SalesOrderDetail)
-                .WithOptionalDependent(pod => pod.DeliveryOrderDetail);
+            HasRequired(dod => dod.DeliveryOrder)
+                .WithMany(d => d.DeliveryOrderDetails)
+                .HasForeignKey(dod => dod.DeliveryOrderId);
+            HasOptional(dod => dod.SalesOrderDetail)
+                .WithOptionalDependent(sod => sod.DeliveryOrderDetail);
             Ignore(pod => pod.Errors);
         }
     }

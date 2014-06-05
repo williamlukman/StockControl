@@ -32,6 +32,7 @@ namespace ConsoleApp
         private IStockMutationService _sm;
         private IStockAdjustmentService _sa;
         private IStockAdjustmentDetailService _sad;
+        private ICashBankService _cb;
 
         public Program()
         {
@@ -48,6 +49,7 @@ namespace ConsoleApp
             _sm = new StockMutationService(new StockMutationRepository(), new StockMutationValidator());
             _sa = new StockAdjustmentService(new StockAdjustmentRepository(), new StockAdjustmentValidator());
             _sad = new StockAdjustmentDetailService(new StockAdjustmentDetailRepository(), new StockAdjustmentDetailValidator());
+            _cb = new CashBankService(new CashBankRepository(), new CashBankValidator());
         }
 
         public static void Main(string[] args)
@@ -60,11 +62,20 @@ namespace ConsoleApp
                 Program p = new Program();
                 // Warning: this function will delete all data in the DB. Use with caution!!!
                 p.flushdb(db);
+                
+                // Operational Test
+                /*
                 p.ValidateContactModel(p, db);
                 p.ValidateItemModel(p, db);
                 p.ValidateStockAdjustmentModel(p, db);
                 p.ValidateReceivalModel(p, db);
                 p.ValidateDeliveryModel(p, db);
+                */
+
+                // Finance Test
+                p.ValidateCashBankModel(p, db);
+               
+
                 Console.WriteLine("Press any key to stop...");
                 Console.ReadKey();
             }
@@ -199,6 +210,13 @@ namespace ConsoleApp
 
             sov.SOValidation10();
             dov.DOValidation9();
+        }
+
+        public void ValidateCashBankModel(Program p, StockControlEntities db)
+        {
+            Console.WriteLine("[CashBank Validation Test]");
+            CashBankValidation cb = new CashBankValidation(new CashBankValidator(), this._cb);
+            cb.CashBankValidation1();
         }
 
         public void wait(int second)
