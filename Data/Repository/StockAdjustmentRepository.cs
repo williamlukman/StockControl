@@ -24,7 +24,9 @@ namespace Data.Repository
 
         public StockAdjustment GetObjectById(int Id)
         {
-            return Find(sa => sa.Id == Id && !sa.IsDeleted);
+            StockAdjustment stockAdjustment = Find(sa => sa.Id == Id && !sa.IsDeleted);
+            if (stockAdjustment != null) { stockAdjustment.Errors = new Dictionary<string, string>(); }
+            return stockAdjustment;
         }
 
         public StockAdjustment CreateObject(StockAdjustment stockAdjustment)

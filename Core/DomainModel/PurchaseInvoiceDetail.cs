@@ -13,11 +13,10 @@ namespace Core.DomainModel
         public int PurchaseReceivalDetailId { get; set; }
         public string Code { get; set; }
         public int ContactId { get; set; }
-
         public int Quantity { get; set; }
-        public decimal Price { get; set; }
+        public decimal Amount { get; set; }
         public bool IsConfirmed { get; set; }
-        public DateTime ConfirmedAt { get; set; }
+        public Nullable<DateTime> ConfirmedAt { get; set; }
         public bool IsDeleted { get; set; }
 
         public DateTime CreatedAt { get; set; }

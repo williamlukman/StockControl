@@ -15,6 +15,7 @@ namespace Core.Interface.Service
         PurchaseInvoice GetObjectById(int Id);
         IList<PurchaseInvoice> GetObjectsByContactId(int contactId);
         PurchaseInvoice CreateObject(PurchaseInvoice purchaseInvoice, IContactService _contactService);
+        PurchaseInvoice CreateObject(int contactId, string description, decimal totalAmount, IContactService _contactService);
         PurchaseInvoice UpdateObject(PurchaseInvoice purchaseInvoice, IPurchaseInvoiceDetailService _pid, IContactService _c);
         PurchaseInvoice SoftDeleteObject(PurchaseInvoice purchaseInvoice);
         bool DeleteObject(int Id);

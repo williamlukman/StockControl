@@ -24,7 +24,9 @@ namespace Data.Repository
 
         public SalesOrderDetail GetObjectById(int Id)
         {
-            return Find(sod => sod.Id == Id);
+            SalesOrderDetail detail = Find(sod => sod.Id == Id);
+            if (detail != null) { detail.Errors = new Dictionary<string, string>(); }
+            return detail;
         }
 
         public SalesOrderDetail CreateObject(SalesOrderDetail salesOrderDetail)

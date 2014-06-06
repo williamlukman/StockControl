@@ -18,7 +18,7 @@ namespace Validation.Validation
             {
                 i.Errors.Add("Sku", "Tidak boleh kosong");
             }
-            if (_is.IsSkuDuplicated(i.Sku))
+            if (_is.IsSkuDuplicated(i))
             {
                 i.Errors.Add("Sku", "Tidak boleh ada duplikasi");
             }

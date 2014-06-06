@@ -13,10 +13,10 @@ namespace Core.Interface.Validation
     {
         Payable VCreateObject(Payable p, IPayableService _p);
         Payable VUpdateObject(Payable p, IPayableService _p);
-        Payable VDeleteObject(Payable p, IPayableService _p);
+        Payable VDeleteObject(Payable p);
         bool ValidCreateObject(Payable p, IPayableService _p);
         bool ValidUpdateObject(Payable p, IPayableService _p);
-        bool ValidDeleteObject(Payable p, IPayableService _p);
+        bool ValidDeleteObject(Payable p);
         bool isValid(Payable p);
         string PrintError(Payable p);
     }

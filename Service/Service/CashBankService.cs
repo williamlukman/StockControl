@@ -75,10 +75,10 @@ namespace Service.Service
             return _repository.DeleteObject(Id);
         }
 
-        public bool IsNameDuplicated(String name)
+        public bool IsNameDuplicated(CashBank cashBank)
         {
-            IQueryable<CashBank> cashbank = _repository.FindAll(cb => cb.Name == name && !cb.IsDeleted);
-            return (cashbank.Count() > 1 ? true : false);
+            IQueryable<CashBank> cashbanks = _repository.FindAll(cb => cb.Name == cashBank.Name && !cb.IsDeleted && cb.Id != cashBank.Id);
+            return (cashbanks.Count() > 0 ? true : false);
         }
 
     }

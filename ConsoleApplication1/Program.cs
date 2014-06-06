@@ -33,7 +33,11 @@ namespace ConsoleApp
         private IStockAdjustmentService _sa;
         private IStockAdjustmentDetailService _sad;
         private ICashBankService _cb;
-
+        private IPurchaseInvoiceService _pi;
+        private IPurchaseInvoiceDetailService _pid;
+        private IPayableService _payable;
+        private IPaymentVoucherService _pv;
+        private IPaymentVoucherDetailService _pvd;
         public Program()
         {
             _c = new ContactService(new ContactRepository(), new ContactValidator());
@@ -50,6 +54,12 @@ namespace ConsoleApp
             _sa = new StockAdjustmentService(new StockAdjustmentRepository(), new StockAdjustmentValidator());
             _sad = new StockAdjustmentDetailService(new StockAdjustmentDetailRepository(), new StockAdjustmentDetailValidator());
             _cb = new CashBankService(new CashBankRepository(), new CashBankValidator());
+            _pi = new PurchaseInvoiceService(new PurchaseInvoiceRepository(), new PurchaseInvoiceValidator());
+            _pid = new PurchaseInvoiceDetailService(new PurchaseInvoiceDetailRepository(), new PurchaseInvoiceDetailValidator());
+            _payable = new PayableService(new PayableRepository(), new PayableValidator());
+            //_pv = new PaymentVoucherService(new PaymentVoucherRepository(), new PaymentVoucherValidator());
+            //_pvd = new PaymentVoucherDetailService(new PaymentVoucherDetailRepository(), new PaymentVoucherDetailValidator());
+
         }
 
         public static void Main(string[] args)
@@ -64,17 +74,16 @@ namespace ConsoleApp
                 p.flushdb(db);
                 
                 // Operational Test
-                /*
+                
                 p.ValidateContactModel(p, db);
                 p.ValidateItemModel(p, db);
                 p.ValidateStockAdjustmentModel(p, db);
-                p.ValidateReceivalModel(p, db);
+                int sampleprdid = p.ValidateReceivalModel(p, db);
                 p.ValidateDeliveryModel(p, db);
-                */
-
+                
                 // Finance Test
                 p.ValidateCashBankModel(p, db);
-               
+                p.ValidatePurchaseInvoiceModel(p, db, sampleprdid);
 
                 Console.WriteLine("Press any key to stop...");
                 Console.ReadKey();
@@ -134,7 +143,7 @@ namespace ConsoleApp
 
         }
 
-        public void ValidateReceivalModel(Program p, StockControlEntities db)
+        public int ValidateReceivalModel(Program p, StockControlEntities db)
         {
             Console.WriteLine();
             Console.WriteLine("[Puchase Order Validation Test]");
@@ -164,13 +173,14 @@ namespace ConsoleApp
             prv.PRValidation4();
             prv.PRValidation5(podtest4);
             prv.PRValidation6(podtest1);
-            prv.PRValidation7(podtest4);
+            int prdid = prv.PRValidation7(podtest4);
             prv.PRValidation8();
 
             pov.POValidation9();
             
             prv.PRValidation9();
             prv.PRValidation8();
+            return prdid;
         }
 
         public void ValidateDeliveryModel(Program p, StockControlEntities db)
@@ -217,6 +227,23 @@ namespace ConsoleApp
             Console.WriteLine("[CashBank Validation Test]");
             CashBankValidation cb = new CashBankValidation(new CashBankValidator(), this._cb);
             cb.CashBankValidation1();
+            cb.CashBankValidation2();
+            cb.CashBankValidation3();
+        }
+
+        public void ValidatePurchaseInvoiceModel(Program p, StockControlEntities db, int sampleprdid)
+        {
+            Console.WriteLine("[Purchase Invoice Validation Test]");
+            PIValidation piv = new PIValidation(new PurchaseInvoiceValidator(), new PurchaseInvoiceDetailValidator(), 
+                               this._pi, this._pid, 
+                               this._payable,
+                               this._c, this._i, this._sm,
+                               this._po, this._pr, this._so, this._do,
+                               this._pod, this._prd, this._sod, this._dod);
+            int piid = piv.PIValidation1();
+            int pidid = piv.PIValidation2(piid, sampleprdid);
+            piv.PIValidation3(pidid);
+            piv.PIValidation4();
         }
 
         public void wait(int second)
@@ -232,8 +259,13 @@ namespace ConsoleApp
             DeliveryOrderDb.Delete(db, _do, _dod);
             StockMutationDb.Delete(db, _sm);
             StockAdjustmentDb.Delete(db, _sa, _sad);
-            ContactDb.Delete(db, _c);
+            CashBankDb.Delete(db, _cb);
+            PurchaseInvoiceDb.Delete(db, _pi, _pid);
+
+            // item and contact must be the last two deleted
             ItemDb.Delete(db, _i);
+            ContactDb.Delete(db, _c);
+            //PaymentVoucherDb.Delete(db, _pv, _pvd;
             Console.WriteLine("[Clean] Database is clean");
         }
     }

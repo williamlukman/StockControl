@@ -15,7 +15,7 @@ namespace Core.DomainModel
 
         public decimal TotalAmount { get; set; }
         public bool IsConfirmed { get; set; }
-        public DateTime ConfirmedAt { get; set; }
+        public Nullable<DateTime> ConfirmedAt { get; set; }
         public bool IsDeleted { get; set; }
 
         public DateTime CreatedAt { get; set; }

@@ -24,7 +24,9 @@ namespace Data.Repository
 
         public PurchaseInvoiceDetail GetObjectById(int Id)
         {
-            return Find(pid => pid.Id == Id);
+            PurchaseInvoiceDetail detail = Find(pid => pid.Id == Id);
+            if (detail != null) { detail.Errors = new Dictionary<string, string>(); }
+            return detail;
         }
 
         public PurchaseInvoiceDetail CreateObject(PurchaseInvoiceDetail purchaseInvoiceDetail)

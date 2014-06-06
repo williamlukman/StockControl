@@ -24,7 +24,9 @@ namespace Data.Repository
 
         public PurchaseReceival GetObjectById(int Id)
         {
-            return Find(pr => pr.Id == Id && !pr.IsDeleted);
+            PurchaseReceival purchaseReceival = Find(pr => pr.Id == Id && !pr.IsDeleted);
+            if (purchaseReceival != null) { purchaseReceival.Errors = new Dictionary<string, string>(); }
+            return purchaseReceival;
         }
 
         public IList<PurchaseReceival> GetObjectsByContactId(int contactId)

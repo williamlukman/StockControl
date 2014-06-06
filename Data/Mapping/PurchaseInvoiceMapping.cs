@@ -17,12 +17,9 @@ namespace Data.Mapping
             HasRequired(pi => pi.Contact)
                 .WithMany(c => c.PurchaseInvoices)
                 .WillCascadeOnDelete(false);
-            HasRequired(pi => pi.Contact)
-                .WithMany(c => c.PurchaseInvoices)
-                .HasForeignKey(pi => pi.ContactId);
             HasOptional(pi => pi.PurchaseInvoiceDetails)
                 .WithOptionalPrincipal()
-                .Map(pid => pid.MapKey("Id"));
+                .Map(pod => pod.MapKey("Id"));
             Ignore(pi => pi.Errors);
         }
     }

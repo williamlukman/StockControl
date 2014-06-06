@@ -51,7 +51,7 @@ namespace Service.Service
             }
         }
 
-        public PurchaseInvoiceDetail CreateObject(int purchaseInvoiceId, int purchaseReceivalDetailId, int itemId, int quantity, decimal price, IPurchaseInvoiceService _pis, IPurchaseReceivalDetailService _prds)
+        public PurchaseInvoiceDetail CreateObject(int purchaseInvoiceId, int purchaseReceivalDetailId, int quantity, decimal amount, IPurchaseInvoiceService _pis, IPurchaseReceivalDetailService _prds)
         {
             PurchaseInvoiceDetail pid = new PurchaseInvoiceDetail
             {
@@ -59,7 +59,7 @@ namespace Service.Service
                 PurchaseReceivalDetailId = purchaseReceivalDetailId,
                 ContactId = 0,
                 Quantity = quantity,
-                Price = price
+                Amount = amount
             };
             return this.CreateObject(pid, _pis, _prds);
         }

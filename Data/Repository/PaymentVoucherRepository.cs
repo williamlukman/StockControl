@@ -29,7 +29,9 @@ namespace Data.Repository
 
         public PaymentVoucher GetObjectById(int Id)
         {
-            return Find(pv => pv.Id == Id && !pv.IsDeleted);
+            PaymentVoucher paymentVoucher = Find(pv => pv.Id == Id && !pv.IsDeleted);
+            if (paymentVoucher != null) { paymentVoucher.Errors = new Dictionary<string, string>(); }
+            return paymentVoucher;
         }
 
         public IList<PaymentVoucher> GetObjectsByContactId(int contactId)

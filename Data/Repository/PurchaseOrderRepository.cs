@@ -24,7 +24,9 @@ namespace Data.Repository
 
         public PurchaseOrder GetObjectById(int Id)
         {
-            return Find(po => po.Id == Id && !po.IsDeleted);
+            PurchaseOrder purchaseOrder = Find(po => po.Id == Id && !po.IsDeleted);
+            if (purchaseOrder != null) { purchaseOrder.Errors = new Dictionary<string, string>(); }
+            return purchaseOrder;
         }
 
         public IList<PurchaseOrder> GetObjectsByContactId(int contactId)

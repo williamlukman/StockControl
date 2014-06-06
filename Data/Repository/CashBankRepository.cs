@@ -27,7 +27,9 @@ namespace Data.Repository
 
         public CashBank GetObjectById(int Id)
         {
-            return Find(x => x.Id == Id);
+            CashBank cb = Find(x => x.Id == Id);
+            if (cb != null) { cb.Errors = new Dictionary<string, string>(); }
+            return cb;
         }
 
         public CashBank CreateObject(CashBank cashbank)

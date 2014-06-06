@@ -17,6 +17,6 @@ namespace Core.Interface.Service
         CashBank UpdateObject(CashBank cashBank);
         CashBank SoftDeleteObject(CashBank cashBank, IReceiptVoucherService _rvs, IPaymentVoucherService _pvs);
         bool DeleteObject(int Id);
-        bool IsNameDuplicated(String name);
+        bool IsNameDuplicated(CashBank cashBank);
     }
 }

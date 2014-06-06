@@ -26,12 +26,16 @@ namespace Data.Repository
 
         public Item GetObjectById(int Id)
         {
-            return Find(i => i.Id == Id);
+            Item item = Find(i => i.Id == Id && !i.IsDeleted);
+            if (item != null) { item.Errors = new Dictionary<string, string>(); }
+            return item;
         }
 
         public Item GetObjectBySku(string Sku)
         {
-            return Find(i => i.Sku == Sku);
+            Item item = Find(i => i.Sku == Sku);
+            if (item != null) { item.Errors = new Dictionary<string, string>(); }
+            return item;
         }
 
         public Item CreateObject(Item item)

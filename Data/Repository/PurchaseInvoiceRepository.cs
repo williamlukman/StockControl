@@ -24,7 +24,9 @@ namespace Data.Repository
 
         public PurchaseInvoice GetObjectById(int Id)
         {
-            return Find(pi => pi.Id == Id && !pi.IsDeleted);
+            PurchaseInvoice purchaseInvoice = Find(pi => pi.Id == Id && !pi.IsDeleted);
+            if (purchaseInvoice != null) { purchaseInvoice.Errors = new Dictionary<string, string>(); }
+            return purchaseInvoice;
         }
 
         public IList<PurchaseInvoice> GetObjectsByContactId(int contactId)

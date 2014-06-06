@@ -24,7 +24,9 @@ namespace Data.Repository
 
         public StockAdjustmentDetail GetObjectById(int Id)
         {
-            return Find(sad => sad.Id == Id && !sad.IsDeleted);
+            StockAdjustmentDetail detail = Find(sad => sad.Id == Id && !sad.IsDeleted);
+            detail.Errors = new Dictionary<string, string>();
+            return detail;
         }
 
         public StockAdjustmentDetail CreateObject(StockAdjustmentDetail stockAdjustmentDetail)

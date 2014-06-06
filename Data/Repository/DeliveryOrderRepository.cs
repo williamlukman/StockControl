@@ -24,7 +24,9 @@ namespace Data.Repository
 
         public DeliveryOrder GetObjectById(int Id)
         {
-            return Find(d => d.Id == Id && !d.IsDeleted);
+            DeliveryOrder deliveryOrder = Find(d => d.Id == Id && !d.IsDeleted);
+            if (deliveryOrder != null) { deliveryOrder.Errors = new Dictionary<string, string>(); }
+            return deliveryOrder;
         }
 
         public IList<DeliveryOrder> GetObjectsByContactId(int contactId)

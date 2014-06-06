@@ -29,7 +29,9 @@ namespace Data.Repository
 
         public StockMutation GetObjectById(int Id)
         {
-            return Find(sm => sm.Id == Id && !sm.IsDeleted);
+            StockMutation stockMutation = Find(sm => sm.Id == Id && !sm.IsDeleted);
+            if (stockMutation != null) { stockMutation.Errors = new Dictionary<string, string>(); }
+            return stockMutation;
         }
 
         public IList<StockMutation> GetObjectsBySourceDocumentDetail(int itemId, string SourceDocumentDetailType, int SourceDocumentDetailId)

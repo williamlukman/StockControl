@@ -29,7 +29,9 @@ namespace Data.Repository
 
         public PaymentVoucherDetail GetObjectById(int Id)
         {
-            return Find(pvd => pvd.Id == Id);
+            PaymentVoucherDetail detail = Find(pvd => pvd.Id == Id);
+            if (detail != null) { detail.Errors = new Dictionary<string, string>(); }
+            return detail;
         }
 
         public PaymentVoucherDetail CreateObject(PaymentVoucherDetail paymentVoucherDetail)

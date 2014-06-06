@@ -79,10 +79,10 @@ namespace Service.Service
             return _repository.DeleteObject(Id);
         }
 
-        public bool IsSkuDuplicated(String sku)
+        public bool IsSkuDuplicated(Item item)
         {
-            IQueryable<Item> item = _repository.FindAll(i => i.Sku == sku && !i.IsDeleted);
-            return (item.Count() > 1 ? true : false);
+            IQueryable<Item> items = _repository.FindAll(i => i.Sku == item.Sku && !i.IsDeleted && i.Id != item.Id);
+            return (items.Count() > 0 ? true : false);
         }
 
         public decimal CalculateAvgCost(Item item, int addedQuantity, decimal addedAvgCost)

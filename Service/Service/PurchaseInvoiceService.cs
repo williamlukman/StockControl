@@ -41,10 +41,21 @@ namespace Service.Service
             return _repository.GetObjectsByContactId(contactId);
         }
 
-        public PurchaseInvoice CreateObject(PurchaseInvoice purchaseInvoice, IContactService _cs)
+        public PurchaseInvoice CreateObject(PurchaseInvoice purchaseInvoice, IContactService _contactService)
         {
             purchaseInvoice.Errors = new Dictionary<String, String>();
-            return (_validator.ValidCreateObject(purchaseInvoice, _cs) ? _repository.CreateObject(purchaseInvoice) : purchaseInvoice);
+            return (_validator.ValidCreateObject(purchaseInvoice, _contactService) ? _repository.CreateObject(purchaseInvoice) : purchaseInvoice);
+        }
+
+        public PurchaseInvoice CreateObject(int contactId, string description, decimal totalAmount, IContactService _contactService)
+        {
+            PurchaseInvoice pi = new PurchaseInvoice
+            {
+                ContactId = contactId,
+                Description = description,
+                TotalAmount = totalAmount,
+            };
+            return this.CreateObject(pi, _contactService);
         }
 
         public PurchaseInvoice UpdateObject(PurchaseInvoice purchaseInvoice, IPurchaseInvoiceDetailService _purchaseInvoiceDetailService, IContactService _contactService)
@@ -73,15 +84,7 @@ namespace Service.Service
                     detail.ConfirmedAt = purchaseInvoice.ConfirmedAt;
                     _purchaseInvoiceDetailService.ConfirmObject(detail, _purchaseInvoiceDetailService, _prds);
                 }
-                Payable payable = new Payable
-                {
-                    ContactId = purchaseInvoice.ContactId,
-                    PayableSource = "PurchaseInvoice",
-                    PayableSourceId = purchaseInvoice.Id,
-                    Amount = purchaseInvoice.TotalAmount,
-                    RemainingAmount = purchaseInvoice.TotalAmount
-                };
-                _payableService.CreateObject(payable);                
+                _payableService.CreateObject(purchaseInvoice.ContactId, "PurchaseInvoice", purchaseInvoice.Id, purchaseInvoice.TotalAmount);
             }
             return purchaseInvoice;
         }

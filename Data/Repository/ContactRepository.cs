@@ -27,7 +27,9 @@ namespace Data.Repository
 
         public Contact GetObjectById(int Id)
         {
-            return Find(x => x.Id == Id);
+            Contact c = Find(x => x.Id == Id && !x.IsDeleted);
+            if (c != null) { c.Errors = new Dictionary<string, string>(); }
+            return c;
         }
 
         public Contact CreateObject(Contact contact)

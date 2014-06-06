@@ -30,9 +30,37 @@ namespace ConsoleApp.Validation
             CashBank cb = new CashBank
             {
                 Name = "Mandiri",
-                Description = "123456789",
+                Description = "Rekening No. 123456789",
                 IsBank = true,
                 Amount = 100000000
+            };
+            _cb.CreateObject(cb);
+            if (cb.Errors.Any()) { Console.WriteLine("        >> " + _cb.GetValidator().PrintError(cb)); }
+        }
+
+        public void CashBankValidation2()
+        {
+            Console.WriteLine("     [CB 2] Create duplicate CashBank Mandiri");
+            CashBank cb = new CashBank
+            {
+                Name = "Mandiri",
+                Description = "Rekening No. 222222222",
+                IsBank = true,
+                Amount = 200000000
+            };
+            _cb.CreateObject(cb);
+            if (cb.Errors.Any()) { Console.WriteLine("        >> " + _cb.GetValidator().PrintError(cb)); }
+        }
+
+        public void CashBankValidation3()
+        {
+            Console.WriteLine("     [CB 3] Create valid CashBank Pettycash");
+            CashBank cb = new CashBank
+            {
+                Name = "SSD PettyCash",
+                Description = "Laci William",
+                IsBank = false,
+                Amount = 5000000
             };
             _cb.CreateObject(cb);
             if (cb.Errors.Any()) { Console.WriteLine("        >> " + _cb.GetValidator().PrintError(cb)); }

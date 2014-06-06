@@ -92,11 +92,12 @@ namespace ConsoleApp.Validation
             if (prd1.Errors.Any()) { Console.WriteLine("        >> " + _prd.GetValidator().PrintError(prd1)); }
         }
 
-        public void PRValidation7(int purchaseOrderDetailId)
+        public int PRValidation7(int purchaseOrderDetailId)
         {
             Console.WriteLine("     [PR 7] Create valid PRD for Michaelangelo");
             PurchaseReceivalDetail prd1 = _prd.CreateObject(_pr.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Mini Garuda Indonesia").Id, 50, purchaseOrderDetailId, _pr, _pod, _po, _i, _c);
             if (prd1.Errors.Any()) { Console.WriteLine("        >> " + _prd.GetValidator().PrintError(prd1)); }
+            return prd1.Id;
         }
 
         public void PRValidation8()

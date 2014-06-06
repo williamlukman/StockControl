@@ -36,7 +36,7 @@ namespace Validation.Validation
 
         public PurchaseInvoiceDetail VPrice(PurchaseInvoiceDetail pid)
         {
-            if (pid.Price < 0)
+            if (pid.Amount < 0)
             {
                 pid.Errors.Add("Price", "Tidak boleh negatif");
             }

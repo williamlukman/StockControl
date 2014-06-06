@@ -14,7 +14,7 @@ namespace Core.Interface.Service
         IList<PurchaseInvoiceDetail> GetObjectsByPurchaseInvoiceId(int purchaseInvoiceId);
         PurchaseInvoiceDetail GetObjectById(int Id);
         PurchaseInvoiceDetail CreateObject(PurchaseInvoiceDetail purchaseInvoiceDetail, IPurchaseInvoiceService _pis, IPurchaseReceivalDetailService _prds);
-        PurchaseInvoiceDetail CreateObject(int purchaseInvoiceId, int purchaseReceivalDetailId, int itemId, int quantity, decimal price, IPurchaseInvoiceService _pis, IPurchaseReceivalDetailService _prds);
+        PurchaseInvoiceDetail CreateObject(int purchaseInvoiceId, int purchaseReceivalDetailId, int quantity, decimal amount, IPurchaseInvoiceService _pis, IPurchaseReceivalDetailService _prds);
         PurchaseInvoiceDetail UpdateObject(PurchaseInvoiceDetail purchaseInvoiceDetail, IPurchaseReceivalDetailService _prds);
         PurchaseInvoiceDetail SoftDeleteObject(PurchaseInvoiceDetail purchaseInvoiceDetail);
         bool DeleteObject(int Id);
