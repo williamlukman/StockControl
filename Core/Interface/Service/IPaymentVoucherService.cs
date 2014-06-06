@@ -9,14 +9,17 @@ namespace Core.Interface.Service
 {
     public interface IPaymentVoucherService
     {
-        IList<PaymentVoucher> GetObjectsByPayableId(int payableId);
+        IList<PaymentVoucher> GetAll();
+        IList<PaymentVoucher> GetObjectsByCashBankId(int cashBankId);
         PaymentVoucher GetObjectById(int Id);
         IList<PaymentVoucher> GetObjectsByContactId(int contactId);
-        PaymentVoucher CreateObject(PaymentVoucher paymentVoucher);
-        PaymentVoucher UpdateObject(PaymentVoucher paymentVoucher);
-        PaymentVoucher SoftDeleteObject(PaymentVoucher paymentVoucher);
+        PaymentVoucher CreateObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService, IPayableService _payableService, IContactService _contactService);
+        PaymentVoucher UpdateObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService, IPayableService _payableService, IContactService _contactService);
+        PaymentVoucher SoftDeleteObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService);
         bool DeleteObject(int Id);
-        PaymentVoucher ConfirmObject(PaymentVoucher paymentVoucher);
-        PaymentVoucher UnconfirmObject(PaymentVoucher paymentVoucher);
+        PaymentVoucher ConfirmObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService,
+                                     ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService);
+        PaymentVoucher UnconfirmObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService,
+                                     ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService);
     }
 }

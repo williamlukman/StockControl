@@ -65,9 +65,9 @@ namespace Service.Service
             return (cashBank = _validator.ValidUpdateObject(cashBank, this) ? _repository.UpdateObject(cashBank) : cashBank);
         }
 
-        public CashBank SoftDeleteObject(CashBank cashBank, IReceiptVoucherDetailService _rvds, IPaymentVoucherDetailService _pvds)
+        public CashBank SoftDeleteObject(CashBank cashBank, IReceiptVoucherService _rvs, IPaymentVoucherService _pvs)
         {
-            return (cashBank = _validator.ValidDeleteObject(cashBank, this, _rvds, _pvds) ? _repository.SoftDeleteObject(cashBank) : cashBank);
+            return (cashBank = _validator.ValidDeleteObject(cashBank, this, _rvs, _pvs) ? _repository.SoftDeleteObject(cashBank) : cashBank);
         }
 
         public bool DeleteObject(int Id)

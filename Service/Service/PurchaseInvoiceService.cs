@@ -78,7 +78,8 @@ namespace Service.Service
                     ContactId = purchaseInvoice.ContactId,
                     PayableSource = "PurchaseInvoice",
                     PayableSourceId = purchaseInvoice.Id,
-                    Amount = purchaseInvoice.TotalAmount
+                    Amount = purchaseInvoice.TotalAmount,
+                    RemainingAmount = purchaseInvoice.TotalAmount
                 };
                 _payableService.CreateObject(payable);                
             }

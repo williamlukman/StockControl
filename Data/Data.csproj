@@ -70,6 +70,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ContactRepository.cs" />
     <Compile Include="Repository\CashBankRepository.cs" />
+    <Compile Include="Repository\PaymentVoucherDetailRepository.cs" />
+    <Compile Include="Repository\PaymentVoucherRepository.cs" />
     <Compile Include="Repository\PurchaseInvoiceDetailRepository.cs" />
     <Compile Include="Repository\PurchaseInvoiceRepository.cs" />
     <Compile Include="Repository\StockAdjustmentDetailRepository.cs" />

@@ -12,14 +12,14 @@ namespace Core.Interface.Validation
     {
         CashBank VName(CashBank cb, ICashBankService _cb);
         CashBank VIsBank(CashBank cb);
-        CashBank VHasReceiptVoucherDetail(CashBank cb, IReceiptVoucherDetailService _rvds);
-        CashBank VHasPaymentVoucherDetail(CashBank cb, IPaymentVoucherDetailService _pvds);
+        CashBank VHasReceiptVoucherDetail(CashBank cb, IReceiptVoucherService _rvs);
+        CashBank VHasPaymentVoucherDetail(CashBank cb, IPaymentVoucherService _pvs);
         CashBank VCreateObject(CashBank cb, ICashBankService _cb);
         CashBank VUpdateObject(CashBank cb, ICashBankService _cb);
-        CashBank VDeleteObject(CashBank cb, ICashBankService _cb, IReceiptVoucherDetailService _rvds, IPaymentVoucherDetailService _pvds);
+        CashBank VDeleteObject(CashBank cb, ICashBankService _cb, IReceiptVoucherService _rvs, IPaymentVoucherService _pvs);
         bool ValidCreateObject(CashBank cb, ICashBankService _cb);
         bool ValidUpdateObject(CashBank cb, ICashBankService _cb);
-        bool ValidDeleteObject(CashBank cb, ICashBankService _cb, IReceiptVoucherDetailService _rvds, IPaymentVoucherDetailService _pvds);
+        bool ValidDeleteObject(CashBank cb, ICashBankService _cb, IReceiptVoucherService _rvs, IPaymentVoucherService _pvs);
         bool isValid(CashBank cb);
         string PrintError(CashBank cb);
     }

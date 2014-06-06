@@ -9,7 +9,8 @@ namespace Core.Interface.Service
 {
     public interface IReceiptVoucherService
     {
-        IList<ReceiptVoucher> GetObjectsByReceivableId(int receivableId);
+        IList<ReceiptVoucher> GetAll();
+        IList<ReceiptVoucher> GetObjectsByCashBankId(int cashBankId);
         ReceiptVoucher GetObjectById(int Id);
         IList<ReceiptVoucher> GetObjectsByContactId(int contactId);
         ReceiptVoucher CreateObject(ReceiptVoucher receiptVoucher);

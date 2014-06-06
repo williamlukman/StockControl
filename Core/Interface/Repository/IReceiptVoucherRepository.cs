@@ -9,6 +9,7 @@ namespace Core.Interface.Repository
 {
     public interface IReceiptVoucherRepository : IRepository<ReceiptVoucher>
     {
+        IList<ReceiptVoucher> GetObjectsByCashBankId(int cashBankId);
         IList<ReceiptVoucher> GetObjectsByReceivableId(int receivableId);
         ReceiptVoucher GetObjectById(int Id);
         IList<ReceiptVoucher> GetObjectsByContactId(int contactId);

@@ -10,6 +10,7 @@ namespace Core.Interface.Repository
     public interface IPaymentVoucherDetailRepository : IRepository<PaymentVoucherDetail>
     {
         IList<PaymentVoucherDetail> GetObjectsByPaymentVoucherId(int paymentVoucherId);
+        IList<PaymentVoucherDetail> GetObjectsByPayableId(int payableId);
         PaymentVoucherDetail GetObjectById(int Id);
         PaymentVoucherDetail CreateObject(PaymentVoucherDetail paymentVoucherDetail);
         PaymentVoucherDetail UpdateObject(PaymentVoucherDetail paymentVoucherDetail);
@@ -17,7 +18,7 @@ namespace Core.Interface.Repository
         bool DeleteObject(int Id);
         PaymentVoucherDetail ConfirmObject(PaymentVoucherDetail paymentVoucherDetail);
         PaymentVoucherDetail UnconfirmObject(PaymentVoucherDetail paymentVoucherDetail);
-        PaymentVoucherDetail FulfilObject(PaymentVoucherDetail paymentVoucherDetail);
-
+        PaymentVoucherDetail ClearObject(PaymentVoucherDetail paymentVoucherDetail);
+        PaymentVoucherDetail UnclearObject(PaymentVoucherDetail paymentVoucherDetail);
     }
 }

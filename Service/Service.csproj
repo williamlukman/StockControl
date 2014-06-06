@@ -42,6 +42,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ContactService.cs" />
     <Compile Include="Service\CashBankService.cs" />
+    <Compile Include="Service\PaymentVoucherDetailService.cs" />
+    <Compile Include="Service\PaymentVoucherService.cs" />
     <Compile Include="Service\PurchaseInvoiceDetailService.cs" />
     <Compile Include="Service\PurchaseInvoiceService.cs" />
     <Compile Include="Service\StockAdjustmentService.cs" />

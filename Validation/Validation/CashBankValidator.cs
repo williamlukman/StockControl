@@ -51,30 +51,30 @@ namespace Validation.Validation
             return c;
         }
 
-        public CashBank VHasReceiptVoucherDetail(CashBank cb, IReceiptVoucherDetailService _rvds)
+        public CashBank VHasReceiptVoucherDetail(CashBank cb, IReceiptVoucherService _rvs)
         {
-            IList<ReceiptVoucherDetail> vouchers = _rvds.GetObjectsByCashBankId(cb.Id);
+            IList<ReceiptVoucher> vouchers = _rvs.GetObjectsByCashBankId(cb.Id);
             if (!vouchers.Any())
             {
-                cb.Errors.Add("ReceiptVoucherDetail", "Tidak boleh ada asosiasi dengan segala macam pembayaran");
+                cb.Errors.Add("ReceiptVoucher", "Tidak boleh ada asosiasi dengan segala macam receipt");
             }
             return cb;
         }
 
-        public CashBank VHasPaymentVoucherDetail(CashBank cb, IPaymentVoucherDetailService _pvds)
+        public CashBank VHasPaymentVoucherDetail(CashBank cb, IPaymentVoucherService _pvs)
         {
-            IList<PaymentVoucherDetail> vouchers = _pvds.GetObjectsByCashBankId(cb.Id);
+            IList<PaymentVoucher> vouchers = _pvs.GetObjectsByCashBankId(cb.Id);
             if (!vouchers.Any())
             {
-                cb.Errors.Add("PaymentVoucherDetail", "Tidak boleh ada asosiasi dengan segala macam pembayaran");
+                cb.Errors.Add("PaymentVoucher", "Tidak boleh ada asosiasi dengan segala macam pembayaran");
             }
             return cb;
         }
 
-        public CashBank VDeleteObject(CashBank cb, ICashBankService _cb, IReceiptVoucherDetailService _rvds, IPaymentVoucherDetailService _pvds)
+        public CashBank VDeleteObject(CashBank cb, ICashBankService _cb, IReceiptVoucherService _rvs, IPaymentVoucherService _pvs)
         {
-            VHasReceiptVoucherDetail(cb, _rvds);
-            VHasPaymentVoucherDetail(cb, _pvds);
+            VHasReceiptVoucherDetail(cb, _rvs);
+            VHasPaymentVoucherDetail(cb, _pvs);
             return cb;
         }
 
@@ -91,10 +91,10 @@ namespace Validation.Validation
             return isValid(c);
         }
 
-        public bool ValidDeleteObject(CashBank cb, ICashBankService _cb, IReceiptVoucherDetailService _rvds, IPaymentVoucherDetailService _pvds)
+        public bool ValidDeleteObject(CashBank cb, ICashBankService _cb, IReceiptVoucherService _rvs, IPaymentVoucherService _pvs)
         {
             cb.Errors.Clear();
-            VDeleteObject(cb, _cb, _rvds, _pvds);
+            VDeleteObject(cb, _cb, _rvs, _pvs);
             return isValid(cb);
         }
 

@@ -104,6 +104,8 @@
     <Compile Include="Interface\Service\IPurchaseReceivalDetailService.cs" />
     <Compile Include="Interface\Service\IPurchaseReceivalService.cs" />
     <Compile Include="Interface\Service\IContactService.cs" />
+    <Compile Include="Interface\Validation\IPaymentVoucherDetailValidator.cs" />
+    <Compile Include="Interface\Validation\IPaymentVoucherValidator.cs" />
     <Compile Include="Interface\Validation\ISalesInvoiceValidator.cs" />
     <Compile Include="Interface\Validation\ISalesInvoiceDetailValidator.cs" />
     <Compile Include="Interface\Validation\IPurchaseInvoiceDetailValidator.cs" />
