@@ -5,18 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.DomainModel;
 using Core.Interface.Service;
+using Core.Interface.Repository;
 
 namespace Core.Interface.Validation
 {
     public interface IReceivableValidator
     {
-        Receivable VCreateObject(Receivable r, IReceivableService _r);
-        Receivable VUpdateObject(Receivable r, IReceivableService _r);
-        Receivable VDeleteObject(Receivable r, IReceivableService _r);
-        bool ValidCreateObject(Receivable r, IReceivableService _r);
-        bool ValidUpdateObject(Receivable r, IReceivableService _r);
-        bool ValidDeleteObject(Receivable r, IReceivableService _r);
-        bool isValid(Receivable r);
-        string PrintError(Receivable r);
+        Receivable VCreateObject(Receivable p, IReceivableService _p);
+        Receivable VUpdateObject(Receivable p, IReceivableService _p);
+        Receivable VDeleteObject(Receivable p);
+        bool ValidCreateObject(Receivable p, IReceivableService _p);
+        bool ValidUpdateObject(Receivable p, IReceivableService _p);
+        bool ValidDeleteObject(Receivable p);
+        bool isValid(Receivable p);
+        string PrintError(Receivable p);
     }
 }

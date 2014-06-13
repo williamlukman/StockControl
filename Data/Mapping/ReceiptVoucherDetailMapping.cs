@@ -18,8 +18,11 @@ namespace Data.Mapping
                 .WithMany(c => c.ReceiptVoucherDetails)
                 .WillCascadeOnDelete(false);
             HasRequired(rvd => rvd.ReceiptVoucher)
-                .WithMany(rv => rv.ReceiptVoucherDetails)
+                .WithMany(pv => pv.ReceiptVoucherDetails)
                 .HasForeignKey(rvd => rvd.ReceiptVoucherId);
+            HasRequired(rvd => rvd.Receivable)
+                .WithMany(p => p.ReceiptVoucherDetails)
+                .HasForeignKey(rvd => rvd.ReceivableId);
             Ignore(i => i.Errors);
         }
     }

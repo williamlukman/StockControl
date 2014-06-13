@@ -10,7 +10,7 @@ namespace Core.Interface.Service
 {
     public interface IReceiptVoucherService
     {
-        //IReceiptVoucherValidator GetValidator();
+        IReceiptVoucherValidator GetValidator();
         IList<ReceiptVoucher> GetAll();
         IList<ReceiptVoucher> GetObjectsByCashBankId(int cashBankId);
         ReceiptVoucher GetObjectById(int Id);

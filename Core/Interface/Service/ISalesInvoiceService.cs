@@ -14,11 +14,13 @@ namespace Core.Interface.Service
         IList<SalesInvoice> GetAll();
         SalesInvoice GetObjectById(int Id);
         IList<SalesInvoice> GetObjectsByContactId(int contactId);
-        SalesInvoice CreateObject(SalesInvoice salesOrder);
-        SalesInvoice UpdateObject(SalesInvoice salesOrder);
-        SalesInvoice SoftDeleteObject(SalesInvoice salesOrder);
+        SalesInvoice CreateObject(SalesInvoice salesInvoice, IContactService _contactService);
+        SalesInvoice CreateObject(int contactId, string description, decimal totalAmount, IContactService _contactService);
+        SalesInvoice UpdateObject(SalesInvoice salesInvoice, ISalesInvoiceDetailService _salesInvoiceDetailService, IContactService _contactService);
+        SalesInvoice SoftDeleteObject(SalesInvoice salesInvoice);
         bool DeleteObject(int Id);
-        SalesInvoice ConfirmObject(SalesInvoice salesOrder);
-        SalesInvoice UnconfirmObject(SalesInvoice salesOrder);
+        SalesInvoice ConfirmObject(SalesInvoice salesInvoice, ISalesInvoiceDetailService _salesInvoiceDetailService, IDeliveryOrderDetailService _deliveryOrderDetailService, IReceivableService _receivableService);
+        SalesInvoice UnconfirmObject(SalesInvoice salesInvoice, ISalesInvoiceDetailService _salesInvoiceDetailService,
+                                        IReceiptVoucherDetailService _receiptVoucherDetailService, IReceivableService _receivableService);
     }
 }

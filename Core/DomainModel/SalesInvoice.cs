@@ -24,7 +24,6 @@ namespace Core.DomainModel
 
         public virtual Contact Contact { get; set; }
         public virtual ICollection<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
-
         public Dictionary<String, String> Errors { get; set; }
     }
 }

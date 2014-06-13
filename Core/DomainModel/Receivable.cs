@@ -18,7 +18,7 @@ namespace Core.DomainModel
         public decimal RemainingAmount { get; set; }
         public decimal PendingClearanceAmount { get; set; }
         public bool IsCompleted { get; set; }
-        public DateTime CompletionDate { get; set; }
+        public Nullable<DateTime> CompletionDate { get; set; }
         public bool IsDeleted { get; set; }
 
         public DateTime CreatedAt { get; set; }
@@ -26,7 +26,7 @@ namespace Core.DomainModel
         public Nullable<DateTime> DeletedAt { get; set; }
 
         public virtual Contact Contact { get; set; }
-        public ICollection<ReceiptVoucher> ReceiptVouchers { get; set; }
+        public virtual ICollection<ReceiptVoucherDetail> ReceiptVoucherDetails { get; set; }
 
         public Dictionary<String, String> Errors { get; set; }
     }

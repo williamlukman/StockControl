@@ -80,9 +80,9 @@ namespace Service.Service
             return _repository.DeleteObject(Id);
         }
 
-        public PurchaseInvoiceDetail ConfirmObject(PurchaseInvoiceDetail purchaseInvoiceDetail, IPurchaseInvoiceDetailService _pids, IPurchaseReceivalDetailService _prds)
+        public PurchaseInvoiceDetail ConfirmObject(PurchaseInvoiceDetail purchaseInvoiceDetail, IPurchaseInvoiceDetailService _sids, IPurchaseReceivalDetailService _prds)
         {
-            if (_validator.ValidConfirmObject(purchaseInvoiceDetail, _pids, _prds))
+            if (_validator.ValidConfirmObject(purchaseInvoiceDetail, _sids, _prds))
             {
                 purchaseInvoiceDetail = _repository.ConfirmObject(purchaseInvoiceDetail);
             }

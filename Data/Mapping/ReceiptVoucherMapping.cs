@@ -17,9 +17,6 @@ namespace Data.Mapping
             HasRequired(rv => rv.Contact)
                 .WithMany(c => c.ReceiptVouchers)
                 .WillCascadeOnDelete(false);
-            HasRequired(rv => rv.Receivable)
-                .WithMany(r => r.ReceiptVouchers)
-                .HasForeignKey(rv => rv.ReceivableId);
             HasOptional(pr => pr.ReceiptVoucherDetails);
             Ignore(i => i.Errors);
         }

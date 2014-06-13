@@ -17,7 +17,7 @@ namespace Data.Mapping
             HasRequired(r => r.Contact)
                 .WithMany(c => c.Receivables)
                 .WillCascadeOnDelete(false);
-            HasOptional(r => r.ReceiptVouchers);
+            HasOptional(r => r.ReceiptVoucherDetails);
             Ignore(r => r.Errors);
         }
     }

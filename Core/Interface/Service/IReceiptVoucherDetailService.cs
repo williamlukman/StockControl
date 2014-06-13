@@ -1,4 +1,5 @@
 using Core.DomainModel;
+using Core.Interface.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Core.Interface.Service
 {
     public interface IReceiptVoucherDetailService
     {
-        //IReceiptVoucherDetailValidator GetValidator();
+        IReceiptVoucherDetailValidator GetValidator();
         IList<ReceiptVoucherDetail> GetObjectsByReceiptVoucherId(int receiptVoucherId);
         IList<ReceiptVoucherDetail> GetObjectsByReceivableId(int receivableId);
         ReceiptVoucherDetail GetObjectById(int Id);
