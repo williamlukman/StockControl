@@ -11,6 +11,7 @@ namespace Core.Interface.Repository
     {
         IList<Receivable> GetAll();
         IList<Receivable> GetObjectByContactId(int contactId);
+        Receivable GetObjectBySource(string ReceivableSource, int ReceivableSourceId); 
         Receivable GetObjectById(int Id);
         Receivable CreateObject(Receivable receivable);
         Receivable UpdateObject(Receivable receivable);

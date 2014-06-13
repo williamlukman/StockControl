@@ -10,6 +10,7 @@ namespace Core.Interface.Repository
     public interface IReceiptVoucherDetailRepository : IRepository<ReceiptVoucherDetail>
     {
         IList<ReceiptVoucherDetail> GetObjectsByReceiptVoucherId(int receiptVoucherId);
+        IList<ReceiptVoucherDetail> GetObjectsByReceivableId(int receivableId);
         ReceiptVoucherDetail GetObjectById(int Id);
         ReceiptVoucherDetail CreateObject(ReceiptVoucherDetail receiptVoucherDetail);
         ReceiptVoucherDetail UpdateObject(ReceiptVoucherDetail receiptVoucherDetail);
@@ -17,7 +18,7 @@ namespace Core.Interface.Repository
         bool DeleteObject(int Id);
         ReceiptVoucherDetail ConfirmObject(ReceiptVoucherDetail receiptVoucherDetail);
         ReceiptVoucherDetail UnconfirmObject(ReceiptVoucherDetail receiptVoucherDetail);
-        ReceiptVoucherDetail FulfilObject(ReceiptVoucherDetail receiptVoucherDetail);
-
+        ReceiptVoucherDetail ClearObject(ReceiptVoucherDetail receiptVoucherDetail);
+        ReceiptVoucherDetail UnclearObject(ReceiptVoucherDetail receiptVoucherDetail);
     }
 }
