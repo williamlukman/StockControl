@@ -74,14 +74,12 @@ namespace Service.Service
 
         public PaymentVoucherDetail UpdateObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, ICashBankService _cashBankService)
         {
-            paymentVoucherDetail.Errors.Clear();
             return (_validator.ValidUpdateObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService) ?
                      _repository.UpdateObject(paymentVoucherDetail) : paymentVoucherDetail);
         }
 
         public PaymentVoucherDetail SoftDeleteObject(PaymentVoucherDetail paymentVoucherDetail)
         {
-            paymentVoucherDetail.Errors.Clear();
             return (_validator.ValidDeleteObject(paymentVoucherDetail) ? _repository.SoftDeleteObject(paymentVoucherDetail) : paymentVoucherDetail);
         }
 
@@ -93,7 +91,6 @@ namespace Service.Service
         public PaymentVoucherDetail ConfirmObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService,
                                                   ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
         {
-            paymentVoucherDetail.Errors.Clear();
             if (_validator.ValidConfirmObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService, _payableService))
             {
                 PaymentVoucher pv = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
@@ -124,7 +121,6 @@ namespace Service.Service
         public PaymentVoucherDetail UnconfirmObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService,
                                                     ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
         {
-            paymentVoucherDetail.Errors.Clear();
             if (_validator.ValidUnconfirmObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService, _payableService))
             {
                 PaymentVoucher pv = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
@@ -155,7 +151,6 @@ namespace Service.Service
         public PaymentVoucherDetail ClearObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService,
                                                 ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
         {
-            paymentVoucherDetail.Errors.Clear();
             if (_validator.ValidClearObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService, _payableService))
             {
                 if (!paymentVoucherDetail.IsInstantClearance)
@@ -181,7 +176,6 @@ namespace Service.Service
         public PaymentVoucherDetail UnclearObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService,
                                                     ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
         {
-            paymentVoucherDetail.Errors.Clear();
             if (_validator.ValidUnclearObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService, _payableService))
             {
                 if (!paymentVoucherDetail.IsInstantClearance)

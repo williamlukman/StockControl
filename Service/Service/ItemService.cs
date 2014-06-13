@@ -66,13 +66,11 @@ namespace Service.Service
 
         public Item UpdateObject(Item item)
         {
-            item.Errors.Clear();
             return (_validator.ValidUpdateObject(item, this) ? _repository.UpdateObject(item) : item);
         }
 
         public Item SoftDeleteObject(Item item, IStockMutationService _stockMutationService)
         {
-            item.Errors.Clear();
             return (_validator.ValidDeleteObject(item, _stockMutationService) ? _repository.SoftDeleteObject(item) : item);
         }
 

@@ -79,14 +79,12 @@ namespace Service.Service
                                                     IPurchaseReceivalService _purchaseReceivalService, IPurchaseOrderDetailService _purchaseOrderDetailService,
                                                     IPurchaseOrderService _purchaseOrderService, IItemService _itemService, IContactService _contactService)
         {
-            purchaseReceivalDetail.Errors.Clear();
             return (_validator.ValidUpdateObject(purchaseReceivalDetail, this, _purchaseReceivalService, _purchaseOrderDetailService, _purchaseOrderService, _itemService, _contactService) ?
                     _repository.UpdateObject(purchaseReceivalDetail) : purchaseReceivalDetail);
         }
 
         public PurchaseReceivalDetail SoftDeleteObject(PurchaseReceivalDetail purchaseReceivalDetail)
         {
-            purchaseReceivalDetail.Errors.Clear();
             return (_validator.ValidDeleteObject(purchaseReceivalDetail) ? _repository.SoftDeleteObject(purchaseReceivalDetail) : purchaseReceivalDetail);
         }
 
@@ -97,7 +95,6 @@ namespace Service.Service
 
         public PurchaseReceivalDetail ConfirmObject(PurchaseReceivalDetail purchaseReceivalDetail, IPurchaseOrderDetailService _purchaseOrderDetailService, IStockMutationService _stockMutationService, IItemService _itemService)
         {
-            purchaseReceivalDetail.Errors.Clear();
             if (_validator.ValidConfirmObject(purchaseReceivalDetail))
             {
                 purchaseReceivalDetail = _repository.ConfirmObject(purchaseReceivalDetail);
@@ -114,7 +111,6 @@ namespace Service.Service
 
         public PurchaseReceivalDetail UnconfirmObject(PurchaseReceivalDetail purchaseReceivalDetail, IPurchaseOrderDetailService _purchaseOrderDetailService, IStockMutationService _stockMutationService, IItemService _itemService)
         {
-            purchaseReceivalDetail.Errors.Clear();
             if (_validator.ValidUnconfirmObject(purchaseReceivalDetail, this, _itemService))
             {
                 purchaseReceivalDetail = _repository.UnconfirmObject(purchaseReceivalDetail);

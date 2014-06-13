@@ -37,9 +37,9 @@ namespace Service.Service
             return _repository.GetObjectById(Id);
         }
 
-        public CashBank GetObjectByName(string name)
+        public CashBank GetObjectByName(string Name)
         {
-            return _repository.FindAll(c => c.Name == name && !c.IsDeleted).FirstOrDefault();
+            return _repository.GetObjectByName(Name);
         }
 
         public CashBank CreateObject(string name, string description, bool isBank, decimal amount)
@@ -56,19 +56,17 @@ namespace Service.Service
 
         public CashBank CreateObject(CashBank cashBank)
         {
-            cashBank.Errors = new Dictionary<String, String>();
+            cashBank.Errors = new Dictionary<string, string>();
             return (_validator.ValidCreateObject(cashBank, this) ? _repository.CreateObject(cashBank) : cashBank);
         }
 
         public CashBank UpdateObject(CashBank cashBank)
         {
-            cashBank.Errors.Clear();
             return (cashBank = _validator.ValidUpdateObject(cashBank, this) ? _repository.UpdateObject(cashBank) : cashBank);
         }
 
         public CashBank SoftDeleteObject(CashBank cashBank, IReceiptVoucherService _rvs, IPaymentVoucherService _pvs)
         {
-            cashBank.Errors.Clear();
             return (cashBank = _validator.ValidDeleteObject(cashBank, this, _rvs, _pvs) ? _repository.SoftDeleteObject(cashBank) : cashBank);
         }
 

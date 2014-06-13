@@ -66,14 +66,12 @@ namespace Service.Service
 
         public PurchaseInvoiceDetail UpdateObject(PurchaseInvoiceDetail purchaseInvoiceDetail, IPurchaseReceivalDetailService _prds)
         {
-            purchaseInvoiceDetail.Errors.Clear();
             return (_validator.ValidUpdateObject(purchaseInvoiceDetail, this, _prds) ?
                      _repository.UpdateObject(purchaseInvoiceDetail) : purchaseInvoiceDetail);
         }
 
         public PurchaseInvoiceDetail SoftDeleteObject(PurchaseInvoiceDetail purchaseInvoiceDetail)
         {
-            purchaseInvoiceDetail.Errors.Clear();
             return (_validator.ValidDeleteObject(purchaseInvoiceDetail) ? _repository.SoftDeleteObject(purchaseInvoiceDetail) : purchaseInvoiceDetail);
         }
 
@@ -84,7 +82,6 @@ namespace Service.Service
 
         public PurchaseInvoiceDetail ConfirmObject(PurchaseInvoiceDetail purchaseInvoiceDetail, IPurchaseInvoiceDetailService _pids, IPurchaseReceivalDetailService _prds)
         {
-            purchaseInvoiceDetail.Errors.Clear();
             if (_validator.ValidConfirmObject(purchaseInvoiceDetail, _pids, _prds))
             {
                 purchaseInvoiceDetail = _repository.ConfirmObject(purchaseInvoiceDetail);
@@ -94,7 +91,6 @@ namespace Service.Service
 
         public PurchaseInvoiceDetail UnconfirmObject(PurchaseInvoiceDetail purchaseInvoiceDetail, IPaymentVoucherDetailService _pvds, IPayableService _payableService)
         {
-            purchaseInvoiceDetail.Errors.Clear();
             if (_validator.ValidUnconfirmObject(purchaseInvoiceDetail, _pvds, _payableService))
             {
                 purchaseInvoiceDetail = _repository.UnconfirmObject(purchaseInvoiceDetail);

@@ -59,13 +59,11 @@ namespace Service.Service
 
         public PurchaseReceival UpdateObject(PurchaseReceival purchaseReceival, IContactService _contactService)
         {
-            purchaseReceival.Errors.Clear();
             return (_validator.ValidUpdateObject(purchaseReceival, _contactService) ? _repository.UpdateObject(purchaseReceival) : purchaseReceival);
         }
 
         public PurchaseReceival SoftDeleteObject(PurchaseReceival purchaseReceival, IPurchaseReceivalDetailService _purchaseReceivalDetailService)
         {
-            purchaseReceival.Errors.Clear();
             return (_validator.ValidDeleteObject(purchaseReceival, _purchaseReceivalDetailService) ? _repository.SoftDeleteObject(purchaseReceival) : purchaseReceival);
         }
 
@@ -77,7 +75,6 @@ namespace Service.Service
         public PurchaseReceival ConfirmObject(PurchaseReceival purchaseReceival, IPurchaseReceivalDetailService _purchaseReceivalDetailService,
                                                 IPurchaseOrderDetailService _purchaseOrderDetailService, IStockMutationService _stockMutationService, IItemService _itemService)
         {
-            purchaseReceival.Errors.Clear();
             if (_validator.ValidConfirmObject(purchaseReceival, _purchaseReceivalDetailService))
             {
                 _repository.ConfirmObject(purchaseReceival);
@@ -96,7 +93,6 @@ namespace Service.Service
         public PurchaseReceival UnconfirmObject(PurchaseReceival purchaseReceival, IPurchaseReceivalDetailService _purchaseReceivalDetailService,
                                                 IPurchaseOrderDetailService _purchaseOrderDetailService, IStockMutationService _stockMutationService, IItemService _itemService)
         {
-            purchaseReceival.Errors.Clear();
             if (_validator.ValidUnconfirmObject(purchaseReceival, _purchaseReceivalDetailService, _itemService))
             {
                 _repository.UnconfirmObject(purchaseReceival);

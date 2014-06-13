@@ -63,20 +63,18 @@ namespace Service.Service
                 ContactId = contactId,
                 PaymentDate = paymentDate,
                 TotalAmount = totalAmount,
-                PendingClearanceAmount = 0
+                PendingClearanceAmount = totalAmount
             };
             return this.CreateObject(pv, _paymentVoucherDetailService, _payableService, _contactService);
         }
 
         public PaymentVoucher UpdateObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService, IPayableService _payableService, IContactService _contactService)
         {
-            paymentVoucher.Errors.Clear();
             return (_validator.ValidUpdateObject(paymentVoucher, this, _paymentVoucherDetailService, _payableService, _contactService) ? _repository.UpdateObject(paymentVoucher) : paymentVoucher);
         }
 
         public PaymentVoucher SoftDeleteObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService)
         {
-            paymentVoucher.Errors.Clear();
             return (_validator.ValidDeleteObject(paymentVoucher, _paymentVoucherDetailService) ? _repository.SoftDeleteObject(paymentVoucher) : paymentVoucher);
         }
 
@@ -88,7 +86,6 @@ namespace Service.Service
         public PaymentVoucher ConfirmObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService,
                                             ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
         {
-            paymentVoucher.Errors.Clear();
             if (_validator.ValidConfirmObject(paymentVoucher, this, _paymentVoucherDetailService, _cashBankService, _payableService, _contactService))
             {
                 _repository.ConfirmObject(paymentVoucher);
@@ -105,7 +102,6 @@ namespace Service.Service
         public PaymentVoucher UnconfirmObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService,
                                             ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
         {
-            paymentVoucher.Errors.Clear();
             if (_validator.ValidUnconfirmObject(paymentVoucher, this, _paymentVoucherDetailService, _cashBankService, _payableService, _contactService))
             {
                 _repository.UnconfirmObject(paymentVoucher);
