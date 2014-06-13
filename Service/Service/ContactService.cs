@@ -60,11 +60,13 @@ namespace Service.Service
 
         public Contact UpdateObject(Contact contact)
         {
+            contact.Errors.Clear();
             return (contact = _validator.ValidUpdateObject(contact) ? _repository.UpdateObject(contact) : contact);
         }
 
         public Contact SoftDeleteObject(Contact contact, IPurchaseOrderService _pos, IPurchaseReceivalService _prs, ISalesOrderService _sos, IDeliveryOrderService _dos)
         {
+            contact.Errors.Clear();
             return (contact = _validator.ValidDeleteObject(contact, _pos, _prs, _sos, _dos) ? _repository.SoftDeleteObject(contact) : contact);
         }
 

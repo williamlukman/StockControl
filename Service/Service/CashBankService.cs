@@ -62,11 +62,13 @@ namespace Service.Service
 
         public CashBank UpdateObject(CashBank cashBank)
         {
+            cashBank.Errors.Clear();
             return (cashBank = _validator.ValidUpdateObject(cashBank, this) ? _repository.UpdateObject(cashBank) : cashBank);
         }
 
         public CashBank SoftDeleteObject(CashBank cashBank, IReceiptVoucherService _rvs, IPaymentVoucherService _pvs)
         {
+            cashBank.Errors.Clear();
             return (cashBank = _validator.ValidDeleteObject(cashBank, this, _rvs, _pvs) ? _repository.SoftDeleteObject(cashBank) : cashBank);
         }
 

@@ -11,6 +11,7 @@ namespace Core.Interface.Repository
     {
         IList<CashBank> GetAll();
         CashBank GetObjectById(int Id);
+        CashBank GetObjectByName(string Name);
         CashBank CreateObject(CashBank cashBank);
         CashBank UpdateObject(CashBank cashBank);
         CashBank SoftDeleteObject(CashBank cashBank);

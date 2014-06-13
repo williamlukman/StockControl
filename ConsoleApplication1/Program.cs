@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Data.Context;
 using Core.DomainModel;
 using System.Data.Entity;
-using ConsoleApp.DataAccess;
 using Service.Service;
 using Data.Repository;
 using Core.Interface.Repository;
@@ -253,19 +252,7 @@ namespace ConsoleApp
 
         public void flushdb(StockControlEntities db)
         {
-            PurchaseOrderDb.Delete(db, _po, _pod);
-            PurchaseReceivalDb.Delete(db, _pr, _prd);
-            SalesOrderDb.Delete(db, _so, _sod);
-            DeliveryOrderDb.Delete(db, _do, _dod);
-            StockMutationDb.Delete(db, _sm);
-            StockAdjustmentDb.Delete(db, _sa, _sad);
-            CashBankDb.Delete(db, _cb);
-            PurchaseInvoiceDb.Delete(db, _pi, _pid);
-
-            // item and contact must be the last two deleted
-            ItemDb.Delete(db, _i);
-            ContactDb.Delete(db, _c);
-            //PaymentVoucherDb.Delete(db, _pv, _pvd;
+            db.DeleteAllTables();
             Console.WriteLine("[Clean] Database is clean");
         }
     }

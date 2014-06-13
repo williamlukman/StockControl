@@ -67,11 +67,13 @@ namespace Service.Service
 
         public Payable UpdateObject(Payable payable)
         {
+            payable.Errors.Clear();
             return (_validator.ValidUpdateObject(payable, this) ? _repository.UpdateObject(payable) : payable);
         }
 
         public Payable SoftDeleteObject(Payable payable)
         {
+            payable.Errors.Clear();
             return (_validator.ValidDeleteObject(payable) ? _repository.SoftDeleteObject(payable) : payable);
         }
 

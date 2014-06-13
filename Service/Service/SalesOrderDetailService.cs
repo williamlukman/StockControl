@@ -66,11 +66,13 @@ namespace Service.Service
 
         public SalesOrderDetail UpdateObject(SalesOrderDetail salesOrderDetail, ISalesOrderService _salesOrderService, IItemService _itemService)
         {
+            salesOrderDetail.Errors.Clear();
             return (_validator.ValidUpdateObject(salesOrderDetail, this, _salesOrderService, _itemService) ? _repository.UpdateObject(salesOrderDetail) : salesOrderDetail);
         }
 
         public SalesOrderDetail SoftDeleteObject(SalesOrderDetail salesOrderDetail)
         {
+            salesOrderDetail.Errors.Clear();
             return (_validator.ValidDeleteObject(salesOrderDetail) ? _repository.SoftDeleteObject(salesOrderDetail) : salesOrderDetail);
         }
 
@@ -81,6 +83,7 @@ namespace Service.Service
 
         public SalesOrderDetail ConfirmObject(SalesOrderDetail salesOrderDetail, IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            salesOrderDetail.Errors.Clear();
             if (_validator.ValidConfirmObject(salesOrderDetail))
             {
                 salesOrderDetail = _repository.ConfirmObject(salesOrderDetail);
@@ -94,6 +97,7 @@ namespace Service.Service
 
         public SalesOrderDetail UnconfirmObject(SalesOrderDetail salesOrderDetail, IDeliveryOrderDetailService _deliveryOrderDetailService, IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            salesOrderDetail.Errors.Clear();
             if (_validator.ValidUnconfirmObject(salesOrderDetail, this, _deliveryOrderDetailService, _itemService))
             {
                 salesOrderDetail = _repository.UnconfirmObject(salesOrderDetail);

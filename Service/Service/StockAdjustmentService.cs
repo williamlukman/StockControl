@@ -53,11 +53,13 @@ namespace Service.Service
 
         public StockAdjustment UpdateObject(StockAdjustment stockAdjustment)
         {
+            stockAdjustment.Errors.Clear();
             return (_validator.ValidUpdateObject(stockAdjustment) ? _repository.UpdateObject(stockAdjustment) : stockAdjustment);
         }
 
         public StockAdjustment SoftDeleteObject(StockAdjustment stockAdjustment, IStockAdjustmentDetailService _stockAdjustmentDetailService)
         {
+            stockAdjustment.Errors.Clear();
             return (_validator.ValidDeleteObject(stockAdjustment) ? _repository.SoftDeleteObject(stockAdjustment) : stockAdjustment);
         }
 
@@ -68,6 +70,7 @@ namespace Service.Service
 
         public StockAdjustment ConfirmObject(StockAdjustment stockAdjustment, IStockAdjustmentDetailService _stockAdjustmentDetailService, IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            stockAdjustment.Errors.Clear();
             if (_validator.ValidConfirmObject(stockAdjustment, _stockAdjustmentDetailService, _itemService))
             {
                 _repository.ConfirmObject(stockAdjustment);
@@ -84,6 +87,7 @@ namespace Service.Service
         public StockAdjustment UnconfirmObject(StockAdjustment stockAdjustment, IStockAdjustmentDetailService _stockAdjustmentDetailService,
                                                IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            stockAdjustment.Errors.Clear();
             if (_validator.ValidUnconfirmObject(stockAdjustment, _stockAdjustmentDetailService, _itemService))
             {
                 _repository.UnconfirmObject(stockAdjustment);

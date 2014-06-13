@@ -15,7 +15,23 @@ namespace Data.Context
         {
             Database.SetInitializer<StockControlEntities>(new DropCreateDatabaseIfModelChanges<StockControlEntities>());
         }
-        
+
+        public void DeleteAllTables()
+        {
+            IList<String> tableNames = new List<String>()
+            {"PaymentVoucherDetail", "PaymentVoucher", "Payable", "PurchaseInvoiceDetail", "PurchaseInvoice",
+             "ReceiptVoucherDetail", "ReceiptVoucher", "Receivable", "SalesInvoiceDetail", "SalesInvoice",
+             "CashBank",
+             "DeliveryOrderDetail", "DeliveryOrder", "SalesOrderDetail", "SalesOrder",
+             "PurchaseReceivalDetail", "PurchaseReceival", "PurchaseOrderDetail", "PurchaseOrder",
+             "StockAdjustmentDetail", "StockAdjustment", "StockMutation", "Contact", "Item"};
+
+            foreach (var tableName in tableNames)
+            {
+                Database.ExecuteSqlCommand(string.Format("DELETE FROM {0}", tableName));
+            }
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

@@ -59,11 +59,13 @@ namespace Service.Service
 
         public PurchaseOrder UpdateObject(PurchaseOrder purchaseOrder, IContactService _contactService)
         {
+            purchaseOrder.Errors.Clear();
             return (_validator.ValidUpdateObject(purchaseOrder, _contactService) ? _repository.UpdateObject(purchaseOrder) : purchaseOrder);
         }
 
         public PurchaseOrder SoftDeleteObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _purchaseOrderDetailService)
         {
+            purchaseOrder.Errors.Clear();
             return (_validator.ValidDeleteObject(purchaseOrder, _purchaseOrderDetailService) ? _repository.SoftDeleteObject(purchaseOrder) : purchaseOrder);
         }
 
@@ -75,6 +77,7 @@ namespace Service.Service
         public PurchaseOrder ConfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _purchaseOrderDetailService,
                                     IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            purchaseOrder.Errors.Clear();
             if (_validator.ValidConfirmObject(purchaseOrder, _purchaseOrderDetailService))
             {
                 _repository.ConfirmObject(purchaseOrder);
@@ -91,6 +94,7 @@ namespace Service.Service
         public PurchaseOrder UnconfirmObject(PurchaseOrder purchaseOrder, IPurchaseOrderDetailService _purchaseOrderDetailService,
                                     IPurchaseReceivalDetailService _purchaseReceivalDetailService, IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            purchaseOrder.Errors.Clear();
             if (_validator.ValidUnconfirmObject(purchaseOrder, _purchaseOrderDetailService, _purchaseReceivalDetailService, _itemService))
             {
                 _repository.UnconfirmObject(purchaseOrder);

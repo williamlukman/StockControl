@@ -27,7 +27,14 @@ namespace Data.Repository
 
         public CashBank GetObjectById(int Id)
         {
-            CashBank cb = Find(x => x.Id == Id);
+            CashBank cb = Find(x => x.Id == Id && !x.IsDeleted);
+            if (cb != null) { cb.Errors = new Dictionary<string, string>(); }
+            return cb;
+        }
+
+        public CashBank GetObjectByName(string Name)
+        {
+            CashBank cb = Find(x => x.Name == Name && !x.IsDeleted);
             if (cb != null) { cb.Errors = new Dictionary<string, string>(); }
             return cb;
         }

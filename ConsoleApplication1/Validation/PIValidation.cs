@@ -1,4 +1,4 @@
-﻿using ConsoleApp.DataAccess;
+﻿
 using Core.DomainModel;
 using Core.Interface.Service;
 using Core.Interface.Validation;

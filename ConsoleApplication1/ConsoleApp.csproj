@@ -53,20 +53,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\ContactDb.cs" />
-    <Compile Include="DataAccess\CashBankDb.cs" />
-    <Compile Include="DataAccess\PurchaseInvoiceDb.cs" />
-    <Compile Include="DataAccess\StockAdjustmentDb.cs" />
-    <Compile Include="DataAccess\DeliveryOrderDetailDb.cs" />
-    <Compile Include="DataAccess\DeliveryOrderDb.cs" />
-    <Compile Include="DataAccess\SalesOrderDetailDb.cs" />
-    <Compile Include="DataAccess\SalesOrderDb.cs" />
-    <Compile Include="DataAccess\StockMutationDb.cs" />
-    <Compile Include="DataAccess\PurchaseReceivalDetailDb.cs" />
-    <Compile Include="DataAccess\PurchaseReceivalDb.cs" />
-    <Compile Include="DataAccess\PurchaseOrderDetailDb.cs" />
-    <Compile Include="DataAccess\PurchaseOrderDb.cs" />
-    <Compile Include="DataAccess\ItemDb.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\ContactValidation.cs" />

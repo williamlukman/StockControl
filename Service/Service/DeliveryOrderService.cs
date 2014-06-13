@@ -59,11 +59,13 @@ namespace Service.Service
 
         public DeliveryOrder UpdateObject(DeliveryOrder deliveryOrder, IContactService _cs)
         {
+            deliveryOrder.Errors.Clear();
             return (_validator.ValidUpdateObject(deliveryOrder, _cs) ? _do.UpdateObject(deliveryOrder) : deliveryOrder);
         }
 
         public DeliveryOrder SoftDeleteObject(DeliveryOrder deliveryOrder, IDeliveryOrderDetailService _dods)
         {
+            deliveryOrder.Errors.Clear();
             return (_validator.ValidDeleteObject(deliveryOrder, _dods) ? _do.SoftDeleteObject(deliveryOrder) : deliveryOrder);
         }
 
@@ -75,6 +77,7 @@ namespace Service.Service
         public DeliveryOrder ConfirmObject(DeliveryOrder deliveryOrder, IDeliveryOrderDetailService _dods,
                                     ISalesOrderDetailService _sods, IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            deliveryOrder.Errors.Clear();
             if (_validator.ValidConfirmObject(deliveryOrder, _dods, _itemService))
             {
                 IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(deliveryOrder.Id);
@@ -94,6 +97,7 @@ namespace Service.Service
         public DeliveryOrder UnconfirmObject(DeliveryOrder deliveryOrder, IDeliveryOrderDetailService _deliveryOrderDetailService,
                                     IStockMutationService _stockMutationService, IItemService _itemService)
         {
+            deliveryOrder.Errors.Clear();
             if (_validator.ValidUnconfirmObject(deliveryOrder, _deliveryOrderDetailService, _itemService))
             {
                 IList<DeliveryOrderDetail> details = _deliveryOrderDetailService.GetObjectsByDeliveryOrderId(deliveryOrder.Id);
