@@ -84,12 +84,14 @@ namespace Validation.Validation
                 IList<PurchaseReceivalDetail> details = _prds.GetObjectsByPurchaseReceivalId(pr.Id);
                 foreach (var detail in details)
                 {
-                    _prds.GetValidator().ValidConfirmObject(detail);
-                    foreach (var error in detail.Errors)
+                    if (!_prds.GetValidator().ValidConfirmObject(detail))
                     {
-                        pr.Errors.Add(error.Key, error.Value);
+                        foreach (var error in detail.Errors)
+                        {
+                            pr.Errors.Add(error.Key, error.Value);
+                        }
+                        if (pr.Errors.Any()) { return pr; }
                     }
-                    if (pr.Errors.Any()) { return pr; }
                 }
             }
             return pr;
@@ -102,12 +104,14 @@ namespace Validation.Validation
                 IList<PurchaseReceivalDetail> details = _prds.GetObjectsByPurchaseReceivalId(pr.Id);
                 foreach (var detail in details)
                 {
-                    _prds.GetValidator().ValidUnconfirmObject(detail, _prds, _is);
-                    foreach (var error in detail.Errors)
+                    if (!_prds.GetValidator().ValidUnconfirmObject(detail, _prds, _is))
                     {
-                        pr.Errors.Add(error.Key, error.Value);
+                        foreach (var error in detail.Errors)
+                        {
+                            pr.Errors.Add(error.Key, error.Value);
+                        }
+                        if (pr.Errors.Any()) { return pr; }
                     }
-                    if (pr.Errors.Any()) { return pr; }
                 }
             }
 

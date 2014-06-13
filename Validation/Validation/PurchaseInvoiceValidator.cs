@@ -102,12 +102,14 @@ namespace Validation.Validation
                 IList<PurchaseInvoiceDetail> details = _pids.GetObjectsByPurchaseInvoiceId(pi.Id);
                 foreach (var detail in details)
                 {
-                    _pids.GetValidator().ValidUnconfirmObject(detail, _pvds, _payableService);
-                    foreach (var error in detail.Errors)
+                    if (!_pids.GetValidator().ValidUnconfirmObject(detail, _pvds, _payableService))
                     {
-                        pi.Errors.Add(error.Key, error.Value);
+                        foreach (var error in detail.Errors)
+                        {
+                            pi.Errors.Add(error.Key, error.Value);
+                        }
+                        if (pi.Errors.Any()) { return pi; }
                     }
-                    if (pi.Errors.Any()) { return pi; }
                 }
             }
 

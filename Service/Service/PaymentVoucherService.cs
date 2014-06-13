@@ -47,15 +47,15 @@ namespace Service.Service
         }
 
         public PaymentVoucher CreateObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService,
-                                            IPayableService _payableService, IContactService _contactService)
+                                            IPayableService _payableService, IContactService _contactService, ICashBankService _cashBankService)
         {
             paymentVoucher.Errors = new Dictionary<String, String>();
-            return (_validator.ValidCreateObject(paymentVoucher, this, _paymentVoucherDetailService, _payableService, _contactService) ? _repository.CreateObject(paymentVoucher) : paymentVoucher);
+            return (_validator.ValidCreateObject(paymentVoucher, this, _paymentVoucherDetailService, _payableService, _contactService, _cashBankService) ? _repository.CreateObject(paymentVoucher) : paymentVoucher);
         }
 
         public PaymentVoucher CreateObject(int cashBankId, int contactId, DateTime paymentDate, decimal totalAmount,
                                             IPaymentVoucherDetailService _paymentVoucherDetailService, IPayableService _payableService,
-                                            IContactService _contactService)
+                                            IContactService _contactService, ICashBankService _cashBankService)
         {
             PaymentVoucher pv = new PaymentVoucher
             {
@@ -65,12 +65,12 @@ namespace Service.Service
                 TotalAmount = totalAmount,
                 PendingClearanceAmount = totalAmount
             };
-            return this.CreateObject(pv, _paymentVoucherDetailService, _payableService, _contactService);
+            return this.CreateObject(pv, _paymentVoucherDetailService, _payableService, _contactService, _cashBankService);
         }
 
-        public PaymentVoucher UpdateObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService, IPayableService _payableService, IContactService _contactService)
+        public PaymentVoucher UpdateObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService, IPayableService _payableService, IContactService _contactService, ICashBankService _cashBankService)
         {
-            return (_validator.ValidUpdateObject(paymentVoucher, this, _paymentVoucherDetailService, _payableService, _contactService) ? _repository.UpdateObject(paymentVoucher) : paymentVoucher);
+            return (_validator.ValidUpdateObject(paymentVoucher, this, _paymentVoucherDetailService, _payableService, _contactService, _cashBankService) ? _repository.UpdateObject(paymentVoucher) : paymentVoucher);
         }
 
         public PaymentVoucher SoftDeleteObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService)

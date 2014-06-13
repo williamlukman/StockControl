@@ -102,12 +102,14 @@ namespace Validation.Validation
                 IList<SalesOrderDetail> details = _sods.GetObjectsBySalesOrderId(so.Id);
                 foreach (var detail in details)
                 {
-                    _sods.GetValidator().ValidUnconfirmObject(detail, _sods, _dods, _is);
-                    foreach(var error in detail.Errors)
+                    if (!_sods.GetValidator().ValidUnconfirmObject(detail, _sods, _dods, _is))
                     {
-                        so.Errors.Add(error.Key, error.Value);
+                        foreach (var error in detail.Errors)
+                        {
+                            so.Errors.Add(error.Key, error.Value);
+                        }
+                        if (so.Errors.Any()) { return so; }
                     }
-                    if (so.Errors.Any()) { return so; }
                 }
             }
             return so;

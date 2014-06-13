@@ -118,12 +118,14 @@ namespace Validation.Validation
                 IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(d.Id);
                 foreach (var detail in details)
                 {
-                    _dods.GetValidator().ValidUnconfirmObject(detail, _dods, _is);
-                    foreach (var error in detail.Errors)
+                    if (!_dods.GetValidator().ValidUnconfirmObject(detail, _dods, _is))
                     {
-                        d.Errors.Add(error.Key, error.Value);
+                        foreach (var error in detail.Errors)
+                        {
+                            d.Errors.Add(error.Key, error.Value);
+                        }
+                        if (d.Errors.Any()) { return d; }
                     }
-                    if (d.Errors.Any()) { return d; }
                 }
             }
 

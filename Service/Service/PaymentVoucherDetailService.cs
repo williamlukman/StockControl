@@ -42,10 +42,11 @@ namespace Service.Service
             return _repository.GetObjectById(Id);
         }
 
-        public PaymentVoucherDetail CreateObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, ICashBankService _cashBankService)
+        public PaymentVoucherDetail CreateObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService,
+                                                ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
         {
             paymentVoucherDetail.Errors = new Dictionary<String, String>();
-            if (_validator.ValidCreateObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService))
+            if (_validator.ValidCreateObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService, _payableService, _contactService))
             {
                 paymentVoucherDetail.ContactId = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId).ContactId;
                 return _repository.CreateObject(paymentVoucherDetail);
@@ -58,7 +59,8 @@ namespace Service.Service
 
         public PaymentVoucherDetail CreateObject(int paymentVoucherId, int payableId, int contactId,
                                                  decimal amount, string description, bool isInstantClearance,
-                                                 PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, ICashBankService _cashBankService)
+                                                 PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, ICashBankService _cashBankService,
+                                                 IPayableService _payableService, IContactService _contactService)
         {
             PaymentVoucherDetail pvd = new PaymentVoucherDetail
             {
@@ -69,12 +71,12 @@ namespace Service.Service
                 Description = description,
                 IsInstantClearance = isInstantClearance
             };
-            return this.CreateObject(pvd, _paymentVoucherService, _cashBankService);
+            return this.CreateObject(pvd, _paymentVoucherService, _cashBankService, _payableService, _contactService);
         }
 
-        public PaymentVoucherDetail UpdateObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, ICashBankService _cashBankService)
+        public PaymentVoucherDetail UpdateObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
         {
-            return (_validator.ValidUpdateObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService) ?
+            return (_validator.ValidUpdateObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService, _payableService, _contactService) ?
                      _repository.UpdateObject(paymentVoucherDetail) : paymentVoucherDetail);
         }
 
@@ -109,7 +111,7 @@ namespace Service.Service
                 {
                     payable.PendingClearanceAmount += paymentVoucherDetail.Amount;
                     pv.PendingClearanceAmount += paymentVoucherDetail.Amount;
-                    _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService);
+                    _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService, _cashBankService);
                 }
                 payable.RemainingAmount -= paymentVoucherDetail.Amount;
                 _payableService.UpdateObject(payable);
@@ -139,7 +141,7 @@ namespace Service.Service
                 {
                     payable.PendingClearanceAmount -= paymentVoucherDetail.Amount;
                     pv.PendingClearanceAmount -= paymentVoucherDetail.Amount;
-                    _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService);
+                    _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService, _cashBankService);
                 }
                 payable.RemainingAmount += paymentVoucherDetail.Amount;
                 _payableService.UpdateObject(payable);
@@ -165,7 +167,7 @@ namespace Service.Service
                     payable.CompletionDate = paymentVoucherDetail.ClearanceDate;
 
                     _cashBankService.UpdateObject(cb);
-                    _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService);
+                    _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService, _cashBankService);
                     _payableService.UpdateObject(payable);
                 }
                 paymentVoucherDetail = _repository.ClearObject(paymentVoucherDetail);
@@ -190,7 +192,7 @@ namespace Service.Service
                     payable.CompletionDate = null;
 
                     _cashBankService.UpdateObject(cb);
-                    _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService);
+                    _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService, _cashBankService);
                     _payableService.UpdateObject(payable);
                 }
                 paymentVoucherDetail.ClearanceDate = null;

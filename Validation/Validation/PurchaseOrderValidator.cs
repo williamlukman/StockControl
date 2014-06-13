@@ -102,12 +102,14 @@ namespace Validation.Validation
                 IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(po.Id);
                 foreach (var detail in details)
                 {
-                    _pods.GetValidator().ValidUnconfirmObject(detail, _pods, _prds, _is);
-                    foreach (var error in detail.Errors)
+                    if (!_pods.GetValidator().ValidUnconfirmObject(detail, _pods, _prds, _is))
                     {
-                        po.Errors.Add(error.Key, error.Value);
+                        foreach (var error in detail.Errors)
+                        {
+                            po.Errors.Add(error.Key, error.Value);
+                        }
+                        if (po.Errors.Any()) { return po; }
                     }
-                    if (po.Errors.Any()) { return po; }
                 }
             }
 

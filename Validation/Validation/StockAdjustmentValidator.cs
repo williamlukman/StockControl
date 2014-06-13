@@ -72,12 +72,14 @@ namespace Validation.Validation
                 IList<StockAdjustmentDetail> details = _sads.GetObjectsByStockAdjustmentId(sa.Id);
                 foreach (var detail in details)
                 {
-                    _sads.GetValidator().ValidConfirmObject(detail, _is);
-                    foreach (var error in detail.Errors)
+                    if (!_sads.GetValidator().ValidConfirmObject(detail, _is))
                     {
-                        sa.Errors.Add(error.Key, error.Value);
+                        foreach (var error in detail.Errors)
+                        {
+                            sa.Errors.Add(error.Key, error.Value);
+                        }
+                        if (sa.Errors.Any()) { return sa; }
                     }
-                    if (sa.Errors.Any()) { return sa; }
                 }
             }
             return sa;
@@ -90,12 +92,14 @@ namespace Validation.Validation
                 IList<StockAdjustmentDetail> details = _sads.GetObjectsByStockAdjustmentId(sa.Id);
                 foreach (var detail in details)
                 {
-                    _sads.GetValidator().ValidUnconfirmObject(detail, _is);
-                    foreach (var error in detail.Errors)
+                    if (!_sads.GetValidator().ValidUnconfirmObject(detail, _is))
                     {
-                        sa.Errors.Add(error.Key, error.Value);
+                        foreach (var error in detail.Errors)
+                        {
+                            sa.Errors.Add(error.Key, error.Value);
+                        }
+                        if (sa.Errors.Any()) { return sa; }
                     }
-                    if (sa.Errors.Any()) { return sa; }
                 }
             }
 
