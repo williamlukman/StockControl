@@ -12,6 +12,7 @@ namespace Core.DomainModel
         public int PaymentVoucherId { get; set; }
         public int PayableId { get; set; }
         public string Code { get; set; }
+        // ContactId is a derivative from PaymentVoucher
         public int ContactId { get; set; }
 
         public decimal Amount { get; set; }

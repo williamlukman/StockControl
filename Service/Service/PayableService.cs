@@ -60,7 +60,8 @@ namespace Service.Service
                 ContactId = contactId,
                 PayableSource = payableSource,
                 PayableSourceId = payableSourceId,
-                Amount = amount
+                Amount = amount,
+                RemainingAmount = amount
             };
             return this.CreateObject(payable);
         }

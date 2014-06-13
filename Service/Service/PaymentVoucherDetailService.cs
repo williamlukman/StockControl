@@ -48,7 +48,10 @@ namespace Service.Service
             paymentVoucherDetail.Errors = new Dictionary<String, String>();
             if (_validator.ValidCreateObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService, _payableService, _contactService))
             {
-                paymentVoucherDetail.ContactId = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId).ContactId;
+                PaymentVoucher paymentVoucher = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
+                CashBank cashBank = _cashBankService.GetObjectById(paymentVoucher.CashBankId);
+                paymentVoucherDetail.ContactId = paymentVoucher.ContactId;
+                paymentVoucherDetail.IsInstantClearance = (cashBank.IsBank) ? paymentVoucherDetail.IsInstantClearance : true;
                 return _repository.CreateObject(paymentVoucherDetail);
             }
             else
@@ -57,16 +60,28 @@ namespace Service.Service
             }
         }
 
-        public PaymentVoucherDetail CreateObject(int paymentVoucherId, int payableId, int contactId,
-                                                 decimal amount, string description, bool isInstantClearance,
-                                                 PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, ICashBankService _cashBankService,
+        public PaymentVoucherDetail CreateObject(int paymentVoucherId, int payableId, decimal amount, string description, 
+                                         IPaymentVoucherService _paymentVoucherService, ICashBankService _cashBankService,
+                                         IPayableService _payableService, IContactService _contactService)
+        {
+            PaymentVoucherDetail pvd = new PaymentVoucherDetail
+            {
+                PaymentVoucherId = paymentVoucherId,
+                PayableId = payableId,
+                Amount = amount,
+                Description = description,
+            };
+            return this.CreateObject(pvd, _paymentVoucherService, _cashBankService, _payableService, _contactService);
+        }
+
+        public PaymentVoucherDetail CreateObject(int paymentVoucherId, int payableId, decimal amount, string description, bool isInstantClearance,
+                                                 IPaymentVoucherService _paymentVoucherService, ICashBankService _cashBankService,
                                                  IPayableService _payableService, IContactService _contactService)
         {
             PaymentVoucherDetail pvd = new PaymentVoucherDetail
             {
                 PaymentVoucherId = paymentVoucherId,
                 PayableId = payableId,
-                ContactId = contactId,
                 Amount = amount,
                 Description = description,
                 IsInstantClearance = isInstantClearance

@@ -45,7 +45,6 @@ namespace Data.Repository
 
         public Payable CreateObject(Payable payable)
         {
-            payable.RemainingAmount = 0;
             payable.PendingClearanceAmount = 0;
             payable.IsCompleted = false;
             payable.IsDeleted = false;

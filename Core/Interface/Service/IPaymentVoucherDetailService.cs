@@ -15,6 +15,12 @@ namespace Core.Interface.Service
         IList<PaymentVoucherDetail> GetObjectsByPayableId(int payableId);
         PaymentVoucherDetail GetObjectById(int Id);
         PaymentVoucherDetail CreateObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService);
+        PaymentVoucherDetail CreateObject(int paymentVoucherId, int payableId, decimal amount, string description,
+                                            IPaymentVoucherService _paymentVoucherService, ICashBankService _cashBankService,
+                                            IPayableService _payableService, IContactService _contactService);
+        PaymentVoucherDetail CreateObject(int paymentVoucherId, int payableId, decimal amount, string description, bool isInstantClearance,
+                                            IPaymentVoucherService _paymentVoucherService, ICashBankService _cashBankService,
+                                            IPayableService _payableService, IContactService _contactService);
         PaymentVoucherDetail UpdateObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService);
         PaymentVoucherDetail SoftDeleteObject(PaymentVoucherDetail paymentVoucherDetail);
         bool DeleteObject(int Id);

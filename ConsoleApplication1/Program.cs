@@ -56,8 +56,8 @@ namespace ConsoleApp
             _pi = new PurchaseInvoiceService(new PurchaseInvoiceRepository(), new PurchaseInvoiceValidator());
             _pid = new PurchaseInvoiceDetailService(new PurchaseInvoiceDetailRepository(), new PurchaseInvoiceDetailValidator());
             _payable = new PayableService(new PayableRepository(), new PayableValidator());
-            //_pv = new PaymentVoucherService(new PaymentVoucherRepository(), new PaymentVoucherValidator());
-            //_pvd = new PaymentVoucherDetailService(new PaymentVoucherDetailRepository(), new PaymentVoucherDetailValidator());
+            _pv = new PaymentVoucherService(new PaymentVoucherRepository(), new PaymentVoucherValidator());
+            _pvd = new PaymentVoucherDetailService(new PaymentVoucherDetailRepository(), new PaymentVoucherDetailValidator());
 
         }
 
@@ -73,7 +73,6 @@ namespace ConsoleApp
                 p.flushdb(db);
                 
                 // Operational Test
-                
                 p.ValidateContactModel(p, db);
                 p.ValidateItemModel(p, db);
                 p.ValidateStockAdjustmentModel(p, db);
@@ -82,7 +81,8 @@ namespace ConsoleApp
                 
                 // Finance Test
                 p.ValidateCashBankModel(p, db);
-                p.ValidatePurchaseInvoiceModel(p, db, sampleprdid);
+                int samplepiid = p.ValidatePurchaseInvoiceModel(p, db, sampleprdid);
+                p.ValidatePaymentVoucherModel(p, db, samplepiid);
 
                 Console.WriteLine("Press any key to stop...");
                 Console.ReadKey();
@@ -230,7 +230,7 @@ namespace ConsoleApp
             cb.CashBankValidation3();
         }
 
-        public void ValidatePurchaseInvoiceModel(Program p, StockControlEntities db, int sampleprdid)
+        public int ValidatePurchaseInvoiceModel(Program p, StockControlEntities db, int sampleprdid)
         {
             Console.WriteLine("[Purchase Invoice Validation Test]");
             PIValidation piv = new PIValidation(new PurchaseInvoiceValidator(), new PurchaseInvoiceDetailValidator(), 
@@ -243,6 +243,33 @@ namespace ConsoleApp
             int pidid = piv.PIValidation2(piid, sampleprdid);
             piv.PIValidation3(pidid);
             piv.PIValidation4();
+            return piid;
+        }
+
+        public void ValidatePaymentVoucherModel(Program p, StockControlEntities db, int samplepiid)
+        {
+            Console.WriteLine("[Payment Voucher Validation Test]");
+            PVValidation pvv = new PVValidation(
+                               this._pi, this._pid,
+                               this._payable, this._pv, this._pvd,
+                               this._cb,
+                               this._c, this._i, this._sm,
+                               this._po, this._pr, this._so, this._do,
+                               this._pod, this._prd, this._sod, this._dod);
+
+            int payable1 = pvv.PayableValidation1(samplepiid); // 10jt
+            int payable2 = pvv.PayableValidation2(samplepiid); // 5jt
+            int pvId1 = pvv.PVValidation1(); // 20jt
+            int pvdId1a = pvv.PVValidation2a(pvId1, payable1); // 3jt, Payable1
+            int pvdId1b = pvv.PVValidation2b(pvId1, payable2); // 4jt, Payable2
+            int pvdId1c = pvv.PVValidation2c(pvId1, payable1); // 4jt, Payable1
+            int pvId2 = pvv.PVValidation4(); // 7.5jt
+            int pvdId2a = pvv.PVValidation5(pvId2, payable1); // 4jt, Payable 1
+            int pvdId2b = pvv.PVValidation6(pvId2, payable2); // 3.5jt, Payable 2
+            pvv.PVValidation7(pvId1);
+            pvv.PVValidation8(pvId2); // invalid
+            pvv.PVValidation9(pvdId1a);
+            //pvv.PVValidation10(pvdId2a);
         }
 
         public void wait(int second)

@@ -33,20 +33,11 @@ namespace Validation.Validation
             return paymentVoucherDetail;
         }
 
-        public PaymentVoucherDetail VHasContact(PaymentVoucherDetail paymentVoucherDetail, IContactService _contactService)
+        public PaymentVoucherDetail VPayableContactIsTheSame(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, IPayableService _payableService)
         {
-            Contact contact = _contactService.GetObjectById(paymentVoucherDetail.ContactId);
-            if (contact == null)
-            {
-                paymentVoucherDetail.Errors.Add("Contact", "Tidak boleh tidak ada");
-            }
-            return paymentVoucherDetail;
-        }
-
-        public PaymentVoucherDetail VPayableContactIsTheSame(PaymentVoucherDetail paymentVoucherDetail, IPayableService _payableService)
-        {
+            PaymentVoucher paymentVoucher = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
             Payable payable = _payableService.GetObjectById(paymentVoucherDetail.PayableId);
-            if (payable.ContactId != paymentVoucherDetail.ContactId)
+            if (payable.ContactId != paymentVoucher.ContactId)
             {
                 paymentVoucherDetail.Errors.Add("Contact", "Tidak boleh tidak sama dengan Payable");
             }
@@ -68,7 +59,7 @@ namespace Validation.Validation
         {
             PaymentVoucher paymentVoucher = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
             CashBank cashBank = _cashBankService.GetObjectById(paymentVoucher.CashBankId);
-            if (!cashBank.IsBank && !paymentVoucherDetail.IsInstantClearance)
+            if ((!cashBank.IsBank) && (!paymentVoucherDetail.IsInstantClearance))
             {
                 paymentVoucherDetail.Errors.Add("IsInstantClearance", "Harus true untuk pembayaran cash");
             }
@@ -139,8 +130,7 @@ namespace Validation.Validation
         {
             VHasPaymentVoucher(paymentVoucherDetail, _paymentVoucherService);
             VHasPayable(paymentVoucherDetail, _payableService);
-            VHasContact(paymentVoucherDetail, _contactService);
-            VPayableContactIsTheSame(paymentVoucherDetail, _payableService);
+            VPayableContactIsTheSame(paymentVoucherDetail, _paymentVoucherService, _payableService);
             VAmountLessThanCashBank(paymentVoucherDetail, _paymentVoucherService, _cashBankService);
             VCorrectInstantClearance(paymentVoucherDetail, _paymentVoucherService, _cashBankService);
             VNonNegativeOrZeroAmount(paymentVoucherDetail);
@@ -152,8 +142,7 @@ namespace Validation.Validation
             VIsConfirmed(paymentVoucherDetail);
             VHasPaymentVoucher(paymentVoucherDetail, _paymentVoucherService);
             VHasPayable(paymentVoucherDetail, _payableService);
-            VHasContact(paymentVoucherDetail, _contactService);
-            VPayableContactIsTheSame(paymentVoucherDetail, _payableService);
+            VUpdateContactOrPayable(paymentVoucherDetail, _paymentVoucherDetailService);
             VAmountLessThanCashBank(paymentVoucherDetail, _paymentVoucherService, _cashBankService);
             VCorrectInstantClearance(paymentVoucherDetail, _paymentVoucherService, _cashBankService);
             return paymentVoucherDetail;    
