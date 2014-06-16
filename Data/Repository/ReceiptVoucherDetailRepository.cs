@@ -36,6 +36,14 @@ namespace Data.Repository
 
         public ReceiptVoucherDetail CreateObject(ReceiptVoucherDetail receiptVoucherDetail)
         {
+            string ParentCode = "";
+            using (var db = GetContext())
+            {
+                ParentCode = (from obj in db.ReceiptVouchers
+                              where obj.Id == receiptVoucherDetail.ReceiptVoucherId
+                              select obj.Code).FirstOrDefault();
+            }
+            receiptVoucherDetail.Code = SetObjectCode(ParentCode);
             receiptVoucherDetail.IsConfirmed = false;
             receiptVoucherDetail.IsDeleted = false;
             receiptVoucherDetail.CreatedAt = DateTime.Now;
@@ -90,6 +98,14 @@ namespace Data.Repository
             Update(receiptVoucherDetail);
             return receiptVoucherDetail;
         }
+
+        public string SetObjectCode(string ParentCode)
+        {
+            // Code: #{parent_object.code}/#{total_number_objects}
+            int totalobject = FindAll().Count() + 1;
+            string Code = ParentCode + "/#" + totalobject;
+            return Code;
+        } 
 
     }
 }

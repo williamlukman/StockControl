@@ -36,6 +36,14 @@ namespace Data.Repository
 
         public PaymentVoucherDetail CreateObject(PaymentVoucherDetail paymentVoucherDetail)
         {
+            string ParentCode = "";
+            using (var db = GetContext())
+            {
+                ParentCode = (from obj in db.PaymentVouchers
+                              where obj.Id == paymentVoucherDetail.PaymentVoucherId
+                              select obj.Code).FirstOrDefault();
+            }
+            paymentVoucherDetail.Code = SetObjectCode(ParentCode);
             paymentVoucherDetail.IsConfirmed = false;
             paymentVoucherDetail.IsDeleted = false;
             paymentVoucherDetail.CreatedAt = DateTime.Now;
@@ -90,6 +98,14 @@ namespace Data.Repository
             Update(paymentVoucherDetail);
             return paymentVoucherDetail;
         }
+
+        public string SetObjectCode(string ParentCode)
+        {
+            // Code: #{parent_object.code}/#{total_number_objects}
+            int totalobject = FindAll().Count() + 1;
+            string Code = ParentCode + "/#" + totalobject;
+            return Code;
+        } 
 
     }
 }

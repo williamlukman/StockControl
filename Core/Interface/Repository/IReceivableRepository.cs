@@ -17,5 +17,6 @@ namespace Core.Interface.Repository
         Receivable UpdateObject(Receivable receivable);
         Receivable SoftDeleteObject(Receivable receivable);
         bool DeleteObject(int Id);
+        string SetObjectCode();
     }
 }

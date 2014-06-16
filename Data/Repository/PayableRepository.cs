@@ -45,6 +45,7 @@ namespace Data.Repository
 
         public Payable CreateObject(Payable payable)
         {
+            payable.Code = SetObjectCode();
             payable.PendingClearanceAmount = 0;
             payable.IsCompleted = false;
             payable.IsDeleted = false;
@@ -71,6 +72,14 @@ namespace Data.Repository
         {
             Payable payable = Find(x => x.Id == Id);
             return (Delete(payable) == 1) ? true : false;
+        }
+
+        public string SetObjectCode()
+        {
+            // Code: #{year}/#{total_number
+            int totalobject = FindAll().Count() + 1;
+            string Code = "#" + DateTime.Now.Year.ToString() + "/#" + totalobject;
+            return Code;
         }
     }
 }

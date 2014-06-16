@@ -9,6 +9,7 @@ namespace Core.DomainModel
     public partial class SalesOrder
     {
         public int Id { get; set; }
+        public string Code { get; set; }
         public int ContactId { get; set; }
         public DateTime SalesDate { get; set; }
 

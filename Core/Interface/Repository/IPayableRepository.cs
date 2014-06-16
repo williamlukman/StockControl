@@ -17,5 +17,6 @@ namespace Core.Interface.Repository
         Payable UpdateObject(Payable payable);
         Payable SoftDeleteObject(Payable payable);
         bool DeleteObject(int Id);
+        string SetObjectCode();
     }
 }

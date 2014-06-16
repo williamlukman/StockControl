@@ -41,6 +41,7 @@ namespace Data.Repository
 
         public PaymentVoucher CreateObject(PaymentVoucher paymentVoucher)
         {
+            paymentVoucher.Code = SetObjectCode();
             paymentVoucher.IsDeleted = false;
             paymentVoucher.IsConfirmed = false;
             paymentVoucher.CreatedAt = DateTime.Now;
@@ -80,6 +81,14 @@ namespace Data.Repository
             paymentVoucher.IsConfirmed = false;
             Update(paymentVoucher);
             return paymentVoucher;
+        }
+
+        public string SetObjectCode()
+        {
+            // Code: #{year}/#{total_number
+            int totalobject = FindAll().Count() + 1;
+            string Code = "#" + DateTime.Now.Year.ToString() + "/#" + totalobject;
+            return Code;
         }
     }
 }

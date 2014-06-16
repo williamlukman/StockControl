@@ -17,5 +17,6 @@ namespace Core.Interface.Repository
         bool DeleteObject(int Id);
         StockAdjustment ConfirmObject(StockAdjustment stockAdjustment);
         StockAdjustment UnconfirmObject(StockAdjustment stockAdjustment);
+        string SetObjectCode();
     }
 }

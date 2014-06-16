@@ -72,5 +72,13 @@ namespace Data.Repository
             Receivable receivable = Find(x => x.Id == Id);
             return (Delete(receivable) == 1) ? true : false;
         }
+
+        public string SetObjectCode()
+        {
+            // Code: #{year}/#{total_number
+            int totalobject = FindAll().Count() + 1;
+            string Code = "#" + DateTime.Now.Year.ToString() + "/#" + totalobject;
+            return Code;
+        }
     }
 }

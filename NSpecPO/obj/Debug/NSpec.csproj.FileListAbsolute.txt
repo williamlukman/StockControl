@@ -10,8 +10,6 @@ C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\Core.pdb
 C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\Data.pdb
 C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\Service.pdb
 C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\Validation.pdb
-C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\EntityFramework.xml
 C:\Users\Samsung\Documents\GitHub\po\NSpecPO\obj\Debug\NSpec.dll
 C:\Users\Samsung\Documents\GitHub\po\NSpecPO\obj\Debug\NSpec.pdb
-C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\NSpec.dll.CodeAnalysisLog.xml
 C:\Users\Samsung\Documents\GitHub\po\NSpecPO\obj\Debug\NSpec.csprojResolveAssemblyReference.cache

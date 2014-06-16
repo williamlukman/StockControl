@@ -20,5 +20,6 @@ namespace Core.Interface.Repository
         PaymentVoucherDetail UnconfirmObject(PaymentVoucherDetail paymentVoucherDetail);
         PaymentVoucherDetail ClearObject(PaymentVoucherDetail paymentVoucherDetail);
         PaymentVoucherDetail UnclearObject(PaymentVoucherDetail paymentVoucherDetail);
+        string SetObjectCode(string ParentCode);
     }
 }

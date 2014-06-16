@@ -36,6 +36,7 @@ namespace Data.Repository
 
         public PurchaseOrder CreateObject(PurchaseOrder purchaseOrder)
         {
+            purchaseOrder.Code = SetObjectCode();
             purchaseOrder.IsDeleted = false;
             purchaseOrder.IsConfirmed = false;
             purchaseOrder.CreatedAt = DateTime.Now;
@@ -75,6 +76,14 @@ namespace Data.Repository
             purchaseOrder.IsConfirmed = false;
             Update(purchaseOrder);
             return purchaseOrder;
+        }
+
+        public string SetObjectCode()
+        {
+            // Code: #{year}/#{total_number
+            int totalobject = FindAll().Count() + 1;
+            string Code = "#" + DateTime.Now.Year.ToString() + "/#" + totalobject;
+            return Code;
         }
     }
 }

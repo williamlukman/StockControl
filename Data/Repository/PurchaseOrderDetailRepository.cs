@@ -31,6 +31,14 @@ namespace Data.Repository
 
         public PurchaseOrderDetail CreateObject(PurchaseOrderDetail purchaseOrderDetail)
         {
+            string ParentCode = "";
+            using (var db = GetContext())
+            {
+                ParentCode = (from obj in db.PurchaseOrders
+                              where obj.Id == purchaseOrderDetail.PurchaseOrderId
+                              select obj.Code).FirstOrDefault();
+            }
+            purchaseOrderDetail.Code = SetObjectCode(ParentCode);
             purchaseOrderDetail.IsConfirmed = false;
             purchaseOrderDetail.IsFulfilled = false;
             purchaseOrderDetail.IsDeleted = false;
@@ -79,6 +87,14 @@ namespace Data.Repository
             Update(purchaseOrderDetail);
             return purchaseOrderDetail;
         }
+
+        public string SetObjectCode(string ParentCode)
+        {
+            // Code: #{parent_object.code}/#{total_number_objects}
+            int totalobject = FindAll().Count() + 1;
+            string Code = ParentCode + "/#" + totalobject;
+            return Code;
+        } 
 
     }
 }

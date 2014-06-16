@@ -36,6 +36,14 @@ namespace Data.Repository
 
         public PurchaseReceivalDetail CreateObject(PurchaseReceivalDetail purchaseReceivalDetail)
         {
+            string ParentCode = "";
+            using (var db = GetContext())
+            {
+                ParentCode = (from obj in db.PurchaseReceivals
+                              where obj.Id == purchaseReceivalDetail.PurchaseReceivalId
+                              select obj.Code).FirstOrDefault();
+            }
+            purchaseReceivalDetail.Code = SetObjectCode(ParentCode);
             purchaseReceivalDetail.IsConfirmed = false;
             purchaseReceivalDetail.IsDeleted = false;
             purchaseReceivalDetail.CreatedAt = DateTime.Now;
@@ -76,5 +84,14 @@ namespace Data.Repository
             Update(purchaseReceivalDetail);
             return purchaseReceivalDetail;
         }
+
+        public string SetObjectCode(string ParentCode)
+        {
+            // Code: #{parent_object.code}/#{total_number_objects}
+            int totalobject = FindAll().Count() + 1;
+            string Code = ParentCode + "/#" + totalobject;
+            return Code;
+        } 
+
     }
 }

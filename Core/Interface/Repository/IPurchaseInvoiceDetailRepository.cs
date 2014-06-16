@@ -17,5 +17,6 @@ namespace Core.Interface.Repository
         bool DeleteObject(int Id);
         PurchaseInvoiceDetail ConfirmObject(PurchaseInvoiceDetail purchaseInvoiceDetail);
         PurchaseInvoiceDetail UnconfirmObject(PurchaseInvoiceDetail purchaseInvoiceDetail);
+        string SetObjectCode(string ParentCode);
     }
 }

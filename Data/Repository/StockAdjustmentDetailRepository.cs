@@ -31,6 +31,14 @@ namespace Data.Repository
 
         public StockAdjustmentDetail CreateObject(StockAdjustmentDetail stockAdjustmentDetail)
         {
+            string ParentCode = "";
+            using (var db = GetContext())
+            {
+                ParentCode = (from obj in db.StockAdjustments
+                              where obj.Id == stockAdjustmentDetail.StockAdjustmentId
+                              select obj.Code).FirstOrDefault();
+            }
+            stockAdjustmentDetail.Code = SetObjectCode(ParentCode);
             stockAdjustmentDetail.IsConfirmed = false;
             stockAdjustmentDetail.IsDeleted = false;
             stockAdjustmentDetail.CreatedAt = DateTime.Now;
@@ -71,5 +79,14 @@ namespace Data.Repository
             Update(stockAdjustmentDetail);
             return stockAdjustmentDetail;
         }
+
+        public string SetObjectCode(string ParentCode)
+        {
+            // Code: #{parent_object.code}/#{total_number_objects}
+            int totalobject = FindAll().Count() + 1;
+            string Code = ParentCode + "/#" + totalobject;
+            return Code;
+        } 
+
     }
 }

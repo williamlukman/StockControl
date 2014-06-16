@@ -31,6 +31,14 @@ namespace Data.Repository
 
         public SalesInvoiceDetail CreateObject(SalesInvoiceDetail salesInvoiceDetail)
         {
+            string ParentCode = "";
+            using (var db = GetContext())
+            {
+                ParentCode = (from obj in db.SalesInvoices
+                              where obj.Id == salesInvoiceDetail.SalesInvoiceId
+                              select obj.Code).FirstOrDefault();
+            }
+            salesInvoiceDetail.Code = SetObjectCode(ParentCode);
             salesInvoiceDetail.IsConfirmed = false;
             salesInvoiceDetail.IsDeleted = false;
             salesInvoiceDetail.CreatedAt = DateTime.Now;
@@ -71,5 +79,14 @@ namespace Data.Repository
             Update(salesInvoiceDetail);
             return salesInvoiceDetail;
         }
+
+        public string SetObjectCode(string ParentCode)
+        {
+            // Code: #{parent_object.code}/#{total_number_objects}
+            int totalobject = FindAll().Count() + 1;
+            string Code = ParentCode + "/#" + totalobject;
+            return Code;
+        } 
+
     }
 }

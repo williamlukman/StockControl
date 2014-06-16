@@ -31,6 +31,14 @@ namespace Data.Repository
 
         public SalesOrderDetail CreateObject(SalesOrderDetail salesOrderDetail)
         {
+            string ParentCode = "";
+            using (var db = GetContext())
+            {
+                ParentCode = (from obj in db.SalesOrders
+                              where obj.Id == salesOrderDetail.SalesOrderId
+                              select obj.Code).FirstOrDefault();
+            }
+            salesOrderDetail.Code = SetObjectCode(ParentCode);
             salesOrderDetail.IsConfirmed = false;
             salesOrderDetail.IsFulfilled = false;
             salesOrderDetail.IsDeleted = false;
@@ -79,5 +87,14 @@ namespace Data.Repository
             Update(salesOrderDetail);
             return salesOrderDetail;
         }
+
+        public string SetObjectCode(string ParentCode)
+        {
+            // Code: #{parent_object.code}/#{total_number_objects}
+            int totalobject = FindAll().Count() + 1;
+            string Code = ParentCode + "/#" + totalobject;
+            return Code;
+        } 
+
     }
 }

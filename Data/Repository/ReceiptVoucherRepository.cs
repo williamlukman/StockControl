@@ -41,6 +41,7 @@ namespace Data.Repository
 
         public ReceiptVoucher CreateObject(ReceiptVoucher receiptVoucher)
         {
+            receiptVoucher.Code = SetObjectCode();
             receiptVoucher.IsDeleted = false;
             receiptVoucher.IsConfirmed = false;
             receiptVoucher.CreatedAt = DateTime.Now;
@@ -80,6 +81,14 @@ namespace Data.Repository
             receiptVoucher.IsConfirmed = false;
             Update(receiptVoucher);
             return receiptVoucher;
+        }
+
+        public string SetObjectCode()
+        {
+            // Code: #{year}/#{total_number
+            int totalobject = FindAll().Count() + 1;
+            string Code = "#" + DateTime.Now.Year.ToString() + "/#" + totalobject;
+            return Code;
         }
     }
 }

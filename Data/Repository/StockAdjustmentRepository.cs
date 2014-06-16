@@ -31,6 +31,7 @@ namespace Data.Repository
 
         public StockAdjustment CreateObject(StockAdjustment stockAdjustment)
         {
+            stockAdjustment.Code = SetObjectCode();
             stockAdjustment.IsDeleted = false;
             stockAdjustment.IsConfirmed = false;
             stockAdjustment.CreatedAt = DateTime.Now;
@@ -70,6 +71,14 @@ namespace Data.Repository
             stockAdjustment.IsConfirmed = false;
             Update(stockAdjustment);
             return stockAdjustment;
+        }
+
+        public string SetObjectCode()
+        {
+            // Code: #{year}/#{total_number
+            int totalobject = FindAll().Count() + 1;
+            string Code = "#" + DateTime.Now.Year.ToString() + "/#" + totalobject;
+            return Code;
         }
     }
 }

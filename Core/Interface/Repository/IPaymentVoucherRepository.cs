@@ -19,5 +19,6 @@ namespace Core.Interface.Repository
         bool DeleteObject(int Id);
         PaymentVoucher ConfirmObject(PaymentVoucher paymentVoucher);
         PaymentVoucher UnconfirmObject(PaymentVoucher paymentVoucher);
+        string SetObjectCode();
     }
 }

@@ -36,6 +36,7 @@ namespace Data.Repository
 
         public DeliveryOrder CreateObject(DeliveryOrder deliveryOrder)
         {
+            deliveryOrder.Code = SetObjectCode();
             deliveryOrder.IsDeleted = false;
             deliveryOrder.IsConfirmed = false;
             deliveryOrder.CreatedAt = DateTime.Now;
@@ -75,6 +76,14 @@ namespace Data.Repository
             deliveryOrder.IsConfirmed = false;
             Update(deliveryOrder);
             return deliveryOrder;
+        }
+
+        public string SetObjectCode()
+        {
+            // Code: #{year}/#{total_number
+            int totalobject = FindAll().Count() + 1;
+            string Code = "#" + DateTime.Now.Year.ToString() + "/#" + totalobject;
+            return Code;
         }
     }
 }

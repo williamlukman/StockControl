@@ -20,5 +20,6 @@ namespace Core.Interface.Repository
         ReceiptVoucherDetail UnconfirmObject(ReceiptVoucherDetail receiptVoucherDetail);
         ReceiptVoucherDetail ClearObject(ReceiptVoucherDetail receiptVoucherDetail);
         ReceiptVoucherDetail UnclearObject(ReceiptVoucherDetail receiptVoucherDetail);
+        string SetObjectCode(string ParentCode);
     }
 }
