@@ -56,13 +56,14 @@ namespace ConsoleApp.Validation
             if (d.Errors.Any()) { Console.WriteLine("        >> " + _do.GetValidator().PrintError(d)); }
         }
 
-        public void DOValidation2(int salesOrderDetailId)
+        public int DOValidation2(int salesOrderDetailId)
         {
             Console.WriteLine("     [DO 2] Create valid DOD for Michaelangelo");
             int contactId = _c.GetObjectByName("Michaelangelo Buanorotti").Id;
             int doid = _do.GetObjectsByContactId(contactId).FirstOrDefault().Id;
             DeliveryOrderDetail dod1 = _dod.CreateObject(doid, _i.GetObjectByName("Buku Tulis Kiky A5").Id, 100, salesOrderDetailId, _do, _sod, _so, _i, _c);
-            if (dod1.Errors.Any()) { Console.WriteLine("        >> " + _dod.GetValidator().PrintError(dod1)); }
+            if (dod1.Errors.Any()) { Console.WriteLine("        >> " + _dod.GetValidator().PrintError(dod1)); return 0; }
+            return dod1.Id;
         }
 
         public void DOValidation3()

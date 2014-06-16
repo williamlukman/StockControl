@@ -37,6 +37,12 @@ namespace ConsoleApp
         private IPayableService _payable;
         private IPaymentVoucherService _pv;
         private IPaymentVoucherDetailService _pvd;
+        private ISalesInvoiceService _si;
+        private ISalesInvoiceDetailService _sid;
+        private IReceivableService _receivable;
+        private IReceiptVoucherService _rv;
+        private IReceiptVoucherDetailService _rvd;
+
         public Program()
         {
             _c = new ContactService(new ContactRepository(), new ContactValidator());
@@ -58,7 +64,11 @@ namespace ConsoleApp
             _payable = new PayableService(new PayableRepository(), new PayableValidator());
             _pv = new PaymentVoucherService(new PaymentVoucherRepository(), new PaymentVoucherValidator());
             _pvd = new PaymentVoucherDetailService(new PaymentVoucherDetailRepository(), new PaymentVoucherDetailValidator());
-
+            _si = new SalesInvoiceService(new SalesInvoiceRepository(), new SalesInvoiceValidator());
+            _sid = new SalesInvoiceDetailService(new SalesInvoiceDetailRepository(), new SalesInvoiceDetailValidator());
+            _receivable = new ReceivableService(new ReceivableRepository(), new ReceivableValidator());
+            _rv = new ReceiptVoucherService(new ReceiptVoucherRepository(), new ReceiptVoucherValidator());
+            _rvd = new ReceiptVoucherDetailService(new ReceiptVoucherDetailRepository(), new ReceiptVoucherDetailValidator());
         }
 
         public static void Main(string[] args)
@@ -77,13 +87,15 @@ namespace ConsoleApp
                 p.ValidateItemModel(p, db);
                 p.ValidateStockAdjustmentModel(p, db);
                 int sampleprdid = p.ValidateReceivalModel(p, db);
-                p.ValidateDeliveryModel(p, db);
+                int sampledodid = p.ValidateDeliveryModel(p, db);
                 
                 // Finance Test
                 p.ValidateCashBankModel(p, db);
                 int samplepiid = p.ValidatePurchaseInvoiceModel(p, db, sampleprdid);
                 p.ValidatePaymentVoucherModel(p, db, samplepiid);
-
+                int samplesiid = p.ValidateSalesInvoiceModel(p, db, sampledodid);
+                p.ValidateReceiptVoucherModel(p, db, samplesiid);
+ 
                 Console.WriteLine("Press any key to stop...");
                 Console.ReadKey();
             }
@@ -182,7 +194,7 @@ namespace ConsoleApp
             return prdid;
         }
 
-        public void ValidateDeliveryModel(Program p, StockControlEntities db)
+        public int ValidateDeliveryModel(Program p, StockControlEntities db)
         {
             Console.WriteLine();
             Console.WriteLine("[Sales Order Validation Test]");
@@ -209,7 +221,7 @@ namespace ConsoleApp
                                this._po, this._pr, this._so, this._do,
                                this._pod, this._prd, this._sod, this._dod);
             dov.DOValidation1();
-            dov.DOValidation2(sodtest1);
+            int sampledodid = dov.DOValidation2(sodtest1);
             dov.DOValidation3();
             dov.DOValidation4();
             dov.DOValidation5(sodtest4);
@@ -219,6 +231,8 @@ namespace ConsoleApp
 
             sov.SOValidation10();
             dov.DOValidation9();
+
+            return sampledodid;
         }
 
         public void ValidateCashBankModel(Program p, StockControlEntities db)
@@ -269,6 +283,48 @@ namespace ConsoleApp
             pvv.PVValidation7(pvId1);
             pvv.PVValidation8(pvId2); // invalid
             pvv.PVValidation9(pvdId1a);
+            //pvv.PVValidation10(pvdId2a);
+        }
+
+        public int ValidateSalesInvoiceModel(Program p, StockControlEntities db, int sampledodid)
+        {
+            Console.WriteLine("[Sales Invoice Validation Test]");
+            SIValidation siv = new SIValidation(new SalesInvoiceValidator(), new SalesInvoiceDetailValidator(),
+                               this._si, this._sid,
+                               this._receivable,
+                               this._c, this._i, this._sm,
+                               this._po, this._pr, this._so, this._do,
+                               this._pod, this._prd, this._sod, this._dod);
+            int siid = siv.SIValidation1();
+            int sidid = siv.SIValidation2(siid, sampledodid);
+            siv.SIValidation3(sidid);
+            siv.SIValidation4();
+            return siid;
+        }
+
+        public void ValidateReceiptVoucherModel(Program p, StockControlEntities db, int samplesiid)
+        {
+            Console.WriteLine("[Receipt Voucher Validation Test]");
+            RVValidation rvv = new RVValidation(
+                               this._si, this._sid,
+                               this._receivable, this._rv, this._rvd,
+                               this._cb,
+                               this._c, this._i, this._sm,
+                               this._po, this._pr, this._so, this._do,
+                               this._pod, this._prd, this._sod, this._dod);
+
+            int receivable1 = rvv.ReceivableValidation1(samplesiid); // 10jt
+            int receivable2 = rvv.ReceivableValidation2(samplesiid); // 5jt
+            int rvId1 = rvv.RVValidation1(); // 20jt
+            int rvdId1a = rvv.RVValidation2a(rvId1, receivable1); // 3jt, Payable1
+            int rvdId1b = rvv.RVValidation2b(rvId1, receivable2); // 4jt, Payable2
+            int rvdId1c = rvv.RVValidation2c(rvId1, receivable1); // 4jt, Payable1
+            int rvId2 = rvv.RVValidation4(); // 7.5jt
+            int rvdId2a = rvv.RVValidation5(rvId2, receivable1); // 4jt, Payable 1
+            int pvdId2b = rvv.RVValidation6(rvId2, receivable2); // 3.5jt, Payable 2
+            rvv.RVValidation7(rvId1);
+            rvv.RVValidation8(rvId2); // invalid
+            rvv.RVValidation9(rvdId1a);
             //pvv.PVValidation10(pvdId2a);
         }
 
