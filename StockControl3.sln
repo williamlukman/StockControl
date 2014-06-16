@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validation", "Validation\Validation.csproj", "{5FAB30F1-583A-4F8D-A2B8-E1E914E8826F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSpec", "NSpecPO\NSpec.csproj", "{7B685BE3-92A9-4128-B4CC-6E1C9E1DA73F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{5FAB30F1-583A-4F8D-A2B8-E1E914E8826F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FAB30F1-583A-4F8D-A2B8-E1E914E8826F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FAB30F1-583A-4F8D-A2B8-E1E914E8826F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B685BE3-92A9-4128-B4CC-6E1C9E1DA73F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B685BE3-92A9-4128-B4CC-6E1C9E1DA73F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B685BE3-92A9-4128-B4CC-6E1C9E1DA73F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B685BE3-92A9-4128-B4CC-6E1C9E1DA73F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

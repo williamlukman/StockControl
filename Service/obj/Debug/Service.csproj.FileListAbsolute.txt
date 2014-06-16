@@ -33,7 +33,6 @@ C:\Users\Samsung\Documents\GitHub\po\Service\bin\Debug\EntityFramework.dll
 C:\Users\Samsung\Documents\GitHub\po\Service\bin\Debug\Core.pdb
 C:\Users\Samsung\Documents\GitHub\po\Service\bin\Debug\Data.pdb
 C:\Users\Samsung\Documents\GitHub\po\Service\bin\Debug\Validation.pdb
-C:\Users\Samsung\Documents\GitHub\po\Service\bin\Debug\EntityFramework.xml
 C:\Users\Samsung\Documents\GitHub\po\Service\obj\Debug\Service.csprojResolveAssemblyReference.cache
 C:\Users\Samsung\Documents\GitHub\po\Service\obj\Debug\Service.dll
 C:\Users\Samsung\Documents\GitHub\po\Service\obj\Debug\Service.pdb

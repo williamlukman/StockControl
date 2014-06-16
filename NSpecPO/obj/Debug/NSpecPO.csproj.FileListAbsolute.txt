@@ -1,0 +1,17 @@
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\NSpecPO.dll.config
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\NSpecPO.dll
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\NSpecPO.pdb
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\NSpec.dll
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\obj\Debug\NSpecPO.dll
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\obj\Debug\NSpecPO.pdb
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\obj\Debug\NSpecPO.csprojResolveAssemblyReference.cache
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\Core.dll
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\Data.dll
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\EntityFramework.dll
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\Service.dll
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\Validation.dll
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\Core.pdb
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\Data.pdb
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\Service.pdb
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\Validation.pdb
+C:\Users\Samsung\Documents\GitHub\po\NSpecPO\bin\Debug\EntityFramework.xml
