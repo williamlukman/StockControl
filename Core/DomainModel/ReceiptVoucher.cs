@@ -20,6 +20,10 @@ namespace Core.DomainModel
         public bool IsDeleted { get; set; }
         public DateTime ReceiptDate { get; set; }
 
+        public bool IsInstantClearance { get; set; }
+        public bool IsCleared { get; set; }
+        public Nullable<DateTime> ClearanceDate { get; set; }
+
         public DateTime CreatedAt { get; set; }
         public Nullable<DateTime> ModifiedAt { get; set; }
         public Nullable<DateTime> DeletedAt { get; set; }

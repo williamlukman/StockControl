@@ -83,17 +83,34 @@ namespace Service.Service
             return _repository.DeleteObject(Id);
         }
 
+
         public ReceiptVoucher ConfirmObject(ReceiptVoucher receiptVoucher, IReceiptVoucherDetailService _receiptVoucherDetailService,
                                             ICashBankService _cashBankService, IReceivableService _receivableService, IContactService _contactService)
         {
+
             if (_validator.ValidConfirmObject(receiptVoucher, this, _receiptVoucherDetailService, _cashBankService, _receivableService, _contactService))
             {
-                _repository.ConfirmObject(receiptVoucher);
                 IList<ReceiptVoucherDetail> details = _receiptVoucherDetailService.GetObjectsByReceiptVoucherId(receiptVoucher.Id);
-                foreach (var detail in details)
+                if (receiptVoucher.IsInstantClearance)
                 {
-                    detail.ConfirmedAt = receiptVoucher.ConfirmedAt;
-                    _receiptVoucherDetailService.ConfirmObject(detail, this, _cashBankService, _receivableService, _contactService);
+                    receiptVoucher.ClearanceDate = receiptVoucher.ReceiptDate;
+                    _repository.ConfirmObject(receiptVoucher);
+                    _repository.ClearObject(receiptVoucher);
+                    foreach (var detail in details)
+                    {
+                        detail.ConfirmedAt = receiptVoucher.ConfirmedAt;
+                        detail.ClearanceDate = receiptVoucher.ReceiptDate;
+                        _receiptVoucherDetailService.ConfirmObject(detail, this, _cashBankService, _receivableService, _contactService);
+                    }
+                }
+                else
+                {
+                    _repository.ConfirmObject(receiptVoucher);
+                    foreach (var detail in details)
+                    {
+                        detail.ConfirmedAt = receiptVoucher.ConfirmedAt;
+                        _receiptVoucherDetailService.ConfirmObject(detail, this, _cashBankService, _receivableService, _contactService);
+                    }
                 }
             }
             return receiptVoucher;
@@ -104,11 +121,56 @@ namespace Service.Service
         {
             if (_validator.ValidUnconfirmObject(receiptVoucher, this, _receiptVoucherDetailService, _cashBankService, _receivableService, _contactService))
             {
-                _repository.UnconfirmObject(receiptVoucher);
+                IList<ReceiptVoucherDetail> details = _receiptVoucherDetailService.GetObjectsByReceiptVoucherId(receiptVoucher.Id);
+                if (receiptVoucher.IsInstantClearance)
+                {
+                    receiptVoucher.ClearanceDate = null;
+                    _repository.UnconfirmObject(receiptVoucher);
+                    _repository.UnclearObject(receiptVoucher);
+                    foreach (var detail in details)
+                    {
+                        detail.ConfirmedAt = null;
+                        detail.ClearanceDate = null;
+                        _receiptVoucherDetailService.UnconfirmObject(detail, this, _cashBankService, _receivableService, _contactService);
+                    }
+                }
+                else
+                {
+                    _repository.UnconfirmObject(receiptVoucher);
+                    foreach (var detail in details)
+                    {
+                        _receiptVoucherDetailService.UnconfirmObject(detail, this, _cashBankService, _receivableService, _contactService);
+                    }
+                }
+            }
+            return receiptVoucher;
+        }
+
+        public ReceiptVoucher ClearObject(ReceiptVoucher receiptVoucher, IReceiptVoucherDetailService _receiptVoucherDetailService,
+                             ICashBankService _cashBankService, IReceivableService _receivableService, IContactService _contactService)
+        {
+            if (_validator.ValidClearObject(receiptVoucher, this, _receiptVoucherDetailService, _cashBankService, _receivableService, _contactService))
+            {
+                _repository.ClearObject(receiptVoucher);
                 IList<ReceiptVoucherDetail> details = _receiptVoucherDetailService.GetObjectsByReceiptVoucherId(receiptVoucher.Id);
                 foreach (var detail in details)
                 {
-                    _receiptVoucherDetailService.UnconfirmObject(detail, this, _cashBankService, _receivableService, _contactService);
+                    _receiptVoucherDetailService.ClearObject(detail, this, _cashBankService, _receivableService, _contactService);
+                }
+            }
+            return receiptVoucher;
+        }
+
+        public ReceiptVoucher UnclearObject(ReceiptVoucher receiptVoucher, IReceiptVoucherDetailService _receiptVoucherDetailService,
+                                     ICashBankService _cashBankService, IReceivableService _receivableService, IContactService _contactService)
+        {
+            if (_validator.ValidUnclearObject(receiptVoucher, this, _receiptVoucherDetailService, _cashBankService, _receivableService, _contactService))
+            {
+                _repository.UnclearObject(receiptVoucher);
+                IList<ReceiptVoucherDetail> details = _receiptVoucherDetailService.GetObjectsByReceiptVoucherId(receiptVoucher.Id);
+                foreach (var detail in details)
+                {
+                    _receiptVoucherDetailService.UnclearObject(detail, this, _cashBankService, _receivableService, _contactService);
                 }
             }
             return receiptVoucher;

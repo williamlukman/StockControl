@@ -83,6 +83,21 @@ namespace Data.Repository
             return receiptVoucher;
         }
 
+        public ReceiptVoucher ClearObject(ReceiptVoucher receiptVoucher)
+        {
+            receiptVoucher.IsCleared = true;
+            Update(receiptVoucher);
+            return receiptVoucher;
+        }
+
+        public ReceiptVoucher UnclearObject(ReceiptVoucher receiptVoucher)
+        {
+            receiptVoucher.IsCleared = false;
+            Update(receiptVoucher);
+            return receiptVoucher;
+        }
+
+
         public string SetObjectCode()
         {
             // Code: #{year}/#{total_number

@@ -21,8 +21,9 @@ namespace Core.Interface.Validation
         ReceiptVoucherDetail VUpdateContactOrReceivable(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherDetailService _receiptVoucherDetailService);
 
         ReceiptVoucherDetail VRemainingAmount(ReceiptVoucherDetail receiptVoucherDetail, IReceivableService _receivableService);
-        ReceiptVoucherDetail VIsClearedForNonInstantClearance(ReceiptVoucherDetail receiptVoucherDetail);
-        ReceiptVoucherDetail VIsInstantClearance(ReceiptVoucherDetail receiptVoucherDetail);
+        ReceiptVoucherDetail VIsClearedForNonInstantClearance(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService);
+        ReceiptVoucherDetail VIsInstantClearance(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService);
+        ReceiptVoucherDetail VIsNonInstantClearance(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService);
         ReceiptVoucherDetail VClearanceDate(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService);
 
         ReceiptVoucherDetail VCreateObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService, IContactService _contactService);
@@ -32,6 +33,8 @@ namespace Core.Interface.Validation
         ReceiptVoucherDetail VUnconfirmObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService);
         ReceiptVoucherDetail VClearObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService);
         ReceiptVoucherDetail VUnclearObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService);
+        ReceiptVoucherDetail VClearConfirmObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService);
+        ReceiptVoucherDetail VUnclearUnconfirmObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService);
         bool ValidCreateObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService, IContactService _contactService);
         bool ValidUpdateObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService, IContactService _contactService);
         bool ValidDeleteObject(ReceiptVoucherDetail receiptVoucherDetail);
@@ -39,6 +42,8 @@ namespace Core.Interface.Validation
         bool ValidUnconfirmObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService);
         bool ValidClearObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService);
         bool ValidUnclearObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService);
+        bool ValidClearConfirmObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService);
+        bool ValidUnclearUnconfirmObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService);
         bool isValid(ReceiptVoucherDetail receiptVoucherDetail);
         string PrintError(ReceiptVoucherDetail receiptVoucherDetail);
     }

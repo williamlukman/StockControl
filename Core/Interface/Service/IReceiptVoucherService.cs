@@ -26,5 +26,9 @@ namespace Core.Interface.Service
                                      ICashBankService _cashBankService, IReceivableService _receivableService, IContactService _contactService);
         ReceiptVoucher UnconfirmObject(ReceiptVoucher receiptVoucher, IReceiptVoucherDetailService _receiptVoucherDetailService,
                                      ICashBankService _cashBankService, IReceivableService _receivableService, IContactService _contactService);
+        ReceiptVoucher ClearObject(ReceiptVoucher receiptVoucher, IReceiptVoucherDetailService _receiptVoucherDetailService,
+                                     ICashBankService _cashBankService, IReceivableService _receivableService, IContactService _contactService);
+        ReceiptVoucher UnclearObject(ReceiptVoucher receiptVoucher, IReceiptVoucherDetailService _receiptVoucherDetailService,
+                                     ICashBankService _cashBankService, IReceivableService _receivableService, IContactService _contactService);
     }
 }

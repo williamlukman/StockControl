@@ -59,7 +59,7 @@ namespace Validation.Validation
         {
             ReceiptVoucher receiptVoucher = _receiptVoucherService.GetObjectById(receiptVoucherDetail.ReceiptVoucherId);
             CashBank cashBank = _cashBankService.GetObjectById(receiptVoucher.CashBankId);
-            if ((!cashBank.IsBank) && (!receiptVoucherDetail.IsInstantClearance))
+            if ((!cashBank.IsBank) && (!receiptVoucher.IsInstantClearance))
             {
                 receiptVoucherDetail.Errors.Add("IsInstantClearance", "Harus true untuk pembayaran cash");
             }
@@ -108,16 +108,44 @@ namespace Validation.Validation
 
         public ReceiptVoucherDetail VRemainingAmount(ReceiptVoucherDetail receiptVoucherDetail, IReceivableService _receivableService)
         {
+            Receivable receivable = _receivableService.GetObjectById(receiptVoucherDetail.ReceivableId);
+            if (receivable.RemainingAmount < receiptVoucherDetail.Amount)
+            {
+                receiptVoucherDetail.Errors.Add("RemainingAmount", "Harus lebih atau sama dengan amount");
+            }
             return receiptVoucherDetail;
         }
 
-        public ReceiptVoucherDetail VIsClearedForNonInstantClearance(ReceiptVoucherDetail receiptVoucherDetail)
+        public ReceiptVoucherDetail VIsClearedForNonInstantClearance(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService)
         {
+            ReceiptVoucher receiptVoucher = _receiptVoucherService.GetObjectById(receiptVoucherDetail.ReceiptVoucherId);
+            if (!receiptVoucher.IsInstantClearance)
+            {
+                if (receiptVoucherDetail.IsCleared)
+                {
+                    receiptVoucherDetail.Errors.Add("IsCleared", "Tidak boleh sudah di clear kan");
+                }
+            }
             return receiptVoucherDetail;
         }
 
-        public ReceiptVoucherDetail VIsInstantClearance(ReceiptVoucherDetail receiptVoucherDetail)
+        public ReceiptVoucherDetail VIsInstantClearance(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService)
         {
+            ReceiptVoucher receiptVoucher = _receiptVoucherService.GetObjectById(receiptVoucherDetail.ReceiptVoucherId);
+            if (!receiptVoucher.IsInstantClearance)
+            {
+                receiptVoucherDetail.Errors.Add("IsIntantClearance", "Harus true karena non-bank");
+            }
+            return receiptVoucherDetail;
+        }
+
+        public ReceiptVoucherDetail VIsNonInstantClearance(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService)
+        {
+            ReceiptVoucher receiptVoucher = _receiptVoucherService.GetObjectById(receiptVoucherDetail.ReceiptVoucherId);
+            if (receiptVoucher.IsInstantClearance)
+            {
+                receiptVoucherDetail.Errors.Add("IsIntantClearance", "Harus false karena bank");
+            }
             return receiptVoucherDetail;
         }
 
@@ -145,7 +173,7 @@ namespace Validation.Validation
             VUpdateContactOrReceivable(receiptVoucherDetail, _receiptVoucherDetailService);
             VAmountLessThanCashBank(receiptVoucherDetail, _receiptVoucherService, _cashBankService);
             VCorrectInstantClearance(receiptVoucherDetail, _receiptVoucherService, _cashBankService);
-            return receiptVoucherDetail;    
+            return receiptVoucherDetail;
         }
 
         public ReceiptVoucherDetail VDeleteObject(ReceiptVoucherDetail receiptVoucherDetail)
@@ -162,13 +190,13 @@ namespace Validation.Validation
 
         public ReceiptVoucherDetail VUnconfirmObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService)
         {
-            VIsClearedForNonInstantClearance(receiptVoucherDetail);
+            VIsClearedForNonInstantClearance(receiptVoucherDetail, _receiptVoucherService);
             return receiptVoucherDetail;
         }
 
         public ReceiptVoucherDetail VClearObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService)
         {
-            VIsInstantClearance(receiptVoucherDetail);
+            VIsNonInstantClearance(receiptVoucherDetail, _receiptVoucherService);
             VClearanceDate(receiptVoucherDetail, _receiptVoucherService);
             VAmountLessThanCashBank(receiptVoucherDetail, _receiptVoucherService, _cashBankService);
             return receiptVoucherDetail;
@@ -176,7 +204,20 @@ namespace Validation.Validation
 
         public ReceiptVoucherDetail VUnclearObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService)
         {
-            VIsInstantClearance(receiptVoucherDetail);
+            VIsNonInstantClearance(receiptVoucherDetail, _receiptVoucherService);
+            return receiptVoucherDetail;
+        }
+
+        public ReceiptVoucherDetail VClearConfirmObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService)
+        {
+            VIsInstantClearance(receiptVoucherDetail, _receiptVoucherService);
+            VClearanceDate(receiptVoucherDetail, _receiptVoucherService);
+            VAmountLessThanCashBank(receiptVoucherDetail, _receiptVoucherService, _cashBankService);
+            return receiptVoucherDetail;
+        }
+
+        public ReceiptVoucherDetail VUnclearUnconfirmObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService)
+        {
             return receiptVoucherDetail;
         }
 
@@ -219,6 +260,18 @@ namespace Validation.Validation
         public bool ValidUnclearObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService)
         {
             VUnclearObject(receiptVoucherDetail, _receiptVoucherService, _receiptVoucherDetailService, _cashBankService, _receivableService);
+            return isValid(receiptVoucherDetail);
+        }
+
+        public bool ValidClearConfirmObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService)
+        {
+            VClearConfirmObject(receiptVoucherDetail, _receiptVoucherService, _receiptVoucherDetailService, _cashBankService, _receivableService);
+            return isValid(receiptVoucherDetail);
+        }
+
+        public bool ValidUnclearUnconfirmObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService)
+        {
+            VUnclearUnconfirmObject(receiptVoucherDetail, _receiptVoucherService, _receiptVoucherDetailService, _cashBankService, _receivableService);
             return isValid(receiptVoucherDetail);
         }
 
