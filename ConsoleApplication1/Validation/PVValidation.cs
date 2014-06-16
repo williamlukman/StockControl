@@ -62,7 +62,7 @@ namespace ConsoleApp.Validation
 
         public int PayableValidation1(int piId)
         {
-            Console.WriteLine("     [PY 1] Create valid Payable 10jt for Michaelangelo");
+            Console.WriteLine("     [PV 1] Create valid Payable 10jt for Michaelangelo");
             Contact c = _c.GetObjectByName("Michaelangelo Buanorotti");
             Payable payable = _payable.CreateObject(c.Id, "PurchaseInvoice", piId, 10000000);
             if (payable.Errors.Any()) { Console.WriteLine("        >> " + _payable.GetValidator().PrintError(payable)); return 0; }
@@ -71,7 +71,7 @@ namespace ConsoleApp.Validation
 
         public int PayableValidation2(int piId)
         {
-            Console.WriteLine("     [PY 2] Create valid Payable 5jt for Michaelangelo");
+            Console.WriteLine("     [PV 2] Create valid Payable 5jt for Michaelangelo");
             Contact c = _c.GetObjectByName("Michaelangelo Buanorotti");
             Payable payable = _payable.CreateObject(c.Id, "PurchaseInvoice", piId, 5000000);
             if (payable.Errors.Any()) { Console.WriteLine("        >> " + _payable.GetValidator().PrintError(payable)); return 0; }
@@ -92,7 +92,7 @@ namespace ConsoleApp.Validation
         public int PVValidation2a(int pvId, int payableId)
         {
             Console.WriteLine("     [PV 2a] Create valid Payment Voucher Detail for Michaelangelo");
-            PaymentVoucherDetail pvd = _pvd.CreateObject(pvId, payableId, (decimal) 3000000, "Payment 3jt untuk Payable 10jt", false, _pv, _cb, _payable, _c);
+            PaymentVoucherDetail pvd = _pvd.CreateObject(pvId, payableId, (decimal) 3000000, "Payment 3jt untuk Payable 10jt", _pv, _cb, _payable, _c);
             if (pvd.Errors.Any()) { Console.WriteLine("        >> " + _pvd.GetValidator().PrintError(pvd)); return 0; }
             return pvd.Id;
         }
@@ -100,7 +100,7 @@ namespace ConsoleApp.Validation
         public int PVValidation2b(int pvId, int payableId)
         {
             Console.WriteLine("     [PV 2b] Create valid Payment Voucher Detail for Michaelangelo");
-            PaymentVoucherDetail pvd = _pvd.CreateObject(pvId, payableId, (decimal)2000000, "Payment 2jt untuk Payable 5jt", false, _pv, _cb, _payable, _c);
+            PaymentVoucherDetail pvd = _pvd.CreateObject(pvId, payableId, (decimal)2000000, "Payment 2jt untuk Payable 5jt", _pv, _cb, _payable, _c);
             if (pvd.Errors.Any()) { Console.WriteLine("        >> " + _pvd.GetValidator().PrintError(pvd)); return 0; }
             return pvd.Id;
         }
@@ -108,7 +108,7 @@ namespace ConsoleApp.Validation
         public int PVValidation2c(int pvId, int payableId)
         {
             Console.WriteLine("     [PV 2c] Create valid Payment Voucher Detail for Michaelangelo");
-            PaymentVoucherDetail pvd = _pvd.CreateObject(pvId, payableId, (decimal)4000000, "Payment 4jt untuk Payable 5jt", false, _pv, _cb, _payable, _c);
+            PaymentVoucherDetail pvd = _pvd.CreateObject(pvId, payableId, (decimal)4000000, "Payment 4jt untuk Payable 5jt", _pv, _cb, _payable, _c);
             if (pvd.Errors.Any()) { Console.WriteLine("        >> " + _pvd.GetValidator().PrintError(pvd)); return 0; }
             return pvd.Id;
         }
@@ -126,7 +126,7 @@ namespace ConsoleApp.Validation
         public int PVValidation5(int pvId, int payableId)
         {
             Console.WriteLine("     [PV 5] Create valid Payment Voucher Detail for Michaelangelo");
-            PaymentVoucherDetail pvd = _pvd.CreateObject(pvId, payableId, (decimal)4000000, "Payment 4jt untuk Payable 10jt", true, _pv, _cb, _payable, _c);
+            PaymentVoucherDetail pvd = _pvd.CreateObject(pvId, payableId, (decimal)4000000, "Payment 4jt untuk Payable 10jt", _pv, _cb, _payable, _c);
             if (pvd.Errors.Any()) { Console.WriteLine("        >> " + _pvd.GetValidator().PrintError(pvd)); return 0; }
             return pvd.Id;
         }
@@ -134,7 +134,7 @@ namespace ConsoleApp.Validation
         public int PVValidation6(int pvId, int payableId)
         {
             Console.WriteLine("     [PV 6] Create valid Payment Voucher Detail for Michaelangelo");
-            PaymentVoucherDetail pvd = _pvd.CreateObject(pvId, payableId, (decimal)3500000, "Payment 3.5jt untuk Payable 5jt", true, _pv, _cb, _payable, _c);
+            PaymentVoucherDetail pvd = _pvd.CreateObject(pvId, payableId, (decimal)3500000, "Payment 3.5jt untuk Payable 5jt", _pv, _cb, _payable, _c);
             if (pvd.Errors.Any()) { Console.WriteLine("        >> " + _pvd.GetValidator().PrintError(pvd)); return 0; }
             return pvd.Id;
         }

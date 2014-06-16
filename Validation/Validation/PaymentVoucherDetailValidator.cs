@@ -59,7 +59,7 @@ namespace Validation.Validation
         {
             PaymentVoucher paymentVoucher = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
             CashBank cashBank = _cashBankService.GetObjectById(paymentVoucher.CashBankId);
-            if ((!cashBank.IsBank) && (!paymentVoucherDetail.IsInstantClearance))
+            if ((!cashBank.IsBank) && (!paymentVoucher.IsInstantClearance))
             {
                 paymentVoucherDetail.Errors.Add("IsInstantClearance", "Harus true untuk pembayaran cash");
             }
@@ -108,16 +108,44 @@ namespace Validation.Validation
 
         public PaymentVoucherDetail VRemainingAmount(PaymentVoucherDetail paymentVoucherDetail, IPayableService _payableService)
         {
+            Payable payable = _payableService.GetObjectById(paymentVoucherDetail.PayableId);
+            if (payable.RemainingAmount < paymentVoucherDetail.Amount)
+            {
+                paymentVoucherDetail.Errors.Add("RemainingAmount", "Harus lebih atau sama dengan amount");
+            }
             return paymentVoucherDetail;
         }
 
-        public PaymentVoucherDetail VIsClearedForNonInstantClearance(PaymentVoucherDetail paymentVoucherDetail)
+        public PaymentVoucherDetail VIsClearedForNonInstantClearance(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService)
         {
+            PaymentVoucher paymentVoucher = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
+            if (!paymentVoucher.IsInstantClearance)
+            {
+                if(paymentVoucherDetail.IsCleared)
+                {
+                    paymentVoucherDetail.Errors.Add("IsCleared", "Tidak boleh sudah di clear kan");
+                }
+            }
             return paymentVoucherDetail;
         }
 
-        public PaymentVoucherDetail VIsInstantClearance(PaymentVoucherDetail paymentVoucherDetail)
+        public PaymentVoucherDetail VIsInstantClearance(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService)
         {
+            PaymentVoucher paymentVoucher = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
+            if (!paymentVoucher.IsInstantClearance)
+            {
+                paymentVoucherDetail.Errors.Add("IsIntantClearance", "Harus true karena non-bank");
+            }
+            return paymentVoucherDetail;
+        }
+
+        public PaymentVoucherDetail VIsNonInstantClearance(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService)
+        {
+            PaymentVoucher paymentVoucher = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
+            if (paymentVoucher.IsInstantClearance)
+            {
+                paymentVoucherDetail.Errors.Add("IsIntantClearance", "Harus false karena bank");
+            }
             return paymentVoucherDetail;
         }
 
@@ -162,13 +190,13 @@ namespace Validation.Validation
 
         public PaymentVoucherDetail VUnconfirmObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService)
         {
-            VIsClearedForNonInstantClearance(paymentVoucherDetail);
+            VIsClearedForNonInstantClearance(paymentVoucherDetail, _paymentVoucherService);
             return paymentVoucherDetail;
         }
 
         public PaymentVoucherDetail VClearObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService)
         {
-            VIsInstantClearance(paymentVoucherDetail);
+            VIsNonInstantClearance(paymentVoucherDetail, _paymentVoucherService);
             VClearanceDate(paymentVoucherDetail, _paymentVoucherService);
             VAmountLessThanCashBank(paymentVoucherDetail, _paymentVoucherService, _cashBankService);
             return paymentVoucherDetail;
@@ -176,7 +204,20 @@ namespace Validation.Validation
 
         public PaymentVoucherDetail VUnclearObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService)
         {
-            VIsInstantClearance(paymentVoucherDetail);
+            VIsNonInstantClearance(paymentVoucherDetail, _paymentVoucherService);
+            return paymentVoucherDetail;
+        }
+
+        public PaymentVoucherDetail VClearConfirmObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService)
+        {
+            VIsInstantClearance(paymentVoucherDetail, _paymentVoucherService);
+            VClearanceDate(paymentVoucherDetail, _paymentVoucherService);
+            VAmountLessThanCashBank(paymentVoucherDetail, _paymentVoucherService, _cashBankService);
+            return paymentVoucherDetail;
+        }
+
+        public PaymentVoucherDetail VUnclearUnconfirmObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService)
+        {
             return paymentVoucherDetail;
         }
 
@@ -219,6 +260,18 @@ namespace Validation.Validation
         public bool ValidUnclearObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService)
         {
             VUnclearObject(paymentVoucherDetail, _paymentVoucherService, _paymentVoucherDetailService, _cashBankService, _payableService);
+            return isValid(paymentVoucherDetail);
+        }
+
+        public bool ValidClearConfirmObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService)
+        {
+            VClearConfirmObject(paymentVoucherDetail, _paymentVoucherService, _paymentVoucherDetailService, _cashBankService, _payableService);
+            return isValid(paymentVoucherDetail);
+        }
+
+        public bool ValidUnclearUnconfirmObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService)
+        {
+            VUnclearUnconfirmObject(paymentVoucherDetail, _paymentVoucherService, _paymentVoucherDetailService, _cashBankService, _payableService);
             return isValid(paymentVoucherDetail);
         }
 

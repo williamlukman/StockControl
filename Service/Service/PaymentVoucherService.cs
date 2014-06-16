@@ -50,7 +50,16 @@ namespace Service.Service
                                             IPayableService _payableService, IContactService _contactService, ICashBankService _cashBankService)
         {
             paymentVoucher.Errors = new Dictionary<String, String>();
-            return (_validator.ValidCreateObject(paymentVoucher, this, _paymentVoucherDetailService, _payableService, _contactService, _cashBankService) ? _repository.CreateObject(paymentVoucher) : paymentVoucher);
+            if (_validator.ValidCreateObject(paymentVoucher, this, _paymentVoucherDetailService, _payableService, _contactService, _cashBankService))
+            {
+                CashBank cashBank = _cashBankService.GetObjectById(paymentVoucher.CashBankId);
+                paymentVoucher.IsInstantClearance = (cashBank.IsBank) ? paymentVoucher.IsInstantClearance : true;
+                return _repository.CreateObject(paymentVoucher);
+            }
+            else
+            {
+                return paymentVoucher;
+            }
         }
 
         public PaymentVoucher CreateObject(int cashBankId, int contactId, DateTime paymentDate, decimal totalAmount,
@@ -64,6 +73,22 @@ namespace Service.Service
                 PaymentDate = paymentDate,
                 TotalAmount = totalAmount,
                 PendingClearanceAmount = totalAmount
+            };
+            return this.CreateObject(pv, _paymentVoucherDetailService, _payableService, _contactService, _cashBankService);
+        }
+
+        public PaymentVoucher CreateObject(int cashBankId, int contactId, DateTime paymentDate, decimal totalAmount, bool IsInstantCleareance,
+                                    IPaymentVoucherDetailService _paymentVoucherDetailService, IPayableService _payableService,
+                                    IContactService _contactService, ICashBankService _cashBankService)
+        {
+            PaymentVoucher pv = new PaymentVoucher
+            {
+                CashBankId = cashBankId,
+                ContactId = contactId,
+                PaymentDate = paymentDate,
+                TotalAmount = totalAmount,
+                PendingClearanceAmount = totalAmount,
+                IsInstantClearance = IsInstantCleareance
             };
             return this.CreateObject(pv, _paymentVoucherDetailService, _payableService, _contactService, _cashBankService);
         }
@@ -86,14 +111,30 @@ namespace Service.Service
         public PaymentVoucher ConfirmObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService,
                                             ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
         {
+
             if (_validator.ValidConfirmObject(paymentVoucher, this, _paymentVoucherDetailService, _cashBankService, _payableService, _contactService))
             {
-                _repository.ConfirmObject(paymentVoucher);
                 IList<PaymentVoucherDetail> details = _paymentVoucherDetailService.GetObjectsByPaymentVoucherId(paymentVoucher.Id);
-                foreach (var detail in details)
+                if (paymentVoucher.IsInstantClearance)
                 {
-                    detail.ConfirmedAt = paymentVoucher.ConfirmedAt;
-                    _paymentVoucherDetailService.ConfirmObject(detail, this, _cashBankService, _payableService, _contactService);
+                    paymentVoucher.ClearanceDate = paymentVoucher.PaymentDate;
+                    _repository.ConfirmObject(paymentVoucher);
+                    _repository.ClearObject(paymentVoucher);
+                    foreach (var detail in details)
+                    {
+                        detail.ConfirmedAt = paymentVoucher.ConfirmedAt;
+                        detail.ClearanceDate = paymentVoucher.PaymentDate;
+                        _paymentVoucherDetailService.ConfirmObject(detail, this, _cashBankService, _payableService, _contactService);
+                    }
+                }
+                else
+                {
+                    _repository.ConfirmObject(paymentVoucher);
+                    foreach (var detail in details)
+                    {
+                        detail.ConfirmedAt = paymentVoucher.ConfirmedAt;
+                        _paymentVoucherDetailService.ConfirmObject(detail, this, _cashBankService, _payableService, _contactService);
+                    }
                 }
             }
             return paymentVoucher;
@@ -104,11 +145,56 @@ namespace Service.Service
         {
             if (_validator.ValidUnconfirmObject(paymentVoucher, this, _paymentVoucherDetailService, _cashBankService, _payableService, _contactService))
             {
-                _repository.UnconfirmObject(paymentVoucher);
+                IList<PaymentVoucherDetail> details = _paymentVoucherDetailService.GetObjectsByPaymentVoucherId(paymentVoucher.Id);
+                if (paymentVoucher.IsInstantClearance)
+                {
+                    paymentVoucher.ClearanceDate = null;
+                    _repository.UnconfirmObject(paymentVoucher);
+                    _repository.UnclearObject(paymentVoucher);
+                    foreach (var detail in details)
+                    {
+                        detail.ConfirmedAt = null;
+                        detail.ClearanceDate = null;
+                        _paymentVoucherDetailService.UnconfirmObject(detail, this, _cashBankService, _payableService, _contactService);
+                    }
+                }
+                else
+                {
+                    _repository.UnconfirmObject(paymentVoucher);
+                    foreach (var detail in details)
+                    {
+                        _paymentVoucherDetailService.UnconfirmObject(detail, this, _cashBankService, _payableService, _contactService);
+                    }
+                }
+            }
+            return paymentVoucher;
+        }
+
+        public PaymentVoucher ClearObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService,
+                             ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
+        {
+            if (_validator.ValidClearObject(paymentVoucher, this, _paymentVoucherDetailService, _cashBankService, _payableService, _contactService))
+            {
+                _repository.ClearObject(paymentVoucher);
                 IList<PaymentVoucherDetail> details = _paymentVoucherDetailService.GetObjectsByPaymentVoucherId(paymentVoucher.Id);
                 foreach (var detail in details)
                 {
-                    _paymentVoucherDetailService.UnconfirmObject(detail, this, _cashBankService, _payableService, _contactService);
+                    _paymentVoucherDetailService.ClearObject(detail, this, _cashBankService, _payableService, _contactService);
+                }
+            }
+            return paymentVoucher;
+        }
+
+        public PaymentVoucher UnclearObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService,
+                                     ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
+        {
+            if (_validator.ValidUnclearObject(paymentVoucher, this, _paymentVoucherDetailService, _cashBankService, _payableService, _contactService))
+            {
+                _repository.UnclearObject(paymentVoucher);
+                IList<PaymentVoucherDetail> details = _paymentVoucherDetailService.GetObjectsByPaymentVoucherId(paymentVoucher.Id);
+                foreach (var detail in details)
+                {
+                    _paymentVoucherDetailService.UnclearObject(detail, this, _cashBankService, _payableService, _contactService);
                 }
             }
             return paymentVoucher;

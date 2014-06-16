@@ -17,7 +17,6 @@ namespace Core.DomainModel
 
         public decimal Amount { get; set; }
         public string Description { get; set; }
-        public bool IsInstantClearance { get; set; }
 
         public bool IsConfirmed { get; set; }
         public Nullable<DateTime> ConfirmedAt { get; set; }

@@ -49,9 +49,7 @@ namespace Service.Service
             if (_validator.ValidCreateObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService, _payableService, _contactService))
             {
                 PaymentVoucher paymentVoucher = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
-                CashBank cashBank = _cashBankService.GetObjectById(paymentVoucher.CashBankId);
                 paymentVoucherDetail.ContactId = paymentVoucher.ContactId;
-                paymentVoucherDetail.IsInstantClearance = (cashBank.IsBank) ? paymentVoucherDetail.IsInstantClearance : true;
                 return _repository.CreateObject(paymentVoucherDetail);
             }
             else
@@ -70,21 +68,6 @@ namespace Service.Service
                 PayableId = payableId,
                 Amount = amount,
                 Description = description,
-            };
-            return this.CreateObject(pvd, _paymentVoucherService, _cashBankService, _payableService, _contactService);
-        }
-
-        public PaymentVoucherDetail CreateObject(int paymentVoucherId, int payableId, decimal amount, string description, bool isInstantClearance,
-                                                 IPaymentVoucherService _paymentVoucherService, ICashBankService _cashBankService,
-                                                 IPayableService _payableService, IContactService _contactService)
-        {
-            PaymentVoucherDetail pvd = new PaymentVoucherDetail
-            {
-                PaymentVoucherId = paymentVoucherId,
-                PayableId = payableId,
-                Amount = amount,
-                Description = description,
-                IsInstantClearance = isInstantClearance
             };
             return this.CreateObject(pvd, _paymentVoucherService, _cashBankService, _payableService, _contactService);
         }
@@ -108,26 +91,19 @@ namespace Service.Service
         public PaymentVoucherDetail ConfirmObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService,
                                                   ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
         {
+            PaymentVoucher pv = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
+            CashBank cb = _cashBankService.GetObjectById(pv.CashBankId);
+            if (!cb.IsBank)
+            {
+                return ClearConfirmObject(paymentVoucherDetail, _paymentVoucherService, _cashBankService, _payableService, _contactService);
+            }
+
             if (_validator.ValidConfirmObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService, _payableService))
             {
-                PaymentVoucher pv = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
                 Payable payable = _payableService.GetObjectById(paymentVoucherDetail.PayableId);
-                if (paymentVoucherDetail.IsInstantClearance)
-                {
-                    CashBank cb = _cashBankService.GetObjectById(pv.CashBankId);
-                    cb.Amount -= paymentVoucherDetail.Amount;
-                    _cashBankService.UpdateObject(cb);
-                    payable.IsCompleted = true;
-                    payable.CompletionDate = pv.PaymentDate;
-                    paymentVoucherDetail.ClearanceDate = pv.PaymentDate;
-                    _repository.ClearObject(paymentVoucherDetail);
-                }
-                else
-                {
-                    payable.PendingClearanceAmount += paymentVoucherDetail.Amount;
-                    pv.PendingClearanceAmount += paymentVoucherDetail.Amount;
-                    _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService, _cashBankService);
-                }
+                payable.PendingClearanceAmount += paymentVoucherDetail.Amount;
+                pv.PendingClearanceAmount += paymentVoucherDetail.Amount;
+                _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService, _cashBankService);                
                 payable.RemainingAmount -= paymentVoucherDetail.Amount;
                 _payableService.UpdateObject(payable);
                 paymentVoucherDetail = _repository.ConfirmObject(paymentVoucherDetail);
@@ -138,26 +114,19 @@ namespace Service.Service
         public PaymentVoucherDetail UnconfirmObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService,
                                                     ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
         {
+            PaymentVoucher pv = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
+            CashBank cb = _cashBankService.GetObjectById(pv.CashBankId);
+            if (!cb.IsBank)
+            {
+                return UnclearUnconfirmObject(paymentVoucherDetail, _paymentVoucherService, _cashBankService, _payableService, _contactService);
+            }
+            
             if (_validator.ValidUnconfirmObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService, _payableService))
             {
-                PaymentVoucher pv = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
                 Payable payable = _payableService.GetObjectById(paymentVoucherDetail.PayableId);
-                if (paymentVoucherDetail.IsInstantClearance)
-                {
-                    CashBank cb = _cashBankService.GetObjectById(pv.CashBankId);
-                    cb.Amount += paymentVoucherDetail.Amount;
-                    _cashBankService.UpdateObject(cb);
-                    payable.IsCompleted = false;
-                    payable.CompletionDate = null;
-                    paymentVoucherDetail.ClearanceDate = null;
-                    _repository.ClearObject(paymentVoucherDetail);
-                }
-                else
-                {
-                    payable.PendingClearanceAmount -= paymentVoucherDetail.Amount;
-                    pv.PendingClearanceAmount -= paymentVoucherDetail.Amount;
-                    _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService, _cashBankService);
-                }
+                payable.PendingClearanceAmount -= paymentVoucherDetail.Amount;
+                pv.PendingClearanceAmount -= paymentVoucherDetail.Amount;
+                _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService, _cashBankService);
                 payable.RemainingAmount += paymentVoucherDetail.Amount;
                 _payableService.UpdateObject(payable);
                 paymentVoucherDetail = _repository.UnconfirmObject(paymentVoucherDetail);
@@ -170,21 +139,22 @@ namespace Service.Service
         {
             if (_validator.ValidClearObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService, _payableService))
             {
-                if (!paymentVoucherDetail.IsInstantClearance)
+                PaymentVoucher pv = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
+                Payable payable = _payableService.GetObjectById(paymentVoucherDetail.PayableId);
+                CashBank cb = _cashBankService.GetObjectById(pv.CashBankId);
+
+                cb.Amount -= paymentVoucherDetail.Amount;
+                payable.PendingClearanceAmount -= paymentVoucherDetail.Amount;
+                pv.PendingClearanceAmount -= paymentVoucherDetail.Amount;
+
+                _cashBankService.UpdateObject(cb);
+                _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService, _cashBankService);
+                if (payable.PendingClearanceAmount == 0 && payable.RemainingAmount == 0)
                 {
-                    PaymentVoucher pv = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
-                    Payable payable = _payableService.GetObjectById(paymentVoucherDetail.PayableId);
-                    CashBank cb = _cashBankService.GetObjectById(pv.CashBankId);
-
-                    cb.Amount -= paymentVoucherDetail.Amount;
-                    payable.PendingClearanceAmount -= paymentVoucherDetail.Amount;
-                    pv.PendingClearanceAmount -= paymentVoucherDetail.Amount;
+                    payable.IsCompleted = true;
                     payable.CompletionDate = paymentVoucherDetail.ClearanceDate;
-
-                    _cashBankService.UpdateObject(cb);
-                    _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService, _cashBankService);
-                    _payableService.UpdateObject(payable);
                 }
+                _payableService.UpdateObject(payable);
                 paymentVoucherDetail = _repository.ClearObject(paymentVoucherDetail);
             }
             return paymentVoucherDetail;
@@ -195,23 +165,66 @@ namespace Service.Service
         {
             if (_validator.ValidUnclearObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService, _payableService))
             {
-                if (!paymentVoucherDetail.IsInstantClearance)
-                {
-                    PaymentVoucher pv = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
-                    Payable payable = _payableService.GetObjectById(paymentVoucherDetail.PayableId);
-                    CashBank cb = _cashBankService.GetObjectById(pv.CashBankId);
+                PaymentVoucher pv = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
+                Payable payable = _payableService.GetObjectById(paymentVoucherDetail.PayableId);
+                CashBank cb = _cashBankService.GetObjectById(pv.CashBankId);
 
-                    cb.Amount += paymentVoucherDetail.Amount;
-                    payable.PendingClearanceAmount += paymentVoucherDetail.Amount;
-                    pv.PendingClearanceAmount += paymentVoucherDetail.Amount;
-                    payable.CompletionDate = null;
+                cb.Amount += paymentVoucherDetail.Amount;
+                payable.PendingClearanceAmount += paymentVoucherDetail.Amount;
+                pv.PendingClearanceAmount += paymentVoucherDetail.Amount;
+                payable.CompletionDate = null;
 
-                    _cashBankService.UpdateObject(cb);
-                    _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService, _cashBankService);
-                    _payableService.UpdateObject(payable);
-                }
+                _cashBankService.UpdateObject(cb);
+                _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService, _cashBankService);
+                _payableService.UpdateObject(payable);
+ 
                 paymentVoucherDetail.ClearanceDate = null;
                 paymentVoucherDetail = _repository.UnclearObject(paymentVoucherDetail);
+            }
+            return paymentVoucherDetail;
+        }
+
+        public PaymentVoucherDetail ClearConfirmObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService,
+                                          ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
+        {
+            if (_validator.ValidClearConfirmObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService, _payableService))
+            {
+                PaymentVoucher pv = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
+                Payable payable = _payableService.GetObjectById(paymentVoucherDetail.PayableId);
+                CashBank cb = _cashBankService.GetObjectById(pv.CashBankId);
+                cb.Amount -= paymentVoucherDetail.Amount;
+                _cashBankService.UpdateObject(cb);
+                paymentVoucherDetail.ClearanceDate = pv.PaymentDate;
+                _repository.ClearObject(paymentVoucherDetail);
+                payable.RemainingAmount -= paymentVoucherDetail.Amount;
+                if (payable.PendingClearanceAmount == 0 && payable.RemainingAmount == 0)
+                {
+                    payable.IsCompleted = true;
+                    payable.CompletionDate = paymentVoucherDetail.ClearanceDate;
+                }
+                _payableService.UpdateObject(payable);
+                paymentVoucherDetail = _repository.ConfirmObject(paymentVoucherDetail);
+            }
+            return paymentVoucherDetail;
+        }
+
+        public PaymentVoucherDetail UnclearUnconfirmObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService,
+                                                    ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
+        {
+            if (_validator.ValidUnclearUnconfirmObject(paymentVoucherDetail, _paymentVoucherService, this, _cashBankService, _payableService))
+            {
+                PaymentVoucher pv = _paymentVoucherService.GetObjectById(paymentVoucherDetail.PaymentVoucherId);
+                Payable payable = _payableService.GetObjectById(paymentVoucherDetail.PayableId);
+                CashBank cb = _cashBankService.GetObjectById(pv.CashBankId);
+                cb.Amount += paymentVoucherDetail.Amount;
+                _cashBankService.UpdateObject(cb);
+                payable.IsCompleted = false;
+                payable.CompletionDate = null;
+                paymentVoucherDetail.ClearanceDate = null;
+                _repository.UnclearObject(paymentVoucherDetail);
+                payable.RemainingAmount += paymentVoucherDetail.Amount;
+                _payableService.UpdateObject(payable);
+                paymentVoucherDetail = _repository.UnconfirmObject(paymentVoucherDetail);
             }
             return paymentVoucherDetail;
         }

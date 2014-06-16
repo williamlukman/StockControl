@@ -83,6 +83,20 @@ namespace Data.Repository
             return paymentVoucher;
         }
 
+        public PaymentVoucher ClearObject(PaymentVoucher paymentVoucher)
+        {
+            paymentVoucher.IsCleared = true;
+            Update(paymentVoucher);
+            return paymentVoucher;
+        }
+
+        public PaymentVoucher UnclearObject(PaymentVoucher paymentVoucher)
+        {
+            paymentVoucher.IsCleared = false;
+            Update(paymentVoucher);
+            return paymentVoucher;
+        }
+
         public string SetObjectCode()
         {
             // Code: #{year}/#{total_number

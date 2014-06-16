@@ -50,6 +50,23 @@ namespace Validation.Validation
             return paymentVoucher;
         }
 
+        public PaymentVoucher VRemainingCashBankAmount(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService)
+        {
+            decimal totaldetailamount = 0;
+            IList<PaymentVoucherDetail> details = _paymentVoucherDetailService.GetObjectsByPaymentVoucherId(paymentVoucher.Id);
+            foreach (var detail in details)
+            {
+                totaldetailamount += detail.Amount;
+            }
+
+            CashBank cashBank = _cashBankService.GetObjectById(paymentVoucher.CashBankId);
+            if (cashBank.Amount < totaldetailamount)
+            {
+                paymentVoucher.Errors.Add("CashBank.Amount", "Tidak boleh kurang dari total amount");
+            }
+            return paymentVoucher;
+        }
+
         public PaymentVoucher VRemainingAmountDetails(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService, IPayableService _payableService)
         {
             IDictionary<int, decimal> ValuePairPayableIdAmount = new Dictionary<int, decimal>();
@@ -111,11 +128,48 @@ namespace Validation.Validation
             return paymentVoucher;
         }
 
+        public PaymentVoucher VClearanceDate(PaymentVoucher paymentVoucher)
+        {
+            if (paymentVoucher.ClearanceDate < paymentVoucher.PaymentDate)
+            {
+                paymentVoucher.Errors.Add("ClearanceDate", "Tidak boleh sebelum payment date");
+            }
+            return paymentVoucher;
+        }
+
         public PaymentVoucher VIsConfirmed(PaymentVoucher paymentVoucher)
         {
             if (paymentVoucher.IsConfirmed)
             {
                 paymentVoucher.Errors.Add("IsConfirmed", "Tidak boleh sudah dikonfirmasi");
+            }
+            return paymentVoucher;
+        }
+
+        public PaymentVoucher VAlreadyConfirmed(PaymentVoucher paymentVoucher)
+        {
+            if (!paymentVoucher.IsConfirmed)
+            {
+                paymentVoucher.Errors.Add("IsConfirmed", "Harus sudah dikonfirmasi");
+            }
+            return paymentVoucher;
+        }
+
+        public PaymentVoucher VIsBank(PaymentVoucher paymentVoucher, ICashBankService _cashBankService)
+        {
+            CashBank cashBank = _cashBankService.GetObjectById(paymentVoucher.CashBankId);
+            if (!cashBank.IsBank)
+            {
+                paymentVoucher.Errors.Add("IsBank", "Non bank payment sudah automatis di clear kan");
+            }
+            return paymentVoucher;
+        }
+
+        public PaymentVoucher VAlreadyCleared(PaymentVoucher paymentVoucher)
+        {
+            if (!paymentVoucher.IsCleared)
+            {
+                paymentVoucher.Errors.Add("IsCleared", "Harus sudah di clear kan");
             }
             return paymentVoucher;
         }
@@ -157,6 +211,22 @@ namespace Validation.Validation
             return paymentVoucher;
         }
 
+        public PaymentVoucher VClearObject(PaymentVoucher paymentVoucher, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
+        {
+            VClearanceDate(paymentVoucher);
+            VRemainingCashBankAmount(paymentVoucher, _paymentVoucherDetailService, _cashBankService);
+            VAlreadyConfirmed(paymentVoucher);
+            VIsBank(paymentVoucher, _cashBankService);
+            return paymentVoucher;
+        }
+
+        public PaymentVoucher VUnclearObject(PaymentVoucher paymentVoucher, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
+        {
+            VAlreadyCleared(paymentVoucher);
+            VIsBank(paymentVoucher, _cashBankService);
+            return paymentVoucher;
+        }
+
         public bool ValidCreateObject(PaymentVoucher paymentVoucher, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, IPayableService _payableService, IContactService _contactService, ICashBankService _cashBankService)
         {
             VCreateObject(paymentVoucher, _paymentVoucherService, _paymentVoucherDetailService, _payableService, _contactService, _cashBankService);
@@ -188,6 +258,20 @@ namespace Validation.Validation
         {
             paymentVoucher.Errors.Clear();
             VUnconfirmObject(paymentVoucher, _paymentVoucherService, _paymentVoucherDetailService, _cashBankService, _payableService, _contactService);
+            return isValid(paymentVoucher);
+        }
+
+        public bool ValidClearObject(PaymentVoucher paymentVoucher, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
+        {
+            paymentVoucher.Errors.Clear();
+            VClearObject(paymentVoucher, _paymentVoucherService, _paymentVoucherDetailService, _cashBankService, _payableService, _contactService);
+            return isValid(paymentVoucher);
+        }
+
+        public bool ValidUnclearObject(PaymentVoucher paymentVoucher, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
+        {
+            paymentVoucher.Errors.Clear();
+            VUnclearObject(paymentVoucher, _paymentVoucherService, _paymentVoucherDetailService, _cashBankService, _payableService, _contactService);
             return isValid(paymentVoucher);
         }
 
