@@ -46,7 +46,7 @@ namespace Validation.Validation
             IList<PurchaseReceival> prlist = _prs.GetObjectsByContactId(c.Id);
             if (prlist.Any())
             {
-                c.Errors.Add("PurchaseRecievals", "Tidak boleh ada yang terasosiakan dengan kontak");
+                c.Errors.Add("PurchaseReceivals", "Tidak boleh ada yang terasosiakan dengan kontak");
             }
             return c;
         }

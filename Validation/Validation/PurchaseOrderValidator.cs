@@ -70,7 +70,7 @@ namespace Validation.Validation
 
         public PurchaseOrder VDeleteObject(PurchaseOrder po, IPurchaseOrderDetailService _pods)
         {
-            VConfirmObject(po, _pods);
+            VIsConfirmed(po);
             return po;
         }
 

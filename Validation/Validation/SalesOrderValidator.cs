@@ -70,7 +70,7 @@ namespace Validation.Validation
 
         public SalesOrder VDeleteObject(SalesOrder so, ISalesOrderDetailService _sods)
         {
-            VConfirmObject(so, _sods);
+            VIsConfirmed(so);
             return so;
         }
 

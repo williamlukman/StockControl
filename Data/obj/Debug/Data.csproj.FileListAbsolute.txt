@@ -26,3 +26,11 @@ C:\Users\Samsung\Documents\GitHub\po\Data\bin\Debug\Core.pdb
 C:\Users\Samsung\Documents\GitHub\po\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
 C:\Users\Samsung\Documents\GitHub\po\Data\obj\Debug\Data.dll
 C:\Users\Samsung\Documents\GitHub\po\Data\obj\Debug\Data.pdb
+C:\Users\Samsung\Documents\GitHub\StockControl\Data\bin\Debug\Data.dll.config
+C:\Users\Samsung\Documents\GitHub\StockControl\Data\bin\Debug\Data.dll
+C:\Users\Samsung\Documents\GitHub\StockControl\Data\bin\Debug\Data.pdb
+C:\Users\Samsung\Documents\GitHub\StockControl\Data\bin\Debug\Core.dll
+C:\Users\Samsung\Documents\GitHub\StockControl\Data\bin\Debug\Core.pdb
+C:\Users\Samsung\Documents\GitHub\StockControl\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
+C:\Users\Samsung\Documents\GitHub\StockControl\Data\obj\Debug\Data.dll
+C:\Users\Samsung\Documents\GitHub\StockControl\Data\obj\Debug\Data.pdb

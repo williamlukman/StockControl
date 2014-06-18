@@ -91,6 +91,7 @@ namespace ConsoleApp.Validation
             Console.WriteLine("     [CNT 6] Delete Person Andy Upho with associated sales order");
             Contact contact = _c.CreateObject("Andy Upho", "CEO of Angkat Besi");
             SalesOrder so1 = _so.CreateObject(_c.GetObjectByName("Andy Upho").Id, DateTime.Today, _c);
+            _so.SoftDeleteObject(so1, _sod);
             contact = _c.SoftDeleteObject(contact, _po, _pr, _so, _do);
             if (contact.Errors.Any()) { Console.WriteLine("        >> " + _c.GetValidator().PrintError(contact)); }
             if (so1.Errors.Any()) { Console.WriteLine("        >> " + _so.GetValidator().PrintError(so1)); }

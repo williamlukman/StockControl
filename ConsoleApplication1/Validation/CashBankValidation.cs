@@ -73,7 +73,7 @@ namespace ConsoleApp.Validation
 
         public void CashBankValidation4()
         {
-            Console.WriteLine("     [CB 3] Create valid CashBank Pettycash");
+            Console.WriteLine("     [CB 4] Delete valid CashBank");
             CashBank cashBank = new CashBank()
             {
                 Name = "Muamalat",

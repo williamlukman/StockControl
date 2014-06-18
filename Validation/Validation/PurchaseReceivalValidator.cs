@@ -71,7 +71,7 @@ namespace Validation.Validation
 
         public PurchaseReceival VDeleteObject(PurchaseReceival pr, IPurchaseReceivalDetailService _prds)
         {
-            VConfirmObject(pr, _prds);
+            VIsConfirmed(pr);
             return pr;
         }
 
