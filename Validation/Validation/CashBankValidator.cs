@@ -54,7 +54,7 @@ namespace Validation.Validation
         public CashBank VHasReceiptVoucherDetail(CashBank cb, IReceiptVoucherService _rvs)
         {
             IList<ReceiptVoucher> vouchers = _rvs.GetObjectsByCashBankId(cb.Id);
-            if (!vouchers.Any())
+            if (vouchers.Any())
             {
                 cb.Errors.Add("ReceiptVoucher", "Tidak boleh ada asosiasi dengan segala macam receipt");
             }
@@ -64,7 +64,7 @@ namespace Validation.Validation
         public CashBank VHasPaymentVoucherDetail(CashBank cb, IPaymentVoucherService _pvs)
         {
             IList<PaymentVoucher> vouchers = _pvs.GetObjectsByCashBankId(cb.Id);
-            if (!vouchers.Any())
+            if (vouchers.Any())
             {
                 cb.Errors.Add("PaymentVoucher", "Tidak boleh ada asosiasi dengan segala macam pembayaran");
             }

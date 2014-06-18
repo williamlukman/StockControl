@@ -238,10 +238,11 @@ namespace ConsoleApp
         public void ValidateCashBankModel(Program p, StockControlEntities db)
         {
             Console.WriteLine("[CashBank Validation Test]");
-            CashBankValidation cb = new CashBankValidation(new CashBankValidator(), this._cb);
+            CashBankValidation cb = new CashBankValidation(new CashBankValidator(), this._cb, this._pv, this._rv);
             cb.CashBankValidation1();
             cb.CashBankValidation2();
             cb.CashBankValidation3();
+            cb.CashBankValidation4();
         }
 
         public int ValidatePurchaseInvoiceModel(Program p, StockControlEntities db, int sampleprdid)

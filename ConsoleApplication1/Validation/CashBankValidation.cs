@@ -17,11 +17,16 @@ namespace ConsoleApp.Validation
     {
         private CashBankValidator _validator;
         private ICashBankService _cb;
+        private IPaymentVoucherService _pvs;
+        private IReceiptVoucherService _rvs;
 
-        public CashBankValidation(CashBankValidator validator, ICashBankService cb)
+        public CashBankValidation(CashBankValidator validator, ICashBankService cb,
+                                  IPaymentVoucherService pvs, IReceiptVoucherService rvs)
         {
             _validator = validator;
             _cb = cb;
+            _pvs = pvs;
+            _rvs = rvs;
         }
 
         public void CashBankValidation1()
@@ -64,6 +69,19 @@ namespace ConsoleApp.Validation
             };
             _cb.CreateObject(cb);
             if (cb.Errors.Any()) { Console.WriteLine("        >> " + _cb.GetValidator().PrintError(cb)); }
+        }
+
+        public void CashBankValidation4()
+        {
+            Console.WriteLine("     [CB 3] Create valid CashBank Pettycash");
+            CashBank cashBank = new CashBank()
+            {
+                Name = "Muamalat",
+                Description = "Bank Bersama, GIRO, Check",
+                Amount = 10000000
+            };
+            cashBank = _cb.CreateObject(cashBank);
+            cashBank = _cb.SoftDeleteObject(cashBank, _rvs, _pvs);
         }
     }
 }

@@ -12,4 +12,3 @@ C:\Users\Samsung\Documents\GitHub\po\Core\bin\Debug\Core.dll
 C:\Users\Samsung\Documents\GitHub\po\Core\bin\Debug\Core.pdb
 C:\Users\Samsung\Documents\GitHub\po\Core\obj\Debug\Core.dll
 C:\Users\Samsung\Documents\GitHub\po\Core\obj\Debug\Core.pdb
-C:\Users\Samsung\Documents\GitHub\po\Core\obj\Debug\Core.csprojResolveAssemblyReference.cache

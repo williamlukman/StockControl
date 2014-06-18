@@ -19,3 +19,10 @@ C:\Users\Samsung\Documents\GitHub\po\Validation\bin\Debug\Core.pdb
 C:\Users\Samsung\Documents\GitHub\po\Validation\obj\Debug\Validation.csprojResolveAssemblyReference.cache
 C:\Users\Samsung\Documents\GitHub\po\Validation\obj\Debug\Validation.dll
 C:\Users\Samsung\Documents\GitHub\po\Validation\obj\Debug\Validation.pdb
+C:\Users\Samsung\Documents\GitHub\StockControl\Validation\bin\Debug\Validation.dll
+C:\Users\Samsung\Documents\GitHub\StockControl\Validation\bin\Debug\Validation.pdb
+C:\Users\Samsung\Documents\GitHub\StockControl\Validation\bin\Debug\Core.dll
+C:\Users\Samsung\Documents\GitHub\StockControl\Validation\bin\Debug\Core.pdb
+C:\Users\Samsung\Documents\GitHub\StockControl\Validation\obj\Debug\Validation.csprojResolveAssemblyReference.cache
+C:\Users\Samsung\Documents\GitHub\StockControl\Validation\obj\Debug\Validation.dll
+C:\Users\Samsung\Documents\GitHub\StockControl\Validation\obj\Debug\Validation.pdb

@@ -1,0 +1,15 @@
+C:\Users\Samsung\Documents\GitHub\StockControl\TestValidation\bin\Debug\TestValidation.dll
+C:\Users\Samsung\Documents\GitHub\StockControl\TestValidation\bin\Debug\TestValidation.pdb
+C:\Users\Samsung\Documents\GitHub\StockControl\TestValidation\bin\Debug\Core.dll
+C:\Users\Samsung\Documents\GitHub\StockControl\TestValidation\bin\Debug\Data.dll
+C:\Users\Samsung\Documents\GitHub\StockControl\TestValidation\bin\Debug\EntityFramework.dll
+C:\Users\Samsung\Documents\GitHub\StockControl\TestValidation\bin\Debug\NSpec.dll
+C:\Users\Samsung\Documents\GitHub\StockControl\TestValidation\bin\Debug\Service.dll
+C:\Users\Samsung\Documents\GitHub\StockControl\TestValidation\bin\Debug\Validation.dll
+C:\Users\Samsung\Documents\GitHub\StockControl\TestValidation\bin\Debug\Core.pdb
+C:\Users\Samsung\Documents\GitHub\StockControl\TestValidation\bin\Debug\Data.pdb
+C:\Users\Samsung\Documents\GitHub\StockControl\TestValidation\bin\Debug\Service.pdb
+C:\Users\Samsung\Documents\GitHub\StockControl\TestValidation\bin\Debug\Validation.pdb
+C:\Users\Samsung\Documents\GitHub\StockControl\TestValidation\obj\Debug\TestValidation.csprojResolveAssemblyReference.cache
+C:\Users\Samsung\Documents\GitHub\StockControl\TestValidation\obj\Debug\TestValidation.dll
+C:\Users\Samsung\Documents\GitHub\StockControl\TestValidation\obj\Debug\TestValidation.pdb
