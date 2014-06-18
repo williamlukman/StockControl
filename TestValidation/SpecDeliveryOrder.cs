@@ -15,7 +15,7 @@ using Validation.Validation;
 namespace TestValidation
 {
 
-    public class SpecContact : nspec
+    public class SpecDeliveryOrder : nspec
     {
         Contact contact;
         IContactService _contactService;
@@ -26,7 +26,6 @@ namespace TestValidation
         ISalesOrderDetailService _salesOrderDetailService;
         IDeliveryOrderService _deliveryOrderService;
         IItemService _itemService;
-        
         void before_each()
         {
             var db = new StockControlEntities();
@@ -44,26 +43,13 @@ namespace TestValidation
             }
         }
 
-        /*
-         * STEPS:
-         * 1. Create valid contact
-         * 2. Create invalid contact with no name
-         * 3. Create valid contact with no address
-         * 4. Create contact with no elements
-         * 5a. Delete contact
-         * 5b. Delete contact with purchase order
-         * 5c. Delete contact with deleted purchase order
-         * 5d. Delete contact with sales order
-         * 5e. Delete contact with deleted sales order & details
-         */
-        void contact_validation()
+        void cb_validation()
         {
             it["create_contact"] = () =>
                 {
                     contact = _contactService.CreateObject("Harijadi", "Jl. Pahlawan 1 Bojonegoro" );
                     contact.Errors.Count().should_be(0);
                 };
-
 
             it["create_invalid_contact_no_name"] = () =>
                 {
@@ -77,13 +63,6 @@ namespace TestValidation
                     contact.Errors.Count().should_be(0);
                 };
 
-            it["create_contact_with_no_element"] = () =>
-                {
-                    contact = new Contact();
-                    _contactService.CreateObject(contact);
-                    contact.Errors.Count().should_not_be(0);
-                };
-
             context["when deleting Contact"] = () =>
                 {
                     before = () =>
@@ -91,7 +70,7 @@ namespace TestValidation
                             contact = _contactService.CreateObject("Harijadi", "Jl. Pahlawan 1 Bojonegoro");
                         };
 
-                    it["deletes contact"] = () =>
+                    it["deletes cashbank"] = () =>
                         {
                             contact = _contactService.SoftDeleteObject(contact, _purchaseOrderService, _purchaseReceivalService, _salesOrderService, _deliveryOrderService);
                             contact.Errors.Count().should_be(0);

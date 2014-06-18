@@ -43,7 +43,16 @@ namespace TestValidation
             }
         }
 
-        void cb_validation()
+        /*
+         * STEPS:
+         * 1. Create valid CashBank
+         * 2. Create invalid CashBank with Empty String name
+         * 3. Create valid CashBank with negative amount
+         * 4a. Delete CashBank
+         * 4b. Delete CashBank with PaymentVoucher
+         * 4c. Delete CashBank with ReceiptVoucher
+         */
+        void cashbank_validation()
         {
             it["create_cashbank"] = () =>
                 {
@@ -51,7 +60,8 @@ namespace TestValidation
                     {
                         Name = "Muamalat",
                         Description = "Bank Bersama, GIRO, Check",
-                        Amount = 10000000
+                        Amount = 10000000,
+                        IsBank = true
                     };
                     cashBank = _cashBankService.CreateObject(cashBank);
                     cashBank.Errors.Count().should_be(0);
@@ -63,7 +73,8 @@ namespace TestValidation
                     {
                         Name = "         ",
                         Description = "Bank Bersama, GIRO, Check",
-                        Amount = 7000000
+                        Amount = 7000000,
+                        IsBank = true
                     };
                     cashBank = _cashBankService.CreateObject(cashBank);
                     cashBank.Errors.Count().should_not_be(0);
@@ -75,7 +86,8 @@ namespace TestValidation
                     {
                         Name = "Mandiri",
                         Description = "Bank Bersama, GIRO, Check",
-                        Amount = -7000000
+                        Amount = -7000000,
+                        IsBank = true
                     };
                     cashBank = _cashBankService.CreateObject(cashBank);
                     cashBank.Errors.Count().should_be(0);
@@ -89,7 +101,8 @@ namespace TestValidation
                             {
                                 Name = "Muamalat",
                                 Description = "Bank Bersama, GIRO, Check",
-                                Amount = 10000000
+                                Amount = 10000000,
+                                IsBank = true
                             };
                             cashBank = _cashBankService.CreateObject(cashBank);
                         };
