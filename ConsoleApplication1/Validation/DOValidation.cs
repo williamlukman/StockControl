@@ -27,12 +27,15 @@ namespace ConsoleApp.Validation
         private IDeliveryOrderService _do;
         private IDeliveryOrderDetailService _dod;
         private IStockMutationService _sm;
+        private IStockAdjustmentService _sa;
+        private IStockAdjustmentDetailService _sad;
 
         public DOValidation(DeliveryOrderValidator _dov, DeliveryOrderDetailValidator _dodv, IContactService c, IItemService i, IStockMutationService sm,
                                  IPurchaseOrderService po, IPurchaseReceivalService pr,
                                  ISalesOrderService so, IDeliveryOrderService d,
                                  IPurchaseOrderDetailService pod, IPurchaseReceivalDetailService prd,
-                                 ISalesOrderDetailService sod, IDeliveryOrderDetailService dod)
+                                 ISalesOrderDetailService sod, IDeliveryOrderDetailService dod,
+                                 IStockAdjustmentService sa, IStockAdjustmentDetailService sad)
         {
             dov = _dov;
             dodv = _dodv;
@@ -46,7 +49,9 @@ namespace ConsoleApp.Validation
             _pod = pod;
             _prd = prd;
             _sod = sod;
-            _dod = dod;            
+            _dod = dod;
+            _sa = sa;
+            _sad = sad;
         }
 
         public void DOValidation1()
@@ -120,5 +125,28 @@ namespace ConsoleApp.Validation
             if (d.Errors.Any()) { Console.WriteLine("        >> " + _do.GetValidator().PrintError(d)); }
         }
 
+        public void DOValidation10()
+        {
+
+            Contact contact = _c.CreateObject("Bpk. Presiden", "Istana Negara");
+            Item item_batiktulis = _i.CreateObject("Batik Tulis", "Untuk Para Menteri Negara", "RI001");
+            Item item_busway = _i.CreateObject("Busway", "Untuk disumbangkan bagi kebutuhan DKI Jakarta", "RI002");
+            Item item_botolaqua = _i.CreateObject("Botol Aqua", "Minuman untuk pekerja di Istana Negara", "RI003");
+            StockAdjustment stockAdjustment = _sa.CreateObject(new DateTime(2014, 1, 1));
+            StockAdjustmentDetail stockAdjust_batiktulis = _sad.CreateObject(stockAdjustment.Id, item_batiktulis.Id, 990, 1400000, _sa, _i);
+            StockAdjustmentDetail stockAdjust_busway = _sad.CreateObject(stockAdjustment.Id, item_busway.Id, 120, 725000000, _sa, _i);
+            StockAdjustmentDetail stockAdjust_botolaqua = _sad.CreateObject(stockAdjustment.Id, item_botolaqua.Id, 5000, 4000, _sa, _i);
+            SalesOrder salesOrder1 = _so.CreateObject(contact.Id, new DateTime(2014, 07, 09), _c);
+            SalesOrder salesOrder2 = _so.CreateObject(contact.Id, new DateTime(2014, 04, 09), _c);
+            SalesOrderDetail salesOrderDetail_batiktulis_so1 = _sod.CreateObject(salesOrder1.Id, item_batiktulis.Id, 500, 2000000, _so, _i);
+            SalesOrderDetail salesOrderDetail_busway_so1 = _sod.CreateObject(salesOrder1.Id, item_busway.Id, 91, 800000000, _so, _i);
+            SalesOrderDetail salesOrderDetail_botolaqua_so1 = _sod.CreateObject(salesOrder1.Id, item_botolaqua.Id, 2000, 5000, _so, _i);
+            SalesOrderDetail salesOrderDetail_batiktulis_so2 = _sod.CreateObject(salesOrder2.Id, item_batiktulis.Id, 40, 2000500, _so, _i);
+            SalesOrderDetail salesOrderDetail_busway_so2 = _sod.CreateObject(salesOrder2.Id, item_busway.Id, 3, 810000000, _so, _i);
+            SalesOrderDetail salesOrderDetail_botolaqua_so2 = _sod.CreateObject(salesOrder2.Id, item_botolaqua.Id, 340, 5500, _so, _i);
+            salesOrder1 = _so.ConfirmObject(salesOrder1, _sod, _sm, _i);
+            salesOrder2 = _so.ConfirmObject(salesOrder2, _sod, _sm, _i);
+
+        }
     }
 }

@@ -219,7 +219,7 @@ namespace ConsoleApp
 
             DOValidation dov = new DOValidation(new DeliveryOrderValidator(), new DeliveryOrderDetailValidator(), this._c, this._i, this._sm,
                                this._po, this._pr, this._so, this._do,
-                               this._pod, this._prd, this._sod, this._dod);
+                               this._pod, this._prd, this._sod, this._dod, this._sa, this._sad);
             dov.DOValidation1();
             int sampledodid = dov.DOValidation2(sodtest1);
             dov.DOValidation3();
@@ -231,6 +231,7 @@ namespace ConsoleApp
 
             sov.SOValidation10();
             dov.DOValidation9();
+            dov.DOValidation10();
 
             return sampledodid;
         }

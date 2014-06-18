@@ -111,7 +111,6 @@ namespace Validation.Validation
 
         public DeliveryOrder VUnconfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods, IItemService _is)
         {
-            
             VHasItemQuantity(d, _dods, _is);
             if (isValid(d))
             {

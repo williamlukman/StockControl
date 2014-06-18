@@ -18,14 +18,40 @@ namespace TestValidation
     public class SpecDeliveryOrder : nspec
     {
         Contact contact;
+        Item item_batiktulis;
+        Item item_busway;
+        Item item_botolaqua;
+        StockAdjustment stockAdjustment;
+        StockAdjustmentDetail stockAdjust_batiktulis;
+        StockAdjustmentDetail stockAdjust_busway;
+        StockAdjustmentDetail stockAdjust_botolaqua;
+        SalesOrder salesOrder1;
+        SalesOrder salesOrder2;
+        SalesOrderDetail salesOrderDetail_batiktulis_so1;
+        SalesOrderDetail salesOrderDetail_busway_so1;
+        SalesOrderDetail salesOrderDetail_botolaqua_so1;
+        SalesOrderDetail salesOrderDetail_batiktulis_so2;
+        SalesOrderDetail salesOrderDetail_busway_so2;
+        SalesOrderDetail salesOrderDetail_botolaqua_so2;
+        DeliveryOrder deliveryOrder1;
+        DeliveryOrder deliveryOrder2;
+        DeliveryOrderDetail deliveryOrderDetail_batiktulis_do1;
+        DeliveryOrderDetail deliveryOrderDetail_busway_do1;
+        DeliveryOrderDetail deliveryOrderDetail_botolaqua_do1;
+        DeliveryOrderDetail deliveryOrderDetail_batiktulis_do2a;
+        DeliveryOrderDetail deliveryOrderDetail_batiktulis_do2b;
+        DeliveryOrderDetail deliveryOrderDetail_busway_do2;
+        DeliveryOrderDetail deliveryOrderDetail_botolaqua_do2;
         IContactService _contactService;
-        IPurchaseOrderService _purchaseOrderService;
-        IPurchaseOrderDetailService _purchaseOrderDetailService;
-        IPurchaseReceivalService _purchaseReceivalService;
+        IItemService _itemService;
+        IStockMutationService _stockMutationService;
+        IStockAdjustmentService _stockAdjustmentService;
+        IStockAdjustmentDetailService _stockAdjustmentDetailService;
         ISalesOrderService _salesOrderService;
         ISalesOrderDetailService _salesOrderDetailService;
         IDeliveryOrderService _deliveryOrderService;
-        IItemService _itemService;
+        IDeliveryOrderDetailService _deliveryOrderDetailService;
+
         void before_each()
         {
             var db = new StockControlEntities();
@@ -33,81 +59,112 @@ namespace TestValidation
             {
                 db.DeleteAllTables();
                 _contactService = new ContactService(new ContactRepository(), new ContactValidator());
-                _purchaseOrderService = new PurchaseOrderService(new PurchaseOrderRepository(), new PurchaseOrderValidator());
-                _purchaseOrderDetailService = new PurchaseOrderDetailService(new PurchaseOrderDetailRepository(), new PurchaseOrderDetailValidator());
-                _purchaseReceivalService = new PurchaseReceivalService(new PurchaseReceivalRepository(), new PurchaseReceivalValidator());
+                _itemService = new ItemService(new ItemRepository(), new ItemValidator());
+                _stockMutationService = new StockMutationService(new StockMutationRepository(), new StockMutationValidator());
                 _salesOrderService = new SalesOrderService(new SalesOrderRepository(), new SalesOrderValidator());
                 _salesOrderDetailService = new SalesOrderDetailService(new SalesOrderDetailRepository(), new SalesOrderDetailValidator());
                 _deliveryOrderService = new DeliveryOrderService(new DeliveryOrderRepository(), new DeliveryOrderValidator());
-                _itemService = new ItemService(new ItemRepository(), new ItemValidator());
+                _deliveryOrderDetailService = new DeliveryOrderDetailService(new DeliveryOrderDetailRepository(), new DeliveryOrderDetailValidator());
+                _stockAdjustmentService = new StockAdjustmentService(new StockAdjustmentRepository(), new StockAdjustmentValidator());
+                _stockAdjustmentDetailService = new StockAdjustmentDetailService(new StockAdjustmentDetailRepository(), new StockAdjustmentDetailValidator());
+
+                contact = _contactService.CreateObject("Bpk. Presiden", "Istana Negara");
+                item_batiktulis = _itemService.CreateObject("Batik Tulis", "Untuk Para Menteri Negara", "RI001");
+                item_busway = _itemService.CreateObject("Busway", "Untuk disumbangkan bagi kebutuhan DKI Jakarta", "RI002");
+                item_botolaqua = _itemService.CreateObject("Botol Aqua", "Minuman untuk pekerja di Istana Negara", "RI003");
+                stockAdjustment = _stockAdjustmentService.CreateObject(new DateTime(2014, 1, 1));
+                stockAdjust_batiktulis = _stockAdjustmentDetailService.CreateObject(stockAdjustment.Id, item_batiktulis.Id, 990, 1400000, _stockAdjustmentService, _itemService);
+                stockAdjust_busway = _stockAdjustmentDetailService.CreateObject(stockAdjustment.Id, item_busway.Id, 120, 725000000, _stockAdjustmentService, _itemService);
+                stockAdjust_botolaqua = _stockAdjustmentDetailService.CreateObject(stockAdjustment.Id, item_botolaqua.Id, 5000, 4000, _stockAdjustmentService, _itemService);
+                stockAdjustment = _stockAdjustmentService.ConfirmObject(stockAdjustment, _stockAdjustmentDetailService, _stockMutationService, _itemService);
+                salesOrder1 = _salesOrderService.CreateObject(contact.Id, new DateTime(2014, 07, 09), _contactService);
+                salesOrder2 = _salesOrderService.CreateObject(contact.Id, new DateTime(2014, 04, 09), _contactService);
+                salesOrderDetail_batiktulis_so1 = _salesOrderDetailService.CreateObject(salesOrder1.Id, item_batiktulis.Id, 500, 2000000, _salesOrderService, _itemService);
+                salesOrderDetail_busway_so1 = _salesOrderDetailService.CreateObject(salesOrder1.Id, item_busway.Id, 91, 800000000, _salesOrderService, _itemService);
+                salesOrderDetail_botolaqua_so1 = _salesOrderDetailService.CreateObject(salesOrder1.Id, item_botolaqua.Id, 2000, 5000, _salesOrderService, _itemService);
+                salesOrderDetail_batiktulis_so2 = _salesOrderDetailService.CreateObject(salesOrder2.Id, item_batiktulis.Id, 40, 2000500, _salesOrderService, _itemService);
+                salesOrderDetail_busway_so2 = _salesOrderDetailService.CreateObject(salesOrder2.Id, item_busway.Id, 3, 810000000, _salesOrderService, _itemService);
+                salesOrderDetail_botolaqua_so2 = _salesOrderDetailService.CreateObject(salesOrder2.Id, item_botolaqua.Id, 340, 5500, _salesOrderService, _itemService);
+                salesOrder1 = _salesOrderService.ConfirmObject(salesOrder1, _salesOrderDetailService, _stockMutationService, _itemService);
+                salesOrder2 = _salesOrderService.ConfirmObject(salesOrder2, _salesOrderDetailService, _stockMutationService, _itemService);
             }
         }
 
-        void cb_validation()
+        void deliveryorder_validation()
         {
-            it["create_contact"] = () =>
+            it["validates_all_variables"] = () =>
+            {
+                contact.Errors.Count().should_be(0);
+                item_batiktulis.Errors.Count().should_be(0);
+                item_busway.Errors.Count().should_be(0);
+                item_botolaqua.Errors.Count().should_be(0);
+                salesOrder1.Errors.Count().should_be(0);
+                salesOrder2.Errors.Count().should_be(0);
+            };
+
+            it["validates the item ready stock"] = () =>
+            {
+                item_batiktulis.Ready.should_be(stockAdjust_batiktulis.Quantity);
+                item_busway.Ready.should_be(stockAdjust_busway.Quantity);
+                item_botolaqua.Ready.should_be(stockAdjust_botolaqua.Quantity);
+            };
+
+            it["validates the item pending delivery"] = () =>
+            {
+                item_batiktulis.PendingDelivery.should_be(salesOrderDetail_batiktulis_so1.Quantity + salesOrderDetail_batiktulis_so2.Quantity);
+                item_busway.PendingDelivery.should_be(salesOrderDetail_busway_so1.Quantity + salesOrderDetail_busway_so2.Quantity);
+                item_botolaqua.PendingDelivery.should_be(salesOrderDetail_botolaqua_so1.Quantity + salesOrderDetail_botolaqua_so2.Quantity);
+            };
+
+            context["when confirming delivery order"] = () =>
+            {
+                before = () =>
                 {
-                    contact = _contactService.CreateObject("Harijadi", "Jl. Pahlawan 1 Bojonegoro" );
-                    contact.Errors.Count().should_be(0);
+                    deliveryOrder1 = _deliveryOrderService.CreateObject(contact.Id, new DateTime(2000, 1, 1), _contactService);
+                    deliveryOrder2 = _deliveryOrderService.CreateObject(contact.Id, new DateTime(2014, 5, 5), _contactService);
+                    deliveryOrderDetail_batiktulis_do1 = _deliveryOrderDetailService.CreateObject(deliveryOrder1.Id, item_batiktulis.Id, 400, salesOrderDetail_batiktulis_so1.Id, _deliveryOrderService,
+                                                                                                  _salesOrderDetailService, _salesOrderService, _itemService, _contactService);
+                    deliveryOrderDetail_busway_do1 = _deliveryOrderDetailService.CreateObject(deliveryOrder1.Id, item_busway.Id, 91, salesOrderDetail_busway_so1.Id, _deliveryOrderService,
+                                                                                                _salesOrderDetailService, _salesOrderService, _itemService, _contactService);
+                    deliveryOrderDetail_botolaqua_do1 = _deliveryOrderDetailService.CreateObject(deliveryOrder1.Id, item_botolaqua.Id, 2000, salesOrderDetail_botolaqua_so1.Id,  _deliveryOrderService,
+                                                                                                  _salesOrderDetailService, _salesOrderService, _itemService, _contactService);
+                    deliveryOrderDetail_batiktulis_do2a = _deliveryOrderDetailService.CreateObject(deliveryOrder2.Id, item_batiktulis.Id, 100, salesOrderDetail_batiktulis_so1.Id, _deliveryOrderService,
+                                                                                                                          _salesOrderDetailService, _salesOrderService, _itemService, _contactService);
+                    deliveryOrderDetail_batiktulis_do2b = _deliveryOrderDetailService.CreateObject(deliveryOrder2.Id, item_batiktulis.Id, 40, salesOrderDetail_batiktulis_so2.Id, _deliveryOrderService,
+                                                                                                                          _salesOrderDetailService, _salesOrderService, _itemService, _contactService);
+                    deliveryOrderDetail_busway_do2 = _deliveryOrderDetailService.CreateObject(deliveryOrder2.Id, item_busway.Id, 3, salesOrderDetail_busway_so2.Id, _deliveryOrderService,
+                                                                                                                          _salesOrderDetailService, _salesOrderService, _itemService, _contactService);
+                    deliveryOrderDetail_botolaqua_do2 = _deliveryOrderDetailService.CreateObject(deliveryOrder2.Id, item_botolaqua.Id, 340, salesOrderDetail_botolaqua_so2.Id, _deliveryOrderService,
+                                                                                                                          _salesOrderDetailService, _salesOrderService, _itemService, _contactService);
+                    deliveryOrder1 = _deliveryOrderService.ConfirmObject(deliveryOrder1, _deliveryOrderDetailService, _salesOrderDetailService, _stockMutationService, _itemService);
+                    deliveryOrder2 = _deliveryOrderService.ConfirmObject(deliveryOrder2, _deliveryOrderDetailService, _salesOrderDetailService, _stockMutationService, _itemService);
                 };
 
-            it["create_invalid_contact_no_name"] = () =>
+                it["validates_deliveryorders"] = () =>
                 {
-                    contact = _contactService.CreateObject("               ", "Jl. Tanpa Nama 321 Gang Buntu");
-                    contact.Errors.Count().should_not_be(0);
+                    deliveryOrder1.Errors.Count().should_be(0);
+                    deliveryOrder2.Errors.Count().should_be(0);
                 };
 
-            it["create_contact_no_address"] = () =>
+                it["deletes confirmed delivery order"] = () =>
                 {
-                    contact = _contactService.CreateObject("Suramadu", "Jl. P.B.Sudirman 114 Suramadu");
-                    contact.Errors.Count().should_be(0);
+                    deliveryOrder1 = _deliveryOrderService.SoftDeleteObject(deliveryOrder1, _deliveryOrderDetailService);
+                    deliveryOrder1.Errors.Count().should_not_be(0);
                 };
 
-            context["when deleting Contact"] = () =>
+                it["unconfirm delivery order"] = () =>
                 {
-                    before = () =>
-                        {
-                            contact = _contactService.CreateObject("Harijadi", "Jl. Pahlawan 1 Bojonegoro");
-                        };
-
-                    it["deletes cashbank"] = () =>
-                        {
-                            contact = _contactService.SoftDeleteObject(contact, _purchaseOrderService, _purchaseReceivalService, _salesOrderService, _deliveryOrderService);
-                            contact.Errors.Count().should_be(0);
-                        };
-
-                    it["deletes contact with purchaseorder"] = () =>
-                        {
-                            PurchaseOrder purchaseOrder = _purchaseOrderService.CreateObject(contact.Id, DateTime.Now, _contactService);
-                            contact = _contactService.SoftDeleteObject(contact, _purchaseOrderService, _purchaseReceivalService, _salesOrderService, _deliveryOrderService);
-                            contact.Errors.Count().should_not_be(0);
-                        };
-
-                    it["deletes cashbank with deleted purchaseorder"] = () =>
-                        {
-                            PurchaseOrder purchaseOrder = _purchaseOrderService.CreateObject(contact.Id, DateTime.Now, _contactService);
-                            _purchaseOrderService.SoftDeleteObject(purchaseOrder, _purchaseOrderDetailService);
-                            contact = _contactService.SoftDeleteObject(contact, _purchaseOrderService, _purchaseReceivalService, _salesOrderService, _deliveryOrderService);
-                            contact.Errors.Count().should_be(0);
-                        };
-
-                    it["deletes contact with salesorder"] = () =>
-                    {
-                        SalesOrder salesOrder = _salesOrderService.CreateObject(contact.Id, DateTime.Now, _contactService);
-                        contact = _contactService.SoftDeleteObject(contact, _purchaseOrderService, _purchaseReceivalService, _salesOrderService, _deliveryOrderService);
-                        contact.Errors.Count().should_not_be(0);
-                    };
-
-                    it["deletes contact with deleted salesorder"] = () =>
-                    {
-                        SalesOrder salesOrder = _salesOrderService.CreateObject(contact.Id, DateTime.Now, _contactService);
-                        Item item = _itemService.CreateObject("Teh Botol", "Ukuran 200ml", "TBTL200M");
-                        SalesOrderDetail salesOrderDetail = _salesOrderDetailService.CreateObject(salesOrder.Id, item.Id, 1, 100000, _salesOrderService, _itemService);
-                        _salesOrderService.SoftDeleteObject(salesOrder, _salesOrderDetailService);
-                        contact = _contactService.SoftDeleteObject(contact, _purchaseOrderService, _purchaseReceivalService, _salesOrderService, _deliveryOrderService);
-                        contact.Errors.Count().should_be(0);
-                    };
+                    deliveryOrder1 = _deliveryOrderService.UnconfirmObject(deliveryOrder1, _deliveryOrderDetailService, _stockMutationService, _itemService);
+                    deliveryOrder1.Errors.Count().should_be(0);
                 };
+
+                it["validates item pending delivery"] = () =>
+                {
+                    item_batiktulis.PendingDelivery.should_be(0);
+                    item_busway.PendingDelivery.should_be(0);
+                    item_botolaqua.PendingDelivery.should_be(0);
+                };
+            };
         }
     }
 }
