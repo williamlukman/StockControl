@@ -10,7 +10,7 @@ namespace Core.Interface.Validation
 {
     public interface IPurchaseReceivalValidator
     {
-        PurchaseReceival VCustomer(PurchaseReceival pr, IContactService _cs);
+        PurchaseReceival VContact(PurchaseReceival pr, IContactService _cs);
         PurchaseReceival VReceivalDate(PurchaseReceival pr);
         PurchaseReceival VIsConfirmed(PurchaseReceival pr);
         PurchaseReceival VHasPurchaseReceivalDetails(PurchaseReceival pr, IPurchaseReceivalDetailService _prds);

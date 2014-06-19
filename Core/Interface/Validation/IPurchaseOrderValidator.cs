@@ -10,7 +10,7 @@ namespace Core.Interface.Validation
 {
     public interface IPurchaseOrderValidator
     {
-        PurchaseOrder VCustomer(PurchaseOrder po, IContactService _cs);
+        PurchaseOrder VContact(PurchaseOrder po, IContactService _cs);
         PurchaseOrder VPurchaseDate(PurchaseOrder po);
         PurchaseOrder VIsConfirmed(PurchaseOrder po);
         PurchaseOrder VHasPurchaseOrderDetails(PurchaseOrder po, IPurchaseOrderDetailService _pods);

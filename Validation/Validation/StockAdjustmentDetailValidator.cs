@@ -104,9 +104,13 @@ namespace Validation.Validation
         public StockAdjustmentDetail VCreateObject(StockAdjustmentDetail sad, IStockAdjustmentDetailService _sads, IStockAdjustmentService _sas, IItemService _is)
         {
             VHasStockAdjustment(sad, _sas);
+            if (!isValid(sad)) { return sad; }
             VHasItem(sad, _is);
+            if (!isValid(sad)) { return sad; }
             VQuantity(sad);
+            if (!isValid(sad)) { return sad; }
             VPrice(sad);
+            if (!isValid(sad)) { return sad; }
             VUniqueItem(sad, _sads, _is);
             return sad;
         }
@@ -114,10 +118,15 @@ namespace Validation.Validation
         public StockAdjustmentDetail VUpdateObject(StockAdjustmentDetail sad, IStockAdjustmentDetailService _sads, IStockAdjustmentService _sas, IItemService _is)
         {
             VHasStockAdjustment(sad, _sas);
+            if (!isValid(sad)) { return sad; }
             VHasItem(sad, _is);
+            if (!isValid(sad)) { return sad; }
             VQuantity(sad);
+            if (!isValid(sad)) { return sad; }
             VPrice(sad);
+            if (!isValid(sad)) { return sad; }
             VUniqueItem(sad, _sads, _is);
+            if (!isValid(sad)) { return sad; }
             VIsConfirmed(sad);
             return sad;
         }
@@ -131,6 +140,7 @@ namespace Validation.Validation
         public StockAdjustmentDetail VConfirmObject(StockAdjustmentDetail sad, IItemService _is)
         {
             VIsConfirmed(sad);
+            if (!isValid(sad)) { return sad; }
             VQuantityConfirm(sad, _is);
             return sad;
         }

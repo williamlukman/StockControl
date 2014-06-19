@@ -13,12 +13,12 @@ namespace Validation.Validation
 {
     public class PurchaseOrderValidator : IPurchaseOrderValidator
     {
-        public PurchaseOrder VCustomer(PurchaseOrder po, IContactService _cs)
+        public PurchaseOrder VContact(PurchaseOrder po, IContactService _cs)
         {
-            Contact c = _cs.GetObjectById(po.CustomerId);
+            Contact c = _cs.GetObjectById(po.ContactId);
             if (c == null)
             {
-                po.Errors.Add("Customer", "Tidak boleh tidak ada");
+                po.Errors.Add("Contact", "Tidak boleh tidak ada");
             }
             return po;
         }
@@ -55,28 +55,32 @@ namespace Validation.Validation
 
         public PurchaseOrder VCreateObject(PurchaseOrder po, IContactService _cs)
         {
-            VCustomer(po, _cs);
+            VContact(po, _cs);
+            if (!isValid(po)) { return po; }
             VPurchaseDate(po);
             return po;
         }
 
         public PurchaseOrder VUpdateObject(PurchaseOrder po, IContactService _cs)
         {
-            VCustomer(po, _cs);
+            VContact(po, _cs);
+            if (!isValid(po)) { return po; }
             VPurchaseDate(po);
+            if (!isValid(po)) { return po; }
             VIsConfirmed(po);
             return po;
         }
 
         public PurchaseOrder VDeleteObject(PurchaseOrder po, IPurchaseOrderDetailService _pods)
         {
-            VConfirmObject(po, _pods);
+            VIsConfirmed(po);
             return po;
         }
 
         public PurchaseOrder VConfirmObject(PurchaseOrder po, IPurchaseOrderDetailService _pods)
         {
             VIsConfirmed(po);
+            if (!isValid(po)) { return po; }
             VHasPurchaseOrderDetails(po, _pods);
             if (isValid(po))
             {
@@ -89,7 +93,7 @@ namespace Validation.Validation
                     {
                         po.Errors.Add(error.Key, error.Value);
                     }
-                    if (po.Errors.Any()) { return po; }
+                    if (!isValid(po)) { return po; }
                 }
             }
             return po;
@@ -102,12 +106,14 @@ namespace Validation.Validation
                 IList<PurchaseOrderDetail> details = _pods.GetObjectsByPurchaseOrderId(po.Id);
                 foreach (var detail in details)
                 {
-                    _pods.GetValidator().ValidUnconfirmObject(detail, _pods, _prds, _is);
-                    foreach (var error in detail.Errors)
+                    if (!_pods.GetValidator().ValidUnconfirmObject(detail, _pods, _prds, _is))
                     {
-                        po.Errors.Add(error.Key, error.Value);
+                        foreach (var error in detail.Errors)
+                        {
+                            po.Errors.Add(error.Key, error.Value);
+                        }
+                        if (!isValid(po)) { return po; }
                     }
-                    if (po.Errors.Any()) { return po; }
                 }
             }
 

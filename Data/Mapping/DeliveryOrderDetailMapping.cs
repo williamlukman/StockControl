@@ -13,15 +13,14 @@ namespace Data.Mapping
         public DeliveryOrderDetailMapping()
         {
             HasKey(prd => prd.Id);
-            
-            HasRequired(prd => prd.Item)
-                .WithMany(i => i.DeliveryOrderDetails)
-                .HasForeignKey(pod => pod.ItemId);
-            HasRequired(prd => prd.DeliveryOrder)
-                .WithMany(pr => pr.DeliveryOrderDetails)
-                .HasForeignKey(prd => prd.DeliveryOrderId);
-            HasOptional(prd => prd.SalesOrderDetail)
-                .WithOptionalDependent(pod => pod.DeliveryOrderDetail);
+            HasRequired(dod => dod.Contact)
+                .WithMany(c => c.DeliveryOrderDetails)
+                .WillCascadeOnDelete(false);
+            HasRequired(dod => dod.DeliveryOrder)
+                .WithMany(d => d.DeliveryOrderDetails)
+                .HasForeignKey(dod => dod.DeliveryOrderId);
+            HasOptional(dod => dod.SalesOrderDetail)
+                .WithOptionalDependent(sod => sod.DeliveryOrderDetail);
             Ignore(pod => pod.Errors);
         }
     }

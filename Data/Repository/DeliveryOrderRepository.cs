@@ -24,16 +24,19 @@ namespace Data.Repository
 
         public DeliveryOrder GetObjectById(int Id)
         {
-            return Find(d => d.Id == Id && !d.IsDeleted);
+            DeliveryOrder deliveryOrder = Find(d => d.Id == Id && !d.IsDeleted);
+            if (deliveryOrder != null) { deliveryOrder.Errors = new Dictionary<string, string>(); }
+            return deliveryOrder;
         }
 
         public IList<DeliveryOrder> GetObjectsByContactId(int contactId)
         {
-            return FindAll(d => d.CustomerId == contactId && !d.IsDeleted).ToList();
+            return FindAll(d => d.ContactId == contactId && !d.IsDeleted).ToList();
         }
 
         public DeliveryOrder CreateObject(DeliveryOrder deliveryOrder)
         {
+            deliveryOrder.Code = SetObjectCode();
             deliveryOrder.IsDeleted = false;
             deliveryOrder.IsConfirmed = false;
             deliveryOrder.CreatedAt = DateTime.Now;
@@ -64,7 +67,6 @@ namespace Data.Repository
         public DeliveryOrder ConfirmObject(DeliveryOrder deliveryOrder)
         {
             deliveryOrder.IsConfirmed = true;
-            deliveryOrder.ConfirmedAt = DateTime.Now;
             Update(deliveryOrder);
             return deliveryOrder;
         }
@@ -74,6 +76,14 @@ namespace Data.Repository
             deliveryOrder.IsConfirmed = false;
             Update(deliveryOrder);
             return deliveryOrder;
+        }
+
+        public string SetObjectCode()
+        {
+            // Code: #{year}/#{total_number
+            int totalobject = FindAll().Count() + 1;
+            string Code = "#" + DateTime.Now.Year.ToString() + "/#" + totalobject;
+            return Code;
         }
     }
 }

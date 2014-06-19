@@ -51,7 +51,7 @@ namespace Service.Service
         {
             PurchaseReceival pr = new PurchaseReceival
             {
-                CustomerId = contactId,
+                ContactId = contactId,
                 ReceivalDate = receivalDate
             };
             return this.CreateObject(pr, _contactService);
@@ -72,16 +72,17 @@ namespace Service.Service
             return _repository.DeleteObject(Id);
         }
 
-        public PurchaseReceival ConfirmObject(PurchaseReceival purchaseReceival, IPurchaseReceivalDetailService _prds,
+        public PurchaseReceival ConfirmObject(PurchaseReceival purchaseReceival, IPurchaseReceivalDetailService _purchaseReceivalDetailService,
                                                 IPurchaseOrderDetailService _purchaseOrderDetailService, IStockMutationService _stockMutationService, IItemService _itemService)
         {
-            if (_validator.ValidConfirmObject(purchaseReceival, _prds))
+            if (_validator.ValidConfirmObject(purchaseReceival, _purchaseReceivalDetailService))
             {
                 _repository.ConfirmObject(purchaseReceival);
-                IList<PurchaseReceivalDetail> details = _prds.GetObjectsByPurchaseReceivalId(purchaseReceival.Id);
+                IList<PurchaseReceivalDetail> details = _purchaseReceivalDetailService.GetObjectsByPurchaseReceivalId(purchaseReceival.Id);
                 foreach (var detail in details)
                 {
-                    _prds.ConfirmObject(detail, _purchaseOrderDetailService, _stockMutationService, _itemService);
+                    detail.ConfirmedAt = purchaseReceival.ConfirmedAt;
+                    _purchaseReceivalDetailService.ConfirmObject(detail, _purchaseOrderDetailService, _stockMutationService, _itemService);
                     PurchaseOrderDetail pod = _purchaseOrderDetailService.GetObjectById(detail.PurchaseOrderDetailId);
                     _purchaseOrderDetailService.FulfilObject(pod);
                 }
@@ -89,16 +90,16 @@ namespace Service.Service
             return purchaseReceival;
         }
 
-        public PurchaseReceival UnconfirmObject(PurchaseReceival purchaseReceival, IPurchaseReceivalDetailService _prds,
+        public PurchaseReceival UnconfirmObject(PurchaseReceival purchaseReceival, IPurchaseReceivalDetailService _purchaseReceivalDetailService,
                                                 IPurchaseOrderDetailService _purchaseOrderDetailService, IStockMutationService _stockMutationService, IItemService _itemService)
         {
-            if (_validator.ValidUnconfirmObject(purchaseReceival, _prds, _itemService))
+            if (_validator.ValidUnconfirmObject(purchaseReceival, _purchaseReceivalDetailService, _itemService))
             {
                 _repository.UnconfirmObject(purchaseReceival);
-                IList<PurchaseReceivalDetail> details = _prds.GetObjectsByPurchaseReceivalId(purchaseReceival.Id);
+                IList<PurchaseReceivalDetail> details = _purchaseReceivalDetailService.GetObjectsByPurchaseReceivalId(purchaseReceival.Id);
                 foreach (var detail in details)
                 {
-                    _prds.UnconfirmObject(detail, _purchaseOrderDetailService, _stockMutationService, _itemService);
+                    _purchaseReceivalDetailService.UnconfirmObject(detail, _purchaseOrderDetailService, _stockMutationService, _itemService);
                 }
             }
             return purchaseReceival;

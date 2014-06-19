@@ -18,5 +18,6 @@ namespace Core.Interface.Repository
         bool DeleteObject(int Id);
         DeliveryOrder ConfirmObject(DeliveryOrder deliveryOrder);
         DeliveryOrder UnconfirmObject(DeliveryOrder deliveryOrder);
+        string SetObjectCode();
     }
 }

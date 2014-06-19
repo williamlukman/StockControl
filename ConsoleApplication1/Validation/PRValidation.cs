@@ -1,4 +1,4 @@
-﻿using ConsoleApp.DataAccess;
+﻿
 using Core.DomainModel;
 using Core.Interface.Service;
 using Core.Interface.Validation;
@@ -92,17 +92,20 @@ namespace ConsoleApp.Validation
             if (prd1.Errors.Any()) { Console.WriteLine("        >> " + _prd.GetValidator().PrintError(prd1)); }
         }
 
-        public void PRValidation7(int purchaseOrderDetailId)
+        public int PRValidation7(int purchaseOrderDetailId)
         {
             Console.WriteLine("     [PR 7] Create valid PRD for Michaelangelo");
             PurchaseReceivalDetail prd1 = _prd.CreateObject(_pr.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault().Id, _i.GetObjectByName("Mini Garuda Indonesia").Id, 50, purchaseOrderDetailId, _pr, _pod, _po, _i, _c);
             if (prd1.Errors.Any()) { Console.WriteLine("        >> " + _prd.GetValidator().PrintError(prd1)); }
+            return prd1.Id;
         }
 
         public void PRValidation8()
         {
             Console.WriteLine("     [PR 8] Confirm PR for Michaelangelo");
-            PurchaseReceival pr = _pr.ConfirmObject(_pr.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _prd, _pod, _sm, _i);
+            PurchaseReceival pr = _pr.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault();
+            pr.ConfirmedAt = new DateTime(2014, 5, 6);
+            pr = _pr.ConfirmObject(pr, _prd, _pod, _sm, _i);
             if (pr.Errors.Any()) { Console.WriteLine("        >> " + _pr.GetValidator().PrintError(pr)); }
         }
 

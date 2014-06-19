@@ -12,7 +12,7 @@ namespace Core.Interface.Validation
     {
         PurchaseReceivalDetail VHasPurchaseReceival(PurchaseReceivalDetail prd, IPurchaseReceivalService _prs);
         PurchaseReceivalDetail VHasItem(PurchaseReceivalDetail prd, IItemService _is);
-        PurchaseReceivalDetail VCustomer(PurchaseReceivalDetail prd, IPurchaseReceivalService _prs, IPurchaseOrderService _pos, IPurchaseOrderDetailService _pods, IContactService _cs);
+        PurchaseReceivalDetail VContact(PurchaseReceivalDetail prd, IPurchaseReceivalService _prs, IPurchaseOrderService _pos, IPurchaseOrderDetailService _pods, IContactService _cs);
         PurchaseReceivalDetail VQuantityCreate(PurchaseReceivalDetail prd, IPurchaseOrderDetailService _pods);
         PurchaseReceivalDetail VQuantityUpdate(PurchaseReceivalDetail prd, IPurchaseOrderDetailService _pods);
         PurchaseReceivalDetail VHasPurchaseOrderDetail(PurchaseReceivalDetail prd, IPurchaseOrderDetailService _pods);

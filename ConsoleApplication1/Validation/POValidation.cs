@@ -1,5 +1,4 @@
-﻿using ConsoleApp.DataAccess;
-using Core.DomainModel;
+﻿using Core.DomainModel;
 using Core.Interface.Service;
 using Core.Interface.Validation;
 using Data.Context;
@@ -105,7 +104,9 @@ namespace ConsoleApp.Validation
         public void POValidation8()
         {
             Console.WriteLine("     [PO 8] Confirm PO and POD for Michaelangelo");
-            PurchaseOrder po = _po.ConfirmObject(_po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault(), _pod, _sm, _i);
+            PurchaseOrder po = _po.GetObjectsByContactId(_c.GetObjectByName("Michaelangelo Buanorotti").Id).FirstOrDefault();
+            po.ConfirmedAt = new DateTime(2014, 5, 6);
+            po = _po.ConfirmObject(po, _pod, _sm, _i);
             if (po.Errors.Any()) { Console.WriteLine(_po.GetValidator().PrintError(po)); }
         }
 

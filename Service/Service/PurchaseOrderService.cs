@@ -51,7 +51,7 @@ namespace Service.Service
         {
             PurchaseOrder po = new PurchaseOrder
             {
-                CustomerId = contactId,
+                ContactId = contactId,
                 PurchaseDate = purchaseDate
             };
             return this.CreateObject(po, _contactService);
@@ -81,6 +81,7 @@ namespace Service.Service
                 IList<PurchaseOrderDetail> details = _purchaseOrderDetailService.GetObjectsByPurchaseOrderId(purchaseOrder.Id);
                 foreach (var detail in details)
                 {
+                    detail.ConfirmedAt = purchaseOrder.ConfirmedAt;
                     _purchaseOrderDetailService.ConfirmObject(detail, _stockMutationService, _itemService);
                 }
             }

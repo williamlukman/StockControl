@@ -15,7 +15,7 @@ namespace Data.Mapping
             HasKey(so => so.Id);
             HasRequired(so => so.Contact)
                 .WithMany(c => c.SalesOrders)
-                .HasForeignKey(so => so.CustomerId);
+                .WillCascadeOnDelete(false);
             HasOptional(so => so.SalesOrderDetails);
             Ignore(so => so.Errors);
         }

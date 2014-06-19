@@ -13,12 +13,12 @@ namespace Validation.Validation
 {
     public class SalesOrderValidator : ISalesOrderValidator
     {
-        public SalesOrder VCustomer(SalesOrder so, IContactService _cs)
+        public SalesOrder VContact(SalesOrder so, IContactService _cs)
         {
-            Contact c = _cs.GetObjectById(so.CustomerId);
+            Contact c = _cs.GetObjectById(so.ContactId);
             if (c == null)
             {
-                so.Errors.Add("Customer", "Tidak boleh tidak ada");
+                so.Errors.Add("Contact", "Tidak boleh tidak ada");
             }
             return so;
         }
@@ -55,28 +55,32 @@ namespace Validation.Validation
 
         public SalesOrder VCreateObject(SalesOrder so, IContactService _cs)
         {
-            VCustomer(so, _cs);
+            VContact(so, _cs);
+            if (!isValid(so)) { return so; }
             VSalesDate(so);
             return so;
         }
 
         public SalesOrder VUpdateObject(SalesOrder so, IContactService _cs)
         {
-            VCustomer(so, _cs);
+            VContact(so, _cs);
+            if (!isValid(so)) { return so; }
             VSalesDate(so);
+            if (!isValid(so)) { return so; }
             VIsConfirmed(so);
             return so;
         }
 
         public SalesOrder VDeleteObject(SalesOrder so, ISalesOrderDetailService _sods)
         {
-            VConfirmObject(so, _sods);
+            VIsConfirmed(so);
             return so;
         }
 
         public SalesOrder VConfirmObject(SalesOrder so, ISalesOrderDetailService _sods)
         {
             VIsConfirmed(so);
+            if (!isValid(so)) { return so; }
             VHasSalesOrderDetails(so, _sods);
             if (isValid(so))
             {
@@ -89,7 +93,7 @@ namespace Validation.Validation
                     {
                         so.Errors.Add(error.Key, error.Value);
                     }
-                    if (so.Errors.Any()) { return so; }
+                    if (!isValid(so)) { return so; }
                 }
             }
             return so;
@@ -102,12 +106,14 @@ namespace Validation.Validation
                 IList<SalesOrderDetail> details = _sods.GetObjectsBySalesOrderId(so.Id);
                 foreach (var detail in details)
                 {
-                    _sods.GetValidator().ValidUnconfirmObject(detail, _sods, _dods, _is);
-                    foreach(var error in detail.Errors)
+                    if (!_sods.GetValidator().ValidUnconfirmObject(detail, _sods, _dods, _is))
                     {
-                        so.Errors.Add(error.Key, error.Value);
+                        foreach (var error in detail.Errors)
+                        {
+                            so.Errors.Add(error.Key, error.Value);
+                        }
+                        if (!isValid(so)) { return so; }
                     }
-                    if (so.Errors.Any()) { return so; }
                 }
             }
             return so;

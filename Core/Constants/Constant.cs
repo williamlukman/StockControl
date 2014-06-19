@@ -32,5 +32,15 @@ namespace Core.Constant
             public static string DeliveryOrderDetail = "DeliveryOrderDetail";
             public static string StockAdjustmentDetail = "StockAdjustmentDetail";
         }
+
+        public class PayableSource
+        {
+            public static string PurchaseInvoice = "PurchaseInvoice";
+        }
+
+        public class ReceivableSource
+        {
+            public static string SalesInvoice = "SalesInvoice";
+        }
     }
 }

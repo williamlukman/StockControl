@@ -24,16 +24,19 @@ namespace Data.Repository
 
         public SalesOrder GetObjectById(int Id)
         {
-            return Find(so => so.Id == Id && !so.IsDeleted);
+            SalesOrder salesOrder = Find(so => so.Id == Id && !so.IsDeleted);
+            if (salesOrder != null) { salesOrder.Errors = new Dictionary<string, string>(); }
+            return salesOrder;
         }
 
         public IList<SalesOrder> GetObjectsByContactId(int contactId)
         {
-            return FindAll(so => so.CustomerId == contactId && !so.IsDeleted).ToList();
+            return FindAll(so => so.ContactId == contactId && !so.IsDeleted).ToList();
         }
 
         public SalesOrder CreateObject(SalesOrder salesOrder)
         {
+            salesOrder.Code = SetObjectCode();
             salesOrder.IsDeleted = false;
             salesOrder.IsConfirmed = false;
             salesOrder.CreatedAt = DateTime.Now;
@@ -64,7 +67,6 @@ namespace Data.Repository
         public SalesOrder ConfirmObject(SalesOrder salesOrder)
         {
             salesOrder.IsConfirmed = true;
-            salesOrder.ConfirmedAt = DateTime.Now;
             Update(salesOrder);
             return salesOrder;
         }
@@ -74,6 +76,14 @@ namespace Data.Repository
             salesOrder.IsConfirmed = false;
             Update(salesOrder);
             return salesOrder;
+        }
+
+        public string SetObjectCode()
+        {
+            // Code: #{year}/#{total_number
+            int totalobject = FindAll().Count() + 1;
+            string Code = "#" + DateTime.Now.Year.ToString() + "/#" + totalobject;
+            return Code;
         }
     }
 }

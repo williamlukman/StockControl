@@ -24,11 +24,21 @@ namespace Data.Repository
 
         public SalesOrderDetail GetObjectById(int Id)
         {
-            return Find(sod => sod.Id == Id);
+            SalesOrderDetail detail = Find(sod => sod.Id == Id);
+            if (detail != null) { detail.Errors = new Dictionary<string, string>(); }
+            return detail;
         }
 
         public SalesOrderDetail CreateObject(SalesOrderDetail salesOrderDetail)
         {
+            string ParentCode = "";
+            using (var db = GetContext())
+            {
+                ParentCode = (from obj in db.SalesOrders
+                              where obj.Id == salesOrderDetail.SalesOrderId
+                              select obj.Code).FirstOrDefault();
+            }
+            salesOrderDetail.Code = SetObjectCode(ParentCode);
             salesOrderDetail.IsConfirmed = false;
             salesOrderDetail.IsFulfilled = false;
             salesOrderDetail.IsDeleted = false;
@@ -60,7 +70,6 @@ namespace Data.Repository
         public SalesOrderDetail ConfirmObject(SalesOrderDetail salesOrderDetail)
         {
             salesOrderDetail.IsConfirmed = true;
-            salesOrderDetail.ConfirmedAt = DateTime.Now;
             Update(salesOrderDetail);
             return salesOrderDetail;
         }
@@ -78,5 +87,14 @@ namespace Data.Repository
             Update(salesOrderDetail);
             return salesOrderDetail;
         }
+
+        public string SetObjectCode(string ParentCode)
+        {
+            // Code: #{parent_object.code}/#{total_number_objects}
+            int totalobject = FindAll().Count() + 1;
+            string Code = ParentCode + "/#" + totalobject;
+            return Code;
+        } 
+
     }
 }

@@ -51,7 +51,7 @@ namespace Service.Service
         {
             SalesOrder so = new SalesOrder
             {
-                CustomerId = contactId,
+                ContactId = contactId,
                 SalesDate = salesDate
             };
             return this.CreateObject(so, _contactService);
@@ -81,6 +81,7 @@ namespace Service.Service
                 IList<SalesOrderDetail> details = _sods.GetObjectsBySalesOrderId(salesOrder.Id);
                 foreach (var detail in details)
                 {
+                    detail.ConfirmedAt = salesOrder.ConfirmedAt;
                     _sods.ConfirmObject(detail, _stockMutationService, _itemService);
                 }
             }

@@ -18,5 +18,6 @@ namespace Core.Interface.Repository
         SalesOrderDetail ConfirmObject(SalesOrderDetail salesOrderDetail);
         SalesOrderDetail UnconfirmObject(SalesOrderDetail salesOrderDetail);
         SalesOrderDetail FulfilObject(SalesOrderDetail salesOrderDetail);
+        string SetObjectCode(string ParentCode);
     }
 }

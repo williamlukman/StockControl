@@ -1,0 +1,15 @@
+C:\Users\Samsung\Documents\GitHub\po\NSpec\obj\Debug\NSpec.csprojResolveAssemblyReference.cache
+C:\Users\Samsung\Documents\GitHub\po\NSpec\bin\Debug\NSpec.dll
+C:\Users\Samsung\Documents\GitHub\po\NSpec\bin\Debug\Core.dll
+C:\Users\Samsung\Documents\GitHub\po\NSpec\bin\Debug\Data.dll
+C:\Users\Samsung\Documents\GitHub\po\NSpec\bin\Debug\EntityFramework.dll
+C:\Users\Samsung\Documents\GitHub\po\NSpec\bin\Debug\Service.dll
+C:\Users\Samsung\Documents\GitHub\po\NSpec\bin\Debug\Validation.dll
+C:\Users\Samsung\Documents\GitHub\po\NSpec\bin\Debug\Core.pdb
+C:\Users\Samsung\Documents\GitHub\po\NSpec\bin\Debug\Data.pdb
+C:\Users\Samsung\Documents\GitHub\po\NSpec\bin\Debug\Service.pdb
+C:\Users\Samsung\Documents\GitHub\po\NSpec\bin\Debug\Validation.pdb
+C:\Users\Samsung\Documents\GitHub\po\NSpec\bin\Debug\TestValidation.dll
+C:\Users\Samsung\Documents\GitHub\po\NSpec\bin\Debug\TestValidation.pdb
+C:\Users\Samsung\Documents\GitHub\po\NSpec\obj\Debug\TestValidation.dll
+C:\Users\Samsung\Documents\GitHub\po\NSpec\obj\Debug\TestValidation.pdb

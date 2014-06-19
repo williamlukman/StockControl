@@ -24,11 +24,14 @@ namespace Data.Repository
 
         public StockAdjustment GetObjectById(int Id)
         {
-            return Find(sa => sa.Id == Id && !sa.IsDeleted);
+            StockAdjustment stockAdjustment = Find(sa => sa.Id == Id && !sa.IsDeleted);
+            if (stockAdjustment != null) { stockAdjustment.Errors = new Dictionary<string, string>(); }
+            return stockAdjustment;
         }
 
         public StockAdjustment CreateObject(StockAdjustment stockAdjustment)
         {
+            stockAdjustment.Code = SetObjectCode();
             stockAdjustment.IsDeleted = false;
             stockAdjustment.IsConfirmed = false;
             stockAdjustment.CreatedAt = DateTime.Now;
@@ -59,7 +62,6 @@ namespace Data.Repository
         public StockAdjustment ConfirmObject(StockAdjustment stockAdjustment)
         {
             stockAdjustment.IsConfirmed = true;
-            stockAdjustment.ConfirmedAt = DateTime.Now;
             Update(stockAdjustment);
             return stockAdjustment;
         }
@@ -69,6 +71,14 @@ namespace Data.Repository
             stockAdjustment.IsConfirmed = false;
             Update(stockAdjustment);
             return stockAdjustment;
+        }
+
+        public string SetObjectCode()
+        {
+            // Code: #{year}/#{total_number
+            int totalobject = FindAll().Count() + 1;
+            string Code = "#" + DateTime.Now.Year.ToString() + "/#" + totalobject;
+            return Code;
         }
     }
 }

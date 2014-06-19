@@ -101,9 +101,13 @@ namespace Validation.Validation
         public SalesOrderDetail VCreateObject(SalesOrderDetail sod, ISalesOrderDetailService _sods, ISalesOrderService _sos, IItemService _is)
         {
             VHasSalesOrder(sod, _sos);
+            if (!isValid(sod)) { return sod; }
             VHasItem(sod, _is);
+            if (!isValid(sod)) { return sod; }
             VQuantity(sod);
+            if (!isValid(sod)) { return sod; }
             VPrice(sod);
+            if (!isValid(sod)) { return sod; }
             VUniqueSOD(sod, _sods, _is);
             return sod;
         }
@@ -111,10 +115,15 @@ namespace Validation.Validation
         public SalesOrderDetail VUpdateObject(SalesOrderDetail sod, ISalesOrderDetailService _sods, ISalesOrderService _sos, IItemService _is)
         {
             VHasSalesOrder(sod, _sos);
+            if (!isValid(sod)) { return sod; }
             VHasItem(sod, _is);
+            if (!isValid(sod)) { return sod; }
             VQuantity(sod);
+            if (!isValid(sod)) { return sod; }
             VPrice(sod);
+            if (!isValid(sod)) { return sod; }
             VUniqueSOD(sod, _sods, _is);
+            if (!isValid(sod)) { return sod; }
             VIsConfirmed(sod);
             return sod;
         }
@@ -134,6 +143,7 @@ namespace Validation.Validation
         public SalesOrderDetail VUnconfirmObject(SalesOrderDetail sod, ISalesOrderDetailService _sods, IDeliveryOrderDetailService _dods, IItemService _is)
         {
             VHasItemPendingDelivery(sod, _is);
+            if (!isValid(sod)) { return sod; }
             VConfirmedDeliveryOrder(sod, _dods);
             return sod;
         }

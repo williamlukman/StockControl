@@ -53,6 +53,7 @@ namespace Validation.Validation
         public StockAdjustment VUpdateObject(StockAdjustment sa)
         {
             VAdjustmentDate(sa);
+            if (!isValid(sa)) { return sa; }
             VIsConfirmed(sa);
             return sa;
         }
@@ -66,18 +67,21 @@ namespace Validation.Validation
         public StockAdjustment VConfirmObject(StockAdjustment sa, IStockAdjustmentDetailService _sads, IItemService _is)
         {
             VIsConfirmed(sa);
+            if (!isValid(sa)) { return sa; }
             VHasStockAdjustmentDetails(sa, _sads);
             if (isValid(sa))
             {
                 IList<StockAdjustmentDetail> details = _sads.GetObjectsByStockAdjustmentId(sa.Id);
                 foreach (var detail in details)
                 {
-                    _sads.GetValidator().ValidConfirmObject(detail, _is);
-                    foreach (var error in detail.Errors)
+                    if (!_sads.GetValidator().ValidConfirmObject(detail, _is))
                     {
-                        sa.Errors.Add(error.Key, error.Value);
+                        foreach (var error in detail.Errors)
+                        {
+                            sa.Errors.Add(error.Key, error.Value);
+                        }
+                        if (!isValid(sa)) { return sa; }
                     }
-                    if (sa.Errors.Any()) { return sa; }
                 }
             }
             return sa;
@@ -90,12 +94,14 @@ namespace Validation.Validation
                 IList<StockAdjustmentDetail> details = _sads.GetObjectsByStockAdjustmentId(sa.Id);
                 foreach (var detail in details)
                 {
-                    _sads.GetValidator().ValidUnconfirmObject(detail, _is);
-                    foreach (var error in detail.Errors)
+                    if (!_sads.GetValidator().ValidUnconfirmObject(detail, _is))
                     {
-                        sa.Errors.Add(error.Key, error.Value);
+                        foreach (var error in detail.Errors)
+                        {
+                            sa.Errors.Add(error.Key, error.Value);
+                        }
+                        if (!isValid(sa)) { return sa; }
                     }
-                    if (sa.Errors.Any()) { return sa; }
                 }
             }
 

@@ -13,12 +13,12 @@ namespace Validation.Validation
     public class DeliveryOrderValidator : IDeliveryOrderValidator
     {
 
-        public DeliveryOrder VCustomer(DeliveryOrder d, IContactService _cs)
+        public DeliveryOrder VContact(DeliveryOrder d, IContactService _cs)
         {
-            Contact c = _cs.GetObjectById(d.CustomerId);
+            Contact c = _cs.GetObjectById(d.ContactId);
             if (c == null)
             {
-                d.Errors.Add("Customer", "Tidak boleh tidak ada");
+                d.Errors.Add("Contact", "Tidak boleh tidak ada");
             }
             return d;
         }
@@ -69,15 +69,18 @@ namespace Validation.Validation
 
         public DeliveryOrder VCreateObject(DeliveryOrder d, IContactService _cs)
         {
-            VCustomer(d, _cs);
+            VContact(d, _cs);
+            if (!isValid(d)) { return d; }
             VDeliveryDate(d);
             return d;
         }
 
         public DeliveryOrder VUpdateObject(DeliveryOrder d, IContactService _cs)
         {
-            VCustomer(d, _cs);
+            VContact(d, _cs);
+            if (!isValid(d)) { return d; }
             VDeliveryDate(d);
+            if (!isValid(d)) { return d; }
             VIsConfirmed(d);
             return d;
         }
@@ -91,6 +94,7 @@ namespace Validation.Validation
         public DeliveryOrder VConfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods, IItemService _is)
         {
             VIsConfirmed(d);
+            if (!isValid(d)) { return d; }
             VHasDeliveryOrderDetails(d, _dods);
             if (isValid(d))
             {
@@ -103,7 +107,7 @@ namespace Validation.Validation
                     {
                         d.Errors.Add(error.Key, error.Value);
                     }
-                    if (d.Errors.Any()) { return d; }
+                    if (!isValid(d)) { return d; }
                 }
             }
             return d;
@@ -111,19 +115,20 @@ namespace Validation.Validation
 
         public DeliveryOrder VUnconfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods, IItemService _is)
         {
-            
             VHasItemQuantity(d, _dods, _is);
             if (isValid(d))
             {
                 IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(d.Id);
                 foreach (var detail in details)
                 {
-                    _dods.GetValidator().ValidUnconfirmObject(detail, _dods, _is);
-                    foreach (var error in detail.Errors)
+                    if (!_dods.GetValidator().ValidUnconfirmObject(detail, _dods, _is))
                     {
-                        d.Errors.Add(error.Key, error.Value);
+                        foreach (var error in detail.Errors)
+                        {
+                            d.Errors.Add(error.Key, error.Value);
+                        }
+                        if (!isValid(d)) { return d; }
                     }
-                    if (d.Errors.Any()) { return d; }
                 }
             }
 

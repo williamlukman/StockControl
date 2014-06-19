@@ -12,12 +12,12 @@ namespace Service.Service
 {
     public class DeliveryOrderService : IDeliveryOrderService
     {
-        private IDeliveryOrderRepository _do;
+        private IDeliveryOrderRepository _repository;
         private IDeliveryOrderValidator _validator;
 
         public DeliveryOrderService(IDeliveryOrderRepository _deliveryOrderRepository, IDeliveryOrderValidator _deliveryOrderValidator)
         {
-            _do = _deliveryOrderRepository;
+            _repository = _deliveryOrderRepository;
             _validator = _deliveryOrderValidator;
         }
 
@@ -28,30 +28,30 @@ namespace Service.Service
 
         public IList<DeliveryOrder> GetAll()
         {
-            return _do.GetAll();
+            return _repository.GetAll();
         }
 
         public DeliveryOrder GetObjectById(int Id)
         {
-            return _do.GetObjectById(Id);
+            return _repository.GetObjectById(Id);
         }
 
         public IList<DeliveryOrder> GetObjectsByContactId(int contactId)
         {
-            return _do.GetObjectsByContactId(contactId);
+            return _repository.GetObjectsByContactId(contactId);
         }
 
         public DeliveryOrder CreateObject(DeliveryOrder deliveryOrder, IContactService _cs)
         {
             deliveryOrder.Errors = new Dictionary<String, String>();
-            return (_validator.ValidCreateObject(deliveryOrder, _cs) ? _do.CreateObject(deliveryOrder) : deliveryOrder);
+            return (_validator.ValidCreateObject(deliveryOrder, _cs) ? _repository.CreateObject(deliveryOrder) : deliveryOrder);
         }
 
         public DeliveryOrder CreateObject(int contactId, DateTime deliveryDate, IContactService _cs)
         {
             DeliveryOrder deliveryOrder = new DeliveryOrder
             {
-                CustomerId = contactId,
+                ContactId = contactId,
                 DeliveryDate = deliveryDate
             };
             return this.CreateObject(deliveryOrder, _cs);
@@ -59,17 +59,17 @@ namespace Service.Service
 
         public DeliveryOrder UpdateObject(DeliveryOrder deliveryOrder, IContactService _cs)
         {
-            return (_validator.ValidUpdateObject(deliveryOrder, _cs) ? _do.UpdateObject(deliveryOrder) : deliveryOrder);
+            return (_validator.ValidUpdateObject(deliveryOrder, _cs) ? _repository.UpdateObject(deliveryOrder) : deliveryOrder);
         }
 
         public DeliveryOrder SoftDeleteObject(DeliveryOrder deliveryOrder, IDeliveryOrderDetailService _dods)
         {
-            return (_validator.ValidDeleteObject(deliveryOrder, _dods) ? _do.SoftDeleteObject(deliveryOrder) : deliveryOrder);
+            return (_validator.ValidDeleteObject(deliveryOrder, _dods) ? _repository.SoftDeleteObject(deliveryOrder) : deliveryOrder);
         }
 
         public bool DeleteObject(int Id)
         {
-            return _do.DeleteObject(Id);
+            return _repository.DeleteObject(Id);
         }
 
         public DeliveryOrder ConfirmObject(DeliveryOrder deliveryOrder, IDeliveryOrderDetailService _dods,
@@ -80,12 +80,13 @@ namespace Service.Service
                 IList<DeliveryOrderDetail> details = _dods.GetObjectsByDeliveryOrderId(deliveryOrder.Id);
                 foreach (var detail in details)
                 {
+                    detail.ConfirmedAt = deliveryOrder.ConfirmedAt;
                     _dods.ConfirmObject(detail, _stockMutationService, _itemService);
                     SalesOrderDetail sod = _sods.GetObjectById(detail.SalesOrderDetailId);
                     _sods.FulfilObject(sod);
                 }
 
-                return _do.ConfirmObject(deliveryOrder);
+                return _repository.ConfirmObject(deliveryOrder);
             }
             return deliveryOrder;
         }
@@ -101,7 +102,7 @@ namespace Service.Service
                     _deliveryOrderDetailService.UnconfirmObject(detail, _stockMutationService, _itemService);
                 }
 
-                return _do.UnconfirmObject(deliveryOrder);
+                return _repository.UnconfirmObject(deliveryOrder);
             }
             return deliveryOrder;
         }

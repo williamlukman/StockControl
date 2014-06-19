@@ -18,6 +18,6 @@ namespace Core.Interface.Repository
         PurchaseOrderDetail ConfirmObject(PurchaseOrderDetail purchaseOrderDetail);
         PurchaseOrderDetail UnconfirmObject(PurchaseOrderDetail purchaseOrderDetail);
         PurchaseOrderDetail FulfilObject(PurchaseOrderDetail purchaseOrderDetail);
-
+        string SetObjectCode(string ParentCode);
     }
 }

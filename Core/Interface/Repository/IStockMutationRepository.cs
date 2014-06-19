@@ -17,6 +17,5 @@ namespace Core.Interface.Repository
         StockMutation UpdateObject(StockMutation stockMutation);
         StockMutation SoftDeleteObject(StockMutation stockMutation);
         bool DeleteObject(int Id);
-
     }
 }

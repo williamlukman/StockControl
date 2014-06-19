@@ -24,16 +24,19 @@ namespace Data.Repository
 
         public PurchaseReceival GetObjectById(int Id)
         {
-            return Find(pr => pr.Id == Id && !pr.IsDeleted);
+            PurchaseReceival purchaseReceival = Find(pr => pr.Id == Id && !pr.IsDeleted);
+            if (purchaseReceival != null) { purchaseReceival.Errors = new Dictionary<string, string>(); }
+            return purchaseReceival;
         }
 
         public IList<PurchaseReceival> GetObjectsByContactId(int contactId)
         {
-            return FindAll(pr => pr.CustomerId == contactId && !pr.IsDeleted).ToList();
+            return FindAll(pr => pr.ContactId == contactId && !pr.IsDeleted).ToList();
         }
 
         public PurchaseReceival CreateObject(PurchaseReceival purchaseReceival)
         {
+            purchaseReceival.Code = SetObjectCode();
             purchaseReceival.IsDeleted = false;
             purchaseReceival.IsConfirmed = false;
             purchaseReceival.CreatedAt = DateTime.Now;
@@ -64,7 +67,6 @@ namespace Data.Repository
         public PurchaseReceival ConfirmObject(PurchaseReceival purchaseReceival)
         {
             purchaseReceival.IsConfirmed = true;
-            purchaseReceival.ConfirmedAt = DateTime.Now;
             Update(purchaseReceival);
             return purchaseReceival;
         }
@@ -74,6 +76,14 @@ namespace Data.Repository
             purchaseReceival.IsConfirmed = false;
             Update(purchaseReceival);
             return purchaseReceival;
+        }
+
+        public string SetObjectCode()
+        {
+            // Code: #{year}/#{total_number
+            int totalobject = FindAll().Count() + 1;
+            string Code = "#" + DateTime.Now.Year.ToString() + "/#" + totalobject;
+            return Code;
         }
     }
 }

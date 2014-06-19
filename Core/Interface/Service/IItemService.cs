@@ -21,7 +21,7 @@ namespace Core.Interface.Service
         Item UpdateObject(Item item);
         Item SoftDeleteObject(Item item, IStockMutationService _stockMutationService);
         bool DeleteObject(int Id);
-        bool IsSkuDuplicated(String sku);
+        bool IsSkuDuplicated(Item item);
         decimal CalculateAvgCost(Item item, int addedQuantity, decimal addedAvgCost);
     }
 }

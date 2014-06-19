@@ -13,10 +13,9 @@ namespace Data.Mapping
         public PurchaseReceivalDetailMapping()
         {
             HasKey(prd => prd.Id);
-            
-            HasRequired(prd => prd.Item)
-                .WithMany(i => i.PurchaseReceivalDetails)
-                .HasForeignKey(pod => pod.ItemId);
+            HasRequired(prd => prd.Contact)
+                .WithMany(c => c.PurchaseReceivalDetails)
+                .WillCascadeOnDelete(false);
             HasRequired(prd => prd.PurchaseReceival)
                 .WithMany(pr => pr.PurchaseReceivalDetails)
                 .HasForeignKey(prd => prd.PurchaseReceivalId);

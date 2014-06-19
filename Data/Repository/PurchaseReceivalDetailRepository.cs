@@ -24,7 +24,9 @@ namespace Data.Repository
 
         public PurchaseReceivalDetail GetObjectById(int Id)
         {
-            return Find(prd => prd.Id == Id && !prd.IsDeleted);
+            PurchaseReceivalDetail purchaseReceivalDetail = Find(prd => prd.Id == Id && !prd.IsDeleted);
+            if (purchaseReceivalDetail != null) { purchaseReceivalDetail.Errors = new Dictionary<string, string>(); }
+            return purchaseReceivalDetail;
         }
 
         public PurchaseReceivalDetail GetObjectByPurchaseOrderDetailId(int purchaseOrderDetailId)
@@ -34,6 +36,14 @@ namespace Data.Repository
 
         public PurchaseReceivalDetail CreateObject(PurchaseReceivalDetail purchaseReceivalDetail)
         {
+            string ParentCode = "";
+            using (var db = GetContext())
+            {
+                ParentCode = (from obj in db.PurchaseReceivals
+                              where obj.Id == purchaseReceivalDetail.PurchaseReceivalId
+                              select obj.Code).FirstOrDefault();
+            }
+            purchaseReceivalDetail.Code = SetObjectCode(ParentCode);
             purchaseReceivalDetail.IsConfirmed = false;
             purchaseReceivalDetail.IsDeleted = false;
             purchaseReceivalDetail.CreatedAt = DateTime.Now;
@@ -64,7 +74,6 @@ namespace Data.Repository
         public PurchaseReceivalDetail ConfirmObject(PurchaseReceivalDetail purchaseReceivalDetail)
         {
             purchaseReceivalDetail.IsConfirmed = true;
-            purchaseReceivalDetail.ConfirmedAt = DateTime.Now;
             Update(purchaseReceivalDetail);
             return purchaseReceivalDetail;
         }
@@ -75,5 +84,14 @@ namespace Data.Repository
             Update(purchaseReceivalDetail);
             return purchaseReceivalDetail;
         }
+
+        public string SetObjectCode(string ParentCode)
+        {
+            // Code: #{parent_object.code}/#{total_number_objects}
+            int totalobject = FindAll().Count() + 1;
+            string Code = ParentCode + "/#" + totalobject;
+            return Code;
+        } 
+
     }
 }

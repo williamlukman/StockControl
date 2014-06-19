@@ -47,9 +47,16 @@ namespace Service.Service
                                                      IItemService _itemService, IContactService _contactService)
         {
             purchaseReceivalDetail.Errors = new Dictionary<String, String>();
-            return (_validator.ValidCreateObject(purchaseReceivalDetail, this, _purchaseReceivalService,
-                                        _purchaseOrderDetailService, _purchaseOrderService, _itemService, _contactService) ?
-                                        _repository.CreateObject(purchaseReceivalDetail) : purchaseReceivalDetail);
+            if (_validator.ValidCreateObject(purchaseReceivalDetail, this, _purchaseReceivalService,
+                                        _purchaseOrderDetailService, _purchaseOrderService, _itemService, _contactService))
+            {
+                purchaseReceivalDetail.ContactId = _purchaseReceivalService.GetObjectById(purchaseReceivalDetail.PurchaseReceivalId).ContactId;
+                return _repository.CreateObject(purchaseReceivalDetail);
+            }
+            else
+            {
+                return purchaseReceivalDetail;
+            }
         }
 
         public PurchaseReceivalDetail CreateObject(int purchaseReceivalId, int itemId, int quantity, int purchaseOrderDetailId,
@@ -61,7 +68,8 @@ namespace Service.Service
                 PurchaseReceivalId = purchaseReceivalId,
                 ItemId = itemId,
                 Quantity = quantity,
-                PurchaseOrderDetailId = purchaseOrderDetailId
+                PurchaseOrderDetailId = purchaseOrderDetailId,
+                ContactId = 0
             };
             return this.CreateObject(prd, _purchaseReceivalService, _purchaseOrderDetailService, _purchaseOrderService, _itemService, _contactService);
         }

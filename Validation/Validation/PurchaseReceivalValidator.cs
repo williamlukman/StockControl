@@ -14,12 +14,12 @@ namespace Validation.Validation
     public class PurchaseReceivalValidator : IPurchaseReceivalValidator
     {
 
-        public PurchaseReceival VCustomer(PurchaseReceival pr, IContactService _cs)
+        public PurchaseReceival VContact(PurchaseReceival pr, IContactService _cs)
         {
-            Contact c = _cs.GetObjectById(pr.CustomerId);
+            Contact c = _cs.GetObjectById(pr.ContactId);
             if (c == null)
             {
-                pr.Errors.Add("Customer", "Tidak boleh tidak ada");
+                pr.Errors.Add("Contact", "Tidak boleh tidak ada");
             }
             return pr;
         }
@@ -56,40 +56,46 @@ namespace Validation.Validation
 
         public PurchaseReceival VCreateObject(PurchaseReceival pr, IContactService _cs)
         {
-            VCustomer(pr, _cs);
+            VContact(pr, _cs);
+            if (!isValid(pr)) { return pr; }
             VReceivalDate(pr);
             return pr;
         }
 
         public PurchaseReceival VUpdateObject(PurchaseReceival pr, IContactService _cs)
         {
-            VCustomer(pr, _cs);
+            VContact(pr, _cs);
+            if (!isValid(pr)) { return pr; }
             VReceivalDate(pr);
+            if (!isValid(pr)) { return pr; }
             VIsConfirmed(pr);
             return pr;
         }
 
         public PurchaseReceival VDeleteObject(PurchaseReceival pr, IPurchaseReceivalDetailService _prds)
         {
-            VConfirmObject(pr, _prds);
+            VIsConfirmed(pr);
             return pr;
         }
 
         public PurchaseReceival VConfirmObject(PurchaseReceival pr, IPurchaseReceivalDetailService _prds)
         {
             VIsConfirmed(pr);
+            if (!isValid(pr)) { return pr; }
             VHasPurchaseReceivalDetails(pr, _prds);
             if (isValid(pr))
             {
                 IList<PurchaseReceivalDetail> details = _prds.GetObjectsByPurchaseReceivalId(pr.Id);
                 foreach (var detail in details)
                 {
-                    _prds.GetValidator().ValidConfirmObject(detail);
-                    foreach (var error in detail.Errors)
+                    if (!_prds.GetValidator().ValidConfirmObject(detail))
                     {
-                        pr.Errors.Add(error.Key, error.Value);
+                        foreach (var error in detail.Errors)
+                        {
+                            pr.Errors.Add(error.Key, error.Value);
+                        }
+                        if (!isValid(pr)) { return pr; }
                     }
-                    if (pr.Errors.Any()) { return pr; }
                 }
             }
             return pr;
@@ -102,12 +108,14 @@ namespace Validation.Validation
                 IList<PurchaseReceivalDetail> details = _prds.GetObjectsByPurchaseReceivalId(pr.Id);
                 foreach (var detail in details)
                 {
-                    _prds.GetValidator().ValidUnconfirmObject(detail, _prds, _is);
-                    foreach (var error in detail.Errors)
+                    if (!_prds.GetValidator().ValidUnconfirmObject(detail, _prds, _is))
                     {
-                        pr.Errors.Add(error.Key, error.Value);
+                        foreach (var error in detail.Errors)
+                        {
+                            pr.Errors.Add(error.Key, error.Value);
+                        }
+                        if (!isValid(pr)) { return pr; }
                     }
-                    if (pr.Errors.Any()) { return pr; }
                 }
             }
 

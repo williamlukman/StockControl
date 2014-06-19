@@ -9,7 +9,8 @@ namespace Core.DomainModel
     public partial class DeliveryOrder
     {
         public int Id { get; set; }
-        public int CustomerId { get; set; }
+        public string Code { get; set; }
+        public int ContactId { get; set; }
         public DateTime DeliveryDate { get; set; }
 
         public bool IsConfirmed { get; set; }

@@ -19,21 +19,31 @@ namespace Data.Repository
 
         public IList<DeliveryOrderDetail> GetObjectsByDeliveryOrderId(int deliveryOrderId)
         {
-            return FindAll(prd => prd.DeliveryOrderId == deliveryOrderId && !prd.IsDeleted).ToList();
+            return FindAll(dod => dod.DeliveryOrderId == deliveryOrderId && !dod.IsDeleted).ToList();
         }
 
         public DeliveryOrderDetail GetObjectById(int Id)
         {
-            return Find(prd => prd.Id == Id && !prd.IsDeleted);
+            return Find(dod => dod.Id == Id && !dod.IsDeleted);
         }
 
         public DeliveryOrderDetail GetObjectBySalesOrderDetailId(int salesOrderDetailId)
         {
-            return Find(prd => prd.SalesOrderDetailId == salesOrderDetailId && !prd.IsDeleted);
+            DeliveryOrderDetail detail = Find(dod => dod.SalesOrderDetailId == salesOrderDetailId && !dod.IsDeleted);
+            if (detail != null) { detail.Errors = new Dictionary<string, string>(); }
+            return detail;
         }
 
         public DeliveryOrderDetail CreateObject(DeliveryOrderDetail deliveryOrderDetail)
         {
+            string ParentCode = ""; 
+            using (var db = GetContext())
+            {
+                ParentCode = (from obj in db.DeliveryOrders
+                              where obj.Id == deliveryOrderDetail.DeliveryOrderId
+                              select obj.Code).FirstOrDefault();
+            }
+            deliveryOrderDetail.Code = SetObjectCode(ParentCode);
             deliveryOrderDetail.IsConfirmed = false;
             deliveryOrderDetail.IsDeleted = false;
             deliveryOrderDetail.CreatedAt = DateTime.Now;
@@ -57,14 +67,13 @@ namespace Data.Repository
 
         public bool DeleteObject(int Id)
         {
-            DeliveryOrderDetail prd = Find(x => x.Id == Id);
-            return (Delete(prd) == 1) ? true : false;
+            DeliveryOrderDetail dod = Find(x => x.Id == Id);
+            return (Delete(dod) == 1) ? true : false;
         }
 
         public DeliveryOrderDetail ConfirmObject(DeliveryOrderDetail deliveryOrderDetail)
         {
             deliveryOrderDetail.IsConfirmed = true;
-            deliveryOrderDetail.ConfirmedAt = DateTime.Now;
             Update(deliveryOrderDetail);
             return deliveryOrderDetail;
         }
@@ -75,5 +84,13 @@ namespace Data.Repository
             Update(deliveryOrderDetail);
             return deliveryOrderDetail;
         }
+
+        public string SetObjectCode(string ParentCode)
+        {
+            // Code: #{parent_object.code}/#{total_number_objects}
+            int totalobject = FindAll().Count() + 1;
+            string Code = ParentCode + "/#" + totalobject;
+            return Code;
+        } 
     }
 }
