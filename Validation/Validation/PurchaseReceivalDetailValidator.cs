@@ -135,6 +135,7 @@ namespace Validation.Validation
                                                     IPurchaseOrderDetailService _pods, IPurchaseOrderService _pos, IItemService _is, IContactService _cs)
         {
             VHasPurchaseReceival(prd, _prs);
+            if (!isValid(prd)) return prd;
             VHasItem(prd, _is);
             if (!isValid(prd)) return prd;
             VContact(prd, _prs, _pos, _pods, _cs);
@@ -149,6 +150,7 @@ namespace Validation.Validation
                                                     IPurchaseOrderDetailService _pods, IPurchaseOrderService _pos, IItemService _is, IContactService _cs)
         {
             VHasPurchaseReceival(prd, _prs);
+            if (!isValid(prd)) return prd;
             VHasItem(prd, _is);
             if (!isValid(prd)) return prd;
             VContact(prd, _prs, _pos, _pods, _cs);

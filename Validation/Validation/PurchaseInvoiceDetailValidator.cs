@@ -59,7 +59,7 @@ namespace Validation.Validation
 
         public PurchaseInvoiceDetail VHasPayment(PurchaseInvoiceDetail pid, IPaymentVoucherDetailService _pvds, IPayableService _payableService)
         {
-            //TODO:
+            // does nothing
             return pid;
         }
 
@@ -75,8 +75,11 @@ namespace Validation.Validation
         public PurchaseInvoiceDetail VCreateObject(PurchaseInvoiceDetail pid, IPurchaseInvoiceDetailService _pid, IPurchaseReceivalDetailService _prds)
         {
             VHasPurchaseReceivalDetail(pid, _prds);
+            if (!isValid(pid)) { return pid; }
             VQuantity(pid, _prds);
+            if (!isValid(pid)) { return pid; }
             VPrice(pid);
+            if (!isValid(pid)) { return pid; }
             VIsUniquePurchaseReceivalDetail(pid, _pid, _prds);
             return pid;
         }
@@ -84,9 +87,13 @@ namespace Validation.Validation
         public PurchaseInvoiceDetail VUpdateObject(PurchaseInvoiceDetail pid, IPurchaseInvoiceDetailService _pids, IPurchaseReceivalDetailService _prds)
         {
             VIsConfirmed(pid);
+            if (!isValid(pid)) { return pid; }
             VHasPurchaseReceivalDetail(pid, _prds);
+            if (!isValid(pid)) { return pid; }
             VQuantity(pid, _prds);
+            if (!isValid(pid)) { return pid; }
             VPrice(pid);
+            if (!isValid(pid)) { return pid; }
             VIsUniquePurchaseReceivalDetail(pid, _pids, _prds);
             return pid;
         }
@@ -100,14 +107,16 @@ namespace Validation.Validation
         public PurchaseInvoiceDetail VConfirmObject(PurchaseInvoiceDetail pid, IPurchaseInvoiceDetailService _pids, IPurchaseReceivalDetailService _prds)
         {
             VQuantity(pid, _prds);
+            if (!isValid(pid)) { return pid; }
             VPrice(pid);
+            if (!isValid(pid)) { return pid; }
             VIsUniquePurchaseReceivalDetail(pid, _pids, _prds);
             return pid;
         }
 
         public PurchaseInvoiceDetail VUnconfirmObject(PurchaseInvoiceDetail pid,  IPaymentVoucherDetailService _pvds, IPayableService _payableService)
         {
-            VHasPayment(pid, _pvds, _payableService);
+            VHasPayment (pid, _pvds, _payableService);
             return pid;
         }
 

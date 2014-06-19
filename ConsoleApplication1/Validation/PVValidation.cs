@@ -1,8 +1,11 @@
 ﻿
+using Core.Constant;
 using Core.DomainModel;
 using Core.Interface.Service;
 using Core.Interface.Validation;
 using Data.Context;
+using Data.Repository;
+using Service.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,10 +34,12 @@ namespace ConsoleApp.Validation
         private IPaymentVoucherService _pv;
         private IPaymentVoucherDetailService _pvd;
         private ICashBankService _cb;
+        private IStockAdjustmentService _sa;
+        private IStockAdjustmentDetailService _sad;
 
         public PVValidation(     IPurchaseInvoiceService pi, IPurchaseInvoiceDetailService pid,
                                  IPayableService payable, IPaymentVoucherService pv, IPaymentVoucherDetailService pvd,
-                                 ICashBankService cb,
+                                 ICashBankService cb, IStockAdjustmentService sa, IStockAdjustmentDetailService sad,
                                  IContactService c, IItemService i, IStockMutationService sm,
                                  IPurchaseOrderService po, IPurchaseReceivalService pr,
                                  ISalesOrderService so, IDeliveryOrderService d,
@@ -58,13 +63,15 @@ namespace ConsoleApp.Validation
             _pvd = pvd;
             _payable = payable;
             _cb = cb;
+            _sa = sa;
+            _sad = sad;
         }
 
         public int PayableValidation1(int piId)
         {
             Console.WriteLine("     [PV 1] Create valid Payable 10jt for Michaelangelo");
             Contact c = _c.GetObjectByName("Michaelangelo Buanorotti");
-            Payable payable = _payable.CreateObject(c.Id, "PurchaseInvoice", piId, 10000000);
+            Payable payable = _payable.CreateObject(c.Id, Constant.PayableSource.PurchaseInvoice, piId, 10000000);
             if (payable.Errors.Any()) { Console.WriteLine("        >> " + _payable.GetValidator().PrintError(payable)); return 0; }
             return payable.Id;
         }
@@ -73,7 +80,7 @@ namespace ConsoleApp.Validation
         {
             Console.WriteLine("     [PV 2] Create valid Payable 5jt for Michaelangelo");
             Contact c = _c.GetObjectByName("Michaelangelo Buanorotti");
-            Payable payable = _payable.CreateObject(c.Id, "PurchaseInvoice", piId, 5000000);
+            Payable payable = _payable.CreateObject(c.Id, Constant.PayableSource.PurchaseInvoice, piId, 5000000);
             if (payable.Errors.Any()) { Console.WriteLine("        >> " + _payable.GetValidator().PrintError(payable)); return 0; }
             return payable.Id;
         }

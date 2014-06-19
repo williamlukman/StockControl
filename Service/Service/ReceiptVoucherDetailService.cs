@@ -120,7 +120,7 @@ namespace Service.Service
                 Receivable receivable = _receivableService.GetObjectById(receiptVoucherDetail.ReceivableId);
                 receivable.PendingClearanceAmount += receiptVoucherDetail.Amount;
                 rv.PendingClearanceAmount += receiptVoucherDetail.Amount;
-                _receiptVoucherService.UpdateObject(rv, this, _receivableService, _contactService, _cashBankService);                
+                _receiptVoucherService.UpdateAmount(rv);
                 receivable.RemainingAmount -= receiptVoucherDetail.Amount;
                 _receivableService.UpdateObject(receivable);
                 receiptVoucherDetail = _repository.ConfirmObject(receiptVoucherDetail);
@@ -143,7 +143,7 @@ namespace Service.Service
                 Receivable receivable = _receivableService.GetObjectById(receiptVoucherDetail.ReceivableId);
                 receivable.PendingClearanceAmount -= receiptVoucherDetail.Amount;
                 rv.PendingClearanceAmount -= receiptVoucherDetail.Amount;
-                _receiptVoucherService.UpdateObject(rv, this, _receivableService, _contactService, _cashBankService);
+                _receiptVoucherService.UpdateAmount(rv);
                 receivable.RemainingAmount += receiptVoucherDetail.Amount;
                 _receivableService.UpdateObject(receivable);
                 receiptVoucherDetail = _repository.UnconfirmObject(receiptVoucherDetail);
@@ -165,7 +165,7 @@ namespace Service.Service
                 rv.PendingClearanceAmount -= receiptVoucherDetail.Amount;
 
                 _cashBankService.UpdateObject(cb);
-                _receiptVoucherService.UpdateObject(rv, this, _receivableService, _contactService, _cashBankService);
+                _receiptVoucherService.UpdateAmount(rv);
                 if (receivable.PendingClearanceAmount == 0 && receivable.RemainingAmount == 0)
                 {
                     receivable.IsCompleted = true;
@@ -192,7 +192,7 @@ namespace Service.Service
                 receivable.CompletionDate = null;
 
                 _cashBankService.UpdateObject(cb);
-                _receiptVoucherService.UpdateObject(rv, this, _receivableService, _contactService, _cashBankService);
+                _receiptVoucherService.UpdateAmount(rv);
                 _receivableService.UpdateObject(receivable);
  
                 receiptVoucherDetail.ClearanceDate = null;

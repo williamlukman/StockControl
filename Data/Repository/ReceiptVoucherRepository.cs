@@ -41,6 +41,7 @@ namespace Data.Repository
 
         public ReceiptVoucher CreateObject(ReceiptVoucher receiptVoucher)
         {
+            receiptVoucher.PendingClearanceAmount = 0;
             receiptVoucher.Code = SetObjectCode();
             receiptVoucher.IsDeleted = false;
             receiptVoucher.IsConfirmed = false;

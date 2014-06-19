@@ -57,6 +57,7 @@ namespace Validation.Validation
         public PurchaseReceival VCreateObject(PurchaseReceival pr, IContactService _cs)
         {
             VContact(pr, _cs);
+            if (!isValid(pr)) { return pr; }
             VReceivalDate(pr);
             return pr;
         }
@@ -64,7 +65,9 @@ namespace Validation.Validation
         public PurchaseReceival VUpdateObject(PurchaseReceival pr, IContactService _cs)
         {
             VContact(pr, _cs);
+            if (!isValid(pr)) { return pr; }
             VReceivalDate(pr);
+            if (!isValid(pr)) { return pr; }
             VIsConfirmed(pr);
             return pr;
         }
@@ -78,6 +81,7 @@ namespace Validation.Validation
         public PurchaseReceival VConfirmObject(PurchaseReceival pr, IPurchaseReceivalDetailService _prds)
         {
             VIsConfirmed(pr);
+            if (!isValid(pr)) { return pr; }
             VHasPurchaseReceivalDetails(pr, _prds);
             if (isValid(pr))
             {
@@ -90,7 +94,7 @@ namespace Validation.Validation
                         {
                             pr.Errors.Add(error.Key, error.Value);
                         }
-                        if (pr.Errors.Any()) { return pr; }
+                        if (!isValid(pr)) { return pr; }
                     }
                 }
             }
@@ -110,7 +114,7 @@ namespace Validation.Validation
                         {
                             pr.Errors.Add(error.Key, error.Value);
                         }
-                        if (pr.Errors.Any()) { return pr; }
+                        if (!isValid(pr)) { return pr; }
                     }
                 }
             }

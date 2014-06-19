@@ -131,6 +131,7 @@ namespace Validation.Validation
                                                     ISalesOrderDetailService _sods, ISalesOrderService _sos, IItemService _is, IContactService _cs)
         {
             VHasDeliveryOrder(dod, _prs);
+            if (!isValid(dod)) { return dod; }
             VHasItem(dod, _is);
             if (!isValid(dod)) { return dod; }
             VContact(dod, _prs, _sos, _sods, _cs);
@@ -145,6 +146,7 @@ namespace Validation.Validation
                                                     ISalesOrderDetailService _sods, ISalesOrderService _sos, IItemService _is, IContactService _cs)
         {
             VHasDeliveryOrder(dod, _prs);
+            if (!isValid(dod)) { return dod; }
             VHasItem(dod, _is);
             if (!isValid(dod)) { return dod; }
             VContact(dod, _prs, _sos, _sods, _cs);
@@ -166,6 +168,7 @@ namespace Validation.Validation
         public DeliveryOrderDetail VConfirmObject(DeliveryOrderDetail dod, IItemService _is)
         {
             VIsConfirmed(dod);
+            if (!isValid(dod)) { return dod; }
             VHasItemQuantity(dod, _is);
             return dod;
         }

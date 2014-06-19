@@ -75,8 +75,11 @@ namespace Validation.Validation
         public SalesInvoiceDetail VCreateObject(SalesInvoiceDetail sid, ISalesInvoiceDetailService _sid, IDeliveryOrderDetailService _dods)
         {
             VHasDeliveryOrderDetail(sid, _dods);
+            if (!isValid(sid)) { return sid; }
             VQuantity(sid, _dods);
+            if (!isValid(sid)) { return sid; }
             VPrice(sid);
+            if (!isValid(sid)) { return sid; }
             VIsUniqueDeliveryOrderDetail(sid, _sid, _dods);
             return sid;
         }
@@ -84,9 +87,13 @@ namespace Validation.Validation
         public SalesInvoiceDetail VUpdateObject(SalesInvoiceDetail sid, ISalesInvoiceDetailService _sids, IDeliveryOrderDetailService _dods)
         {
             VIsConfirmed(sid);
+            if (!isValid(sid)) { return sid; }
             VHasDeliveryOrderDetail(sid, _dods);
+            if (!isValid(sid)) { return sid; }
             VQuantity(sid, _dods);
+            if (!isValid(sid)) { return sid; }
             VPrice(sid);
+            if (!isValid(sid)) { return sid; }
             VIsUniqueDeliveryOrderDetail(sid, _sids, _dods);
             return sid;
         }
@@ -100,7 +107,9 @@ namespace Validation.Validation
         public SalesInvoiceDetail VConfirmObject(SalesInvoiceDetail sid, ISalesInvoiceDetailService _sids, IDeliveryOrderDetailService _dods)
         {
             VQuantity(sid, _dods);
+            if (!isValid(sid)) { return sid; }
             VPrice(sid);
+            if (!isValid(sid)) { return sid; }
             VIsUniqueDeliveryOrderDetail(sid, _sids, _dods);
             return sid;
         }

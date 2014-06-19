@@ -53,6 +53,7 @@ namespace Validation.Validation
         public StockAdjustment VUpdateObject(StockAdjustment sa)
         {
             VAdjustmentDate(sa);
+            if (!isValid(sa)) { return sa; }
             VIsConfirmed(sa);
             return sa;
         }
@@ -66,6 +67,7 @@ namespace Validation.Validation
         public StockAdjustment VConfirmObject(StockAdjustment sa, IStockAdjustmentDetailService _sads, IItemService _is)
         {
             VIsConfirmed(sa);
+            if (!isValid(sa)) { return sa; }
             VHasStockAdjustmentDetails(sa, _sads);
             if (isValid(sa))
             {
@@ -78,7 +80,7 @@ namespace Validation.Validation
                         {
                             sa.Errors.Add(error.Key, error.Value);
                         }
-                        if (sa.Errors.Any()) { return sa; }
+                        if (!isValid(sa)) { return sa; }
                     }
                 }
             }
@@ -98,7 +100,7 @@ namespace Validation.Validation
                         {
                             sa.Errors.Add(error.Key, error.Value);
                         }
-                        if (sa.Errors.Any()) { return sa; }
+                        if (!isValid(sa)) { return sa; }
                     }
                 }
             }

@@ -60,7 +60,7 @@ namespace Service.Service
 
         public PurchaseInvoice UpdateObject(PurchaseInvoice purchaseInvoice, IPurchaseInvoiceDetailService _purchaseInvoiceDetailService, IContactService _contactService)
         {
-            return (_validator.ValidUpdateObject(purchaseInvoice, _purchaseInvoiceDetailService, _contactService) ? _repository.UpdateObject(purchaseInvoice) : purchaseInvoice);
+            return (_validator.ValidUpdateObject(purchaseInvoice, this, _purchaseInvoiceDetailService, _contactService) ? _repository.UpdateObject(purchaseInvoice) : purchaseInvoice);
         }
 
         public PurchaseInvoice SoftDeleteObject(PurchaseInvoice purchaseInvoice)

@@ -74,6 +74,7 @@ namespace Validation.Validation
         public Contact VCreateObject(Contact c)
         {
             VName(c);
+            if (!isValid(c)) { return c; }
             VAddress(c);
             return c;
         }
@@ -81,6 +82,7 @@ namespace Validation.Validation
         public Contact VUpdateObject(Contact c)
         {
             VName(c);
+            if (!isValid(c)) { return c; }
             VAddress(c);
             return c;
         }
@@ -89,8 +91,11 @@ namespace Validation.Validation
                                 ISalesOrderService _sos, IDeliveryOrderService _dos)
         {
             VHasPurchaseOrder(c, _pos);
+            if (!isValid(c)) { return c; }
             VHasPurchaseReceival(c, _prs);
+            if (!isValid(c)) { return c; }
             VHasSalesOrder(c, _sos);
+            if (!isValid(c)) { return c; }
             VHasDeliveryOrder(c, _dos);
             return c;
         }

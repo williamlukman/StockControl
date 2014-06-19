@@ -19,6 +19,10 @@ namespace Core.Interface.Service
         ReceiptVoucher CreateObject(int cashBankId, int contactId, DateTime paymentDate, decimal totalAmount,
                                     IReceiptVoucherDetailService _receiptVoucherDetailService, IReceivableService _receivableService,
                                     IContactService _contactService, ICashBankService _cashBankService);
+        ReceiptVoucher CreateObject(int cashBankId, int contactId, DateTime paymentDate, decimal totalAmount, bool IsInstantClearance,
+                                    IReceiptVoucherDetailService _receiptVoucherDetailService, IReceivableService _receivableService,
+                                    IContactService _contactService, ICashBankService _cashBankService);
+        ReceiptVoucher UpdateAmount(ReceiptVoucher receiptVoucher);
         ReceiptVoucher UpdateObject(ReceiptVoucher receiptVoucher, IReceiptVoucherDetailService _receiptVoucherDetailService, IReceivableService _receivableService, IContactService _contactService, ICashBankService _cashBankService);
         ReceiptVoucher SoftDeleteObject(ReceiptVoucher receiptVoucher, IReceiptVoucherDetailService _receiptVoucherDetailService);
         bool DeleteObject(int Id);

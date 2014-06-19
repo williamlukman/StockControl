@@ -177,7 +177,9 @@ namespace Validation.Validation
         public ReceiptVoucher VCreateObject(ReceiptVoucher receiptVoucher, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, IReceivableService _receivableService, IContactService _contactService, ICashBankService _cashBankService)
         {
             VHasContact(receiptVoucher, _contactService);
+            if (!isValid(receiptVoucher)) { return receiptVoucher; }
             VHasCashBank(receiptVoucher, _cashBankService);
+            if (!isValid(receiptVoucher)) { return receiptVoucher; }
             VHasReceiptDate(receiptVoucher);
             return receiptVoucher;
         }
@@ -185,9 +187,13 @@ namespace Validation.Validation
         public ReceiptVoucher VUpdateObject(ReceiptVoucher receiptVoucher, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, IReceivableService _receivableService, IContactService _contactService, ICashBankService _cashBankService)
         {
             VIsConfirmed(receiptVoucher);
+            if (!isValid(receiptVoucher)) { return receiptVoucher; }
             VHasContact(receiptVoucher, _contactService);
+            if (!isValid(receiptVoucher)) { return receiptVoucher; }
             VHasCashBank(receiptVoucher, _cashBankService);
+            if (!isValid(receiptVoucher)) { return receiptVoucher; }
             VHasReceiptDate(receiptVoucher);
+            if (!isValid(receiptVoucher)) { return receiptVoucher; }
             VUpdateContact(receiptVoucher, _receiptVoucherService, _receiptVoucherDetailService);
             return receiptVoucher;
         }
@@ -201,6 +207,7 @@ namespace Validation.Validation
         public ReceiptVoucher VConfirmObject(ReceiptVoucher receiptVoucher, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService, IContactService _contactService)
         {
             VHasReceiptVoucherDetails(receiptVoucher, _receiptVoucherDetailService);
+            if (!isValid(receiptVoucher)) { return receiptVoucher; }
             VRemainingAmountDetails(receiptVoucher, _receiptVoucherDetailService, _receivableService);
             return receiptVoucher;
         }
@@ -214,8 +221,11 @@ namespace Validation.Validation
         public ReceiptVoucher VClearObject(ReceiptVoucher receiptVoucher, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService, IContactService _contactService)
         {
             VClearanceDate(receiptVoucher);
+            if (!isValid(receiptVoucher)) { return receiptVoucher; }
             VRemainingCashBankAmount(receiptVoucher, _receiptVoucherDetailService, _cashBankService);
+            if (!isValid(receiptVoucher)) { return receiptVoucher; }
             VAlreadyConfirmed(receiptVoucher);
+            if (!isValid(receiptVoucher)) { return receiptVoucher; }
             VIsBank(receiptVoucher, _cashBankService);
             return receiptVoucher;
         }
@@ -223,6 +233,7 @@ namespace Validation.Validation
         public ReceiptVoucher VUnclearObject(ReceiptVoucher receiptVoucher, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService, IContactService _contactService)
         {
             VAlreadyCleared(receiptVoucher);
+            if (!isValid(receiptVoucher)) { return receiptVoucher; }
             VIsBank(receiptVoucher, _cashBankService);
             return receiptVoucher;
         }

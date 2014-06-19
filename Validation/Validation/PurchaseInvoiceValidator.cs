@@ -28,7 +28,7 @@ namespace Validation.Validation
             IList<PurchaseInvoiceDetail> details = _pids.GetObjectsByPurchaseInvoiceId(pi.Id);
             if (!details.Any())
             {
-                pi.Errors.Add("PurchaseInvoice", "Tidak boleh memilik Purchase Invoice Details");
+                pi.Errors.Add("PurchaseInvoice", "Tidak boleh tidak memiliki Purchase Invoice Details");
             }
             return pi;
         }
@@ -53,16 +53,33 @@ namespace Validation.Validation
             return pi;
         }
 
+        public PurchaseInvoice VUpdateContactWithPurchaseInvoiceDetails(PurchaseInvoice pi, IPurchaseInvoiceService _pis, IPurchaseInvoiceDetailService _pids)
+        {
+            IList<PurchaseInvoiceDetail> details = _pids.GetObjectsByPurchaseInvoiceId(pi.Id);
+            if (details.Any())
+            {
+                PurchaseInvoice databasepurchaseinvoice = _pis.GetObjectById(pi.Id);
+                if (pi.ContactId != databasepurchaseinvoice.ContactId)
+                {
+                    pi.Errors.Add("ContactId", "Tidak boleh diubah");
+                    return pi;
+                }
+            }
+            return pi;
+        }
+
         public PurchaseInvoice VCreateObject(PurchaseInvoice pi, IContactService _cs)
         {
             VContact(pi, _cs);
             return pi;
         }
 
-        public PurchaseInvoice VUpdateObject(PurchaseInvoice pi, IPurchaseInvoiceDetailService _pids, IContactService _cs)
+        public PurchaseInvoice VUpdateObject(PurchaseInvoice pi, IPurchaseInvoiceService _pis, IPurchaseInvoiceDetailService _pids, IContactService _cs)
         {
             VContact(pi, _cs);
-            VHasPurchaseInvoiceDetails(pi, _pids);
+            if (!isValid(pi)) { return pi; }
+            VUpdateContactWithPurchaseInvoiceDetails(pi, _pis, _pids);
+            if (!isValid(pi)) { return pi; }
             VIsConfirmed(pi);
             return pi;
         }
@@ -76,6 +93,7 @@ namespace Validation.Validation
         public PurchaseInvoice VConfirmObject(PurchaseInvoice pi, IPurchaseInvoiceDetailService _pids, IPurchaseReceivalDetailService _prds)
         {
             VIsConfirmed(pi);
+            if (!isValid(pi)) { return pi; }
             VHasPurchaseInvoiceDetails(pi, _pids);
             if (isValid(pi))
             {
@@ -88,7 +106,7 @@ namespace Validation.Validation
                     {
                         pi.Errors.Add(error.Key, error.Value);
                     }
-                    if (pi.Errors.Any()) { return pi; }
+                    if (!isValid(pi)) { return pi; }
                 }
             }
             return pi;
@@ -108,7 +126,7 @@ namespace Validation.Validation
                         {
                             pi.Errors.Add(error.Key, error.Value);
                         }
-                        if (pi.Errors.Any()) { return pi; }
+                        if (!isValid(pi)) { return pi; }
                     }
                 }
             }
@@ -122,10 +140,10 @@ namespace Validation.Validation
             return isValid(pi);
         }
 
-        public bool ValidUpdateObject(PurchaseInvoice pi, IPurchaseInvoiceDetailService _pids, IContactService _cs)
+        public bool ValidUpdateObject(PurchaseInvoice pi, IPurchaseInvoiceService _pis, IPurchaseInvoiceDetailService _pids, IContactService _cs)
         {
             pi.Errors.Clear();
-            VUpdateObject(pi, _pids, _cs);
+            VUpdateObject(pi, _pis, _pids, _cs);
             return isValid(pi);
         }
 

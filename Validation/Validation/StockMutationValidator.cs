@@ -74,9 +74,13 @@ namespace Validation.Validation
         public StockMutation VCreateObject(StockMutation sm)
         {
             VItemCase(sm);
+            if (!isValid(sm)) { return sm; }
             VStatus(sm);
+            if (!isValid(sm)) { return sm; }
             VSourceDocumentType(sm);
+            if (!isValid(sm)) { return sm; }
             VSourceDocumentDetailType(sm);
+            if (!isValid(sm)) { return sm; }
             VQuantity(sm);
             return sm;
         }

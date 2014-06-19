@@ -38,6 +38,7 @@ namespace Validation.Validation
         public Item VCreateObject(Item i, IItemService _is)
         {
             VSku(i, _is);
+            if (!isValid(i)) { return i; }
             VName(i);
             return i;
         }
@@ -45,6 +46,7 @@ namespace Validation.Validation
         public Item VUpdateObject(Item i, IItemService _is)
         {
             VSku(i, _is);
+            if (!isValid(i)) { return i; }
             VName(i);
             return i;
         }

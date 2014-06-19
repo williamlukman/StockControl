@@ -56,6 +56,7 @@ namespace Validation.Validation
         public PurchaseOrder VCreateObject(PurchaseOrder po, IContactService _cs)
         {
             VContact(po, _cs);
+            if (!isValid(po)) { return po; }
             VPurchaseDate(po);
             return po;
         }
@@ -63,7 +64,9 @@ namespace Validation.Validation
         public PurchaseOrder VUpdateObject(PurchaseOrder po, IContactService _cs)
         {
             VContact(po, _cs);
+            if (!isValid(po)) { return po; }
             VPurchaseDate(po);
+            if (!isValid(po)) { return po; }
             VIsConfirmed(po);
             return po;
         }
@@ -77,6 +80,7 @@ namespace Validation.Validation
         public PurchaseOrder VConfirmObject(PurchaseOrder po, IPurchaseOrderDetailService _pods)
         {
             VIsConfirmed(po);
+            if (!isValid(po)) { return po; }
             VHasPurchaseOrderDetails(po, _pods);
             if (isValid(po))
             {
@@ -89,7 +93,7 @@ namespace Validation.Validation
                     {
                         po.Errors.Add(error.Key, error.Value);
                     }
-                    if (po.Errors.Any()) { return po; }
+                    if (!isValid(po)) { return po; }
                 }
             }
             return po;
@@ -108,7 +112,7 @@ namespace Validation.Validation
                         {
                             po.Errors.Add(error.Key, error.Value);
                         }
-                        if (po.Errors.Any()) { return po; }
+                        if (!isValid(po)) { return po; }
                     }
                 }
             }

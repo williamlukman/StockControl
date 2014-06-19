@@ -177,7 +177,9 @@ namespace Validation.Validation
         public PaymentVoucher VCreateObject(PaymentVoucher paymentVoucher, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, IPayableService _payableService, IContactService _contactService, ICashBankService _cashBankService)
         {
             VHasContact(paymentVoucher, _contactService);
+            if (!isValid(paymentVoucher)) { return paymentVoucher; }
             VHasCashBank(paymentVoucher, _cashBankService);
+            if (!isValid(paymentVoucher)) { return paymentVoucher; }
             VHasPaymentDate(paymentVoucher);
             return paymentVoucher;
         }
@@ -185,9 +187,13 @@ namespace Validation.Validation
         public PaymentVoucher VUpdateObject(PaymentVoucher paymentVoucher, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, IPayableService _payableService, IContactService _contactService, ICashBankService _cashBankService)
         {
             VIsConfirmed(paymentVoucher);
+            if (!isValid(paymentVoucher)) { return paymentVoucher; }
             VHasContact(paymentVoucher, _contactService);
+            if (!isValid(paymentVoucher)) { return paymentVoucher; }
             VHasCashBank(paymentVoucher, _cashBankService);
+            if (!isValid(paymentVoucher)) { return paymentVoucher; }
             VHasPaymentDate(paymentVoucher);
+            if (!isValid(paymentVoucher)) { return paymentVoucher; }
             VUpdateContact(paymentVoucher, _paymentVoucherService, _paymentVoucherDetailService);
             return paymentVoucher;
         }
@@ -201,6 +207,7 @@ namespace Validation.Validation
         public PaymentVoucher VConfirmObject(PaymentVoucher paymentVoucher, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
         {
             VHasPaymentVoucherDetails(paymentVoucher, _paymentVoucherDetailService);
+            if (!isValid(paymentVoucher)) { return paymentVoucher; }
             VRemainingAmountDetails(paymentVoucher, _paymentVoucherDetailService, _payableService);
             return paymentVoucher;
         }
@@ -214,8 +221,11 @@ namespace Validation.Validation
         public PaymentVoucher VClearObject(PaymentVoucher paymentVoucher, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
         {
             VClearanceDate(paymentVoucher);
+            if (!isValid(paymentVoucher)) { return paymentVoucher; }
             VRemainingCashBankAmount(paymentVoucher, _paymentVoucherDetailService, _cashBankService);
+            if (!isValid(paymentVoucher)) { return paymentVoucher; }
             VAlreadyConfirmed(paymentVoucher);
+            if (!isValid(paymentVoucher)) { return paymentVoucher; }
             VIsBank(paymentVoucher, _cashBankService);
             return paymentVoucher;
         }
@@ -223,6 +233,7 @@ namespace Validation.Validation
         public PaymentVoucher VUnclearObject(PaymentVoucher paymentVoucher, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
         {
             VAlreadyCleared(paymentVoucher);
+            if (!isValid(paymentVoucher)) { return paymentVoucher; }
             VIsBank(paymentVoucher, _cashBankService);
             return paymentVoucher;
         }

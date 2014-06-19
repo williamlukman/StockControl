@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SpecReceipt.cs" />
+    <Compile Include="SpecPayment.cs" />
     <Compile Include="SpecPurchaseReceival.cs" />
     <Compile Include="SpecItem.cs" />
     <Compile Include="SpecSalesOrder.cs" />

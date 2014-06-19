@@ -157,10 +157,15 @@ namespace Validation.Validation
         public ReceiptVoucherDetail VCreateObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService, IContactService _contactService)
         {
             VHasReceiptVoucher(receiptVoucherDetail, _receiptVoucherService);
+            if (!isValid(receiptVoucherDetail)) { return receiptVoucherDetail; }
             VHasReceivable(receiptVoucherDetail, _receivableService);
+            if (!isValid(receiptVoucherDetail)) { return receiptVoucherDetail; }
             VReceivableContactIsTheSame(receiptVoucherDetail, _receiptVoucherService, _receivableService);
+            if (!isValid(receiptVoucherDetail)) { return receiptVoucherDetail; }
             VAmountLessThanCashBank(receiptVoucherDetail, _receiptVoucherService, _cashBankService);
+            if (!isValid(receiptVoucherDetail)) { return receiptVoucherDetail; }
             VCorrectInstantClearance(receiptVoucherDetail, _receiptVoucherService, _cashBankService);
+            if (!isValid(receiptVoucherDetail)) { return receiptVoucherDetail; }
             VNonNegativeOrZeroAmount(receiptVoucherDetail);
             return receiptVoucherDetail;
         }
@@ -168,10 +173,15 @@ namespace Validation.Validation
         public ReceiptVoucherDetail VUpdateObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService, IContactService _contactService)
         {
             VIsConfirmed(receiptVoucherDetail);
+            if (!isValid(receiptVoucherDetail)) { return receiptVoucherDetail; }
             VHasReceiptVoucher(receiptVoucherDetail, _receiptVoucherService);
+            if (!isValid(receiptVoucherDetail)) { return receiptVoucherDetail; }
             VHasReceivable(receiptVoucherDetail, _receivableService);
+            if (!isValid(receiptVoucherDetail)) { return receiptVoucherDetail; }
             VUpdateContactOrReceivable(receiptVoucherDetail, _receiptVoucherDetailService);
+            if (!isValid(receiptVoucherDetail)) { return receiptVoucherDetail; }
             VAmountLessThanCashBank(receiptVoucherDetail, _receiptVoucherService, _cashBankService);
+            if (!isValid(receiptVoucherDetail)) { return receiptVoucherDetail; }
             VCorrectInstantClearance(receiptVoucherDetail, _receiptVoucherService, _cashBankService);
             return receiptVoucherDetail;
         }
@@ -197,7 +207,9 @@ namespace Validation.Validation
         public ReceiptVoucherDetail VClearObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService)
         {
             VIsNonInstantClearance(receiptVoucherDetail, _receiptVoucherService);
+            if (!isValid(receiptVoucherDetail)) { return receiptVoucherDetail; }
             VClearanceDate(receiptVoucherDetail, _receiptVoucherService);
+            if (!isValid(receiptVoucherDetail)) { return receiptVoucherDetail; }
             VAmountLessThanCashBank(receiptVoucherDetail, _receiptVoucherService, _cashBankService);
             return receiptVoucherDetail;
         }
@@ -211,7 +223,9 @@ namespace Validation.Validation
         public ReceiptVoucherDetail VClearConfirmObject(ReceiptVoucherDetail receiptVoucherDetail, IReceiptVoucherService _receiptVoucherService, IReceiptVoucherDetailService _receiptVoucherDetailService, ICashBankService _cashBankService, IReceivableService _receivableService)
         {
             VIsInstantClearance(receiptVoucherDetail, _receiptVoucherService);
+            if (!isValid(receiptVoucherDetail)) { return receiptVoucherDetail; }
             VClearanceDate(receiptVoucherDetail, _receiptVoucherService);
+            if (!isValid(receiptVoucherDetail)) { return receiptVoucherDetail; }
             VAmountLessThanCashBank(receiptVoucherDetail, _receiptVoucherService, _cashBankService);
             return receiptVoucherDetail;
         }

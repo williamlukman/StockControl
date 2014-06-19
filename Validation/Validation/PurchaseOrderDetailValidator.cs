@@ -100,11 +100,14 @@ namespace Validation.Validation
 
         public PurchaseOrderDetail VCreateObject(PurchaseOrderDetail pod, IPurchaseOrderDetailService _pods, IPurchaseOrderService _pos, IItemService _is)
         {
-
             VHasPurchaseOrder(pod, _pos);
+            if (!isValid(pod)) { return pod; }
             VHasItem(pod, _is);
+            if (!isValid(pod)) { return pod; }
             VQuantity(pod);
+            if (!isValid(pod)) { return pod; }
             VPrice(pod);
+            if (!isValid(pod)) { return pod; }
             VUniquePOD(pod, _pods, _is);
             return pod;
         }
@@ -112,10 +115,15 @@ namespace Validation.Validation
         public PurchaseOrderDetail VUpdateObject(PurchaseOrderDetail pod, IPurchaseOrderDetailService _pods, IPurchaseOrderService _pos, IItemService _is)
         {
             VHasPurchaseOrder(pod, _pos);
+            if (!isValid(pod)) { return pod; }
             VHasItem(pod, _is);
+            if (!isValid(pod)) { return pod; }
             VQuantity(pod);
+            if (!isValid(pod)) { return pod; }
             VPrice(pod);
+            if (!isValid(pod)) { return pod; }
             VUniquePOD(pod, _pods, _is);
+            if (!isValid(pod)) { return pod; }
             VIsConfirmed(pod);
             return pod;
         }
@@ -135,6 +143,7 @@ namespace Validation.Validation
         public PurchaseOrderDetail VUnconfirmObject(PurchaseOrderDetail pod, IPurchaseOrderDetailService _pods, IPurchaseReceivalDetailService _prds, IItemService _is)
         {
             VHasItemPendingReceival(pod, _is);
+            if (!isValid(pod)) { return pod; }
             VConfirmedPurchaseReceival(pod, _prds);
             return pod;
         }

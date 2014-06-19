@@ -157,10 +157,15 @@ namespace Validation.Validation
         public PaymentVoucherDetail VCreateObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
         {
             VHasPaymentVoucher(paymentVoucherDetail, _paymentVoucherService);
+            if (!isValid(paymentVoucherDetail)) { return paymentVoucherDetail; }
             VHasPayable(paymentVoucherDetail, _payableService);
+            if (!isValid(paymentVoucherDetail)) { return paymentVoucherDetail; }
             VPayableContactIsTheSame(paymentVoucherDetail, _paymentVoucherService, _payableService);
+            if (!isValid(paymentVoucherDetail)) { return paymentVoucherDetail; }
             VAmountLessThanCashBank(paymentVoucherDetail, _paymentVoucherService, _cashBankService);
+            if (!isValid(paymentVoucherDetail)) { return paymentVoucherDetail; }
             VCorrectInstantClearance(paymentVoucherDetail, _paymentVoucherService, _cashBankService);
+            if (!isValid(paymentVoucherDetail)) { return paymentVoucherDetail; }
             VNonNegativeOrZeroAmount(paymentVoucherDetail);
             return paymentVoucherDetail;
         }
@@ -168,10 +173,15 @@ namespace Validation.Validation
         public PaymentVoucherDetail VUpdateObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService, IContactService _contactService)
         {
             VIsConfirmed(paymentVoucherDetail);
+            if (!isValid(paymentVoucherDetail)) { return paymentVoucherDetail; }
             VHasPaymentVoucher(paymentVoucherDetail, _paymentVoucherService);
+            if (!isValid(paymentVoucherDetail)) { return paymentVoucherDetail; }
             VHasPayable(paymentVoucherDetail, _payableService);
+            if (!isValid(paymentVoucherDetail)) { return paymentVoucherDetail; }
             VUpdateContactOrPayable(paymentVoucherDetail, _paymentVoucherDetailService);
+            if (!isValid(paymentVoucherDetail)) { return paymentVoucherDetail; }
             VAmountLessThanCashBank(paymentVoucherDetail, _paymentVoucherService, _cashBankService);
+            if (!isValid(paymentVoucherDetail)) { return paymentVoucherDetail; }
             VCorrectInstantClearance(paymentVoucherDetail, _paymentVoucherService, _cashBankService);
             return paymentVoucherDetail;    
         }
@@ -197,7 +207,9 @@ namespace Validation.Validation
         public PaymentVoucherDetail VClearObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService)
         {
             VIsNonInstantClearance(paymentVoucherDetail, _paymentVoucherService);
+            if (!isValid(paymentVoucherDetail)) { return paymentVoucherDetail; }
             VClearanceDate(paymentVoucherDetail, _paymentVoucherService);
+            if (!isValid(paymentVoucherDetail)) { return paymentVoucherDetail; }
             VAmountLessThanCashBank(paymentVoucherDetail, _paymentVoucherService, _cashBankService);
             return paymentVoucherDetail;
         }
@@ -211,7 +223,9 @@ namespace Validation.Validation
         public PaymentVoucherDetail VClearConfirmObject(PaymentVoucherDetail paymentVoucherDetail, IPaymentVoucherService _paymentVoucherService, IPaymentVoucherDetailService _paymentVoucherDetailService, ICashBankService _cashBankService, IPayableService _payableService)
         {
             VIsInstantClearance(paymentVoucherDetail, _paymentVoucherService);
+            if (!isValid(paymentVoucherDetail)) { return paymentVoucherDetail; }
             VClearanceDate(paymentVoucherDetail, _paymentVoucherService);
+            if (!isValid(paymentVoucherDetail)) { return paymentVoucherDetail; }
             VAmountLessThanCashBank(paymentVoucherDetail, _paymentVoucherService, _cashBankService);
             return paymentVoucherDetail;
         }

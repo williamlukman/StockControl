@@ -56,6 +56,7 @@ namespace Validation.Validation
         public SalesOrder VCreateObject(SalesOrder so, IContactService _cs)
         {
             VContact(so, _cs);
+            if (!isValid(so)) { return so; }
             VSalesDate(so);
             return so;
         }
@@ -63,7 +64,9 @@ namespace Validation.Validation
         public SalesOrder VUpdateObject(SalesOrder so, IContactService _cs)
         {
             VContact(so, _cs);
+            if (!isValid(so)) { return so; }
             VSalesDate(so);
+            if (!isValid(so)) { return so; }
             VIsConfirmed(so);
             return so;
         }
@@ -77,6 +80,7 @@ namespace Validation.Validation
         public SalesOrder VConfirmObject(SalesOrder so, ISalesOrderDetailService _sods)
         {
             VIsConfirmed(so);
+            if (!isValid(so)) { return so; }
             VHasSalesOrderDetails(so, _sods);
             if (isValid(so))
             {
@@ -89,7 +93,7 @@ namespace Validation.Validation
                     {
                         so.Errors.Add(error.Key, error.Value);
                     }
-                    if (so.Errors.Any()) { return so; }
+                    if (!isValid(so)) { return so; }
                 }
             }
             return so;
@@ -108,7 +112,7 @@ namespace Validation.Validation
                         {
                             so.Errors.Add(error.Key, error.Value);
                         }
-                        if (so.Errors.Any()) { return so; }
+                        if (!isValid(so)) { return so; }
                     }
                 }
             }

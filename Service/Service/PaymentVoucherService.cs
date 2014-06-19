@@ -72,7 +72,6 @@ namespace Service.Service
                 ContactId = contactId,
                 PaymentDate = paymentDate,
                 TotalAmount = totalAmount,
-                PendingClearanceAmount = totalAmount
             };
             return this.CreateObject(pv, _paymentVoucherDetailService, _payableService, _contactService, _cashBankService);
         }
@@ -87,7 +86,6 @@ namespace Service.Service
                 ContactId = contactId,
                 PaymentDate = paymentDate,
                 TotalAmount = totalAmount,
-                PendingClearanceAmount = totalAmount,
                 IsInstantClearance = IsInstantCleareance
             };
             return this.CreateObject(pv, _paymentVoucherDetailService, _payableService, _contactService, _cashBankService);
@@ -96,6 +94,11 @@ namespace Service.Service
         public PaymentVoucher UpdateObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService, IPayableService _payableService, IContactService _contactService, ICashBankService _cashBankService)
         {
             return (_validator.ValidUpdateObject(paymentVoucher, this, _paymentVoucherDetailService, _payableService, _contactService, _cashBankService) ? _repository.UpdateObject(paymentVoucher) : paymentVoucher);
+        }
+
+        public PaymentVoucher UpdateAmount(PaymentVoucher paymentVoucher)
+        {
+            return _repository.UpdateObject(paymentVoucher);
         }
 
         public PaymentVoucher SoftDeleteObject(PaymentVoucher paymentVoucher, IPaymentVoucherDetailService _paymentVoucherDetailService)

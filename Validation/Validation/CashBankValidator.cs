@@ -37,20 +37,6 @@ namespace Validation.Validation
             return c;
         }
 
-        public CashBank VCreateObject(CashBank c, ICashBankService _cashBankService)
-        {
-            VName(c, _cashBankService);
-            VIsBank(c);
-            return c;
-        }
-
-        public CashBank VUpdateObject(CashBank c, ICashBankService _cashBankService)
-        {
-            VName(c, _cashBankService);
-            VIsBank(c);
-            return c;
-        }
-
         public CashBank VHasReceiptVoucherDetail(CashBank cb, IReceiptVoucherService _rvs)
         {
             IList<ReceiptVoucher> vouchers = _rvs.GetObjectsByCashBankId(cb.Id);
@@ -70,10 +56,27 @@ namespace Validation.Validation
             }
             return cb;
         }
+        
+        public CashBank VCreateObject(CashBank cb, ICashBankService _cashBankService)
+        {
+            VName(cb, _cashBankService);
+            if (!isValid(cb)) { return cb; }
+            VIsBank(cb);
+            return cb;
+        }
+
+        public CashBank VUpdateObject(CashBank cb, ICashBankService _cashBankService)
+        {
+            VName(cb, _cashBankService);
+            if (!isValid(cb)) { return cb; }
+            VIsBank(cb);
+            return cb;
+        }
 
         public CashBank VDeleteObject(CashBank cb, ICashBankService _cb, IReceiptVoucherService _rvs, IPaymentVoucherService _pvs)
         {
             VHasReceiptVoucherDetail(cb, _rvs);
+            if (!isValid(cb)) { return cb; }
             VHasPaymentVoucherDetail(cb, _pvs);
             return cb;
         }

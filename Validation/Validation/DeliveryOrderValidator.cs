@@ -70,6 +70,7 @@ namespace Validation.Validation
         public DeliveryOrder VCreateObject(DeliveryOrder d, IContactService _cs)
         {
             VContact(d, _cs);
+            if (!isValid(d)) { return d; }
             VDeliveryDate(d);
             return d;
         }
@@ -77,7 +78,9 @@ namespace Validation.Validation
         public DeliveryOrder VUpdateObject(DeliveryOrder d, IContactService _cs)
         {
             VContact(d, _cs);
+            if (!isValid(d)) { return d; }
             VDeliveryDate(d);
+            if (!isValid(d)) { return d; }
             VIsConfirmed(d);
             return d;
         }
@@ -91,6 +94,7 @@ namespace Validation.Validation
         public DeliveryOrder VConfirmObject(DeliveryOrder d, IDeliveryOrderDetailService _dods, IItemService _is)
         {
             VIsConfirmed(d);
+            if (!isValid(d)) { return d; }
             VHasDeliveryOrderDetails(d, _dods);
             if (isValid(d))
             {
@@ -103,7 +107,7 @@ namespace Validation.Validation
                     {
                         d.Errors.Add(error.Key, error.Value);
                     }
-                    if (d.Errors.Any()) { return d; }
+                    if (!isValid(d)) { return d; }
                 }
             }
             return d;
@@ -123,7 +127,7 @@ namespace Validation.Validation
                         {
                             d.Errors.Add(error.Key, error.Value);
                         }
-                        if (d.Errors.Any()) { return d; }
+                        if (!isValid(d)) { return d; }
                     }
                 }
             }

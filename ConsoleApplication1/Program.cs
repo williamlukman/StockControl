@@ -268,7 +268,7 @@ namespace ConsoleApp
             PVValidation pvv = new PVValidation(
                                this._pi, this._pid,
                                this._payable, this._pv, this._pvd,
-                               this._cb,
+                               this._cb, this._sa, this._sad,
                                this._c, this._i, this._sm,
                                this._po, this._pr, this._so, this._do,
                                this._pod, this._prd, this._sod, this._dod);

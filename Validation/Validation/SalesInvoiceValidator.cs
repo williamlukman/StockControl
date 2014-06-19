@@ -76,6 +76,7 @@ namespace Validation.Validation
         public SalesInvoice VConfirmObject(SalesInvoice si, ISalesInvoiceDetailService _sids, IDeliveryOrderDetailService _dods)
         {
             VIsConfirmed(si);
+            if (!isValid(si)) { return si; }
             VHasSalesInvoiceDetails(si, _sids);
             if (isValid(si))
             {
@@ -88,7 +89,7 @@ namespace Validation.Validation
                     {
                         si.Errors.Add(error.Key, error.Value);
                     }
-                    if (si.Errors.Any()) { return si; }
+                    if (!isValid(si)) { return si; }
                 }
             }
             return si;
@@ -108,7 +109,7 @@ namespace Validation.Validation
                         {
                             si.Errors.Add(error.Key, error.Value);
                         }
-                        if (si.Errors.Any()) { return si; }
+                        if (!isValid(si)) { return si; }
                     }
                 }
             }

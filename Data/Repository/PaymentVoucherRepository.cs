@@ -41,6 +41,7 @@ namespace Data.Repository
 
         public PaymentVoucher CreateObject(PaymentVoucher paymentVoucher)
         {
+            paymentVoucher.PendingClearanceAmount = 0;
             paymentVoucher.Code = SetObjectCode();
             paymentVoucher.IsDeleted = false;
             paymentVoucher.IsConfirmed = false;

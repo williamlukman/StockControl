@@ -50,7 +50,16 @@ namespace Service.Service
                                             IReceivableService _receivableService, IContactService _contactService, ICashBankService _cashBankService)
         {
             receiptVoucher.Errors = new Dictionary<String, String>();
-            return (_validator.ValidCreateObject(receiptVoucher, this, _receiptVoucherDetailService, _receivableService, _contactService, _cashBankService) ? _repository.CreateObject(receiptVoucher) : receiptVoucher);
+            if (_validator.ValidCreateObject(receiptVoucher, this, _receiptVoucherDetailService, _receivableService, _contactService, _cashBankService))
+            {
+                CashBank cashBank = _cashBankService.GetObjectById(receiptVoucher.CashBankId);
+                receiptVoucher.IsInstantClearance = (cashBank.IsBank) ? receiptVoucher.IsInstantClearance : true;
+                return _repository.CreateObject(receiptVoucher);
+            }
+            else
+            {
+                return receiptVoucher;
+            }
         }
 
         public ReceiptVoucher CreateObject(int cashBankId, int contactId, DateTime receiptDate, decimal totalAmount,
@@ -62,10 +71,29 @@ namespace Service.Service
                 CashBankId = cashBankId,
                 ContactId = contactId,
                 ReceiptDate = receiptDate,
-                TotalAmount = totalAmount,
-                PendingClearanceAmount = totalAmount
+                TotalAmount = totalAmount
             };
             return this.CreateObject(rv, _receiptVoucherDetailService, _receivableService, _contactService, _cashBankService);
+        }
+
+        public ReceiptVoucher CreateObject(int cashBankId, int contactId, DateTime receiptDate, decimal totalAmount, bool IsInstantClearance,
+                                    IReceiptVoucherDetailService _receiptVoucherDetailService, IReceivableService _receivableService,
+                                    IContactService _contactService, ICashBankService _cashBankService)
+        {
+            ReceiptVoucher rv = new ReceiptVoucher
+            {
+                CashBankId = cashBankId,
+                ContactId = contactId,
+                ReceiptDate = receiptDate,
+                TotalAmount = totalAmount,
+                IsInstantClearance = IsInstantClearance
+            };
+            return this.CreateObject(rv, _receiptVoucherDetailService, _receivableService, _contactService, _cashBankService);
+        }
+
+        public ReceiptVoucher UpdateAmount(ReceiptVoucher receiptVoucher)
+        {
+            return _repository.UpdateObject(receiptVoucher);
         }
 
         public ReceiptVoucher UpdateObject(ReceiptVoucher receiptVoucher, IReceiptVoucherDetailService _receiptVoucherDetailService, IReceivableService _receivableService, IContactService _contactService, ICashBankService _cashBankService)

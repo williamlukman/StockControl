@@ -103,7 +103,7 @@ namespace Service.Service
                 Payable payable = _payableService.GetObjectById(paymentVoucherDetail.PayableId);
                 payable.PendingClearanceAmount += paymentVoucherDetail.Amount;
                 pv.PendingClearanceAmount += paymentVoucherDetail.Amount;
-                _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService, _cashBankService);                
+                _paymentVoucherService.UpdateAmount(pv);                
                 payable.RemainingAmount -= paymentVoucherDetail.Amount;
                 _payableService.UpdateObject(payable);
                 paymentVoucherDetail = _repository.ConfirmObject(paymentVoucherDetail);
@@ -126,7 +126,7 @@ namespace Service.Service
                 Payable payable = _payableService.GetObjectById(paymentVoucherDetail.PayableId);
                 payable.PendingClearanceAmount -= paymentVoucherDetail.Amount;
                 pv.PendingClearanceAmount -= paymentVoucherDetail.Amount;
-                _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService, _cashBankService);
+                _paymentVoucherService.UpdateAmount(pv);
                 payable.RemainingAmount += paymentVoucherDetail.Amount;
                 _payableService.UpdateObject(payable);
                 paymentVoucherDetail = _repository.UnconfirmObject(paymentVoucherDetail);
@@ -148,7 +148,7 @@ namespace Service.Service
                 pv.PendingClearanceAmount -= paymentVoucherDetail.Amount;
 
                 _cashBankService.UpdateObject(cb);
-                _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService, _cashBankService);
+                _paymentVoucherService.UpdateAmount(pv);
                 if (payable.PendingClearanceAmount == 0 && payable.RemainingAmount == 0)
                 {
                     payable.IsCompleted = true;
@@ -175,7 +175,7 @@ namespace Service.Service
                 payable.CompletionDate = null;
 
                 _cashBankService.UpdateObject(cb);
-                _paymentVoucherService.UpdateObject(pv, this, _payableService, _contactService, _cashBankService);
+                _paymentVoucherService.UpdateAmount(pv);
                 _payableService.UpdateObject(payable);
  
                 paymentVoucherDetail.ClearanceDate = null;
