@@ -285,6 +285,14 @@ namespace TestValidation
                         payablePI1.PendingClearanceAmount.should_be(paymentVoucherDetail_pelunasan_botolaqua_pi1.Amount + paymentVoucherDetail_PI1_busway_pi1.Amount);
                         payablePI2.PendingClearanceAmount.should_be(paymentVoucherDetail_pelunasan_busway_botolaqua_pi2.Amount);
                     };
+
+                    it["clear_payments"] = () =>
+                    {
+                        paymentVoucher_PI1_busway_cheque = _paymentVoucherService.ClearObject(paymentVoucher_PI1_busway_cheque, _paymentVoucherDetailService, _cashBankService, _payableService, _contactService);
+                        paymentVoucher_pelunasan_sisaPI1_2_cheque = _paymentVoucherService.ClearObject(paymentVoucher_pelunasan_sisaPI1_2_cheque, _paymentVoucherDetailService, _cashBankService, _payableService, _contactService);
+                        payablePI1.PendingClearanceAmount.should_be(0);
+                        payablePI2.PendingClearanceAmount.should_be(0);
+                    };
                 };
             };
         }
